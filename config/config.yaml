@@ -7,7 +7,7 @@ run_details:
   _id: null
 
 task_details:
-  type: classification # Can be classification, regression, clustering, forecasting, anomaly_detection, region_detection, tagging, seq_seq, rl
+  type: classification # Can be classification, regression, clustering, forecasting, anomaly_detection, region_detection, tagging, seq_seq
   data_details: 
     type: image # image, text, audio, tabular, single_ts, multi_ts, location, graph 
     domain: null
