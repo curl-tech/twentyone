@@ -1,0 +1,63 @@
+# Config for TwentyOne (21)
+# Use lower case, use under_scores for strings which are more than one word in the keys or values
+
+run_details:
+  name: null
+  description: null
+  _id: null
+
+task_details:
+  type: classification # Can be classification, regression, clustering, forecasting, anomaly_detection, region_detection, tagging, seq_seq, rl
+  data_details: 
+    type: image # image, text, audio, tabular, single_ts, multi_ts, location, graph 
+    domain: null
+
+data:
+  source: local_db # can be local_db, stream, file_sent, none
+  source_properties: 
+    db_name: null
+  data_cleaning:
+    auto_clean_data: true
+    clean_properties:
+      fill_na: true
+      fill_mode: copy_prev_values
+      remove_rows: false
+      remove_cols: false
+
+compute:
+  instance: cpu # can be cpu, gpu, multi_gpu, cloud_cpu, cloud_gpu
+  parallelism: parallel_model # can be null, parallel_model, parallel_data or parallel_task
+
+model:
+  feature_creation:
+    auto_create_features: false
+    creation_properties:
+      method: null
+
+  feature_reduction:
+    auto_feature_reduction: true
+    reduction_properties:
+      method: null
+
+  training:
+    mode: single_train_test # It can be single_train_test, n-fold_cross_validation, walk_forward
+    mode_details:
+      train_split: 70
+      n_fold: 10
+      look_back: 250
+      walk_fwd: 22
+    model_universe: null
+    pre_trained_source: local_folder # can be local_folder, local_db, model_sent, null
+    hyper_parameters_source: null
+    need_ensemble: true
+    ensemble_properties:
+      num_best: 5
+      mode: majority
+
+  evaluation:
+    metric: accuracy # can be task specific (accuracy, mse, mape, f1, precision, recall, cross_entropy, iou, ap, bleu)
+
+  inference:
+    inference_mode: null
+    pipeline_location: null
+    model_location: null
