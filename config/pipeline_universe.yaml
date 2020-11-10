@@ -1,0 +1,6 @@
+# Pipeline  = Config + Data Processes + Feature Processes + Model
+# Use this file to store common pipelines which can be used for various tasks
+
+- pipeline_1
+- pipeline_2
+
