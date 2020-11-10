@@ -18,3 +18,18 @@ Solution = AI Expertise + Data -> 42 + Data ~ 21 + Data
 - Needs a lot of compute
 - Can't be used for new kind of problems or very complex problems
 
+## How to use?
+
+The configuration is through config.yaml file.
+
+## Principles
+
+## Todo
+
+## Maintained by
+
+This repo is currently maintained by [shivaramkrs](https://github.com/shivaramkrs).
+
+## License
+
+MIT
