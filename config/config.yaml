@@ -1,12 +1,12 @@
 # Config for TwentyOne (21)
 # Use lower case, use under_scores for strings which are more than one word in the keys or values
 
-run_details:
+run:
   name: null
   description: null
   _id: null
 
-task_details:
+task:
   type: classification # Can be classification, regression, clustering, forecasting, anomaly_detection, region_detection, tagging, seq_seq
   data_details: 
     type: image # image, text, audio, tabular, single_ts, multi_ts, location, graph 
@@ -16,17 +16,25 @@ data:
   source: local_db # can be local_db, stream, file_sent, none
   source_properties: 
     db_name: null
-  data_cleaning:
-    auto_clean_data: true
-    clean_properties:
+  cleaning:
+    auto: true
+    properties:
       fill_na: true
       fill_mode: copy_prev_values
       remove_rows: false
       remove_cols: false
-
+  augmentation:
+    auto: false
+    type: null
+    properties:
+      per_addition: null
+      source: null
+      
 compute:
   instance: cpu # can be cpu, gpu, multi_gpu, cloud_cpu, cloud_gpu
   parallelism: parallel_model # can be null, parallel_model, parallel_data or parallel_task
+  properties:
+    num_inst: 1
 
 model:
   feature_creation:
@@ -46,18 +54,33 @@ model:
       n_fold: 10
       look_back: 250
       walk_fwd: 22
-    model_universe: null
-    pre_trained_source: local_folder # can be local_folder, local_db, model_sent, null
-    hyper_parameters_source: null
+    model_selection:
+      n_best: 1
+      all_source: null
+      pre_trained_source: null # can be local_folder, local_db, model_sent, null
+      tuner: null
+    hyper_selection: 
+      tuner: null
+      source: null
     need_ensemble: true
     ensemble_properties:
       num_best: 5
-      mode: majority
+      mode: majority # can be majority, sum, rank_wt_sum
 
   evaluation:
     metric: accuracy # can be task specific (accuracy, mse, mape, f1, precision, recall, cross_entropy, iou, ap, bleu)
 
   inference:
-    inference_mode: null
+    mode: null
     pipeline_location: null
     model_location: null
+    evaluation: null
+
+  retrain:
+    auto: false
+    properties:
+      num_obs: null
+      after_duration: null
+      train_source: null
+      model_source: null
+      hyper_source: null
