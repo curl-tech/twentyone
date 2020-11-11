@@ -1,0 +1,50 @@
+- name: LogisticRegression
+  type: Classification
+  hyper:
+    - name: penalty
+      vary: false
+      default: none
+      type: option # either option, bool or number
+      options: 
+        - l1
+        - l2
+        - elasticnet
+        - none
+      range: null
+    - name: fit_intercept
+      vary: false
+      default: true
+      type: bool # either option, bool or number
+      options: null
+      range: null
+    - name: solver
+      vary: false
+      default: lbfgt
+      type: option
+      options:
+        - lbfgt
+        - newton-cg
+
+- name: SVM
+  type: Classification
+  hyper:
+    - name: C
+      vary: true
+      default: 1.0
+      type: number # either option, bool or number
+      options: null
+      range:
+        min: 1.0e-5
+        max: 1.0e+3
+        step: 10
+        type: log # can be log or linear
+    - name: kernel
+      vary: false
+      default: rbf
+      type: option # either option, bool or number
+      options:
+        - linear
+        - poly
+        - rbf
+        - sigmoid
+      range: null
