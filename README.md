@@ -32,6 +32,8 @@ Though 21 tries to be an auto ML engine, it can be used as an augmented ML engin
 - Needs a lot of compute
 - Can't be used for new kind of problems or very complex problems
 
+![meme](/memes/21_0.jpeg)
+
 ## How to use?
 
 The configuration is through config.yaml file.

@@ -1,21 +1,34 @@
 # Config for TwentyOne (21)
 # Use lower case, use under_scores for strings which are more than one word in the keys or values
+# Smaller the name, the better it is
 
+# Run is a unique call to the 21 engine to perform a task
 run:
+  _id: null # unique id
   name: null
   description: null
-  _id: null
 
+# Task is a problem which is at hand. We can "run" the "task" as many time as we want.
+# Task is defined by an objective and evaluation to check how well the objective is achieved for a given task
+# Obviously task needs data
 task:
+  _id: null
+  name: null
   type: classification # Can be classification, regression, clustering, forecasting, anomaly_detection, region_detection, tagging, seq_seq
   data_details: 
     type: image # image, text, audio, tabular, single_ts, multi_ts, location, graph 
     domain: null
+  objective: null
+  evaluation:
+    metric: accuracy # can be task specific (accuracy, mse, mape, f1, precision, recall, cross_entropy, iou, ap, bleu)
 
+# Data description, cleaning and augmentation
 data:
   source: local_db # can be local_db, stream, file_sent, none
   source_properties: 
-    db_name: null
+    db_auth: null
+    db_connection: null
+    table_details: null
   cleaning:
     auto: true
     properties:
@@ -29,24 +42,33 @@ data:
     properties:
       per_addition: null
       source: null
-      
+  validation:
+    auto: false
+    rule: null
+
+# Compute description for training and inference
 compute:
-  instance: cpu # can be cpu, gpu, multi_gpu, cloud_cpu, cloud_gpu
+  train_instance: cpu # can be cpu, gpu, multi_gpu, cloud_cpu, cloud_gpu
+  inference_instance: cpu
   parallelism: parallel_model # can be null, parallel_model, parallel_data or parallel_task
   properties:
     num_inst: 1
 
+# Feature engineering, model selection, hyper parameter tuning, ensembling, inference, retraining
 model:
+  # Create new features from existing features (happens automatically in DL)
   feature_creation:
     auto_create_features: false
     creation_properties:
       method: null
 
+  # Pick only relevant features (not so useful in DL)
   feature_reduction:
     auto_feature_reduction: true
     reduction_properties:
       method: null
 
+  # Main part! Get the best model
   training:
     mode: single_train_test # It can be single_train_test, n-fold_cross_validation, walk_forward
     mode_details:
@@ -67,20 +89,20 @@ model:
       num_best: 5
       mode: majority # can be majority, sum, rank_wt_sum
 
-  evaluation:
-    metric: accuracy # can be task specific (accuracy, mse, mape, f1, precision, recall, cross_entropy, iou, ap, bleu)
-
+  # Run the best model live
   inference:
     mode: null
     pipeline_location: null
     model_location: null
     evaluation: null
+    store: false
 
+  # retrain the model with additional data on a smaller search space
   retrain:
     auto: false
     properties:
       num_obs: null
       after_duration: null
-      train_source: null
+      train_data_source: null
       model_source: null
       hyper_source: null
