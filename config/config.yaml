@@ -71,6 +71,7 @@ model:
   # Main part! Get the best model
   training:
     mode: single_train_test # It can be single_train_test, n-fold_cross_validation, walk_forward
+    random_order: false
     mode_details:
       train_split: 70
       n_fold: 10

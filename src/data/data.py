@@ -7,12 +7,20 @@ class Data(abc.ABC):
         self.num_obs = None
         self.num_features = None
         self.size = None
-        self.X = None
-        self.Y = None
-        self.type: DataType = None
+        self.obs = None
+        self.target = None
+        self.features_names = None
+        self.target_names = None
+        self.obs_type: DataType = None
+        self.target_type = None
 
     @abstractmethod
     def clean():
+        pass
+
+    # Modify the data to a format which is suitable for the specific ML task
+    @abstractmethod
+    def convert_to_standard():
         pass
 
     @abstractmethod
