@@ -1,6 +1,11 @@
 # Pipeline  = Config + Data Processes + Feature Processes + Model
 # Use this file to store common pipelines which can be used for various tasks
 
-- pipeline_1
-- pipeline_2
-
+- tabular_classification:
+    _id: null
+    model_universe
+    process:
+    - data_cleaning
+    - feature_creation
+    - feature_selection
+    - model_selection

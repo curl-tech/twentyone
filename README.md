@@ -1,6 +1,4 @@
-<img src="https://repository-images.githubusercontent.com/311664407/9c54d480-2390-11eb-85ff-88d0c175e486"
-     alt="21 icon"
-     style="float: left; margin-right: 10px;" height="50px"/>
+<img src="https://repository-images.githubusercontent.com/311664407/9c54d480-2390-11eb-85ff-88d0c175e486" alt="21 icon" style="float: left; margin-right: 10px;" height="50px"/>
 
 # TwentyOne (21)
 
@@ -20,19 +18,19 @@ It can also be used in situations where data is private and can't be shared for 
 Though 21 tries to be an auto ML engine, it can be used as an augmented ML engine which can help data scientist to quickly develop models. This can bring best of both worlds leading to "Real Intelligence = Artificial Intelligence + Human Intelligence"
 
 ### Advantages
-- Greatly improves development time
-- Needs less amount of data
-- Cost for development is minimal
-- Builds robust models
-- Learns best practices and uses them for similar use cases
-- Data Security and Privacy
-- Works on most of the common use cases
+- Greatly improves development time (days instead of months)
+- Needs less amount of data (transfer learning and data augmentation)
+- Cost for development is minimal (mainly compute cost, rest is reduced)
+- Builds robust models (effectively searches "more space" to get best model)
+- Learns best practices and uses them for similar use cases (leverages task-pipeline relation)
+- Data Security and Privacy (remote training and inference using TBs)
+- Works on most of the common use cases (contiguously adding new use cases)
 
 ### Drawbacks
 - Needs a lot of compute
 - Can't be used for new kind of problems or very complex problems
 
-![meme](/memes/21_0.jpeg)
+![meme](/imgs/memes/21_0.jpeg)
 
 ## How to use?
 
@@ -42,9 +40,16 @@ The configuration is through config.yaml file.
 
 Read the docs to understand how it works. The architecture in the docs provide top level view of how things work. API documentation gives details of how to use 21 engine.
 
+## Additional Resources
+
+- [Architecture](docs/21_architecture.drawio)
+- [Config](config/config.yaml)
+- [Todos](docs/todo_logs.md)
+- [References](docs/references.md)
+
 ## Maintained By
 
-This repo is currently maintained by [shivaramkrs](https://github.com/shivaramkrs). The ML team at Curl Tech also maintains the repo. We welcome contributions to the repo.
+This repo is currently maintained by [shivaramkrs](https://github.com/shivaramkrs) and the ML team at [Curl Tech](www.curl.tech). We welcome your contribution.
 
 ## License
 

@@ -7,7 +7,8 @@ class Data(abc.ABC):
         self.num_obs = None
         self.num_features = None
         self.size = None
-        self.data = None
+        self.X = None
+        self.Y = None
         self.type: DataType = None
 
     @abstractmethod
