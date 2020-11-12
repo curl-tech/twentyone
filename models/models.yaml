@@ -1,5 +1,7 @@
 - name: LogisticRegression
   type: Classification
+  data_type: Tabular
+  complexity: ML
   hyper:
     - name: penalty
       vary: false
@@ -27,6 +29,8 @@
 
 - name: SVM
   type: Classification
+  data_type: Tabular
+  complexity: ML
   hyper:
     - name: C
       vary: true
@@ -36,7 +40,7 @@
       range:
         min: 1.0e-5
         max: 1.0e+3
-        step: 10
+        num_samp: 10
         type: log # can be log or linear
     - name: kernel
       vary: false

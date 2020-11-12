@@ -57,6 +57,7 @@ compute:
 
 # Feature engineering, model selection, hyper parameter tuning, ensembling, inference, retraining
 model:
+  model_db: models/models.yaml
   # Create new features from existing features (happens automatically in DL)
   feature_creation:
     auto_create_features: false
@@ -88,7 +89,7 @@ model:
       source: null
     need_ensemble: true
     ensemble_properties:
-      num_best: 5
+      n_best: 5
       mode: majority # can be majority, sum, rank_wt_sum
 
   # Run the best model live

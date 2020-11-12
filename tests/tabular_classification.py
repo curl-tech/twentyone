@@ -34,4 +34,4 @@ if __name__ == "__main__":
         model = eval(model_str+"()")
         model.fit(train_X, train_y)
         prediction=model.predict(test_X)
-        print(f'The accuracy of the {model_str} is', metrics.accuracy_score(prediction, test_y))
+        print(f'The accuracy of the {model_str} is', metrics.accuracy_score(test_y, prediction))

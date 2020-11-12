@@ -6,6 +6,7 @@ class Task:
     def __init__(self) -> None:
         self.type: TaskType = None
         self.data_type: DataType = None
+        self.eval_metric = None
 
     def map_task_pipeline():
         pass

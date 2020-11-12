@@ -35,7 +35,7 @@ Though 21 tries to be an auto ML engine, it can be used as an augmented ML engin
 
 ## How to use?
 
-The configuration is through config.yaml file.
+The configuration is through config.yaml file. Look at the test folder to see how to use 21.
 
 ## How does it work?
 
