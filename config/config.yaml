@@ -29,6 +29,7 @@ data:
     db_auth: null
     db_connection: null
     table_details: null
+    batch_size: all # all or number
   cleaning:
     auto: true
     properties:
