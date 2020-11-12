@@ -5,7 +5,7 @@
   hyper:
     - name: penalty
       vary: false
-      default: none
+      default: l2
       type: option # either option, bool or number
       options: 
         - l1
@@ -21,13 +21,18 @@
       range: null
     - name: solver
       vary: false
-      default: lbfgt
+      default: lbfgs
       type: option
       options:
-        - lbfgt
+        - lbfgs
         - newton-cg
+      range: null
+    - name: multi_class
+      vary: false
+      default: auto
+      type: option
 
-- name: SVM
+- name: SVC
   type: Classification
   data_type: Tabular
   complexity: ML
@@ -51,4 +56,12 @@
         - poly
         - rbf
         - sigmoid
+      range: null
+    - name: gamma
+      vary: false
+      default: scale
+      type: option # either option, bool or number
+      options:
+        - auto
+        - scale
       range: null

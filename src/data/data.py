@@ -1,8 +1,16 @@
 import abc
-from enum import Enum
+import pandas as pd
 from abc import abstractmethod
+from sklearn.model_selection import train_test_split
 
-class Data(abc.ABC):
+import sys
+sys.path.append("..")
+
+from tasks.tasks import Task
+from .data_type import DataType
+from .load_lib import *
+
+class Data:
     def __init__(self, config) -> None:
         self.config = config
         self.num_obs = None
@@ -10,68 +18,63 @@ class Data(abc.ABC):
         self.size = None
         self.obs = None
         self.target = None
+
+        self.trainX = None
+        self.trainY = None
+        self.testX = None
+        self.testY = None
+
         self.features_names = None
         self.target_names = None
+
         self.obs_type: DataType = None
         self.target_type = None
 
     # Load entire data or a batch, based on data size and type of task
-    @abstractmethod
-    def load_data(self):
-        pass
+    @staticmethod
+    def load(config, task: Task):
+        data = None
+        if task.data_type == DataType.Tabular:
+            data = TabularData(config)
+            data.load_data()
+        
+        return data
 
-    @abstractmethod
     def clean():
         pass
 
     # Modify the data to a format which is suitable for the specific ML task
-    @abstractmethod
     def prepare():
         pass
 
-    @abstractmethod
     def modify():
         pass
 
-    @abstractmethod
     def append():
         pass
 
-    @abstractmethod
     def delete():
         pass
 
-class DataType(Enum):
-    # When you add a new data type, modify from_string method accordingly
-    Image = 0
-    Text = 1
-    Tabular = 2
-    Audio = 3
-    Single_TS = 4    
-    Multi_TS = 5   
-    Location = 6
-    Graph = 7
+class TabularData(Data):
+    def __init__(self, config) -> None:
+        super().__init__(config)
 
-    @staticmethod
-    def from_str(dt_str):
-        l_dt_str = dt_str.to_lower()
+    def load_data(self):
+        source = self.config["data"]["source"]
+        data_id = self.config["data"]["data_id"]
+        if source == "sample":
+            ld = eval("load_" + data_id + "()")
+            obs = ld.data
+            target = ld.target
 
-        if l_dt_str == "image":
-            return DataType.Image
-        elif l_dt_str == "text":
-            return DataType.Text
-        elif l_dt_str == "audio":
-            return DataType.Audio
-        elif l_dt_str == "tabular":
-            return DataType.Tabular
-        elif l_dt_str == "single_ts":
-            return DataType.Single_TS
-        elif l_dt_str == "multi_ts":
-            return DataType.Multi_TS
-        elif l_dt_str == "location":
-            return DataType.Location
-        elif l_dt_str == "graph":
-            return DataType.Graph
-        else:
-            return None
+            ld_df = pd.DataFrame(obs, columns=ld.feature_names)
+            ld_df["target_"] = target
 
+            if self.config["model"]["training"]["mode"] == "single_train_test":
+                train_split = self.config["model"]["training"]["mode_details"]["train_split"] 
+                train, test = train_test_split(ld_df, train_size=train_split)
+                self.trainX  = train[ld.feature_names]
+                self.trainY  = train["target_"]
+                self.testX  = test[ld.feature_names]
+                self.testY  = test["target_"]

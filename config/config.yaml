@@ -11,20 +11,23 @@ run:
 # Task is a problem which is at hand. We can "run" the "task" as many time as we want.
 # Task is defined by an objective and evaluation to check how well the objective is achieved for a given task
 # Obviously task needs data
+# Task comes from the users 
 task:
   _id: null
   name: null
   type: classification # Can be classification, regression, clustering, forecasting, anomaly_detection, region_detection, tagging, seq_seq
   data_details: 
-    type: image # image, text, audio, tabular, single_ts, multi_ts, location, graph 
+    type: tabular # image, text, audio, tabular, single_ts, multi_ts, location, graph 
     domain: null
+    data_id: null
   objective: null
   evaluation:
     metric: accuracy # can be task specific (accuracy, mse, mape, f1, precision, recall, cross_entropy, iou, ap, bleu)
 
 # Data description, cleaning and augmentation
 data:
-  source: local_db # can be local_db, stream, file_sent, none
+  source: sample # can be local_db, sample, stream, file_sent, none
+  data_id: iris
   source_properties: 
     db_auth: null
     db_connection: null
@@ -75,7 +78,7 @@ model:
     mode: single_train_test # It can be single_train_test, n-fold_cross_validation, walk_forward
     random_order: false
     mode_details:
-      train_split: 70
+      train_split: 0.7
       n_fold: 10
       look_back: 250
       walk_fwd: 22
@@ -89,7 +92,7 @@ model:
       source: null
     need_ensemble: true
     ensemble_properties:
-      n_best: 5
+      n_best: 3
       mode: majority # can be majority, sum, rank_wt_sum
 
   # Run the best model live

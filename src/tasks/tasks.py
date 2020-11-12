@@ -1,12 +1,22 @@
 # Class definition for the tasks
 from enum import Enum
-from ..data.data import DataType
+
+import sys
+sys.path.append("..")
+
+from data.data_type import DataType
 
 class Task:
-    def __init__(self) -> None:
+    def __init__(self, config) -> None:
+        self.config = config
         self.type: TaskType = None
         self.data_type: DataType = None
         self.eval_metric = None
+
+        if "task" in config:
+            self.type = TaskType.from_str(config["task"]["type"])
+            self.data_type = DataType.from_str(config["task"]["data_details"]["type"])
+            self.eval_metric = config["task"]["evaluation"]["metric"]
 
     def map_task_pipeline():
         pass
@@ -26,7 +36,7 @@ class TaskType(Enum):
 
     @staticmethod
     def from_str(tt_str):
-        l_str = tt_str.to_lower()
+        l_str = tt_str.lower()
 
         if l_str == "classification":
             return TaskType.Classification

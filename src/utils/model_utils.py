@@ -1,8 +1,7 @@
 import sys
 import types
 
-from ..tasks.tasks import TaskType
-from ..data.data import DataType
+sys.path.append("..")
 
 def str_to_class(field):
     try:

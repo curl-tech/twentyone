@@ -1,6 +1,4 @@
-import numpy as np
-import pandas as pd
-import types
+import yaml
 import sys
 
 from sklearn.model_selection import train_test_split
@@ -8,30 +6,19 @@ from sklearn import metrics
 
 sys.path.append("src")
 
-from models.load_lib import *
-
-from sklearn.datasets.base import load_iris
-
-models = ["SVC", "LogisticRegression", "DecisionTreeClassifier", "KNeighborsClassifier"]
-params = ["kernel='linear', C=0.025"]
+from tasks.tasks import Task
+from data.data import Data
+from models.training import Trainer
 
 if __name__ == "__main__":
-    iris = load_iris()
-    obs = iris.data
-    target = iris.target
+    config_path = "config/config.yaml"
 
-    iris_df = pd.DataFrame(obs, columns=iris.feature_names)
-    iris_df["target_"] = target
+    with open(config_path, "r") as fp:
+        config = yaml.load(fp, Loader=yaml.FullLoader)
+    
+    task = Task(config)
+    data = Data.load(config, task)
+    trainer = Trainer(config, data, task)
 
-    train, test = train_test_split(iris_df, test_size = 0.3)
-
-    train_X  = train[iris.feature_names]
-    train_y  = train["target_"]
-    test_X  = test[iris.feature_names]
-    test_y  = test["target_"]
-
-    for model_str in models:
-        model = eval(model_str+"()")
-        model.fit(train_X, train_y)
-        prediction=model.predict(test_X)
-        print(f'The accuracy of the {model_str} is', metrics.accuracy_score(test_y, prediction))
+    best_res = trainer.train()
+    print(best_res)

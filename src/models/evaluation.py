@@ -1,6 +1,8 @@
+import sys
 from sklearn.metrics import *
-from ..tasks.tasks import Task
 
+sys.path.append("..")
+from tasks.tasks import Task
 
 class Evaluation:
     def __init__(self) -> None:
