@@ -9,11 +9,13 @@ from data.data_type import DataType
 class Task:
     def __init__(self, config) -> None:
         self.config = config
+        self.id = None
         self.type: TaskType = None
         self.data_type: DataType = None
         self.eval_metric = None
 
         if "task" in config:
+            self.id =  config["task"]["_id"]
             self.type = TaskType.from_str(config["task"]["type"])
             self.data_type = DataType.from_str(config["task"]["data_details"]["type"])
             self.eval_metric = config["task"]["evaluation"]["metric"]

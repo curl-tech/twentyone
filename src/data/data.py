@@ -61,8 +61,8 @@ class TabularData(Data):
         super().__init__(config)
 
     def load_data(self):
-        source = self.config["data"]["source"]
-        data_id = self.config["data"]["data_id"]
+        source = self.config["task"]["data_details"]["source"]
+        data_id = self.config["task"]["data_details"]["data_id"]
         if source == "sample":
             ld = eval("load_" + data_id + "()")
             obs = ld.data
@@ -74,7 +74,7 @@ class TabularData(Data):
             if self.config["model"]["training"]["mode"] == "single_train_test":
                 train_split = self.config["model"]["training"]["mode_details"]["train_split"] 
                 train, test = train_test_split(ld_df, train_size=train_split)
-                self.trainX  = train[ld.feature_names]
-                self.trainY  = train["target_"]
-                self.testX  = test[ld.feature_names]
-                self.testY  = test["target_"]
+                self.trainX  = [train[ld.feature_names]]
+                self.trainY  = [train["target_"]]
+                self.testX  = [test[ld.feature_names]]
+                self.testY  = [test["target_"]]

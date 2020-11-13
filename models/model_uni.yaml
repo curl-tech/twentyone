@@ -14,7 +14,7 @@
         - none
       range: null
     - name: fit_intercept
-      vary: false
+      vary: true
       default: true
       type: bool # either option, bool or number
       options: null
@@ -32,8 +32,54 @@
       default: auto
       type: option
 
+- name: LinearRegression
+  type: Regression
+  data_type: Tabular
+  complexity: ML
+  hyper:
+    - name: fit_intercept
+      vary: true
+      default: true
+      type: bool # either option, bool or number
+      options: null
+      range: null
+
 - name: SVC
   type: Classification
+  data_type: Tabular
+  complexity: ML
+  hyper:
+    - name: C
+      vary: true
+      default: 1.0
+      type: number # either option, bool or number
+      options: null
+      range:
+        min: 1.0e-5
+        max: 1.0e+3
+        num_samp: 10
+        type: log # can be log or linear
+    - name: kernel
+      vary: false
+      default: rbf
+      type: option # either option, bool or number
+      options:
+        - linear
+        - poly
+        - rbf
+        - sigmoid
+      range: null
+    - name: gamma
+      vary: false
+      default: scale
+      type: option # either option, bool or number
+      options:
+        - auto
+        - scale
+      range: null
+
+- name: SVR
+  type: Regression
   data_type: Tabular
   complexity: ML
   hyper:

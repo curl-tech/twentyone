@@ -2,6 +2,14 @@
 # Use lower case, use under_scores for strings which are more than one word in the keys or values
 # Smaller the name, the better it is
 
+settings:
+  allow_data_upload: true
+  allow_data_download: false
+  allow_data_edit: false
+  allow_model_download: true
+  allow_model_upload: true
+  accept_inference_data: true
+
 # Run is a unique call to the 21 engine to perform a task
 run:
   _id: null # unique id
@@ -13,26 +21,25 @@ run:
 # Obviously task needs data
 # Task comes from the users 
 task:
-  _id: null
+  _id: abc
   name: null
   type: classification # Can be classification, regression, clustering, forecasting, anomaly_detection, region_detection, tagging, seq_seq
   data_details: 
     type: tabular # image, text, audio, tabular, single_ts, multi_ts, location, graph 
     domain: null
-    data_id: null
+    source: sample # can be local_db, sample, stream, file_sent, none
+    data_id: iris
+    source_properties: 
+      db_auth: null
+      db_connection: null
+      collection_details: null
+      batch_size: all # all or number
   objective: null
   evaluation:
     metric: accuracy # can be task specific (accuracy, mse, mape, f1, precision, recall, cross_entropy, iou, ap, bleu)
 
-# Data description, cleaning and augmentation
+# Data Processing: cleaning, augmentation, validation
 data:
-  source: sample # can be local_db, sample, stream, file_sent, none
-  data_id: iris
-  source_properties: 
-    db_auth: null
-    db_connection: null
-    table_details: null
-    batch_size: all # all or number
   cleaning:
     auto: true
     properties:
@@ -60,7 +67,9 @@ compute:
 
 # Feature engineering, model selection, hyper parameter tuning, ensembling, inference, retraining
 model:
-  model_db: models/models.yaml
+  model_db: models/model_uni.yaml
+  pre_trained_db: models/pre_trained/
+  save_location: models/trained/
   # Create new features from existing features (happens automatically in DL)
   feature_creation:
     auto_create_features: false
@@ -76,6 +85,7 @@ model:
   # Main part! Get the best model
   training:
     mode: single_train_test # It can be single_train_test, n-fold_cross_validation, walk_forward
+    save_mode: "last_train" # can be all_train, last_train, first_train
     random_order: false
     mode_details:
       train_split: 0.7
@@ -90,14 +100,13 @@ model:
     hyper_selection: 
       tuner: null
       source: null
-    need_ensemble: true
+    need_ensemble: false
     ensemble_properties:
-      n_best: 3
       mode: majority # can be majority, sum, rank_wt_sum
 
   # Run the best model live
   inference:
-    mode: null
+    mode: "single_model" # can be single_model, ensemble
     pipeline_location: null
     model_location: null
     evaluation: null

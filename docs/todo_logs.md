@@ -2,6 +2,7 @@
 
 - [x] Build the target config
 - [x] Build the target architecture
+- [ ] Inference and model save
 - [ ] Take simple use cases and covert them to task, pipeline, model
 - [ ] Create model-pipeline universe for various common tasks
 - [ ] Create task universe

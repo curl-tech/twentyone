@@ -8,7 +8,7 @@ sys.path.append("src")
 
 from tasks.tasks import Task
 from data.data import Data
-from models.training import Trainer
+from models.model import Model
 
 if __name__ == "__main__":
     config_path = "config/config.yaml"
@@ -18,7 +18,8 @@ if __name__ == "__main__":
     
     task = Task(config)
     data = Data.load(config, task)
-    trainer = Trainer(config, data, task)
-
-    best_res = trainer.train()
+    model = Model(config, task, data)
+    best_res = model.train(save_model=True)
     print(best_res)
+    res = model.infer(task.id, data.testX[0])
+    print(res)
