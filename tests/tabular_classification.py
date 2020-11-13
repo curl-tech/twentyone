@@ -1,9 +1,6 @@
 import yaml
+
 import sys
-
-from sklearn.model_selection import train_test_split
-from sklearn import metrics
-
 sys.path.append("src")
 
 from tasks.tasks import Task
