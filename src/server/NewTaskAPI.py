@@ -25,5 +25,7 @@ def new_task():
 
     task = Task(config)
     data = Data.load_direct(config["data"]["save_location"], config["task"]["data_id"])
+    model = Model(config, task, data)
+    best_res = model.train(save_model=True)
 
-    return "New Task API Response"
+    return str(best_res)
