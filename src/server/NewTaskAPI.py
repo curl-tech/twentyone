@@ -8,7 +8,7 @@ from tasks.tasks import Task
 from data.data import Data
 from models.model import Model
 
-config_path = "config/config_energy.yaml"
+config_path = "config/config.yaml"
 
 with open(config_path, "r") as fp:
     config = yaml.load(fp, Loader=yaml.FullLoader)

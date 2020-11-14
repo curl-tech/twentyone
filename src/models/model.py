@@ -19,7 +19,7 @@ from .evaluation import Evaluation
 
 class Model:
 
-    def __init__(self, config, task: Task=None, data: Data=None, pipeline=None) -> None:
+    def __init__(self, config=None, task: Task=None, data: Data=None, pipeline=None) -> None:
         self.config = config
         self.data = data
         self.task = task
@@ -88,9 +88,9 @@ class Model:
             pickle.dump(train_results, fp)
     
     @staticmethod
-    def load_models(config, task_id):
+    def load_models(location, task_id):
         file_name = task_id + ".pickle"
-        folder_name = config["model"]["save_location"]
+        folder_name = location
         path = folder_name + file_name
 
         if os.path.exists(path):
@@ -101,8 +101,8 @@ class Model:
             return None
     
     # Not finished
-    def infer(self, task_id, data=None):
-        tr = Model.load_models(self.config, task_id)
+    def infer(self, model_loc, task_id, data=None):
+        tr = Model.load_models(model_loc, task_id)
         models = tr.models
         res = []
         mode = self.config["model"]["inference"]["mode"]
