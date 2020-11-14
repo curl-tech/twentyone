@@ -8,7 +8,7 @@ from data.data import Data
 from models.model import Model
 
 if __name__ == "__main__":
-    config_path = "config/config.yaml"
+    config_path = "config/config_iris.yaml"
 
     with open(config_path, "r") as fp:
         config = yaml.load(fp, Loader=yaml.FullLoader)
