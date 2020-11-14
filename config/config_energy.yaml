@@ -21,31 +21,32 @@ run:
 # Obviously task needs data
 # Task comes from the users 
 task:
-  _id: abc
+  _id: energy_forecasting
   name: null
-  type: classification # Can be classification, regression, clustering, forecasting, anomaly_detection, region_detection, tagging, seq_seq
+  type: regression # Can be classification, regression, clustering, forecasting, anomaly_detection, region_detection, tagging, seq_seq
   data_details: 
     type: tabular # image, text, audio, tabular, single_ts, multi_ts, location, graph 
     domain: null
-    source: sample # can be local_db, sample, stream, file_sent, none
-    data_id: iris
-    source_properties: 
+    source: local_db # can be local_db, sample, stream, file_sent, none
+    data_id: energy
+    source_properties:
       db_auth: null
       db_connection: null
       collection_details: null
       batch_size: all # all or number
   objective: null
   evaluation:
-    metric: accuracy # can be task specific (accuracy, mse, mape, f1, precision, recall, cross_entropy, iou, ap, bleu)
+    metric: mse # can be task specific (accuracy, mse, mape, f1, precision, recall, cross_entropy, iou, ap, bleu)
 
 # Data Processing: cleaning, augmentation, validation
 data:
+  save_location: data/
   cleaning:
     auto: true
     properties:
       fill_na: true
       fill_mode: copy_prev_values
-      remove_rows: false
+      remove_rows: true
       remove_cols: false
   augmentation:
     auto: false
@@ -84,7 +85,7 @@ model:
 
   # Main part! Get the best model
   training:
-    mode: single_train_test # It can be single_train_test, n-fold_cross_validation, walk_forward
+    mode: single_train_test # It can be single_train_test, walk_forward, n_fold_cv
     save_mode: "last_train" # can be all_train, last_train, first_train
     random_order: false
     mode_details:

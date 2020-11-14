@@ -10,7 +10,7 @@ We all know ["42"](https://en.wikipedia.org/wiki/Phrases_from_The_Hitchhiker%27s
 
 Solution = AI Expertise + Data -> 42 + Data ~ 21 + Data
 
-Focus of 21 is to get an effective model quickly and reliably and it doesn't try to get state of the art model (though we can get best in class results). It is meant for non-data scientists to build models for their use case. 
+Focus of 21 is to get an effective model quickly and reliably and it doesn't try to get state of the art model (though we can get best in class results). It is meant for non-data scientists to build models for their use cases. 
 
 21 is designed to leverage transfer learning as much as possible. For many problems the data requirement for 21 is minimal. This saves a lot of time, effort and cost in data collection. Model training is also greatly reduced.
 

@@ -1,0 +1,124 @@
+# Config for TwentyOne (21)
+# Use lower case, use under_scores for strings which are more than one word in the keys or values
+# Smaller the name, the better it is
+
+settings:
+  allow_data_upload: true
+  allow_data_download: false
+  allow_data_edit: false
+  allow_model_download: true
+  allow_model_upload: true
+  accept_inference_data: true
+
+# Run is a unique call to the 21 engine to perform a task
+run:
+  _id: null # unique id
+  name: null
+  description: null
+
+# Task is a problem which is at hand. We can "run" the "task" as many time as we want.
+# Task is defined by an objective and evaluation to check how well the objective is achieved for a given task
+# Obviously task needs data
+# Task comes from the users 
+task:
+  _id: iris_classification
+  name: null
+  type: classification # Can be classification, regression, clustering, forecasting, anomaly_detection, region_detection, tagging, seq_seq
+  data_details: 
+    type: tabular # image, text, audio, tabular, single_ts, multi_ts, location, graph 
+    domain: null
+    source: sample # can be local_db, sample, stream, file, none
+    data_id: iris
+    source_properties:
+      db_auth: null
+      db_connection: null
+      collection_details: null
+      batch_size: all # all or number
+  objective: null
+  evaluation:
+    metric: accuracy # can be task specific (accuracy, mse, mape, f1, precision, recall, cross_entropy, iou, ap, bleu)
+
+# Data Processing: cleaning, augmentation, validation
+data:
+  save_location: data/
+  cleaning:
+    auto: true
+    properties:
+      fill_na: true
+      fill_mode: copy_prev_values
+      remove_rows: false
+      remove_cols: false
+  augmentation:
+    auto: false
+    type: null
+    properties:
+      per_addition: null
+      source: null
+  validation:
+    auto: false
+    rule: null
+
+# Compute description for training and inference
+compute:
+  train_instance: cpu # can be cpu, gpu, multi_gpu, cloud_cpu, cloud_gpu
+  inference_instance: cpu
+  parallelism: parallel_model # can be null, parallel_model, parallel_data or parallel_task
+  properties:
+    num_inst: 1
+
+# Feature engineering, model selection, hyper parameter tuning, ensembling, inference, retraining
+model:
+  model_db: models/model_uni.yaml
+  pre_trained_db: models/pre_trained/
+  save_location: models/trained/
+  # Create new features from existing features (happens automatically in DL)
+  feature_creation:
+    auto_create_features: false
+    creation_properties:
+      method: null
+
+  # Pick only relevant features (not so useful in DL)
+  feature_reduction:
+    auto_feature_reduction: true
+    reduction_properties:
+      method: null
+
+  # Main part! Get the best model
+  training:
+    mode: single_train_test # It can be single_train_test, walk_forward, n_fold_cv
+    save_mode: "last_train" # can be all_train, last_train, first_train
+    random_order: false
+    mode_details:
+      train_split: 0.7
+      n_fold: 10
+      look_back: 250
+      walk_fwd: 22
+    model_selection:
+      n_best: 1
+      all_source: null
+      pre_trained_source: null # can be local_folder, local_db, model_sent, null
+      tuner: null
+    hyper_selection: 
+      tuner: null
+      source: null
+    need_ensemble: false
+    ensemble_properties:
+      mode: majority # can be majority, sum, rank_wt_sum
+
+  # Run the best model live
+  inference:
+    mode: "single_model" # can be single_model, ensemble
+    pipeline_location: null
+    model_location: null
+    evaluation: null
+    store: false
+
+  # retrain the model with additional data on a smaller search space
+  retrain:
+    auto: false
+    properties:
+      num_obs: null
+      after_duration: null
+      train_data_source: null
+      model_source: null
+      hyper_source: null
