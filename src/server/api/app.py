@@ -2,12 +2,12 @@ from flask import Flask, jsonify, request
 # from flask.ext.store import Store
 import json
 
-from DataUploadAPI import data_upload_api
-from DataReqAPI import data_req_api
-from NewTaskAPI import new_task_api
-from GetModelAPI import get_model_api
-from InferAPI import infer_api
-from ModelUploadAPI import model_upload_api
+from .DataUploadAPI import data_upload_api
+from .DataReqAPI import data_req_api
+from .NewTaskAPI import new_task_api
+from .GetModelAPI import get_model_api
+from .InferAPI import infer_api
+from .ModelUploadAPI import model_upload_api
 
 import os
 
