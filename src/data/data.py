@@ -34,31 +34,47 @@ class Data:
         self.obs_type: DataType = None
         self.target_type = None
 
+    @staticmethod
+    def save_api(data_=None, data_config=None):
+        if data_config.data_type.lower() == "tabular":
+            data = TabularData()
+            data.load_data("file_sent", data_, data_config)
+        elif data_config.data_type.lower() == "image":
+            data = ImageData()
+            data.load_data("file_sent", data_, data_config)
+
+    @staticmethod
+    def load_data_id(location, data_id):
+        path = location + data_id + ".pickle"
+        with open(path, "rb") as fp:
+            data = pickle.load(fp)
+        return data
+
     # Load entire data or a batch, based on data size and type of task
     @staticmethod
     def load(config, task: Task, data_=None, data_config=None):
         data = None
         source = config["task"]["data_details"]["source"]
         if source == "local_db":
-            file_name = config["task"]["data_details"]["data_id"] + ".pickle"
+            file_name = config["task"]["data_id"] + ".pickle"
             load_path = config["data"]["save_location"] + file_name
             with open(load_path, "rb") as fp:
                 data = pickle.load(fp)
         else:
+            source = config["task"]["data_details"]["source"]
             if task.data_type == DataType.Tabular:
                 data = TabularData(config)
-                data.load_data(data_, data_config)
-            if task.data_type == DataType.Image:
+                data.load_data(source, data_, data_config)
+            elif task.data_type == DataType.Image:
                 data = ImageData(config)
-                data.load_data(data_, data_config)
+                data.load_data(source, data_, data_config)
         return data
     
     @staticmethod
-    def save(config, data):
-        file_name = config["task"]["data_details"]["data_id"] + ".pickle"
-        folder_name = config["data"]["save_location"]
-        path = folder_name + file_name
-
+    def save(location, data_id, data):
+        # file_name = config["task"]["data_details"]["data_id"] + ".pickle"
+        # folder_name = config["data"]["save_location"]
+        path = location + data_id + ".pickle"
         with open(path, "wb") as fp:
             pickle.dump(data, fp)
 
@@ -84,14 +100,13 @@ class Data:
         pass
 
 class TabularData(Data):
-    def __init__(self, config) -> None:
+    def __init__(self, config=None) -> None:
         super().__init__(config)
 
     # Can't use in algo trading yet!!!
-    def load_data(self, data=None, data_config=None):
-        source = self.config["task"]["data_details"]["source"]
-        data_id = self.config["task"]["data_details"]["data_id"]
+    def load_data(self, source, data=None, data_config=None):
         if source == "sample":
+            data_id = self.config["task"]["data_id"]
             ld = eval("load_" + data_id + "()")
             obs = ld.data
             target = ld.target

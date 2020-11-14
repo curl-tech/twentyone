@@ -24,16 +24,12 @@ task:
   _id: iris_classification
   name: null
   type: classification # Can be classification, regression, clustering, forecasting, anomaly_detection, region_detection, tagging, seq_seq
+  data_id: iris
   data_details: 
     type: tabular # image, text, audio, tabular, single_ts, multi_ts, location, graph 
     domain: null
     source: sample # can be local_db, sample, stream, file, none
-    data_id: iris
-    source_properties:
-      db_auth: null
-      db_connection: null
-      collection_details: null
-      batch_size: all # all or number
+    source_properties: null
   objective: null
   evaluation:
     metric: accuracy # can be task specific (accuracy, mse, mape, f1, precision, recall, cross_entropy, iou, ap, bleu)
