@@ -89,7 +89,7 @@ model:
     save_mode: "last_train" # can be all_train, last_train, first_train
     random_order: false
     mode_details:
-      train_split: 0.7
+      train_split: 0.8
       n_fold: 10
       look_back: 250
       walk_fwd: 22

@@ -6,6 +6,8 @@ from abc import abstractmethod
 from sklearn.model_selection import train_test_split
 
 import sys
+
+from sklearn.utils import shuffle
 sys.path.append("..")
 
 from tasks.tasks import Task
@@ -125,9 +127,10 @@ class TabularData(Data):
     
     def create_train_test(self):
         mode = self.config["model"]["training"]["mode"]
+        shuffle = self.config["model"]["training"]["random_order"]
         if mode == "single_train_test":
             train_split = self.config["model"]["training"]["mode_details"]["train_split"] 
-            train, test = train_test_split(self.data, train_size=train_split)
+            train, test = train_test_split(self.data, train_size=train_split, shuffle=shuffle)
             self.trainX  = [train[self.features_names]]
             self.trainY  = [train["target_"]]
             self.testX  = [test[self.features_names]]

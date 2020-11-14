@@ -87,7 +87,7 @@ model:
   training:
     mode: single_train_test # It can be single_train_test, walk_forward, n_fold_cv
     save_mode: "last_train" # can be all_train, last_train, first_train
-    random_order: false
+    random_order: true
     mode_details:
       train_split: 0.7
       n_fold: 10

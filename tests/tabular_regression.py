@@ -1,6 +1,6 @@
 import yaml
-
 import pandas as pd
+import matplotlib.pyplot as plt
 
 import sys
 sys.path.append("src")
@@ -18,18 +18,26 @@ if __name__ == "__main__":
     d=None
     data_config = None
 
-    data_path = "inputs/tabular/energy.xlsx"
-    data_config_path = "inputs/tabular/energy.yaml"
-    d = pd.read_excel(data_path, index_col="date")
+    # data_path = "inputs/tabular/energy.xlsx"
+    # data_config_path = "inputs/tabular/energy.yaml"
+    # d = pd.read_excel(data_path, index_col="date")
 
-    with open(data_config_path, "r") as fp:
-        data_config = yaml.load(fp, Loader=yaml.FullLoader)
+    # with open(data_config_path, "r") as fp:
+    #     data_config = yaml.load(fp, Loader=yaml.FullLoader)
     
     task = Task(config)
     data = Data.load(config, task, d, data_config)
     #Data.save(config, data)
+
     model = Model(config, task, data)
     best_res = model.train(save_model=True)
     print(best_res)
+
     res = model.infer(task.id, data.testX[0])
-    print(res)
+
+    # plot
+    ds = data.testY[0]
+    res_df = pd.DataFrame(res[0], columns=["predicted"], index=ds.index)
+    res_df["Actual"] = ds
+    res_df.plot()
+    plt.show()

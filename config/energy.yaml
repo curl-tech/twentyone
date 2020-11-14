@@ -1,0 +1,13 @@
+# data config file for the energy data file
+
+file_type: "xlsx" # can be txt, csv, xlsx
+data_type: "tabular"
+target: null
+compute_target: 
+  feature: "energy"
+  mode: "lead_lag"
+  num1: -1 # -ve is lead, +ve is lag
+time_series: true
+index_col: "date"
+remove_cols: # list of columns to remove
+  - count
