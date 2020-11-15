@@ -25,6 +25,8 @@ class Data:
 
         self.trainX = None
         self.trainY = None
+        self.valX = None
+        self.valY = None
         self.testX = None
         self.testY = None
 

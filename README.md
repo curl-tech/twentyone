@@ -1,4 +1,4 @@
-<img src="https://repository-images.githubusercontent.com/311664407/9c54d480-2390-11eb-85ff-88d0c175e486" alt="21 icon" style="float: left; margin-right: 10px;" height="50px"/>
+<img src="https://repository-images.githubusercontent.com/311664407/f5778c00-2733-11eb-85e5-6d10769c273f" alt="21 icon" style="float: left; margin-right: 10px;" height="50px"/>
 
 # TwentyOne (21)*
 *Note 21 is still in alpha, there will be many changes in the next few months
