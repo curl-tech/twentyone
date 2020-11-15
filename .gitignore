@@ -9,6 +9,9 @@ __pycache__
 # C extensions
 *.so
 
+# PT files
+*.pt
+
 # Distribution / packaging
 .Python
 build/
