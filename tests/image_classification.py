@@ -16,7 +16,7 @@ from detect import detect
 
 if __name__ == '__main__':
 
-    img_source = "tests/img/batch_1_000010.jpg"
+    img_source = "tests/img/batch_3_IMG_5037.jpg"
 
     with torch.no_grad():
         img, text = detect(img_source)
