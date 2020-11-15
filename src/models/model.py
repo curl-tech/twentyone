@@ -105,7 +105,10 @@ class Model:
         tr = Model.load_models(model_loc, task_id)
         models = tr.models
         res = []
-        mode = self.config["model"]["inference"]["mode"]
+        if self.config is None:
+            mode = "single_model"
+        else:
+            mode = self.config["model"]["inference"]["mode"]
         if mode == "single_model":
             model = models[0]
             res = [model[0].predict(data)]

@@ -34,6 +34,7 @@ if __name__ == "__main__":
     print(best_res)
 
     res = model.infer(config["model"]["save_location"], task.id, data.testX[0])
+    data.testX[0].to_excel("energy_test.xlsx")
 
     # plot
     ds = data.testY[0]
