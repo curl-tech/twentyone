@@ -1,0 +1,15 @@
+weights: models/trained/garbage_detection.pt
+save_txt: true
+view_img: false
+img_size: 320
+conf_thres: 0.4
+iou_thres: 0.45
+device: ''
+save_conf: true
+agnostic_nms: true
+classes: ''
+augment: true
+update: true
+project: tests/runs/
+name: exp
+exist_ok: true
