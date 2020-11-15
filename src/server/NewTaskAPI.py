@@ -21,6 +21,10 @@ def new_task():
     # generate unique id, and add to the task object with key "_id"
 
     # replace the task element of config with task object
+    letters_and_digits = string.ascii_letters + string.digits
+    _id = ''.join((random.choice(letters_and_digits) for i in range(8)))
+    print("Unique ID is:", _id)
+
     config["task"] = "task_object"
 
     task = Task(config)
