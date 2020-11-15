@@ -1,7 +1,10 @@
 import yaml
-from flask import Blueprint
+from flask import Blueprint, request, jsonify
+from base64 import b64decode, b64encode
 
 import sys
+import string
+import random
 sys.path.append("..")
 
 from tasks.tasks import Task
@@ -15,21 +18,30 @@ with open(config_path, "r") as fp:
 
 new_task_api = Blueprint('new_task_api', __name__)
 
-@new_task_api.route("/new_task")
+@new_task_api.route("/new_task", methods = ['POST'])
 def new_task():
-    # Extract the Json string and convert it into an object
-    # generate unique id, and add to the task object with key "_id"
+    request_method = request.method
 
-    # replace the task element of config with task object
-    letters_and_digits = string.ascii_letters + string.digits
-    _id = ''.join((random.choice(letters_and_digits) for i in range(8)))
-    print("Unique ID is:", _id)
+    if request_method == "POST":
+        # Extract the Json string and convert it into an object
+        # generate unique id, and add to the task object with key "_id"
 
-    config["task"] = "task_object"
+        # replace the task element of config with task object
+        letters_and_digits = string.ascii_letters + string.digits
+        _id = ''.join((random.choice(letters_and_digits) for i in range(8)))
+        print("Unique ID is:", _id)
+        print(request.get_json())
+        task_object = request.get_json()
+        task_object["task_object"]["_id"] = _id
 
-    task = Task(config)
-    data = Data.load_direct(config["data"]["save_location"], config["task"]["data_id"])
-    model = Model(config, task, data)
-    best_res = model.train(save_model=True)
+        config["task"] = task_object["task_object"]
 
-    return str(best_res)
+        task = Task(config)
+        data = Data.load_data_id(config["data"]["save_location"], config["task"]["data_id"])
+        model = Model(config, task, data)
+        best_res = model.train(save_model=True)
+        response = {}
+        response["best_res"]=str(best_res)
+        response["_id"] = _id
+
+    return response
