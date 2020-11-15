@@ -1,0 +1,15 @@
+view_img: False
+save_txt: True
+img_size: 
+conf-thres: 0.25
+iou-thres: 0.5
+device: ''
+save-conf: True
+classes: [0,1,2,3,4,5,6,7]
+agnostic-nms: True
+augment: False
+update: False
+project: runs/detect/
+name: exp
+exist-ok: True
+
