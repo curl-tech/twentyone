@@ -1,3 +1,4 @@
+from numpy.lib.shape_base import tile
 import yaml
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -40,5 +41,5 @@ if __name__ == "__main__":
     ds = data.testY[0]
     res_df = pd.DataFrame(res[0], columns=["predicted"], index=ds.index)
     res_df["Actual"] = ds
-    res_df.plot()
+    res_df.plot(title="Runs =" + str(best_res.num_runs))
     plt.show()

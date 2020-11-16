@@ -91,10 +91,10 @@
       range:
         min: 1.0e-5
         max: 1.0e+3
-        num_samp: 10
+        num_samp: 50
         type: log # can be log or linear
     - name: kernel
-      vary: false
+      vary: true
       default: rbf
       type: option # either option, bool or number
       options:
