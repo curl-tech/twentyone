@@ -23,7 +23,7 @@ if __name__ == '__main__':
     files = glob.glob(img_folder+"*.jpg")
 
     for file in files:
-        img_source = "tests/img/batch_3_IMG_5037.jpg"
+        #img_source = "tests/img/batch_3_IMG_5037.jpg"
         with torch.no_grad():
             img, text = detect(file)
 
