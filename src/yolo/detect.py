@@ -15,7 +15,7 @@ from utils.general import check_img_size, non_max_suppression, apply_classifier,
 from utils.plots import plot_one_box
 from utils.torch_utils import select_device, load_classifier, time_synchronized
 
-yolo_conf = "src/yolo/models/yolo_config.yaml"
+yolo_conf = "config/yolo_config.yaml"
 
 with open(yolo_conf, "rb") as fp:
     opt_ = yaml.load(fp, Loader=yaml.FullLoader)
@@ -150,6 +150,3 @@ def detect(source, opt=opt_, save_img=False):
     print('Done. (%.3fs)' % (time.time() - t0))
 
     return im0, text_ret
-
-
-

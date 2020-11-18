@@ -37,6 +37,24 @@ Though 21 tries to be an auto ML engine, it can be used as an augmented ML engin
 
 The configuration is through config.yaml file. Look at the test folder to see how to use 21.
 
+### Main concepts
+
+1. Task: task includes the problem type (classification, regression, seq2seq), the pointer to the data and evaluation metric to be used to build a model.
+2. Data: data holds the raw content and the meta information about the type of data (text, images, tabular etc.) and its characteristics (size, target, names, how to process etc).
+3. Model: is either a machine learning or time series or deep learning model which is needed to learn the relation in the data.
+4. Model Universe: is a collection of models, its hyper parameters and the tasks to which it has to be considered.
+
+### Blocks
+
+![top](/imgs/Blocks.PNG)
+
+
+### Top level architecture of the engine
+
+![top](/imgs/top.PNG)
+
+###
+
 ## How does it work?
 
 Read the docs to understand how it works. The architecture in the docs provide top level view of how things work. API documentation gives details of how to use 21 engine.
