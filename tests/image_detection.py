@@ -18,7 +18,7 @@ from detect import detect
 
 if __name__ == '__main__':
 
-    img_folder = "imputs/img/"
+    img_folder = "inputs/img/"
 
     files = glob.glob(img_folder+"*.jpg")
 
