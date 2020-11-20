@@ -26,7 +26,7 @@ task:
   type: regression # Can be classification, regression, clustering, forecasting, anomaly_detection, region_detection, tagging, seq_seq
   data_id: energy
   data_details: 
-    type: tabular # image, text, audio, tabular, single_ts, multi_ts, location, graph 
+    type: tabular # image, text, audio, tabular, time_series, location, graph 
     domain: null
     source: local_db # can be local_db, sample, stream, file_sent, none
     source_properties: null

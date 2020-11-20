@@ -16,7 +16,9 @@ if __name__ == "__main__":
     task = Task(config)
     data = Data.load(config, task)
     model = Model(config, task, data)
+
     best_res = model.train(save_model=True)
+    
     print(best_res)
     res = model.infer(task.id, data.testX[0])
     print(res)

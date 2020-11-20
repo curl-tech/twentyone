@@ -48,12 +48,9 @@ The configuration is through config.yaml file. Look at the test folder to see ho
 
 ![top](/imgs/Blocks.PNG)
 
-
 ### Top level architecture of the engine
 
 ![top](/imgs/top.PNG)
-
-###
 
 ## How does it work?
 

@@ -111,3 +111,30 @@
         - auto
         - scale
       range: null
+
+- name: RandomForestClassifier
+  type: Classification
+  data_type: Tabular
+  complexity: ML
+  hyper:
+    - name: n_estimators
+      vary: true
+      default: 100
+      type: number # either option, bool or number
+      options: null
+      range:
+        min: 10
+        max: 1000
+        num_samp: 20
+        type: linear # can be log or linear
+    - name: max_depth
+      vary: false
+      default: null
+      type: int # either option, bool or number
+      options: null
+      range:
+        min: 5
+        max: 100
+        num_samp: 20
+        type: linear # can be log or linear
+    
