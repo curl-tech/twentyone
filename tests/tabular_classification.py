@@ -20,5 +20,5 @@ if __name__ == "__main__":
     best_res = model.train(save_model=True)
     
     print(best_res)
-    res = model.infer(task.id, data.testX[0])
+    res = model.infer(config["model"]["save_location"], task.id, data.testX[0])
     print(res)

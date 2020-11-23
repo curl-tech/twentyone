@@ -18,13 +18,6 @@ if __name__ == "__main__":
     
     d=None
     data_config = None
-
-    # data_path = "inputs/tabular/energy.xlsx"
-    # data_config_path = "inputs/tabular/energy.yaml"
-    # d = pd.read_excel(data_path, index_col="date")
-
-    # with open(data_config_path, "r") as fp:
-    #     data_config = yaml.load(fp, Loader=yaml.FullLoader)
     
     task = Task(config)
     data = Data.load(config, task, d, data_config)

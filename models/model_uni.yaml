@@ -52,7 +52,7 @@
     - name: C
       vary: true
       default: 1.0
-      type: number # either option, bool or number
+      type: float # either option, bool or number
       options: null
       range:
         min: 1.0e-5
@@ -86,7 +86,7 @@
     - name: C
       vary: true
       default: 1.0
-      type: number # either option, bool or number
+      type: float # either option, bool or number
       options: null
       range:
         min: 1.0e-5
@@ -120,7 +120,7 @@
     - name: n_estimators
       vary: true
       default: 100
-      type: number # either option, bool or number
+      type: int # either option, bool or number
       options: null
       range:
         min: 10
@@ -137,4 +137,5 @@
         max: 100
         num_samp: 20
         type: linear # can be log or linear
-    
+
+        

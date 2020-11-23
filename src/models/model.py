@@ -145,17 +145,19 @@ def get_model_hypers(candidate):
             elif ch["type"] == "bool":
                 hyper.append(ch["name"] + "=True")
                 hyper.append(ch["name"] + "=False")
-            elif ch["type"] == "number":
+            elif ch["type"] == "float" or ch["type"] == "int":
                 min_r = ch["range"]["min"]
                 max_r = ch["range"]["max"]
                 num_samp = ch["range"]["num_samp"]
                 r_type = ch["range"]["type"]
                 if r_type == "linear":
                     for r in np.linspace(min_r, max_r, num=num_samp):
-                        hyper.append(ch["name"] + "=" + str(r))
+                        hr = str(r) if ch["type"] == "float" else str(int(r))
+                        hyper.append(ch["name"] + "=" + hr)
                 elif r_type == "log":
                     for r in np.logspace(np.log10(min_r), np.log10(max_r), num=num_samp):
-                        hyper.append(ch["name"] + "=" + str(r))
+                        hr = str(r) if ch["type"] == "float" else str(int(r))
+                        hyper.append(ch["name"] + "=" + hr)
         else:
             if ch["type"] == "option":
                 hyper.append(ch["name"] + "='" + str(ch["default"]) + "'")
