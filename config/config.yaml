@@ -1,4 +1,4 @@
-# Config for TwentyOne (21)
+# Task Specific Config for TwentyOne (21)
 # Use lower case, use under_scores for strings which are more than one word in the keys or values
 # Smaller the name, the better it is
 
@@ -54,19 +54,8 @@ data:
     auto: false
     rule: null
 
-# Compute description for training and inference
-compute:
-  train_instance: cpu # can be cpu, gpu, multi_gpu, cloud_cpu, cloud_gpu
-  inference_instance: cpu
-  parallelism: parallel_model # can be null, parallel_model, parallel_data or parallel_task
-  properties:
-    num_inst: 1
-
 # Feature engineering, model selection, hyper parameter tuning, ensembling, inference, retraining
 model:
-  model_db: models/model_uni.yaml
-  pre_trained_db: models/pre_trained/
-  save_location: models/trained/
   # Create new features from existing features (happens automatically in DL)
   feature_creation:
     auto_create_features: false
@@ -94,6 +83,7 @@ model:
       all_source: null
       pre_trained_source: null # can be local_folder, local_db, model_sent, null
       tuner: null
+    tune_hyper: True
     hyper_selection: 
       tuner: null
       source: null
@@ -104,9 +94,6 @@ model:
   # Run the best model live
   inference:
     mode: "single_model" # can be single_model, ensemble
-    pipeline_location: null
-    model_location: null
-    evaluation: null
     store: false
 
   # retrain the model with additional data on a smaller search space

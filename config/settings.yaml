@@ -1,0 +1,24 @@
+# All the parameters which are generic comes here.
+
+data:
+  allow_data_download: false
+  allow_data_edit: false
+  data_save_loc: data/
+
+task:
+  tasks_save_loc: tasks/
+
+model:
+  allow_model_download: true
+  allow_model_upload: true
+  model_db: models/model_uni.yaml
+  pre_trained_db: models/pre_trained/
+  model_save_loc: models/trained/
+
+compute:
+  train_instance: cpu # can be cpu, gpu, multi_gpu, cloud_cpu, cloud_gpu
+  inference_instance: cpu
+  parallelism: parallel_model # can be null, parallel_model, parallel_data or parallel_task
+  num_inst: 1
+  num_cpu: -1 # -1 => all available
+  num_gpu: 0 

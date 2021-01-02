@@ -1,3 +1,4 @@
+import imp
 from sklearn import model_selection
 import yaml
 import numpy as np
@@ -12,24 +13,24 @@ sys.path.append("..")
 from .load_lib import *
 from .train_results import TrainResults
 from tasks.tasks import Task, TaskType
-from data.data import Data, DataType
+from data.data import DataType
+from data.task_data import TaskData
 from utils import model_utils as mu
 
 from .evaluation import Evaluation
 
-class Model:
+class Engine:
 
-    def __init__(self, config=None, task: Task=None, data: Data=None, pipeline=None) -> None:
-        self.config = config
-        self.data = data
+    def __init__(self, settings=None, task: Task=None, task_data: TaskData=None) -> None:
+        self.settings = settings
+        self.task_data = task_data
         self.task = task
-        self.pipeline = pipeline
         self.best_model = []
 
     def train(self, save_model=True):
-        data_type = DataType.from_str(self.config["task"]["data_details"]["type"])
-        candidates = get_candidate_models(self.config, self.task.type, data_type)
-        n_best = self.config["model"]["training"]["model_selection"]["n_best"]
+        data_type = self.task_data.data_type
+        candidates = get_candidate_models(self.settings, self.task.type, data_type)
+        n_best = self.config["engine"]["training"]["model_selection"]["n_best"]
         save_mode = self.config["model"]["training"]["save_mode"]
                 
         cand_scores = []
@@ -117,20 +118,20 @@ class Model:
                 res.append(model[0].predict(data))
         return res
 
-def get_candidate_models(config, task_type, data_type, get_best=None):
-    models_path = config["model"]["model_db"]
+def get_candidate_models(settings, task_type, data_type, get_best=None):
+    models_path = settings["model"]["model_db"]
     with open(models_path, "r") as fp:
         all_models = yaml.load(fp, Loader=yaml.FullLoader)
     candidates = [x for x in all_models if TaskType.from_str(x["type"]) == task_type and DataType.from_str(x["data_type"]) == data_type]
     if get_best is not None:
-        candidates = filter_best_candidates(config, candidates)
+        candidates = filter_best_candidates(settings, candidates)
     return candidates
 
 def get_models(train_res):
     pass
 
 # for future implementation, faster model selection using past experience
-def filter_best_candidates(config, candidates):
+def filter_best_candidates(settings, candidates):
     pass
 
 # get all combinations of hyper parameters

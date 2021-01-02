@@ -1,0 +1,65 @@
+# Config for TwentyOne (21), This comes from the user
+# Use lower case, use under_scores for strings which are more than one word in the keys or values
+# Smaller the name, the better it is
+
+# Task is a problem which is at hand. We can "run" the "task" as many time as we want.
+# Task is defined by an objective and evaluation to check how well the objective is achieved for a given task
+# Obviously task needs data
+task:
+  _id: null
+  name: fin_vix
+  type: regression # Can be classification, regression, clustering, forecasting, anomaly_detection, region_detection, tagging, seq_seq
+  data_id: vix_data
+  eval_metric: mse # can be task specific (accuracy, mse, mape, f1, precision, recall, cross_entropy, iou, ap, bleu)
+
+# Data Processing: cleaning, augmentation, validation
+data_prep:
+  clean: true
+  clean_prop:
+    fill_na: true
+    fill_mode: copy_prev_values
+    remove_rows: true
+    remove_cols: false
+  augment: false
+  augment_prop:
+    sample: false
+    type: null
+  data_split: single_train_test # It can be single_train_test, walk_forward, n_fold_cv, mini_batch
+  data_split_details:
+    train_split: 0.8
+    n_fold: 10
+    look_back: 250
+    walk_fwd: 22
+  random_order: false
+
+# Feature engineering, model selection, hyper parameter tuning, ensembling, inference, retraining
+engine:
+  # Create new features from existing features (happens automatically in DL)
+  create_features: false
+  feature_creation:  
+    num_feat: 0
+    method: null
+
+  # Pick only relevant features (not so useful in DL)
+  dim_reduction: false
+  feature_reduction:
+    criteria: null
+    method: null
+
+  # Main part! Get the best model
+  training:
+    save_mode: "last_train" # can be all_train, last_train, first_train
+    model_selection:
+      n_best: 1
+      use_pre_trained: false # can be local_folder, local_db, model_sent, null
+    model_tuner: null
+    tune_hyper: true
+    hyper_tuner: null
+    need_ensemble: false
+    ensemble_mode: majority # can be majority, sum, rank_wt_sum
+
+  # Run the best model live
+  inference:
+    mode: "single_model" # can be single_model, ensemble
+    evaluation: null
+    store: false

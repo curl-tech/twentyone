@@ -8,7 +8,7 @@ sys.path.append("src")
 
 from tasks.tasks import Task
 from data.data import Data
-from models.model import Model
+from engine.engine import Engine
 
 if __name__ == "__main__":
     config_path = "config/config_energy.yaml"
@@ -23,7 +23,7 @@ if __name__ == "__main__":
     data = Data.load(config, task, d, data_config)
     #Data.save(config, data)
 
-    model = Model(config, task, data)
+    model = Engine(config, task, data)
     best_res = model.train(save_model=True)
     print(best_res)
 

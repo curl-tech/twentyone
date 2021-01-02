@@ -1,11 +1,12 @@
+import spacy
+
 from spacy.lang.en import English
 
-nlp = English()
+nlp = spacy.load("en_core_web_sm")
 
-doc = nlp("Hello World!")
+doc = nlp("76,502 METRIC TONNES")
 
-for tokens in doc:
-    print(tokens.text)
+for ent in doc.ents:
+    print(ent.text, ent.label_)
 
-span = doc[1:3]
-print(span)
+

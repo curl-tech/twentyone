@@ -6,10 +6,7 @@ class DataType(Enum):
     Text = 1
     Tabular = 2
     Audio = 3
-    Single_TS = 4    
-    Multi_TS = 5   
-    Location = 6
-    Graph = 7
+    Graph = 4
 
     @staticmethod
     def from_str(dt_str):
@@ -23,12 +20,6 @@ class DataType(Enum):
             return DataType.Audio
         elif l_dt_str == "tabular":
             return DataType.Tabular
-        elif l_dt_str == "single_ts":
-            return DataType.Single_TS
-        elif l_dt_str == "multi_ts":
-            return DataType.Multi_TS
-        elif l_dt_str == "location":
-            return DataType.Location
         elif l_dt_str == "graph":
             return DataType.Graph
         else:
