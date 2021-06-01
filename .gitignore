@@ -134,3 +134,20 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+__pycache__
+.db
+
+#Environments
+venv
+newevn
+.vscode/*
+
+#Database Folders Generated during Testing
+Database/
+
+output.html
+#Files Generated from Pycaret
+logs.log
+#Files generated during training
+clean_data.csv
+metrics.csv
