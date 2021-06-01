@@ -16,33 +16,27 @@ class main:
     #     self.model_type=amodel_type
     #     self.models_number=amodel_number
 
-    def main():
+    def main2():
         """ Main program """
         #Preprocessing
         if(pre_pro_auto==True):
-            auto_preprocess()
+            clean_data_add=auto_preprocess(model_type,raw_data_address,target_variable)
         else:
-            manual_preprocess()
+            clean_data_add=manual_preprocess(model_type,raw_data_address,target_variable,parameters)
         #Training
         if(model_auto==True):
-            if(model_type=='Classification'):
-                Model_list=top_models_Classification(model_number)
-            elif(model_type=='Regression'):
-                Model_list=top_models_Regression(model_number)
+            Model_list=top_models_auto(model_number)
             #hyperparameter Tuning
-            tune_model(Model_list) #auto if model is auto
+            tuned_model_list=tune_model(Model_list) #auto if model is auto
         else:
-            if(model_type=='Classification'):
-                Model_list=top_models_Classification_manual(model_number,model_list_manual)
-            elif(model_type=='Regression'):
-                Model_list=top_models_Regression_manual(model_number,model_list_manual)
+            Model_list=top_models_manual(model_list_manual)
             #hyperparamter tuning with auto manual option
             if(hyper_auto==True):
-                tune_model(Model_list)
+                tuned_model_list=tune_model_auto(Model_list)
             else:
-                tune_custom_model(Model_list)    
+                tuned_model_list=tune_model_custom(Model_list,hyperparamaters)#hyperparamter=dictionary    
         #Metrics calculation
-        calculate_metrics() 
+        metrics_list=calculate_metrics(Model_list) 
         
         return 0
 
