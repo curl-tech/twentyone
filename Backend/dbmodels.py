@@ -1,6 +1,6 @@
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
+# from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
 from .database import Base
-
+#TEMPORARRY , it is to be used to make schema for mongodb
 class User(Base):
     __tablename__ = 'users'
     id=Column(Integer,primary_key=True,index=True)

@@ -36,7 +36,7 @@ class main:
             else:
                 tuned_model_list=tune_model_custom(Model_list,hyperparamaters)#hyperparamter=dictionary    
         #Metrics calculation
-        metrics_list=calculate_metrics(Model_list) 
+        metrics_list=calculate_metrics(tuned_model_list) 
         
         return 0
 
