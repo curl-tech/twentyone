@@ -7,7 +7,7 @@ app=FastAPI()
 def home():  
     pass
 
-@app.post('/create')
+@app.post('/create',status_code=status.HTTP_202_ACCEPTED)
 def create():
     model_type='Classification'
     project_name='A'
@@ -19,7 +19,7 @@ def create():
     #send inputs to db
     #render response to frontend
     
-@app.post('/preprocess')
+@app.post('/preprocess',status_code=status.HTTP_202_ACCEPTED)
 def preprocess():
     pre_pro_auto=True
     target_variable=''
@@ -37,7 +37,7 @@ def preprocess():
     
     #render model selection page 
 
-@app.post('/models')
+@app.post('/models',status_code=status.HTTP_202_ACCEPTED)
 def models():
     model_auto=True
     model_number=3 #no. of models user wants
@@ -66,7 +66,7 @@ def models():
     #send response to frontend  
     
 
-@app.post('/inference')
+@app.post('/inference',status_code=status.HTTP_202_ACCEPTED)
 def inference():
     pass
 
