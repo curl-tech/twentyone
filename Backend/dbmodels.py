@@ -1,4 +1,4 @@
-# from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
+from pydantic import BaseModel
 from .database import Base
 #TEMPORARRY , it is to be used to make schema for mongodb
 class User(Base):
