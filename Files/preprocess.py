@@ -6,6 +6,13 @@ from sklearn import preprocessing
 from sklearn.impute import SimpleImputer
 from sklearn.impute import KNNImputer
 
+
+# Scaling and Teansforming using- 
+from sklearn.preprocessing import MinMaxScaler
+from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import PowerTransformer
+from sklearn.preprocessing import QuantileTransformer
+ 
 # Handling non-numeric data using-
 from sklearn.preprocessing import OneHotEncoder 
 from sklearn.preprocessing import OrdinalEncoder 
@@ -13,12 +20,6 @@ from sklearn.preprocessing import OrdinalEncoder
 # Handling outlier using-
 from statsmodels.nonparametric.kde import KDEUnivariate
 from sklearn.neighbors import KernelDensity 
-
-# Scaling and Teansforming using- 
-from sklearn.preprocessing import StandardScaler
-from sklearn.preprocessing import MinMaxScaler
-from sklearn.preprocessing import PowerTransformer
-from sklearn.preprocessing import QuantileTransformer
 
 # Feature engineering-
 # We will do it by finding co-realation between the independent features by using-
@@ -49,9 +50,9 @@ class Preprocess:
     
         Extended description of function:-
         Parameters:
-            model_type (string): The selection of the user for the model_type eg-classification/regression/clustering etc.
-            raw_data_address (string): As the user uploads the raw dataset it will be saved in the database, this is the address of that saved dataset.
-            target_variable (string): The user will select the target cloumn/variable and that target variable name have to be passed to the setup() in pycaret as patameter.
+            model_type (string):          (The selection of the user for the model_type eg-classification/regression/clustering etc.)
+            raw_data_address (string):    (As the user uploads the raw dataset it will be saved in the database, this is the address of that saved dataset.)
+            target_variable (string):     (The user will select the target cloumn/variable and that target variable name have to be passed to the setup() in pycaret as patameter.)
             
         Returns:
             clean_data_address(string): 
@@ -85,15 +86,15 @@ class Preprocess:
         parameters will have all the custom preprocessing that the user wants to do.
         Such as:
         
-            df = raw_data_address               (The address of the data stored in the database.)
-            drop_col_name=drop_col_name         (The columns that the user wants to drop.)
-            impution_type = impution_type       (The method of imputation that the users selects to do the imputation in the whole data set. Which includes: Mean, Media, Most frequent and KNN imputation )
-            na_value = na_value                 (The notation which has been used to denote the Nan or Null values in the perticular dataset.)
-            encoding_type=encoding_type         ()
-            encode_col_name=encode_col_name
-            scaling_type = scaling_type
-            scaling_col_name=scaling_col_name
-            target_col_name = target_col_name
+            df = raw_data_address (string)               (The address of the data stored in the database.)
+            drop_col_name=drop_col_name (string)         (The columns that the user wants to drop.)
+            impution_type = impution_type (string)       (The method of imputation that the users selects to do the imputation in the whole data set. Which includes: Mean, Media, Most frequent and KNN imputation )
+            na_value = na_value (string)                 (The notation which has been used to denote the Nan or Null values in the perticular dataset.)
+            encoding_type=encoding_type (string)         ()
+            encode_col_name=encode_col_name (string)     ()
+            scaling_type = scaling_type (string)         ()
+            scaling_col_name=scaling_col_name (string)   ()
+            target_col_name = target_col_name (string)   ()
             
 
             
@@ -139,7 +140,6 @@ class Preprocess:
                     
                     
         #### Handling missing data
-
         # imputation
         if(impution_type[0]!="none"):
             df_value = df.values
@@ -168,21 +168,19 @@ class Preprocess:
                 imputed_data_value = imputer.transform(df)
                 imputed_df = pd.DataFrame(imputed_data_value)
 
-            
-            
-
-
         #feature scaling
-        if(scale_col[0]!="none"):
-            if scaling=='standarization':
-                for feature in scale_col:
-                    df[feature] = (df[feature] - df[feature].mean()) / (df[feature].std())
-            else:
-                x = df[scale_col].values #returns a numpy array
-                min_max_scaler = preprocessing.MinMaxScaler()
-                x_scaled = min_max_scaler.fit_transform(x)
-                df[scale_col]= x_scaled
+        if(scaling_col_name[0]!="none"):
+            if scaling_type == "normalization":
+                x = df[scaling_col_name].values
+                scaleing = preprocessing.MinMaxScaler()
+                x_scaled = scaleing.fit_transform(x)
+                df[scaling_col_name]= x_scaled
 
+            elif scaling_type == 'standarization':
+                x = df[scaling_col_name].values
+                scaleing = preprocessing.StandardScaler()
+                x_scaled = scaleing.fit_transform(x)
+                df[scaling_col_name]= x_scaled
             
         
         #encoding
