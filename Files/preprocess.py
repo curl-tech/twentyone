@@ -90,8 +90,8 @@ class Preprocess:
             drop_col_name=drop_col_name (string)         (The columns that the user wants to drop.)
             impution_type = impution_type (string)       (The method of imputation that the users selects to do the imputation in the whole data set. Which includes: Mean, Media, Most frequent and KNN imputation )
             na_value = na_value (string)                 (The notation which has been used to denote the Nan or Null values in the perticular dataset.)
-            encoding_type=encoding_type (string)         ()
-            encode_col_name=encode_col_name (string)     ()
+            encoding_type=encoding_type (string)         (The method the user selects to do the encoding on the selected cloumn)
+            encode_col_name=encode_col_name (string)     (The column selected by the user to do the encoding.)
             scaling_type = scaling_type (string)         ()
             scaling_col_name=scaling_col_name (string)   ()
             target_col_name = target_col_name (string)   ()
@@ -187,18 +187,18 @@ class Preprocess:
         le = preprocessing.LabelEncoder()
         oe = preprocessing.OrdinalEncoder()
         ohe = preprocessing.OneHotEncoder()
-        if(encode_col[0]!="none"):
-            if changetype=="labelencode":
-                featurex=df[encode_col]
+        if(encode_col_name[0]!="none"):
+            if encoding_type=="labelencode":
+                featurex=df[encode_col_name]
                 featurex=featurex.apply(le.fit_transform)
                 features=featurex.columns
                 for feature in features:
                     df.drop([feature],axis=1,inplace=True)
                     df=pd.concat([df,featurex[feature]],axis=1)
             else:
-                dummy=pd.get_dummies(df[encode_col])
+                dummy=pd.get_dummies(df[encode_col_name])
                 df=pd.concat([df,dummy],axis=1)
-                df.drop(encode_col,axis=1,inplace=True)
+                df.drop(encode_col_name,axis=1,inplace=True)
         if df[df[target].columns[0]].dtype==object:
             featurex=df[target]
             featurex=featurex.apply(le.fit_transform)
