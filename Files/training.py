@@ -1,5 +1,6 @@
 from pycaret.classification import *
 from pycaret.regression import *
+from ray import tune 
 
 class training:
     def __init__(self):
