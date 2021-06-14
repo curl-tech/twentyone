@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-class About extends Component {
+class Create extends Component {
     render() {
         return (
             <div>
