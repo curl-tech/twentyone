@@ -17,7 +17,7 @@ def create():
     else:
         testdata=NULL
     #send inputs to db
-    #render response to frontend
+    #send response to frontend
     
 @app.post('/preprocess',status_code=status.HTTP_202_ACCEPTED)
 def preprocess():
@@ -37,7 +37,7 @@ def preprocess():
     
     #render model selection page 
 
-@app.post('/models',status_code=status.HTTP_202_ACCEPTED)
+@app.post('/training',status_code=status.HTTP_202_ACCEPTED)
 def models():
     model_auto=True
     model_number=3 #no. of models user wants
