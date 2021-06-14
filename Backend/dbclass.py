@@ -1,5 +1,5 @@
 #from schemas import User, Show
-from pymongo import MongoClient, database
+from pymongo import MongoClient
 import pprint
 
 class Database(object):
@@ -18,8 +18,7 @@ class Database(object):
     def insert_one(collection, data):                       #Insert data into the Collection
         Database.DATABASE[collection].insert_one(data)
 
-    @staticmethod
-    def find(collection, query):                            #finds all data from the collection returns a cursor object
+    def find(self,collection, query):                            #finds all data from the collection returns a cursor object
         return Database.DATABASE[collection].find(query)
 
     @staticmethod
@@ -30,18 +29,18 @@ class Database(object):
 Project21Database=Database()
 Project21Database.initialise()
 
-# data={
-#     "id":1,
-#     "name": "John Doe",
-#     "email": "johndoe@gmail.com",
-#     "username": "JohnDoe"
-# }
-# Project21Database.insert_one('testcollection',data)
+data={
+    "id":1,
+    "name": "John Doe",
+    "email": "johndoe@gmail.com",
+    "username": "JohnDoe"
+}
+Project21Database.insert_one('newcollection',data)
 
-# myresults=Project21Database.find('testcollection',{'id':1})
-# mylist=[]
-# for doc in myresults:
-#     mylist.append(doc)
-#     print(doc)
+myresults=Project21Database.find('newcollection',{'id':1})
+mylist=[]
+for doc in myresults:
+    mylist.append(doc)
+    print(doc)
 
-# print('This is our list ',mylist)
+print('This is our list ',mylist)
