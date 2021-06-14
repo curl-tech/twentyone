@@ -3,7 +3,7 @@ class Project extends Component {
     render() {
         return (
             <div>
-                <h1>project Page</h1>
+                <h1>project Page to dipaly all projects</h1>
             </div>
         );
     }
