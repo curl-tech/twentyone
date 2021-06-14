@@ -59,3 +59,6 @@ class auto:
 
         return tuned_best
 
+
+    def model_save(self,model):
+        
