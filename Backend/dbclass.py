@@ -1,6 +1,6 @@
-#from schemas import User, Show
+from helpers import ResponseModel, ErrorResponseModel
+from schemas import User, Project, Data, Model, Metrics
 from pymongo import MongoClient
-import pprint
 from bson.json_util import dumps
 
 class Database(object):
@@ -20,33 +20,17 @@ class Database(object):
         Database.DATABASE[collection].insert_one(data)
 
     @staticmethod
-    def find(self,collection, query):                            #finds all data from the collection returns a cursor object
+    def insert_many(collection, data):
+        Database.DATABASE[collection].insert_many(data)
+
+    @staticmethod
+    def find(collection, query):                            #finds all data from the collection returns a cursor object
         return Database.DATABASE[collection].find(query)
 
     @staticmethod
     def find_one(collection, query):                        #finds one object from the collection the result is a dictionary
         return Database.DATABASE[collection].find_one(query)
 
-
-# Project21Database=Database()
-# Project21Database.initialise()
-
-# data={
-#     "id":1,
-#     "name": "John Doe",
-#     "email": "johndoe@gmail.com",
-#     "username": "JohnDoe"
-# }
-# Project21Database.insert_one('testcol',data)
-
-# myresults=Project21Database.find('testcol',{'id':1})
-# newresult=list(myresults)
-# newjsondata=dumps(newresult)
-# print(newjsondata)
-
-# mylist=[]
-# for doc in myresults:
-#     mylist.append(doc)
-#     print(doc)
-
-# print('This is our list ',mylist)
+    @staticmethod
+    def update_one(collection, query, newvalues):                   #updates the object from the collection with a query to find the object and newvalues
+        Database.DATABASE[collection].update_one(query, newvalues)
