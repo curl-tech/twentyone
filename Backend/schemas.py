@@ -4,7 +4,7 @@ from pydantic.networks import EmailStr
 from pydantic.utils import Obj
 from typing import Optional
 from fastapi.encoders import jsonable_encoder
-from bson import ObjectId
+from bson import ObjectId, int64
 
 # class PyObjectID(ObjectId):
 #     @classmethod
@@ -33,7 +33,6 @@ class User(BaseModel):
     class Config:
         allow_population_by_field_name=True
         arbitrary_types_allowed=True
-
 
 
 class Project(BaseModel):
@@ -67,3 +66,21 @@ class Model(BaseModel):
         allow_population_by_field_name=True
         arbitrary_types_allowed=True
 
+class Metrics(BaseModel):
+    belongsToUserID: int
+    belongsToProjectID: int
+    belongsToModelID: int
+
+def ResponseModel(data,message):
+    return {
+        "data": [data],
+        "code":200,
+        "message":message
+    }
+
+def ErrorResponseModel(error, code, message):
+    return {
+        "error": error,
+        "code": code,
+        "message": message
+    }
