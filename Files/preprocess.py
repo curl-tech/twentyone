@@ -43,44 +43,7 @@ from pycaret.regression import *
 import os
 
 
-class Preprocess:
-    def auto_preprocess(model_type,raw_data_address,target_variable):
-        """
-        This function is for preprocessing the data when the user selects auto preprocessing.
-    
-        Extended description of function:-
-        Parameters:
-            model_type (string):          (The selection of the user for the model_type eg-classification/regression/clustering etc.)
-            raw_data_address (string):    (As the user uploads the raw dataset it will be saved in the database, this is the address of that saved dataset.)
-            target_variable (string):     (The user will select the target cloumn/variable and that target variable name have to be passed to the setup() in pycaret as patameter.)
-            
-        Returns:
-            clean_data_address(string): 
-        """
-        
-        if model_type == "classification":
-            clf1 = setup(data = raw_data_address, target = target_variable,silent=True, profile= True)
-        
-        elif model_type == "regression":
-            reg1 = setup(data = raw_data_address, target = target_variable,silent=True, profile= True)
-
-        # elif model_type == "clustering":            
-        #     clu1 = setup(data = raw_data_address,silent=True, profile= True)
-
-        # elif model_type == "nlp":            
-        #     nlp1 = setup(data = raw_data_address, target = target_variable,silent=True, profile= True)
-        
-        X_train = get_config('X_train')        
-        
-        X_train.to_csv('clean_data.csv', index=False)
-        
-        clean_data_address = os.getcwd()+"/clean_data.csv"
-        return clean_data_address
-        
-        
-        
-        
-        
+class Preprocess:     
     def manual_preprocess(model_type,raw_data_address,target_variable,parameters):
         """
         parameters will have all the custom preprocessing that the user wants to do.
@@ -130,15 +93,8 @@ class Preprocess:
         # drop columns
         if(drop_col_name[0]!="none"):
             df=df.drop(drop_col_name, axis = 1)
-        # Here we are droping the feature if the column is having the same value for every row.
-        # If all the rows are having the same value the feature importance of that column is not significant for the prediction. 
-        for col_name in df.columns:
-            if df[col_name].dtype == 'float64' or df[col_name].dtype == 'object' or new_df[col_name].dtype == 'int64':
-                unique_cat = len(df[col_name].unique())
-                if unique_cat == 1:
-                    df=df.drop(col_name, axis = 1)
-                    
-                    
+            
+
         #### Handling missing data
         # imputation
         if(impution_type[0]!="none"):
@@ -183,33 +139,111 @@ class Preprocess:
                 df[scaling_col_name]= x_scaled
             
         
-        #encoding
-        le = preprocessing.LabelEncoder()
-        oe = preprocessing.OrdinalEncoder()
-        ohe = preprocessing.OneHotEncoder()
-        if(encode_col_name[0]!="none"):
-            if encoding_type=="labelencode":
-                featurex=df[encode_col_name]
-                featurex=featurex.apply(le.fit_transform)
-                features=featurex.columns
+        #### handling catogarical data
+        # encoding
+        if(encode_col_name[0] != "none"):
+            if encoding_type == "Label Encodeing":
+                le = LabelEncoder()
+                x_encoded = le.fit_transform(df[encode_col_name])
+                features = x_encoded.columns
                 for feature in features:
                     df.drop([feature],axis=1,inplace=True)
-                    df=pd.concat([df,featurex[feature]],axis=1)
-            else:
-                dummy=pd.get_dummies(df[encode_col_name])
-                df=pd.concat([df,dummy],axis=1)
-                df.drop(encode_col_name,axis=1,inplace=True)
-        if df[df[target].columns[0]].dtype==object:
-            featurex=df[target]
-            featurex=featurex.apply(le.fit_transform)
-            features=featurex.columns
-            for feature in features:
-                df.drop([feature],axis=1,inplace=True)
-                df=pd.concat([df,featurex[feature]],axis=1) 
+                    df=pd.concat([df,x_encoded[feature]],axis=1)
+            elif encoding_type == "One-Hot Encoding":
+                ohe = OneHotEncoder(categories = encode_col_name, sparse = False, drop = "Frist")
+                x = ohe.fit_transform(df[encode_col_name])
+                x_encoded = pd.DataFrame(x)
+                features = x_encoded.columns
+                for feature in features:
+                    df.drop([feature],axis=1,inplace=True)
+                    df=pd.concat([df,x_encoded[feature]],axis=1) 
 
-        # feature selection
+
+
+        # Feature engineering & Feature Selection
+
+        ### Outlier detection & Removel
+        ### Outlier detection and removal using 3 standard deviation
+
+        if Remove_outlier == True:
+            df.outlier_col_name.mean()
+            df.outlier_col_name.std()
+            upper_limit = df.outlier_col_name.mean() + 3*df.outlier_col_name.std()
+            lower_limit = df.outlier_col_name.mean() -3*df.outlier_col_name.std()
+            df = df[(df.outlier_col_name<upper_limit) & (df.outlier_col_name>lower_limit)]
+            
+
+        # Here we are droping the feature if the column is having no variance.
+        # If all the rows are having the same value the feature importance of that column is not significant for the prediction. 
+        if feature_selection_type != "none":
+            if feature_selection_type == "Variance Threshold":
+                var_thres=VarianceThreshold(threshold=0)
+                var_thres.fit(df)
+                constant_columns = [column for column in df.columns if column not in df.columns[var_thres.get_support()]]
+                df = df.drop(constant_columns,axis=1)
+            
+            if feature_selection_type == "Correlation":
+                cor = df.corr()
+                # with the following function we can select highly correlated features
+                # it will remove the first feature that is correlated with anything other feature
+                def correlation(dataset, threshold):
+                    col_corr = set()  # Set of all the names of correlated columns
+                    corr_matrix = dataset.corr()
+                    for i in range(len(corr_matrix.columns)):
+                        for j in range(i):
+                            if abs(corr_matrix.iloc[i, j]) > threshold: # we are interested in absolute coeff value
+                                colname = corr_matrix.columns[i]  # getting the name of column
+                                col_corr.add(colname)
+                    return col_corr
+                corr_features = correlation(df, 0.8)
+                df = df.drop(corr_features,axis=1)
+
+
+                
+                
+                
+                
+                var_thres=VarianceThreshold(threshold=0)
+                var_thres.fit(df)
+                constant_columns = [column for column in df.columns if column not in df.columns[var_thres.get_support()]]
+                df = df.drop(constant_columns,axis=1)                
+                
+                
+                
+                
+                
+    def auto_preprocess(model_type,raw_data_address,target_variable):
+        """
+        This function is for preprocessing the data when the user selects auto preprocessing.
+    
+        Extended description of function:-
+        Parameters:
+            model_type (string):          (The selection of the user for the model_type eg-classification/regression/clustering etc.)
+            raw_data_address (string):    (As the user uploads the raw dataset it will be saved in the database, this is the address of that saved dataset.)
+            target_variable (string):     (The user will select the target cloumn/variable and that target variable name have to be passed to the setup() in pycaret as patameter.)
+            
+        Returns:
+            clean_data_address(string): 
+        """
         
+        if model_type == "classification":
+            clf1 = setup(data = raw_data_address, target = target_variable,silent=True, profile= True)
         
+        elif model_type == "regression":
+            reg1 = setup(data = raw_data_address, target = target_variable,silent=True, profile= True)
+
+        # elif model_type == "clustering":            
+        #     clu1 = setup(data = raw_data_address,silent=True, profile= True)
+
+        # elif model_type == "nlp":            
+        #     nlp1 = setup(data = raw_data_address, target = target_variable,silent=True, profile= True)
+        
+        X_train = get_config('X_train')        
+        
+        X_train.to_csv('clean_data.csv', index=False)
+        
+        clean_data_address = os.getcwd()+"/clean_data.csv"
+        return clean_data_address
         
     #--------------------------------------------------------------------------------------------------------------------------#
 
