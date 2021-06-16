@@ -62,9 +62,6 @@ class auto:
         return tuned_best
 
 
-<<<<<<< HEAD
-    def model_save(self,model):
-=======
     def model_save(self,model_array,config):
         """
         Saves the pkl file at the specified location 
@@ -111,5 +108,4 @@ class auto:
         tuned_list=self.model_tune(model_list)
         self.model_plot(tuned_list,config)
         self.model_save(tuned_list)
->>>>>>> created functions to plot all the visuals and store them at a particular location using config file , created functions to store the pickle file in the same directory as the visuals , created a folder based on the naming convention of experimentname/id_model(number) (subject to changes in the future).Tested individual funtions in jupyter working status confirmed
         
