@@ -7,7 +7,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   /* background-color: rgba(1, 1, 10, 0.937); */
   /* background-image:linear-gradient(to top left,rgba(43, 9, 9, 0.733),rgba(18, 18, 20, 0.781)); */
-  background-image:linear-gradient(to top left,rgba(247, 247, 247, 0.918),rgba(161, 161, 163, 0.781));
+  background-image:linear-gradient(to top left,rgba(213, 200, 233, 0.918),rgba(119, 119, 121, 0.781));
 
 }
 /*  .createbody
@@ -24,12 +24,12 @@ code {
 {
   margin-bottom: 2.5em;
   /* background-color: rgba(10, 0, 2, 0.815); */
-  background-color: #000;
+  background-color: #fff;
   height:6em;
 }
 .navbar-brand
 {
-  color: #fff;
+  color: rgb(59, 16, 133);
   font-size:xx-large;
   font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
   font-stretch: expanded;
@@ -38,39 +38,66 @@ code {
 }
 .navbar-brand:hover
 {
-  color: #aaa;
+  text-shadow: 3px 3px #111;
+  color: #752ad8;
 }
 .nav-link
 {
   margin: 1.1em;
   font-weight: 600;
   font-size: larger;
-  color: #af4c6a;
+  color: #281b6e;
 }
 .nav-link:hover
 {
   color: #fff;
+  background-color: #281b6e;
+  border-radius: 2em;
 }
-.nav-item:active
+.nav-link:focus
 {
-  color: #fff;
+  color:#fff;
+  background-color: #281b6e;
+  border-radius: 2em;
 }
 .btn-outline-success
 {
-  color: #af4c6a;
-  border-color: #af4c6a;
+  color: #281b6e;
+  border-color: #281b6e;
 }
 .btn-outline-success:hover
 {
-  background-color: #77263d;
+  background-color: #281b6e;
   border-color: #aaa;
 }
 .me-2
 {
-  border-color: #77263d;
+  border-color: #281b6e;
 }
-
-
+.navbar-toggler{
+  width: 47px;
+  height: 34px;
+  background-color: #271b6e;
+  border:none;
+}
+.navbar-toggler .line{
+  width: 100%;
+  float: left;
+  height: 2px;
+  background-color: #fff;
+  margin: 1px;
+}
+#navbarSupportedContent
+{
+  background-color: #fff;
+}
+@media screen and (max-width: 600px) {
+  
+  #navbarSupportedContent
+  {
+   padding: 1.5em;
+   background-color: #eee; }
+}
 
 /* form styles for create page*/
 .createpagebox
@@ -81,7 +108,7 @@ code {
   margin-left: 10%;
   /* background-color: #af4c6a; */
   background-color: #281b6e;
-  background-image:linear-gradient(to left bottom , #281b6e,rgb(107, 89, 139));
+  background-image:linear-gradient(to left bottom , #281b6e,rgb(128, 116, 150));
   /* background-image:linear-gradient(to bottom , #af4c6a,rgb(196, 166, 166)); */
   text-align: center;
   border-radius: 1.3em;
@@ -93,8 +120,11 @@ code {
 .createform
 {
   padding: 1.1em;
+  padding-top: 2em;
+  padding-bottom: 3em;
   border-radius: 1.2em;
   background-color: #fff;
+  height: 20em;
   /* background-image:linear-gradient(to bottom right, #bac3ca,#fff); */
   box-shadow: 10px 10px 5px grey;
 }
@@ -105,33 +135,42 @@ code {
   margin-top: 1.1em;
   font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
-
+.col-50 {
+  
+  float:left;
+  width: 50%;
+  text-align: center;
+}
 .col-70 {
   float: left;
   width: 60%;
   margin-top: 1.1em;
 }
-input[type=text], select, textarea {
+input[type=text],input[type=number] ,select, textarea {
   width: 100%;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
   resize: vertical;
+  background-color: #eee;
 }
 
 input[type=submit] {
-  background-image:linear-gradient(to bottom right, #af4c6a,rgb(24, 3, 3));
+  
+  background-image:linear-gradient(to left bottom , #281b6e,rgb(107, 89, 139));
+  /* background-image:linear-gradient(to bottom right, #af4c6a,rgb(24, 3, 3)); */
   color: #ffffff;
   padding: 12px 20px;
   border-radius: 1.2em;
   cursor: pointer;
+  margin-top: 20px;
   margin-left: 75%;
   width: fit-content;
   }
 
 input[type=submit]:hover {
   background-image:linear-gradient(to bottom right,#aaa,#fff);
-  color:#af4c6a; 
+  color: #281b6e; 
   font-weight: bolder; 
 }
 label {
@@ -141,16 +180,96 @@ label {
 @media screen and (max-width: 600px) {
   .col-25, .col-75, input[type=submit] {
     width: 100%;
+    margin-top: 10;
+    margin-left: 0;
+  }
+  #navbarSupportedContent
+  {
+   padding: 1.5em;
+   background-color: #eee; }
+}
+/* card design */
+.flip-card {
+  background-color: transparent;
+  height: 12em;
+  width: 12em;
+  margin-left: 20%;
+  margin-right: 10%;
+  margin-top: 3%;
+  perspective: 1000px;
+}
+
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+}
+
+.flip-card:hover .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-card-front, .flip-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  padding: 3em 0 3em 0;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+.flip-card-front {
+  background-image:linear-gradient(to left bottom , #271b6e4b,rgb(107, 89, 139));
+  color: black;
+}
+
+.flip-card-back {
+  background-image:linear-gradient(to left bottom , #271b6e,rgb(107, 89, 139));
+  color: white;
+  transform: rotateY(180deg);
+}
+.btn2
+{
+  border-radius: 2em;
+  cursor: pointer;
+  color: #fff;
+  background-image:linear-gradient(to left bottom , #aaa,rgb(107, 89, 139));
+}
+.btn2:hover{
+  background-image:linear-gradient(to left bottom , #aaa,rgb(34, 29, 43));
+  color: #fff;
+}
+@media screen and (max-width: 600px) {
+  .col-50{
+    width: 100%;
     margin-top: 0;
     margin-left: 0;
-  }}
-
-
-
+  }
+  .cards{
+    height:35em
+  }
+  .flip-card{
+    margin-top: 2em;
+  }
+}
+#form2{
+  /* display: none; */
+  display: block;
+}
+#form3
+{
+  display: block;
+  /* display: none; */
+}
 /* footer design */
 .footer
 {
   margin-top: 6.5%;
   /* background-color: rgba(10, 0, 2, 0.815); */
-  background-color: #000;
+  color: #fff;
+  background-color: #421b75;
 }
