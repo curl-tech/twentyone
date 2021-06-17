@@ -27,7 +27,7 @@
         - kd_tree
         - brute
       range: null
-      # Hyperparameter tuning for DecisionTree Classifier
+    # Hyperparameter tuning for DecisionTree Classifier
  - name: DecisionTree
    type: Classification
    datatype: Tabular
@@ -185,6 +185,79 @@
       range:
         - min: 0
         - max: 1000
+  # Hyperparameter tuning for Polynomial Regressor
+ - name: PolynomialRegression
+   type: Regression
+   datatype: Tabular
+   complexity: ML
+   hyper:
+    - name: poly_degree
+      type: int
+      range:
+        - min: 2
+        - max: 7
+  # Hyperparameter tuning for  GaussianNaiveBayes
+ - name: GaussianNB
+   type: Classification
+   datatype: Tabular
+   complexity: ML
+   hyper:
+    - name: var_smoothing
+      type: float
+      default: 1e-9
+      options: null
+      range:
+        - min: 1e-5
+        - max: 1e+4
+  # Hyperparameter tuning for MultinomialNaiveBayes
+ - name: MultinomialNB
+   type: Classification
+   datatype: Tabular
+   complexity: ML
+   hyper:
+    - name: alpha
+      type: float
+      default: 1.0
+      options: null
+      range:
+        - min: 1.0
+        - max: 20.0
+    - name: fit_prior
+      type: bool
+      default: True
+      options: null
+      range: null
+  # Hyperparameter tuning for XGBOOST Regressor
+ - name: XGBOOST
+   type: Regression
+   datatype: Tabular
+   complexity: ML
+   hyper :
+    - name: verbosity
+      type: option
+      default: 1
+      options:
+        - 0 # 0 indicates silent
+        - 1 # 1 indicates warning
+        - 2 # 2 indicates info
+        - 3 # 3 indicates debug
+      range:
+        - min: 0
+        - max: 3
+    - name: booster
+      default: gblinear
+      type: option
+      options:
+        - gblinear
+      range: null
+    - name: updater # choice of algorithm to fit linear model
+      default: shotgun
+      type: option
+      options:
+        - shotgun
+        - coord_descent
+      range: null
+
     
 
 
