@@ -38,10 +38,6 @@ class PageWrapper extends Component {
                 <button id="topButton" title="Go to top" >➤</button>
                 {this.props.children}
 
-
-                <div className="container mt-3 pt-3"></div>
-
-
                 <footer className=" text-light py-3 footer">
                     <p className="text-center">
                         Copyright &copy; automl_curl
