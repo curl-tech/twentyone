@@ -1,12 +1,27 @@
 from fastapi import FastAPI, Body
 from fastapi.encoders import jsonable_encoder
-from dbclass import Database
-from schemas import User, Project, Data, Model, Metrics
-from helpers import userEntity, usersEntity, ResponseModel, ErrorResponseModel
+from fastapi.middleware.cors import CORSMiddleware
+from app.dbclass import Database
+from app.schemas import User, Project, Data, Model, Metrics
+from app.helpers import userEntity, usersEntity, ResponseModel, ErrorResponseModel
 from bson.json_util import dumps, ObjectId
-from pydantic import BaseModel
+
+origins=[
+    "http://localhost",
+    "https://localhost",
+    "http://localhost:3000",
+    "https://localhost:3000"        #Port 3000 because React app will run by default at port 3000
+]
 
 app=FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 Project21Database=Database()
 Project21Database.initialise()
 

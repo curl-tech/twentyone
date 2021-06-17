@@ -14,21 +14,22 @@ class User(BaseModel):
     class Config:
         arbitrary_types_allowed=True
         allow_population_by_field_name=True
+        
 
 
 class Project(BaseModel):
     projectID:int=Field(...)
     projectName:Optional[str]
     rawDataPath: Optional[str]
-    cleanDataPath: Optional[str]
     belongToUserID: Optional[str]
     class Config:
         arbitrary_types_allowed=True
         allow_population_by_field_name=True
 
 class Data(BaseModel):
-    dataPath: Optional[str]
-    picklePath: Optional[str]
+    dataId: int=Field(...)
+    cleanDataPath: Optional[str]
+    target: Optional[str]
     belongsToUserID: int=Field(...)
     belongsToProjectID: int=Field(...)
 
@@ -39,9 +40,11 @@ class Data(BaseModel):
 class Model(BaseModel):
     modelName: Optional[str]='Default Model'
     modelType: Optional[str]
-    wightsPath: Optional[str]
+    modelId: int
     belongsToUserID: int
     belongsToProjectID: int
+    belongsToDataID: int
+    picklePath: Optional[str]
 
     class Config:
         allow_population_by_field_name=True
@@ -51,7 +54,13 @@ class Metrics(BaseModel):
     belongsToUserID: int
     belongsToProjectID: int
     belongsToModelID: int
+    addressofYamlFile: str
 
     class Config:
         allow_population_by_field_name=True
         arbitrary_types_allowed=True
+
+class Inference(BaseModel):
+    newData: str    #address
+    results: str    #yaml file
+    

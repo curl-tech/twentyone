@@ -1,5 +1,3 @@
-from helpers import ResponseModel, ErrorResponseModel
-from schemas import User, Project, Data, Model, Metrics
 from pymongo import MongoClient
 from bson.json_util import dumps
 
@@ -20,7 +18,7 @@ class Database(object):
         Database.DATABASE[collection].insert_one(data)
 
     @staticmethod
-    def insert_many(collection, data):
+    def insert_many(collection, data):                      #insert multiple documents in the collection
         Database.DATABASE[collection].insert_many(data)
 
     @staticmethod
