@@ -5,24 +5,45 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /* background-color: rgba(1, 1, 10, 0.937); */
+  
   /* background-image:linear-gradient(to top left,rgba(43, 9, 9, 0.733),rgba(18, 18, 20, 0.781)); */
   background-image:linear-gradient(to top left,rgba(213, 200, 233, 0.918),rgba(119, 119, 121, 0.781));
 
 }
-/*  .createbody
-{
-  background-image: url(./assets/bg.jpg);
-} */
-
+html {
+  scroll-behavior: smooth;
+}
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+/* Top moving button */
+#topButton{
+    transform: rotate(270deg);
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    right: 30px;
+    z-index: 99;
+    font-size: 18px;
+    border: none;
+    outline: none;
+    background-image:linear-gradient(to top left,rgba(43, 30, 63, 0.918),rgba(44, 19, 71, 0.781));
+    color: white;
+    cursor: pointer;
+    padding: 10px;
+    /* border-radius: 10em; */
+    /* border-style: solid; */
+    opacity: 0.8;
+}
+#topButton:hover{
+ opacity: 1;
+}
+/* ******************************************************************************************* */
 /* header style */
 .navbar
 {
-  margin-bottom: 2.5em;
+  /* margin-bottom: 2.5em; */
   /* background-color: rgba(10, 0, 2, 0.815); */
   background-color: #fff;
   height:6em;
@@ -98,12 +119,104 @@ code {
    padding: 1.5em;
    background-color: #eee; }
 }
+/* *************************************************************************************** */
+/* section1 */
+/* Background image */
+.bg{
+background-image: url(./assets/img/bg1.jpg);
+ background-size: contain;
+ width: 100%;
+ /* margin-bottom: 2.5em; */
+ /* height: 35em; */
+ min-height: 100vh;
+}
+/* typing text effects */
+.typing-text{
+  padding-top: 5em;
+}
+.typing-text p {
+  font-size: 3rem;
+  font-weight: bold;
+  letter-spacing: 0.1rem;
+  text-align: center;
+  overflow: hidden;
+  color: #fff;
+}
+.typing-text p span.typed-text {
+  font-weight:bolder;
+  color: #ffef13;
+  font-family:cursive;
+}
+.typing-text p span.cursor {
+  display: inline-block;
+  background-color: #ccc;
+  margin-left: 0.1rem;
+  width: 3px;
+  animation: blink 1s infinite;
+}
+.typing-text p span.cursor.typing {
+  animation: none;
+}
+@keyframes blink {
+  0%  { background-color: #ccc; }
+  49% { background-color: #ccc; }
+  50% { background-color: transparent; }
+  99% { background-color: transparent; }
+  100%  { background-color: #ccc; }
+}
+/* text1 effects */
+.section1text1{
+  color: #fff;
+  width:100%;
+  padding-left: 25%;
+  padding-right: 25%;
+  font-weight: 500;
+  text-align: center;
+}
+.section1button
+{
+  border-radius: 2em;
+  cursor: pointer;
+  color: #421b75;
+  font-family:Formular,sans-serif;
+  font-weight: 600;
+  width: 15em;
+  margin-top: 5%;
+  margin-left: 40%;
+  margin-right: 40%;
+  padding: 1em;
+  background-image:linear-gradient(to left bottom , rgb(236, 236, 236),rgb(119, 119, 116));
+}
+.section1button:hover{
+  background-image:linear-gradient(to left bottom , #aaa,rgb(44, 7, 112));
+  color: #fff;
+}
+@media screen and (max-width: 600px) {
+.section1button
+{
+  margin-right:17%;
+  margin-left:26% ;
+}
+}
 
+/* ************************************************************************************* */
+/* section2 */
 /* form styles for create page*/
+.createbody
+{
+  /* background-image: url(./assets/img/bg3.jpg);
+  width: 100%;
+  height:500%; */
+  padding: 2em;
+  min-height: 100vh;
+}  
+
 .createpagebox
 {
+  
   padding: 1.2em;
   margin: 1.2em;
+  margin-top: 0;
   margin-right: 10%;
   margin-left: 10%;
   /* background-color: #af4c6a; */
@@ -117,6 +230,7 @@ code {
   color:#fff;
   font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif
 }
+
 .createform
 {
   padding: 1.1em;
@@ -127,6 +241,13 @@ code {
   height: 20em;
   /* background-image:linear-gradient(to bottom right, #bac3ca,#fff); */
   box-shadow: 10px 10px 5px grey;
+}
+@media screen and (max-width: 600px) {
+.createform
+{
+  height: 25em;
+}
+
 }
 
 .col-30 {
@@ -188,14 +309,16 @@ label {
    padding: 1.5em;
    background-color: #eee; }
 }
+/* ****************************************************************************************** */
+/* For form 2 cards */
 /* card design */
 .flip-card {
   background-color: transparent;
-  height: 12em;
-  width: 12em;
-  margin-left: 20%;
+  height: 15em;
+  width: 15em;
+  margin-left: 15%;
   margin-right: 10%;
-  margin-top: 3%;
+  margin-top: 1%;
   perspective: 1000px;
 }
 
@@ -217,30 +340,37 @@ label {
   position: absolute;
   width: 100%;
   height: 100%;
-  padding: 3em 0 3em 0;
+  padding: 5em 0 3em 0;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
 }
 
 .flip-card-front {
-  background-image:linear-gradient(to left bottom , #271b6e4b,rgb(107, 89, 139));
-  color: black;
+  /* background-image:linear-gradient(to left bottom , #271b6e4b,rgb(107, 89, 139)); */
+  background-image: url(./assets/img/bg2.jpg);
+  color: #fff;
+  font-family:cursive;
 }
 
 .flip-card-back {
-  background-image:linear-gradient(to left bottom , #271b6e,rgb(107, 89, 139));
+  /* background-image:linear-gradient(to left bottom , #271b6e,rgb(107, 89, 139)); */
+  background-image: url(./assets/img/bg2.jpg);
   color: white;
   transform: rotateY(180deg);
+  font-family: cursive;
+  padding-right: 2em;
+  padding-left: 2em;
 }
 .btn2
 {
   border-radius: 2em;
   cursor: pointer;
   color: #fff;
+  width: 5em;
   background-image:linear-gradient(to left bottom , #aaa,rgb(107, 89, 139));
 }
 .btn2:hover{
-  background-image:linear-gradient(to left bottom , #aaa,rgb(34, 29, 43));
+  background-image:linear-gradient(to left bottom , #aaa,rgb(44, 7, 112));
   color: #fff;
 }
 @media screen and (max-width: 600px) {
@@ -250,21 +380,24 @@ label {
     margin-left: 0;
   }
   .cards{
-    height:35em
+    height:37em;
   }
   .flip-card{
-    margin-top: 2em;
+    margin-top: 1em;
   }
 }
 #form2{
   /* display: none; */
   display: block;
 }
+/* ****************************************************************************************** */
+/* For form 3 */
 #form3
 {
   display: block;
   /* display: none; */
 }
+/* ********************************************************************************************* */
 /* footer design */
 .footer
 {

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 class Create extends Component {
     render() {
         return (
-            <div className="createbody">
+            <div className="createbody" id="section2">
                 <div className="createpagebox">
                     <h1>Project Creation</h1>
                     <p>" In this section you can create a new project by giving your own data to us"</p>
@@ -31,7 +31,7 @@ class Create extends Component {
                                 </div>
                             </div>
                             <div className="row">
-                                <div class="col-30">
+                                <div className="col-30">
                                     <label for="type">Which type of data is it?</label>
                                 </div>
                                 <div className="col-70 ">
@@ -54,23 +54,23 @@ class Create extends Component {
                     <div className="centered ">
 
                         <section className="createform cards ">
-                            <div class="flip-card col-50">
-                                <div class="flip-card-inner">
-                                    <div class="flip-card-front">
+                            <div className="flip-card col-50">
+                                <div className="flip-card-inner">
+                                    <div className="flip-card-front">
                                         <h1>Auto</h1>
                                     </div>
-                                    <div class="flip-card-back">
+                                    <div className="flip-card-back">
                                         <p>"Leave everything on us and see the beauty of artificial Intelligence"</p>
                                         <button className="btn2" id="form2button">Select</button>
                                     </div>
                                 </div>
                             </div>
-                            <div class="flip-card col-50">
-                                <div class="flip-card-inner">
-                                    <div class="flip-card-front">
+                            <div className="flip-card col-50">
+                                <div className="flip-card-inner">
+                                    <div className="flip-card-front">
                                         <h1>Manual</h1>
                                     </div>
-                                    <div class="flip-card-back">
+                                    <div className="flip-card-back">
                                         <p>"We believe you are always the boss and choose to make models as you wish"</p>
                                         <button className="btn2">Select</button>
                                     </div>

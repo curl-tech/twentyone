@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
-
 class PageWrapper extends Component {
     render() {
         return (
@@ -10,9 +9,9 @@ class PageWrapper extends Component {
                         <div className="container-fluid">
                             <Link className="navbar-brand" to="/">AutoMl</Link>
                             <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                                <span class="line"></span> 
-                                <span class="line"></span> 
-                                <span class="line"></span> 
+                                <span className="line"></span>
+                                <span className="line"></span>
+                                <span className="line"></span>
                             </button>
                             <div className="collapse navbar-collapse" id="navbarSupportedContent">
                                 <ul className="navbar-nav me-auto mb-2 mb-lg-0">
@@ -34,10 +33,9 @@ class PageWrapper extends Component {
                             </div>
                         </div>
                     </nav>
-                   
-                </header>
-                
 
+                </header>
+                <button id="topButton" title="Go to top" >➤</button>
                 {this.props.children}
 
 
