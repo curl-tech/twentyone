@@ -464,7 +464,10 @@ label {
 /* footer design */
 .footer
 {
-  /* background-color: rgba(10, 0, 2, 0.815); */
-  color: #fff;
-  background-color: #421b75;
+  background-color: #ddd;
+  min-height: 20vh;
+}
+.text-center{
+  padding: 2em;
+  color: #000;
 }

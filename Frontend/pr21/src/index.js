@@ -38,23 +38,6 @@ reportWebVitals();
       document.documentElement.scrollTop = 0;
   }
 
-
-// Create page start engine forms
-var startengine = document.getElementById('startengine');
-startengine.onclick = function() {
-  var theFormItself = document.getElementById('form1');
-  $( theFormItself ).fadeOut( 2000 );
-  var theFormItself2 = document.getElementById('form2');
-  $( theFormItself2).fadeIn( 5000 );
-}
-// display 3rd form and hide 2nd
-var auto = document.getElementById('form2button');
-auto.onclick = function() {
-  var theFormItself = document.getElementById('form2');
-  $( theFormItself ).fadeOut( 2000 );
-  var theFormItself2 = document.getElementById('form3');
-  $( theFormItself2).fadeIn( 5000 );
-}
 //*********************************************************************************************************** 
 // Typing text
 const typedTextSpan = document.querySelector(".typed-text");
@@ -101,3 +84,19 @@ document.addEventListener("DOMContentLoaded", function() { // On DOM Load initia
 });
 
 
+// Create page start engine forms
+var startengine = document.getElementById('startengine');
+startengine.onclick = function() {
+  var theFormItself = document.getElementById('form1');
+  $( theFormItself ).fadeOut( 2000 );
+  var theFormItself2 = document.getElementById('form2');
+  $( theFormItself2).fadeIn( 5000 );
+}
+// display 3rd form and hide 2nd
+var auto = document.getElementById('form2button');
+auto.onclick = function() {
+  var theFormItself = document.getElementById('form2');
+  $( theFormItself ).fadeOut( 2000 );
+  var theFormItself2 = document.getElementById('form3');
+  $( theFormItself2).fadeIn( 5000 );
+}

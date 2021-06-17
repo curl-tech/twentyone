@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 class Create extends Component {
     render() {
         return (
-            <div className="createbody" id="section2">
+            <div className="section2" id="section2">
                 <div className="createpagebox">
                     <h1>Project Creation</h1>
                     <p>" In this section you can create a new project by giving your own data to us"</p>
@@ -25,7 +25,7 @@ class Create extends Component {
                                 <div className="col-30">
                                     <label htmlFor="train">Enter training data</label>
                                 </div>
-                                <div className="col-70" >
+                                <div className="col-70">
                                     <input type="file" className="form-control" id="train" accept=".csv" name="train"
                                         placeholder="enter training data in csv format" required />
                                 </div>
