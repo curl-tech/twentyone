@@ -1,10 +1,10 @@
-from app.allhelpers import ErrorResponseModel
-from app.schemas import User, UpdateUser
 from fastapi import APIRouter, Body, HTTPException
 from fastapi.encoders import jsonable_encoder
 from app.dbclass import Database
 from app.config import settings
-from app.helpers.user_helper import userEntity, usersEntity, ResponseModel
+from app.schemas import User, UpdateUser
+from app.helpers.user_helper import userEntity, usersEntity
+from app.helpers.allhelpers import ErrorResponseModel, ResponseModel
 
 Project21Database=Database()
 Project21Database.initialise(settings.DB_NAME)
@@ -42,10 +42,11 @@ def update_one_user(id:int,updateUser: UpdateUser=Body(...)):
     try:
         result=Project21Database.update_one(settings.DB_COLLECTION_USER,{"userID":id},{"$set":updateUser})
         if result:
-            return ResponseModel(id,"Successfully Inserted")
+            return ResponseModel(id,"Successfully Updated")
+        else:
+            return ErrorResponseModel("An Error Occured",404,"User could not be updated")
     except:
         return ErrorResponseModel("An Error Occured",404,"User could not be updated")
-    return ResponseModel(id,"Successfully updated")
 
 @user_router.delete('/deleteuser/{id}')
 def delete_one_user(id:int):

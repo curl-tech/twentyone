@@ -47,7 +47,7 @@ class Project(BaseModel):
     projectID:int=Field(...)
     projectName:Optional[str]
     rawDataPath: Optional[str]
-    belongToUserID: int=Field(...)
+    belongsToUserID: int=Field(...)
     listOfDataIDs: Optional[List[int]]
 
     class Config:

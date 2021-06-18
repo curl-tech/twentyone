@@ -1,10 +1,9 @@
 from fastapi import FastAPI, Body
 from fastapi.middleware.cors import CORSMiddleware
 from app.dbclass import Database
-from app.allhelpers import userEntity, usersEntity, ResponseModel, ErrorResponseModel
 from app.config import settings
-from bson.json_util import dumps, ObjectId
 from app.routers.user import user_router
+from app.routers.project import project_router
 
 origins=settings.CORS_ORIGIN
 
@@ -17,6 +16,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 app.include_router(user_router, tags=["user"])
+app.include_router(project_router, tags=["project"])
 
 Project21Database=Database()
 Project21Database.initialise(settings.DB_COLLECTION_USER)
