@@ -6,13 +6,18 @@ class Database(object):
     '''
     Class for initialising the MongoDB Database and functions for easy access to the DB and its collections.
     '''
-    URI=config.settings.DB_URL     #Specifying the URI for the local database
-    DATABASE=config.settings.DB_NAME                       #Database name
+    URI=config.settings.DB_URI     #Specifying the URI for the local database
+    DATABASE=None                       #Database name
 
     @staticmethod
-    def initialise():
+    def initialise(dbname):
         client=MongoClient(Database.URI)
-        Database.DATABASE=client['testdb']       #Database name under localhost
+        Database.DATABASE=client[dbname]       #Database name under localhost
+
+    @staticmethod
+    def close():                                #To Close the Database connection
+        client=MongoClient(Database.URI)
+        client.close()
 
     @staticmethod
     def insert_one(collection, data):                       #Insert data into the Collection
@@ -33,3 +38,7 @@ class Database(object):
     @staticmethod
     def update_one(collection, query, newvalues):                   #updates the object from the collection with a query to find the object and newvalues
         Database.DATABASE[collection].update_one(query, newvalues)
+
+    @staticmethod
+    def delete_one(collection,query):                       #delete one object from the collection
+        Database.DATABASE[collection].delete_one(query)

@@ -1,13 +1,14 @@
 from pydantic import BaseModel
+from pydantic.errors import PydanticErrorMixin
 from pydantic.fields import Field
 from pydantic.networks import EmailStr
 from typing import List, Optional
 from bson.json_util import ObjectId
 
 class User(BaseModel):
-    userID: int = Field(...)
+    userID: int=Field(...)
     name: Optional[str]
-    email: EmailStr=Field(...)
+    email: Optional[EmailStr]
     username: str=Field(...)
     password: str=Field(...)
     listOfProjects: Optional[List[int]]
@@ -22,6 +23,22 @@ class User(BaseModel):
                 "email": "johndoe@email.com",
                 "username": "TheJohnDoe",
                 "password": "password@Super@Secure",
+                "listOfProjects": [45,43,22]
+            }
+        }
+
+class UpdateUser(BaseModel):
+    name: Optional[str]
+    email: Optional[EmailStr]
+    listOfProjects: Optional[List[int]]
+
+    class Config:
+        arbitrary_types_allowed=True
+        allow_population_by_field_name=True
+        schema_extra={
+            "example":{
+                "name": "John Doe",
+                "email": "johndoe@email.com",
                 "listOfProjects": [45,43,22]
             }
         }
@@ -46,6 +63,22 @@ class Project(BaseModel):
             }
         }
 
+class UpdateProject(BaseModel):
+    projectName:Optional[str]
+    rawDataPath: Optional[str]
+    listOfDataIDs: Optional[List[int]]
+
+    class Config:
+        arbitrary_types_allowed=True
+        allow_population_by_field_name=True
+        schema_extra={
+            "example":{
+                "projectName": "Boston Housing",
+                "rawDataPath": "/path/to/data/rawfile.csv",
+                "listOfDataIDs": [2,4]
+            }
+        }
+
 class Data(BaseModel):
     dataID: int=Field(...)
     cleanDataPath: Optional[str]
@@ -65,6 +98,21 @@ class Data(BaseModel):
                 "belongsToProjectID": 45
             }
         }
+
+class UpdateData(BaseModel):
+    cleanDataPath: Optional[str]
+    target: Optional[str]
+
+    class Config:
+        arbitrary_types_allowed=True
+        allow_population_by_field_name=True
+        schema_extra={
+            "example":{
+                "cleanDataPath": "/path/to/data/cleanfile.csv",
+                "target": "TargetColumnName"
+            }
+        }
+
 
 class Model(BaseModel):
     modelId: int=Field(...)
@@ -86,15 +134,31 @@ class Model(BaseModel):
                 "picklePath": "/path/to/pickle/data/model.pkl",
                 "belongsToUserID": 101,
                 "belongsToProjectID": 45,
-                "belongsToDataID": 2,
+                "belongsToDataID": 2
+            }
+        }
+
+class UpdateModel(BaseModel):
+    modelName: Optional[str]='Default Model'
+    modelType: Optional[str]
+    picklePath: Optional[str]
+
+    class Config:
+        allow_population_by_field_name=True
+        arbitrary_types_allowed=True
+        schema_extra={
+            "example":{
+                "modelName": "Linear Regression",
+                "modelType": "Regression",
+                "picklePath": "/path/to/pickle/data/model.pkl"
             }
         }
 
 class Metrics(BaseModel):
-    belongsToUserID: int
-    belongsToProjectID: int
-    belongsToModelID: int
-    addressOfYamlFile: str
+    belongsToUserID: int=Field(...)
+    belongsToProjectID: int=Field(...)
+    belongsToModelID: int=Field(...)
+    addressOfYamlFile: str=Field(...)
 
     class Config:
         allow_population_by_field_name=True
@@ -109,8 +173,8 @@ class Metrics(BaseModel):
         }
 
 class Inference(BaseModel):
-    newData: str    #address
-    results: str    #yaml file
+    newData: Optional[str]    #address
+    results: Optional[str]    #yaml file
     belongsToUserID: int=Field(...)
     belongsToProjectID: int=Field(...)
     belongsToModelID: int=Field(...)
