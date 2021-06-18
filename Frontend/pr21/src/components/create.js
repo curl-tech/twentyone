@@ -183,7 +183,7 @@ class Create extends Component {
                             </div>
 
                             <div>
-                                <input type="submit" id="startengine" value="Train Now" />
+                                <button type="submit" id="startengine" >Train Now</button>
                             </div>
                         </div>
                     </form>

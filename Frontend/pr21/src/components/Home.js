@@ -10,6 +10,9 @@ class Home extends Component {
             train: null,
             mtype: 'classification',
             auto: true,
+            target:'',
+            modelnum:3,
+            nulltype:'NA'
         }
     }
     handleProjectNameChange = event => {
@@ -35,7 +38,11 @@ class Home extends Component {
         $(theFormItself).fadeOut(2000);
         var theFormItself2 = document.getElementById('form2');
         $(theFormItself2).fadeIn(5000);
-        console.log(this.state)
+        let projectname=this.state.projectname
+        let train=this.state.train
+        let mtype=this.state.mtype
+        let data={projectname,train,mtype}
+        console.log(data)
         axios({
             url:`https://localhost:8800/create`,
             method:"POST",
@@ -49,20 +56,61 @@ class Home extends Component {
                 res.json().then((result)=>{
                   console.log("result",result)
                 })
-        })
+        }) 
     }
-    handleAuto = event => {
+    handleAuto () {
         var theFormItself = document.getElementById('form2');
         $( theFormItself ).fadeOut( 2000 );
         var theFormItself2 = document.getElementById('form3');
         $( theFormItself2).fadeIn( 5000 );
     } 
-    handleManual = event => {
+    handleManual () {
+        this.setState({
+            auto: false
+        })
         var theFormItself = document.getElementById('form2');
         $( theFormItself ).fadeOut( 1000 );
         var theFormItself2 = document.getElementById('form3');
         $( theFormItself2).fadeIn( 3000 );
     } 
+    handleTargetChange = event => {
+        this.setState({
+            target: event.target.value
+        })
+    }
+    handleModelNumChange = event => {
+        this.setState({
+            modelnum: event.target.value
+        })
+    }
+    handleNullTypeChange = event => {
+        this.setState({
+            nulltype: event.target.value
+        })
+    }
+    handleSubmit2 = event => {
+        event.preventDefault();
+        let isauto=this.state.auto
+        let target=this.state.target
+        let modelnumber=this.state.modelnum
+        let nulltype=this.state.nulltype
+        let data={isauto,target,modelnumber,nulltype}
+        console.log(data)
+        axios({
+            url:`https://localhost:8800/create`,
+            method:"POST",
+            headers: 
+            {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body:this.state
+            }).then((res)=>{
+                res.json().then((result)=>{
+                  console.log("result",result)
+                })
+        }) 
+    }
 
     render() {
         return (
@@ -122,7 +170,7 @@ class Home extends Component {
                             </div>
 
                             <div>
-                                <button type="submit" className="form1button" id="startengine" >Begin Engine </button>
+                                <button type="submit" className="formbutton" id="startengine" >Begin Engine </button>
                             </div>
                         </div>
                     </form>
@@ -160,7 +208,7 @@ class Home extends Component {
                     </div>
                     <br></br>
                     <div className="container" id="form3">
-                        <form>
+                        <form onSubmit={this.handleSubmit2}>
                             <div className="createform">
 
                                 <div className="row">
@@ -169,7 +217,7 @@ class Home extends Component {
                                     </div>
                                     <div className="col-70">
 
-                                        <input type="text" id="target" name="target" placeholder="Enter target variable" required />
+                                        <input type="text" id="target" name="target" onChange={this.handleTargetChange} placeholder="Enter target variable" required />
                                     </div>
                                 </div>
 
@@ -178,7 +226,7 @@ class Home extends Component {
                                         <label htmlFor="modelno">How many top models you want?</label>
                                     </div>
                                     <div className="col-70" >
-                                        <input type="number" id="modelno" name="modelno" placeholder="Enter number of models" required />
+                                        <input type="number" id="modelno" name="modelno" onChange={this.handleModelNumChange} placeholder="Enter number of models" required />
                                     </div>
                                 </div>
                                 <div className="row">
@@ -186,12 +234,12 @@ class Home extends Component {
                                         <label htmlFor="nulltype">How are null values specified in dataset?</label>
                                     </div>
                                     <div className="col-70" >
-                                        <input type="text" id="nulltype" name="nulltype" placeholder="Is it NULL, NA , ? , 0 or other (specify)" required />
+                                        <input type="text" id="nulltype" name="nulltype" onChange={this.handleNullTypeChange} placeholder="Is it NULL, NA , ? , 0 or other (specify)" required />
                                     </div>
                                 </div>
 
                                 <div>
-                                    <input type="submit" id="startengine" value="Train Now" />
+                                    <button type="submit" className="formbutton" id="trainnow" >Train Now</button>
                                 </div>
                             </div>
                         </form>
