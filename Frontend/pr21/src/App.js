@@ -15,7 +15,7 @@ class App extends Component {
   render() {
     
     return (
-      <Router basename="/Auto_ml_curl" >
+      <Router basename="/AutoMLCurl" >
         <PageWrapper>
           <Route
             exact={true}

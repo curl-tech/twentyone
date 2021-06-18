@@ -90,6 +90,10 @@ class Home extends Component {
     }
     handleSubmit2 = event => {
         event.preventDefault();
+        var theFormItself = document.getElementById('form3');
+        $(theFormItself).fadeOut(2000);
+        var theFormItself2 = document.getElementById('loader');
+        $(theFormItself2).fadeIn(5000);
         let isauto = this.state.auto
         let target = this.state.target
         let modelnumber = this.state.modelnum
@@ -129,7 +133,7 @@ class Home extends Component {
                 </div>
 
                 <div className="section2" id="section2">
-                    <div className="createpagebox">
+                    <div className="createpagebox ">
                         <h1>Start With Your Project</h1>
                         <p>" Just fill relevant feeds and select few choices and you are good to go"</p>
                     </div>
@@ -243,13 +247,16 @@ class Home extends Component {
                             </div>
                         </form>
                     </div>
-                    <div className="container" id="loader">
-                        <div className="centered createform">
-                            <div class="spinner-border text-primary" role="status">
+                    <div className="container loader" id="loader">
+                        <p>" Your models are been created... Can we take a quick Tea Break ?? "</p>
+                        <div className="centered spinner-location">
+                            <div class="spinner-border text-dark spinner-border-lg" role="status">
                                 <span class="sr-only">Loading...</span>
                             </div>
                         </div>
+
                     </div>
+                    {/* </div> */}
 
                 </div>
                 {/* Section3  */}
@@ -272,6 +279,13 @@ class Home extends Component {
                         <h3>"The best Part is its Open Source"</h3>
                         <a href='https://github.com/nikzagarwal/Project_21' > <button className=" section4button">Github Repo</button></a>
                     </div>
+                </div>
+                {/* Section 4 */}
+                <div className="section5" id="section5">
+                    <div className="col-50 section4col1">
+                        <h1>Results</h1>
+                    </div>
+                   
                 </div>
 
             </div>

@@ -211,24 +211,24 @@ background:linear-gradient(rgba(67, 34, 87, 0.336),rgba(142, 129, 153, 0.5)), ur
   height:500%; */
   padding: 5em;
   min-height: 100vh;
-  background-image:linear-gradient(to top left,rgba(64, 63, 65, 0.76),rgba(69, 85, 117, 0.904));
+  background-image:linear-gradient(to left bottom,rgba(228, 222, 235, 0.76),rgba(32, 12, 70, 0.904));
 
 }  
 
 .createpagebox
 {
-  
   padding: 1.2em;
   margin: 1.2em;
   margin-top: 0;
-  margin-right: 10%;
-  margin-left: 10%;
+  /* margin-right:5%; */
+  /* margin-left: 5%; */
   /* background-color: #af4c6a; */
   /* background-color: #281b6e; */
   background-image:linear-gradient(to left bottom , #151416,rgb(51, 18, 94));
   /* background-image:linear-gradient(to bottom , #af4c6a,rgb(196, 166, 166)); */
   text-align: center;
-  border-radius: 1.3em;
+  /* border-radius: 1.3em; */
+  
   box-shadow: 5px 5px 5px grey;
   /* color: rgba(0,0,0,0.9); */
   color:#fff;
@@ -243,11 +243,12 @@ background:linear-gradient(rgba(67, 34, 87, 0.336),rgba(142, 129, 153, 0.5)), ur
 }
 .createform
 {
+  color: #000;
   margin-top: 5em;
   padding: 1.1em;
   padding-top: 2em;
   padding-bottom: 3em;
-  border-radius: 1.2em;
+  /* border-radius: 1.2em; */
   background-color: #fff;
   height: 20em;
   /* background-image:linear-gradient(to bottom right, #bac3ca,#fff); */
@@ -348,7 +349,7 @@ label {
   transform: rotateY(180deg);
 }
 
-.flip-card-front, .flip-card-back {
+.flip-card-front,.flip-card-back {
   position: absolute;
   width: 100%;
   height: 100%;
@@ -410,7 +411,39 @@ label {
   display: none;
 }
 /* For spinner/loader */
-
+.loader{
+  display:none;
+  margin-top: 5em;
+  padding: 1.1em;
+  padding-top: 2em;
+  padding-bottom: 3em;
+  border-radius: 1.2em;
+  background-color: #fff;
+  height: 20em;
+  box-shadow: 10px 10px 10px 10px grey;
+}
+.loader p{
+  font-size: larger;
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  text-align: center;
+  padding: 1em;
+  color: #000;
+  text-shadow:1px 1px rgb(69, 9, 97);
+}
+.spinner-location{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+}
+.spinner-border
+{
+  height: 10em;
+  width: 10em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 /* ********************************************************************************************* */
 /* Section3 */
 .section3
