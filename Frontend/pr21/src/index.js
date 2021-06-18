@@ -70,10 +70,14 @@ const newTextDelay = 2000; // Delay between current and next text
 let textArrayIndex = 0;
 let charIndex = 0;
 
+document.getElementById('menuicon').addEventListener("focus", function() { 
+  if(textArray.length) setTimeout(type, newTextDelay + 250);
+});
 
 window.addEventListener("DOMContentLoaded", function() { // On DOM Load initiate the effect
   if(textArray.length) setTimeout(type, newTextDelay + 250);
 });
+
 
 
 function type() {
@@ -104,4 +108,3 @@ function erase() {
     setTimeout(type, typingDelay + 1100);
   }
 }
-

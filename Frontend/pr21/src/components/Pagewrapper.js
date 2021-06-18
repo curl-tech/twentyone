@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
+import { HashLink as Link } from 'react-router-hash-link';
 class PageWrapper extends Component {
     render() {
         return (
@@ -7,7 +8,7 @@ class PageWrapper extends Component {
                 <header >
                     <nav className="navbar navbar-expand-lg ">
                         <div className="container-fluid">
-                            <Link className="navbar-brand" to="/">AutoMl</Link>
+                            <Link className="navbar-brand" id="menuicon" to="/">AutoMl</Link>
                             <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                                 <span className="line"></span>
                                 <span className="line"></span>
@@ -19,11 +20,14 @@ class PageWrapper extends Component {
                                         <Link className="nav-link active" aria-current="page" to="/">Home</Link>
                                     </li>
                                     <li className="nav-item">
-                                        <Link className="nav-link" to="/newproject">Create Project</Link>
+                                        <Link className="nav-link" to="/#section2">Create Project</Link>
+                                    </li>
+                                    <li className="nav-item">
+                                        <Link className="nav-link" to="/#section4">About</Link>
                                     </li>
 
                                     <li className="nav-item">
-                                        <Link className="nav-link" to="/MyProjects">MyProjects</Link>
+                                        <Link className="nav-link" to="/#section3">MyProjects</Link>
                                     </li>
                                 </ul>
                                 <form className="d-flex">

@@ -27,8 +27,8 @@ code {
     font-size: 18px;
     border: none;
     outline: none;
-    background-image:linear-gradient(to top left,rgba(43, 30, 63, 0.918),rgba(44, 19, 71, 0.781));
-    color: white;
+    background-image:linear-gradient(to top left,rgba(119, 96, 146, 0.918),rgb(46, 44, 46));
+    color: #fff;
     cursor: pointer;
     padding: 10px;
     /* border-radius: 10em; */
@@ -36,6 +36,7 @@ code {
     opacity: 0.8;
 }
 #topButton:hover{
+  background-image:linear-gradient(to top left,rgba(119, 96, 146, 0.918),rgb(27, 27, 27));
  opacity: 1;
 }
 /* ******************************************************************************************* */
@@ -122,11 +123,12 @@ code {
 /* section1 */
 /* Background image */
 .section1{
-background-image: url(./assets/img/bg1.jpg);
- background-size: contain;
+
+/* background-image: url(./assets/img/bg1.jpg); */
+background:linear-gradient(rgba(67, 34, 87, 0.336),rgba(142, 129, 153, 0.5)), url(./assets/img/bg1.jpg);
+ background-size: cover;
  width: 100%;
- /* margin-bottom: 2.5em; */
- /* height: 35em; */
+ /* opacity: 0.9; */
  min-height: 100vh;
 }
 /* typing text effects */
@@ -186,7 +188,7 @@ background-image: url(./assets/img/bg1.jpg);
   background-image:linear-gradient(to left bottom , rgb(236, 236, 236),rgb(119, 119, 116));
 }
 .section1button:hover{
-  background-image:linear-gradient(to left bottom , #aaa,rgb(44, 7, 112));
+  background-image:linear-gradient(to top left,rgba(119, 96, 146, 0.918),rgb(27, 27, 27));
   color: #fff;
 }
 @media screen and (max-width: 600px) {
@@ -207,9 +209,9 @@ background-image: url(./assets/img/bg1.jpg);
   /* background-image: url(./assets/img/bg3.jpg);
   width: 100%;
   height:500%; */
-  padding: 2em;
+  padding: 5em;
   min-height: 100vh;
-  background-image:linear-gradient(to top left,rgba(213, 200, 233, 0.918),rgba(119, 119, 121, 0.781));
+  background-image:linear-gradient(to top left,rgba(64, 63, 65, 0.76),rgba(69, 85, 117, 0.904));
 
 }  
 
@@ -222,8 +224,8 @@ background-image: url(./assets/img/bg1.jpg);
   margin-right: 10%;
   margin-left: 10%;
   /* background-color: #af4c6a; */
-  background-color: #281b6e;
-  background-image:linear-gradient(to left bottom , #281b6e,rgb(128, 116, 150));
+  /* background-color: #281b6e; */
+  background-image:linear-gradient(to left bottom , #151416,rgb(51, 18, 94));
   /* background-image:linear-gradient(to bottom , #af4c6a,rgb(196, 166, 166)); */
   text-align: center;
   border-radius: 1.3em;
@@ -241,6 +243,7 @@ background-image: url(./assets/img/bg1.jpg);
 }
 .createform
 {
+  margin-top: 5em;
   padding: 1.1em;
   padding-top: 2em;
   padding-bottom: 3em;
@@ -286,8 +289,9 @@ input[type=text],input[type=number] ,select, textarea {
 
 .formbutton {
   
-  background-image:linear-gradient(to left bottom , #281b6e,rgb(107, 89, 139));
+  /* background-image:linear-gradient(to left bottom , #281b6e,rgb(107, 89, 139)); */
   /* background-image:linear-gradient(to bottom right, #af4c6a,rgb(24, 3, 3)); */
+  background-image:linear-gradient(to left bottom , #151416,rgb(51, 18, 94));
   color: #ffffff;
   padding: 12px 20px;
   border-radius: 1.2em;
@@ -405,27 +409,27 @@ label {
   /* display: block; */
   display: none;
 }
+/* For spinner/loader */
+
 /* ********************************************************************************************* */
 /* Section3 */
 .section3
-{
-  background-image: url(./assets/img/bg3.jpg); 
+{ 
+background:linear-gradient(rgba(107, 46, 143, 0.336),rgba(82, 96, 126, 0.5)), url(./assets/img/bg4.jpeg);
   background-size: cover;
   background-repeat: no-repeat;
 
-  opacity: 0.8;
+  /* opacity: 0.9; */
  min-height: 100vh;
 }
 .section3box{
-  background-image:linear-gradient(to top left,rgba(171, 166, 180, 0.733),rgba(92, 92, 206, 0.781));
+  background-image:linear-gradient(to top left,rgba(20, 20, 20, 0.705),rgba(203, 205, 207, 0.815));
   margin-left: 20%;
   margin-right: 20%;
-  /* min-width: 150vh;
-  min-height: 50vh; */
   height:20em;
   text-align: center;
-  color: #000;
-  font-family: cursive;
+  color: rgb(247, 244, 250);
+  font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
   padding-top: 2em;
 }
 .section3video
@@ -440,12 +444,12 @@ label {
   font-family:Formular,sans-serif;
   font-weight: 600;
   width: 100%;
-  /* margin: 5%; */
+  margin-top: 2em;
   padding: 1em;
   background-image:linear-gradient(to left bottom , rgb(236, 236, 236),rgb(119, 119, 116));
 }
 .section3button:hover{
-  background-image:linear-gradient(to left bottom , #aaa,rgb(44, 7, 112));
+  background-image:linear-gradient(to top left,rgb(27, 27, 27),rgba(113, 92, 136, 0.918));
   color: #fff;
 }
 @media screen and (max-width: 600px) 
@@ -461,6 +465,65 @@ label {
 }
 
 /* ********************************************************************************************* */
+.section4
+{ 
+background-image:linear-gradient(to left bottom ,rgba(0, 0, 0, 0.514),rgb(13, 19, 31));
+  background-size: cover;
+  background-repeat: no-repeat;
+
+  /* opacity: 0.9; */
+ min-height: 100vh;
+ display: flex;
+  align-items: center;
+  justify-content: center
+}
+
+
+.section4button
+{
+  border-radius: 2em;
+  cursor: pointer;
+  color: #00000094;
+  font-family:Formular,sans-serif;
+  font-weight: 600;
+  margin: 2em;
+  padding: 1em;
+  align-items: center;
+  background-image:linear-gradient(to left bottom , rgb(236, 236, 236),rgb(119, 119, 116));
+}
+.section4button:hover{
+  background-image:linear-gradient(to top left,rgba(119, 96, 146, 0.918),rgb(27, 27, 27));
+  color: #fff;
+  
+}
+.section4col1{
+  padding: 3em;
+  text-align: center;
+  font-family: 'Times New Roman', Times, serif;
+  margin-top: auto;
+  margin-bottom: auto;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center
+}
+
+.section4col2{
+  padding: 3em;
+  font-family: 'Times New Roman', Times, serif;
+ text-align: center;
+  color: #fff;
+
+}
+@media screen and (max-width: 600px) 
+{
+ 
+  .section4button{
+    width: 100%;
+  }
+}
+/* ************************************************************************************************************************ */
+
 /* footer design */
 .footer
 {
