@@ -4,6 +4,7 @@ from app.dbclass import Database
 from app.config import settings
 from app.routers.user import user_router
 from app.routers.project import project_router
+from app.routers.data import data_router
 
 origins=settings.CORS_ORIGIN
 
@@ -17,6 +18,7 @@ app.add_middleware(
 )
 app.include_router(user_router, tags=["user"])
 app.include_router(project_router, tags=["project"])
+app.include_router(data_router, tags=["data"])
 
 Project21Database=Database()
 Project21Database.initialise(settings.DB_COLLECTION_USER)

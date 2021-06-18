@@ -39,14 +39,14 @@ def insert_one_project(project: Project=Body(...)):
 @project_router.put('/project/{projectID}')
 def update_one_project(projectID:int,updateProject: UpdateProject=Body(...)):
     updateProject={k:v for k,v in updateProject.dict().items() if v is not None}
-    try:
-        result=Project21Database.update_one(settings.DB_COLLECTION_PROJECT,{"projectID":projectID},{"$set":updateProject})
-        if result:
+    result=Project21Database.find_one(settings.DB_COLLECTION_PROJECT,{"projectID":projectID})
+    if result:
+        try:
+            result=Project21Database.update_one(settings.DB_COLLECTION_PROJECT,{"projectID":projectID},{"$set":updateProject})
             return ResponseModel(projectID,"Successfully Updated")
-        else:
+        except:
             return ErrorResponseModel("An Error Occured",404,"Project could not be updated")
-    except:
-        return ErrorResponseModel("An Error Occured",404,"Project could not be updated")
+    return ErrorResponseModel("An Error Occured",404,"Project could not be updated")
 
 @project_router.delete('/deleteproject/{projectID}')
 def delete_one_project(projectID:int):

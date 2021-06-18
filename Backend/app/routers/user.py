@@ -39,14 +39,14 @@ def insert_one_user(user: User=Body(...)):
 @user_router.put('/user/{id}')
 def update_one_user(id:int,updateUser: UpdateUser=Body(...)):
     updateUser={k:v for k,v in updateUser.dict().items() if v is not None}
-    try:
-        result=Project21Database.update_one(settings.DB_COLLECTION_USER,{"userID":id},{"$set":updateUser})
-        if result:
+    result=Project21Database.find_one(settings.DB_COLLECTION_USER,{"userID":id})
+    if result:
+        try:
+            result=Project21Database.update_one(settings.DB_COLLECTION_USER,{"userID":id},{"$set":updateUser})
             return ResponseModel(id,"Successfully Updated")
-        else:
+        except:
             return ErrorResponseModel("An Error Occured",404,"User could not be updated")
-    except:
-        return ErrorResponseModel("An Error Occured",404,"User could not be updated")
+    return ErrorResponseModel("An Error Occured",404,"User could not be updated")
 
 @user_router.delete('/deleteuser/{id}')
 def delete_one_user(id:int):
