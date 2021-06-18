@@ -10,12 +10,11 @@ from sklearn.impute import KNNImputer
 # Scaling and Teansforming using- 
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.preprocessing import StandardScaler
-from sklearn.preprocessing import PowerTransformer
-from sklearn.preprocessing import QuantileTransformer
+
  
 # Handling non-numeric data using-
+from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import OneHotEncoder 
-from sklearn.preprocessing import OrdinalEncoder 
 
 # Handling outlier using-
 from statsmodels.nonparametric.kde import KDEUnivariate
@@ -85,7 +84,9 @@ class Preprocess:
         encode_col_name=encode_col_name
         scaling_type = scaling_type
         scaling_col_name=scaling_col_name
+        Remove_outlier = True/False
         target_col_name = target_col_name
+        
         
 
 
@@ -128,13 +129,13 @@ class Preprocess:
         if(scaling_col_name[0]!="none"):
             if scaling_type == "normalization":
                 x = df[scaling_col_name].values
-                scaleing = preprocessing.MinMaxScaler()
+                scaleing = MinMaxScaler()
                 x_scaled = scaleing.fit_transform(x)
                 df[scaling_col_name]= x_scaled
 
             elif scaling_type == 'standarization':
                 x = df[scaling_col_name].values
-                scaleing = preprocessing.StandardScaler()
+                scaleing = StandardScaler()
                 x_scaled = scaleing.fit_transform(x)
                 df[scaling_col_name]= x_scaled
             
@@ -198,18 +199,10 @@ class Preprocess:
                 corr_features = correlation(df, 0.8)
                 df = df.drop(corr_features,axis=1)
 
-
                 
-                
-                
-                
-                var_thres=VarianceThreshold(threshold=0)
-                var_thres.fit(df)
-                constant_columns = [column for column in df.columns if column not in df.columns[var_thres.get_support()]]
-                df = df.drop(constant_columns,axis=1)                
-                
-                
-                
+        clean_data_address = os.getcwd()+"/clean_data.csv"
+        return clean_data_address
+        
                 
                 
     def auto_preprocess(model_type,raw_data_address,target_variable):
@@ -311,6 +304,8 @@ class Preprocess:
    - Kernel density estimation.
    - Use some custom function
 
+    ### Outlier detection & Removel
+    - Outlier detection and removal using 3 standard deviation
 
 
 ### Outlier detection using Tukey IQR (InterQuartile Range)
