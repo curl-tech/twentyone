@@ -1,5 +1,75 @@
 import React, { Component } from 'react';
+import $ from 'jquery';
+import axios from 'axios'
 class Create extends Component {
+    
+    constructor(props) {
+        super(props)
+        this.state = {
+            projectname: '',
+            train: null,
+            mtype: 'classification',
+            auto: true,
+
+        }
+    }
+    handleProjectNameChange = event => {
+        this.setState({
+            projectname: event.target.value
+        })
+    }
+    handleTrainChange = event => {
+        this.setState({
+            train:event.target.files[0]
+        })
+        console.log(event.target.files[0])
+        
+    }    
+    handleMtypeChange = event => {
+        this.setState({
+            mtype: event.target.value
+        })
+    }
+    handleSubmit = event => {
+        event.preventDefault();
+        var theFormItself = document.getElementById('form1');
+        $(theFormItself).fadeOut(2000);
+        var theFormItself2 = document.getElementById('form2');
+        $(theFormItself2).fadeIn(5000);
+        let projectname=this.state.projectname
+        let train=this.state.train
+        let mtype=this.state.mtype
+        let data={projectname,train,mtype}
+        console.log(data)
+        axios({
+            url:`https://localhost:8800/create`,
+            method:"POST",
+            headers: 
+            {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body:this.state
+            }).then((res)=>{
+                res.json().then((result)=>{
+                  console.log("result",result)
+                })
+        }) 
+    }
+    handleAuto = event => {
+        var theFormItself = document.getElementById('form2');
+        $( theFormItself ).fadeOut( 2000 );
+        var theFormItself2 = document.getElementById('form3');
+        $( theFormItself2).fadeIn( 5000 );
+    } 
+    handleManual = event => {
+        var theFormItself = document.getElementById('form2');
+        $( theFormItself ).fadeOut( 1000 );
+        var theFormItself2 = document.getElementById('form3');
+        $( theFormItself2).fadeIn( 3000 );
+    } 
+
+
     render() {
         return (
             <div className="section2" id="section2">
@@ -9,15 +79,15 @@ class Create extends Component {
                 </div>
 
                 <div className="container " id="form1">
-                    <form>
+                    <form onSubmit={this.handleSubmit}>
                         <div className="createform">
                             <div className="row">
                                 <div className="col-30">
-                                    <label htmlFor="name">Name of your project?</label>
+                                    <label htmlFor="projectname">Name of your project?</label>
                                 </div>
                                 <div className="col-70">
 
-                                    <input type="text" id="name" name="name" placeholder="Name your project..." required />
+                                    <input type="text" id="projectname" name="projectname" placeholder="Name your project..." value={this.state.projectname} onChange={this.handleProjectNameChange} required />
                                 </div>
                             </div>
 
@@ -26,16 +96,16 @@ class Create extends Component {
                                     <label htmlFor="train">Enter training data</label>
                                 </div>
                                 <div className="col-70">
-                                    <input type="file" className="form-control" id="train" accept=".csv" name="train"
+                                    <input type="file" className="form-control" id="train"  onChange={this.handleTrainChange} accept=".csv" name="train"
                                         placeholder="enter training data in csv format" required />
                                 </div>
                             </div>
                             <div className="row">
                                 <div className="col-30">
-                                    <label for="type">Which type of data is it?</label>
+                                    <label htmlFor="type">Which type of data is it?</label>
                                 </div>
                                 <div className="col-70 ">
-                                    <select name="mtype" id="modeltype" onchange="myFunction(this)">
+                                    <select name="mtype" id="modeltype" value={this.state.mtype} onChange={this.handleMtypeChange}>
                                         <option value="classification">Classification</option>
                                         <option value="regression">Regression</option>
                                     </select>
@@ -44,7 +114,7 @@ class Create extends Component {
                             </div>
 
                             <div>
-                                <input type="submit" id="startengine" value="Begin Engine" />
+                                <button type="submit" className="form1button" id="startengine" >Begin Engine </button>
                             </div>
                         </div>
                     </form>
@@ -61,7 +131,7 @@ class Create extends Component {
                                     </div>
                                     <div className="flip-card-back">
                                         <p>"Leave everything on us and see the beauty of artificial Intelligence"</p>
-                                        <button className="btn2" id="form2button">Select</button>
+                                        <button className="btn2" onClick={this.handleAuto} id="form2autobutton">Select</button>
                                     </div>
                                 </div>
                             </div>
@@ -71,8 +141,8 @@ class Create extends Component {
                                         <h1>Manual</h1>
                                     </div>
                                     <div className="flip-card-back">
-                                        <p>"We believe you are always the boss and choose to make models as you wish"</p>
-                                        <button className="btn2">Select</button>
+                                        <p>"We believe you are always the boss and you can choose to make models as you wish"</p>
+                                        <button className="btn2" onClick={this.handleManual}>Select</button>
                                     </div>
                                 </div>
                             </div>
@@ -108,7 +178,7 @@ class Create extends Component {
                                     <label htmlFor="nulltype">How are null values specified in dataset?</label>
                                 </div>
                                 <div className="col-70" >
-                                    <input type="text" id="nulltype" name="nulltype" placeholder="Is it NULL, NA , ? , 0 or other (specify)"  required />
+                                    <input type="text" id="nulltype" name="nulltype" placeholder="Is it NULL, NA , ? , 0 or other (specify)" required />
                                 </div>
                             </div>
 

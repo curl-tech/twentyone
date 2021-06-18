@@ -284,7 +284,7 @@ input[type=text],input[type=number] ,select, textarea {
   background-color: #eee;
 }
 
-input[type=submit] {
+.form1button {
   
   background-image:linear-gradient(to left bottom , #281b6e,rgb(107, 89, 139));
   /* background-image:linear-gradient(to bottom right, #af4c6a,rgb(24, 3, 3)); */
@@ -294,10 +294,10 @@ input[type=submit] {
   cursor: pointer;
   margin-top: 20px;
   margin-left: 75%;
-  width: fit-content;
+  /* width: fit-; */
   }
 
-input[type=submit]:hover {
+.form1button:hover {
   background-image:linear-gradient(to bottom right,#aaa,#fff);
   color: #281b6e; 
   font-weight: bolder; 
@@ -395,15 +395,15 @@ label {
   }
 }
 #form2{
-  /* display: none; */
-  display: block;
+  display: none;
+  /* display: block; */
 }
 /* ****************************************************************************************** */
 /* For form 3 */
 #form3
 {
-  display: block;
-  /* display: none; */
+  /* display: block; */
+  display: none;
 }
 /* ********************************************************************************************* */
 /* Section3 */
