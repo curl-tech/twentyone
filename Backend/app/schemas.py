@@ -115,7 +115,7 @@ class UpdateData(BaseModel):
 
 
 class Model(BaseModel):
-    modelId: int=Field(...)
+    modelID: int=Field(...)
     modelName: Optional[str]='Default Model'
     modelType: Optional[str]
     picklePath: Optional[str]
