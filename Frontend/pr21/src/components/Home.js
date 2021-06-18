@@ -281,14 +281,107 @@ class Home extends Component {
                     </div>
                 </div>
                 {/* Section 4 */}
-                <div className="section5" id="section5">
-                    <div className="col-50 section4col1">
+                <div className="section5 " id="section5">
+                    <div className="sec5heading">
                         <h1>Results</h1>
                     </div>
-                   
-                </div>
+                    <div className="container">
+                        {/* <!-- Nav tabs --> */}
+                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link tabbtn active" id="Metrics-tab" data-bs-toggle="tab" data-bs-target="#metrics" type="button" role="tab" aria-controls="metrics" aria-selected="true">Metrics</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link tabbtn " id="plot-tab" data-bs-toggle="tab" data-bs-target="#plot" type="button" role="tab" aria-controls="Plot" aria-selected="false">Plots</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link tabbtn" id="download-tab" data-bs-toggle="tab" data-bs-target="#download" type="button" role="tab" aria-controls="Download" aria-selected="false">Download</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link tabbtn" id="Inference-tab" data-bs-toggle="tab" data-bs-target="#inference" type="button" role="tab" aria-controls="Inference" aria-selected="false">Inference</button>
+                            </li>
+                        </ul>
 
-            </div>
+                        {/* <!-- Tab panes --> */}
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="metrics" role="tabpanel" aria-labelledby="metrics-tab">Metrics will be displayed here</div>
+                            <div class="tab-pane" id="plot" role="tabpanel" aria-labelledby="plot-tab">
+                                Plots will be displayed here
+                                <div class="container">
+                                    <div class="d-flex flex-row justify-content-center flex-wrap">
+                                        <div class="d-flex flex-column plot" >
+                                            <img src="1" class="img-fluid" alt=" Plot1 not for this model "/>
+                                            <img src="2" class="img-fluid" alt=" Plot2 not for this model "/>
+                                            <img src="3" class="img-fluid" alt=" Plot3 not for this model "/>
+                                            
+                                        </div>
+                                        <div class="d-flex flex-column plot" >
+                                            <img src="4" class="img-fluid" alt=" Plot4 not for this model "/>
+                                            <img src="5" class="img-fluid" alt=" Plot5 not for this model "/>
+                                            <img src="6" class="img-fluid" alt=" Plot6 not for this model "/>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="download" role="tabpanel" aria-labelledby="download-tab">
+
+                                <section className=" cards2 ">
+                                    <div className="flip-card col-50">
+                                        <div className="flip-card-inner ">
+                                            <div className="flip-card-front2">
+                                                <h1>Clean Data</h1>
+                                            </div>
+                                            <div className="flip-card-back2 ">
+                                                <p>"Download clean Data"</p>
+                                                <button className="btn2" id="form2autobutton">Download</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="flip-card col-50">
+                                        <div className="flip-card-inner">
+                                            <div className="flip-card-front2">
+                                                <h1>Pickle File</h1>
+                                            </div>
+                                            <div className="flip-card-back2 ">
+                                                <p>"Download pickle file"</p>
+                                                <button className="btn2" >Download</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </section>
+                            </div>
+                            <div class="tab-pane" id="inference" role="tabpanel" aria-labelledby="Inference-tab">
+                                <div className="container " id="form1">
+                                    <form >
+                                        <div className="createform">
+
+
+                                            <div className="row">
+                                                <div className="col-30">
+                                                    <label htmlFor="Inference">Enter data to get Prediction</label>
+                                                </div>
+                                                <div className="col-70">
+                                                    <input type="file" className="form-control" id="inference" onChange={this.handleInferenceChange} accept=".csv" name="inference"
+                                                        placeholder="enter training data in csv format" required />
+                                                </div>
+                                            </div>
+
+
+                                            <div>
+                                                <button type="submit" className="formbutton" id="getresults" >Get Results</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div >
+                </div >
+
+            </div >
         );
     }
 }

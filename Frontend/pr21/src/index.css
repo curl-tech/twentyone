@@ -73,13 +73,13 @@ code {
 {
   color: #fff;
   background-color: #281b6e;
-  border-radius: 2em;
+  /* border-radius: 2em; */
 }
 .nav-link:focus
 {
   color:#fff;
   background-color: #281b6e;
-  border-radius: 2em;
+  /* border-radius: 2em; */
 }
 .btn-outline-success
 {
@@ -218,7 +218,7 @@ background:linear-gradient(rgba(67, 34, 87, 0.336),rgba(142, 129, 153, 0.5)), ur
 .createpagebox
 {
   padding: 1.2em;
-  margin: 1.2em;
+  margin: 1em;
   margin-top: 0;
   /* margin-right:5%; */
   /* margin-left: 5%; */
@@ -244,7 +244,7 @@ background:linear-gradient(rgba(67, 34, 87, 0.336),rgba(142, 129, 153, 0.5)), ur
 .createform
 {
   color: #000;
-  margin-top: 5em;
+  margin-top: 3em;
   padding: 1.1em;
   padding-top: 2em;
   padding-bottom: 3em;
@@ -554,6 +554,72 @@ background-image:linear-gradient(to left bottom ,rgba(0, 0, 0, 0.514),rgb(13, 19
   .section4button{
     width: 100%;
   }
+}
+/* ************************************************************************************************************************ */
+/* section5 */
+.section5
+{ 
+background-image:linear-gradient(to left bottom ,rgba(0, 0, 0, 0.685),rgb(39, 225, 231));
+  background-size: cover;
+ min-height: 100vh;
+}
+.sec5heading{
+  padding: 1em;
+  text-align: center;
+  
+  margin-top: auto;
+  margin-bottom: auto;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+}
+.sec5heading h1{
+  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  text-shadow:5px 5px #000;
+  font-size: 3em;
+}
+.tabbtn{
+ color: rgb(14, 6, 13); 
+}
+.tabbtn:hover{
+background-color: #000;
+color: #fff;
+}
+.cards2{
+  margin-top: 3em;
+}
+.flip-card-front2,.flip-card-back2 {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  padding: 5em 0 3em 0;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+.flip-card-front2 {
+  /* background-image:linear-gradient(to left bottom , #0904294b,rgb(91, 8, 233)); */
+  background-image: url(./assets/img/bg4.jpg);
+  color: #fff;
+  font-family:cursive;
+}
+
+.flip-card-back2 {
+  /* background-image:linear-gradient(to left bottom , #271b6e,rgb(107, 89, 139)); */
+  background-image: url(./assets/img/bg4.jpg);
+  color: white;
+  transform: rotateY(180deg);
+  font-family: cursive;
+  padding-right: 2em;
+  padding-left: 2em;
+}
+.plot img{
+  margin:1em;
+  
+}
+.flex-column { 
+  max-width : 260px;
 }
 /* ************************************************************************************************************************ */
 
