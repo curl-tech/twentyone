@@ -6,19 +6,13 @@ from sklearn import preprocessing
 from sklearn.impute import SimpleImputer
 from sklearn.impute import KNNImputer
 
-
 # Scaling and Teansforming using- 
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.preprocessing import StandardScaler
-
  
 # Handling non-numeric data using-
 from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import OneHotEncoder 
-
-# Handling outlier using-
-from statsmodels.nonparametric.kde import KDEUnivariate
-from sklearn.neighbors import KernelDensity 
 
 # Feature engineering-
 # We will do it by finding co-realation between the independent features by using-
@@ -41,7 +35,6 @@ from pycaret.regression import *
 # from pycaret.nlp import *
 import os
 
-
 class Preprocess:     
     def manual_preprocess(model_type,raw_data_address,target_variable,parameters):
         """
@@ -57,8 +50,6 @@ class Preprocess:
             scaling_type = scaling_type (string)         ()
             scaling_col_name=scaling_col_name (string)   ()
             target_col_name = target_col_name (string)   ()
-            
-
             
         """
         
@@ -79,7 +70,7 @@ class Preprocess:
         df = raw_data_address
         drop_col_name=drop_col_name
         impution_type = impution_type
-        na_value = na_value
+        impute_na_value = impute_na_value
         encoding_type=encoding_type
         encode_col_name=encode_col_name
         scaling_type = scaling_type
@@ -87,14 +78,9 @@ class Preprocess:
         Remove_outlier = True/False
         target_col_name = target_col_name
         
-        
-
-
-
         # drop columns
         if(drop_col_name[0]!="none"):
             df=df.drop(drop_col_name, axis = 1)
-            
 
         #### Handling missing data
         # imputation
@@ -112,7 +98,6 @@ class Preprocess:
                 imputed_data_value = imputer.transform(df)
                 imputed_df = pd.DataFrame(imputed_data_value)
  
-
             elif impution_type=='most_frequent':
                 imputer = SimpleImputer(missing_values=np.NaN, strategy = 'most_frequent')
                 imputer.fit(df)
@@ -121,6 +106,12 @@ class Preprocess:
 
             elif impution_type=='knn':
                 imputer = KNNImputer(n_neighbors = 4, weights = "uniform",missing_values = np.NaN)
+                imputer.fit(df)
+                imputed_data_value = imputer.transform(df)
+                imputed_df = pd.DataFrame(imputed_data_value)
+                
+            elif impution_type=='Constant':
+                imputer = SimpleImputer(missing_value = np.NaN, strategy = 'constant', fill_value = impute_na_value )
                 imputer.fit(df)
                 imputed_data_value = imputer.transform(df)
                 imputed_df = pd.DataFrame(imputed_data_value)
@@ -139,7 +130,6 @@ class Preprocess:
                 x_scaled = scaleing.fit_transform(x)
                 df[scaling_col_name]= x_scaled
             
-        
         #### handling catogarical data
         # encoding
         if(encode_col_name[0] != "none"):
@@ -159,13 +149,9 @@ class Preprocess:
                     df.drop([feature],axis=1,inplace=True)
                     df=pd.concat([df,x_encoded[feature]],axis=1) 
 
-
-
         # Feature engineering & Feature Selection
-
         ### Outlier detection & Removel
         ### Outlier detection and removal using 3 standard deviation
-
         if Remove_outlier == True:
             df.outlier_col_name.mean()
             df.outlier_col_name.std()
@@ -173,7 +159,6 @@ class Preprocess:
             lower_limit = df.outlier_col_name.mean() -3*df.outlier_col_name.std()
             df = df[(df.outlier_col_name<upper_limit) & (df.outlier_col_name>lower_limit)]
             
-
         # Here we are droping the feature if the column is having no variance.
         # If all the rows are having the same value the feature importance of that column is not significant for the prediction. 
         if feature_selection_type != "none":
@@ -203,8 +188,7 @@ class Preprocess:
         clean_data_address = os.getcwd()+"/clean_data.csv"
         return clean_data_address
         
-                
-                
+#-------------------------------------------------------------------------------------------------------------------------------------------------------#
     def auto_preprocess(model_type,raw_data_address,target_variable):
         """
         This function is for preprocessing the data when the user selects auto preprocessing.
