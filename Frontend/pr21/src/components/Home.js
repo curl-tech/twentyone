@@ -140,9 +140,10 @@ class Home extends Component {
                         <p>Curl Brings <span className="typed-text"></span><span className="cursor">&nbsp;</span></p>
                         <p>Together under one Umbrella</p>
                         <div className="section1text1">The Easy to go auto-ml engine for all your data, it creates end to end experiencce of machine and deep elarning without a single line of code</div>
-                        <a href='#section2'> <button className=" col-30 section1button">Start Expereince &dArr;</button></a>
-                        <a href='#section3'> <button className="col-30 section1button ">View Demo &dArr;</button></a>
-
+                       <div className="sec1btn-group">
+                        <a href='#section2'> <button className="  section1button">Start Expereince &dArr;</button></a>
+                        <a href='#section3'> <button className=" section1button ">View Demo &dArr;</button></a>
+                        </div>
                     </div>
                     {/* <Link to="#section2"><button className="section1button">Start Experience &dArr;</button></Link> */}
                 </div>

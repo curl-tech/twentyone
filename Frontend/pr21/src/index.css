@@ -179,16 +179,22 @@ background:linear-gradient(rgba(67, 34, 87, 0.336),rgba(142, 129, 153, 0.5)), ur
   font-weight: 500;
   text-align: center;
   margin-bottom: 5%;
+ 
+}
+.sec1btn-group{
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .section1button
 {
-  border-radius: 2em;
+  border-radius: 8px;
   cursor: pointer;
   color: #421b75;
   font-family:Formular,sans-serif;
   font-weight: 600;
-  width: 10%;
-  margin: 5%;
+  width: 20em;
+  margin: 5em;
   padding: 1em;
   background-image:linear-gradient(to left bottom , rgb(236, 236, 236),rgb(119, 119, 116));
 }
@@ -205,7 +211,12 @@ background:linear-gradient(rgba(67, 34, 87, 0.336),rgba(142, 129, 153, 0.5)), ur
   width: 100%;
 }
 }
-
+.col-20 {
+  float: left;
+  width: 20%;
+  margin-top: 1.1em;
+  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
 /* ************************************************************************************* */
 /* section2 */
 /* form styles for create page*/
@@ -300,7 +311,7 @@ input[type=text],input[type=number] ,select, textarea {
   background-image:linear-gradient(to left bottom , #151416,rgb(51, 18, 94));
   color: #ffffff;
   padding: 12px 20px;
-  border-radius: 1.2em;
+  border-radius: 8px;
   cursor: pointer;
   margin-top: 20px;
   margin-left: 75%;
@@ -477,7 +488,7 @@ background:linear-gradient(rgba(107, 46, 143, 0.336),rgba(82, 96, 126, 0.5)), ur
 }
 .section3button
 {
-  border-radius: 2em;
+  border-radius: 8px;
   cursor: pointer;
   color: #421b75;
   font-family:Formular,sans-serif;
@@ -520,7 +531,7 @@ background-image:linear-gradient(to left bottom ,rgba(0, 0, 0, 0.514),rgb(13, 19
 
 .section4button
 {
-  border-radius: 2em;
+  border-radius: 8px;
   cursor: pointer;
   color: #00000094;
   font-family:Formular,sans-serif;
@@ -589,13 +600,13 @@ background-image:linear-gradient(to left bottom ,rgba(0, 0, 0, 0.685),rgb(39, 22
 }
 .sec5heading h1{
   font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-  text-shadow:5px 5px #000;
+  text-shadow:2px 2px #000;
   font-size: 3em;
   text-align: center;
 }
 .sec5heading h2{
   font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-  text-shadow:5px 5px #000;
+  text-shadow:2px 2px #000;
   /* font-size: 3em; */
 }
 .tabbtn{
@@ -691,6 +702,7 @@ background-image:linear-gradient(to left bottom ,rgba(0, 0, 0, 0.685),rgb(39, 22
   background-image:linear-gradient(to left bottom ,rgba(0, 0, 0, 0.945),rgba(232, 236, 236, 0.562));
   color: #ddd;
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  border-radius: 8px;
 }
 .sec6btn:hover{
   background-image:linear-gradient(to left bottom ,rgba(232, 236, 236, 0.562),rgba(0, 0, 0, 0.945));

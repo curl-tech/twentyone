@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 // import { Link } from "react-router-dom";
 import { HashLink as Link } from 'react-router-hash-link';
-import logo from '../assets/img/curllogo.svg'
+import logo from '../assets/img/21_logo.png'
 class PageWrapper extends Component {
     render() {
         return (
@@ -10,7 +10,7 @@ class PageWrapper extends Component {
                     <nav className="navbar navbar-expand-lg ">
                         <div className="container-fluid">
                         <img className="logo"src={logo} alt="logo"/>
-                            <Link className="navbar-brand" id="menuicon" to="/">AutoMl</Link>
+                            <Link className="navbar-brand" id="menuicon" to="/">TwentyOne</Link>
                             <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                                 <span className="line"></span>
                                 <span className="line"></span>
