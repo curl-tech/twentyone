@@ -27,7 +27,7 @@ class PageWrapper extends Component {
                                     </li>
 
                                     <li className="nav-item">
-                                        <Link className="nav-link" to="/#section3">MyProjects</Link>
+                                        <Link className="nav-link" to="/#section6">MyProjects</Link>
                                     </li>
                                 </ul>
                                 <form className="d-flex">

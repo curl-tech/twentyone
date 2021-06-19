@@ -537,9 +537,6 @@ background-image:linear-gradient(to left bottom ,rgba(0, 0, 0, 0.514),rgb(13, 19
   margin-top: auto;
   margin-bottom: auto;
   color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center
 }
 
 .section4col2{
@@ -563,6 +560,7 @@ background-image:linear-gradient(to left bottom ,rgba(0, 0, 0, 0.514),rgb(13, 19
 background-image:linear-gradient(to left bottom ,rgba(0, 0, 0, 0.685),rgb(39, 225, 231));
   background-size: cover;
  min-height: 100vh;
+ display: none;
 }
 .sec5heading{
   padding: 1em;
@@ -571,15 +569,29 @@ background-image:linear-gradient(to left bottom ,rgba(0, 0, 0, 0.685),rgb(39, 22
   margin-top: auto;
   margin-bottom: auto;
   color: #fff;
-  display: flex;
+ display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: center; 
   
+}
+.sec5btn{
+  margin: 1em;
+  padding: 1em;
+  background-image:linear-gradient(to left bottom ,rgba(0, 0, 0, 0.61),rgba(232, 236, 236, 0.562));
+  color: #000;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+
 }
 .sec5heading h1{
   font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   text-shadow:5px 5px #000;
   font-size: 3em;
+  text-align: center;
+}
+.sec5heading h2{
+  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  text-shadow:5px 5px #000;
+  /* font-size: 3em; */
 }
 .tabbtn{
  color: rgb(14, 6, 13); 
@@ -601,14 +613,16 @@ color: #fff;
 }
 .flip-card-front2 {
   /* background-image:linear-gradient(to left bottom , #0904294b,rgb(91, 8, 233)); */
-  background-image: url(./assets/img/bg4.jpg);
+  background:linear-gradient(rgba(67, 34, 87, 0.336),rgba(142, 129, 153, 0.5)), url(./assets/img/bg4.jpg);
+  
   color: #fff;
   font-family:cursive;
 }
 
 .flip-card-back2 {
   /* background-image:linear-gradient(to left bottom , #271b6e,rgb(107, 89, 139)); */
-  background-image: url(./assets/img/bg4.jpg);
+  background:linear-gradient(rgba(67, 34, 87, 0.336),rgba(142, 129, 153, 0.5)), url(./assets/img/bg4.jpg);
+  
   color: white;
   transform: rotateY(180deg);
   font-family: cursive;
@@ -622,6 +636,62 @@ color: #fff;
 .flex-column { 
   max-width : 260px;
 }
+/* ************************************************************************************************************************ */
+/* section5 */
+.section6
+{ 
+background-image:linear-gradient(to left bottom ,rgba(0, 0, 0, 0.685),rgb(39, 225, 231));
+  background-size: cover;
+ min-height: 100vh;
+}
+.sec6heading{
+  padding: 1em;
+  text-align: center;
+  
+  margin-top: auto;
+  margin-bottom: auto;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+}
+.sec6heading h1{
+  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  text-shadow:5px 5px #000;
+  font-size: 3em;
+  
+}
+.card{
+  margin: 2em;
+  margin-left: 6em;
+  margin-right: 6em;
+  background:linear-gradient(rgba(67, 34, 87, 0.336),rgba(142, 129, 153, 0.5)), url(./assets/img/bg4.jpg);
+  
+}
+.card-group h5{
+  background-image:linear-gradient(to left bottom ,rgba(0, 0, 0, 0.945),rgba(232, 236, 236, 0.562));
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  padding: 3px;
+  color: #fff;
+}
+.card-group p{
+  padding: 3px;
+  font-size: large;
+  font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  text-align: left;
+  color: #fff;
+}
+.sec6btn{
+  background-image:linear-gradient(to left bottom ,rgba(0, 0, 0, 0.945),rgba(232, 236, 236, 0.562));
+  color: #ddd;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+.sec6btn:hover{
+  background-image:linear-gradient(to left bottom ,rgba(232, 236, 236, 0.562),rgba(0, 0, 0, 0.945));
+  color: #fff;
+}
+
 /* ************************************************************************************************************************ */
 
 /* footer design */
