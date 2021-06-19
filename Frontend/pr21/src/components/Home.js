@@ -291,7 +291,6 @@ class Home extends Component {
                 <div className="section4" id="section4">
                     <div className="col-50 section4col1">
                         <h1>Curl AutoMl Engine lets you make excellent machine and deep learning models for all your needs with few clicks</h1>
-                        <br/>
                         <Link to='/#section3' > <button className=" section4button">See Demo</button></Link>
                     </div>
                     <div className="col-50 section4col2">

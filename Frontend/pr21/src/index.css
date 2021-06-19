@@ -17,6 +17,7 @@ code {
     monospace;
 }
 /* Top moving button */
+
 #topButton{
     transform: rotate(270deg);
     display: none;
@@ -41,6 +42,10 @@ code {
 }
 /* ******************************************************************************************* */
 /* header style */
+.logo{
+  width:3em;
+  height: 3em;
+}
 .navbar
 {
   /* margin-bottom: 2.5em; */
