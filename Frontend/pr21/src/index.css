@@ -457,6 +457,7 @@ background:linear-gradient(rgba(107, 46, 143, 0.336),rgba(82, 96, 126, 0.5)), ur
 }
 .section3box{
   background-image:linear-gradient(to top left,rgba(20, 20, 20, 0.705),rgba(203, 205, 207, 0.815));
+  /* background-image:linear-gradient(to top left,rgba(189, 189, 105, 0.979),rgb(235, 198, 30)); */
   margin-left: 20%;
   margin-right: 20%;
   height:20em;

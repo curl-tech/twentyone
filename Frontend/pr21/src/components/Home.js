@@ -280,7 +280,7 @@ class Home extends Component {
                         <a href='https://github.com/nikzagarwal/Project_21' > <button className=" section4button">Github Repo</button></a>
                     </div>
                 </div>
-                {/* Section 4 */}
+                {/* Section 5 */}
                 <div className="section5 " id="section5">
                     <div className="sec5heading">
                         <h1>Results</h1>

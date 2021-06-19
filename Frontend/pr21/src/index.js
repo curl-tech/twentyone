@@ -108,3 +108,5 @@ function erase() {
     setTimeout(type, typingDelay + 1100);
   }
 }
+
+
