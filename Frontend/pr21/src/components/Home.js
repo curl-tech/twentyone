@@ -65,7 +65,7 @@ class Home extends Component {
         // let data = { projectname, train, mtype }
         console.log(formData)
         axios({
-            url: `https://localhost:8800/create`,
+            url: `https://localhost:8000/create`,
             method: "POST",
             // headers:
             // {
@@ -120,16 +120,16 @@ class Home extends Component {
         let modelnumber = this.state.modelnum
         let nulltype = this.state.nulltype
         let data = { isauto, target, modelnumber, nulltype }
-        console.log(data)
+        console.log(JSON.stringify(data))
         axios({
-            url: `https://localhost:8800/auto`,
+            url: `https://localhost:8000/auto`,
             method: "POST",
             headers:
             {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             },
-            body: this.state
+            body: JSON.stringify(data)
         }).then((res) => {
             res.json().then((result) => {
                 console.log("result", result)
