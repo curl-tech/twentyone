@@ -3,6 +3,10 @@ import aivideo from "../assets/videos/AI.mp4";
 import $ from 'jquery';
 import axios from 'axios';
 import { HashLink as Link } from 'react-router-hash-link';
+import Result from './Result.js';
+import Section1 from './section1.js';
+import Section6 from './section6.js';
+
 class Home extends Component {
     constructor(props) {
         super(props)
@@ -102,7 +106,7 @@ class Home extends Component {
         let data = { isauto, target, modelnumber, nulltype }
         console.log(data)
         axios({
-            url: `https://localhost:8800/create`,
+            url: `https://localhost:8800/auto`,
             method: "POST",
             headers:
             {
@@ -134,27 +138,19 @@ class Home extends Component {
         return (
             <div>
                     {/* ************************************************************************************************************************ */}
-                {/* Section1 */}
-                <div className="section1">
-                    <div className="container typing-text">
-                        <p>Curl Brings <span className="typed-text"></span><span className="cursor">&nbsp;</span></p>
-                        <p>Together under one Umbrella</p>
-                        <div className="section1text1">The Easy to go auto-ml engine for all your data, it creates end to end experiencce of machine and deep elarning without a single line of code</div>
-                       <div className="sec1btn-group">
-                        <a href='#section2'> <button className="  section1button">Start Expereince &dArr;</button></a>
-                        <a href='#section3'> <button className=" section1button ">View Demo &dArr;</button></a>
-                        </div>
-                    </div>
-                    {/* <Link to="#section2"><button className="section1button">Start Experience &dArr;</button></Link> */}
-                </div>
+                    
+                    {/* Section1 */}
+                        <Section1/>
 
+                    {/* ************************************************************************************************************************ */}
+                    {/* Section2  */}
                 <div className="section2" id="section2">
                     <div className="createpagebox ">
                         <h1>Start With Your Project</h1>
                         <p>" Just fill relevant feeds and select few choices and you are good to go"</p>
                     </div>
-                        {/* ************************************************************************************************************************ */}
-                    {/* Section2  */}
+                       
+                    {/* form1 */}
                     <div className="container " id="form1">
                         <form onSubmit={this.handleSubmit}>
                             <div className="createform">
@@ -196,7 +192,7 @@ class Home extends Component {
                             </div>
                         </form>
                     </div>
-
+                {/* form2 */}
                     <div className="container" id="form2">
                         <div className="centered ">
 
@@ -227,6 +223,7 @@ class Home extends Component {
                             </section>
                         </div>
                     </div>
+                    {/* form3 */}
                     <div className="container" id="form3">
                         <form onSubmit={this.handleSubmit2}>
                             <div className="createform">
@@ -264,15 +261,8 @@ class Home extends Component {
                             </div>
                         </form>
                     </div>
-                    <div className="container loader" id="loader">
-                        <p>" Your models are been created... Can we take a quick Tea Break ?? "</p>
-                        <div className="centered spinner-location">
-                            <div className="spinner-border text-dark spinner-border-lg" role="status">
-                                <span className="sr-only">Loading...</span>
-                            </div>
-                        </div>
-
-                    </div>
+                    {/* loader */}
+                      <Result/>  
                     {/* </div> */}
     {/* ************************************************************************************************************************ */}
                 </div>
@@ -406,58 +396,7 @@ class Home extends Component {
                 </div >
     {/* ************************************************************************************************************************ */}
                 {/* Section 6 */}
-                <div className="section6" id="section6">
-                    <div className=" sec5heading">
-                        <h1>Results</h1> 
-                    </div>
-                    <div className=" sec5heading">
-                    <h2>Project Name:</h2>
-                    </div>
-                    <div className=" sec5heading">
-                    <h2>Your Top Models</h2>
-                    </div>
-                    <div className="card-group text-center">
-                        <div className="card">
-
-                            <div className="card-body">
-                                <h5 className="card-title">Linear Regression</h5>
-                                <p className="card-text">
-                                   Accuracy Train:
-                                   <br/>
-                                   Accuracy Test:
-                                 </p>
-                                 <button onClick={this.handleModelResult} className="btn sec6btn">See Details</button>
-                            </div>
-                        </div>
-                        <div className="card">
-
-                            <div className="card-body">
-                                <h5 className="card-title">Decision Tree</h5>
-                                <p className="card-text">
-                                   Accuracy Train:
-                                   <br/>
-                                   Accuracy Test:
-                                 </p>
-                               
-                                <button onClick={this.handleModelResult}  className="btn  sec6btn">See Details</button>
-                            
-                            </div>
-                        </div>
-                        <div className="card">
-
-                            <div className="card-body">
-                                <h5 className="card-title">Random Forest</h5>
-                                <p className="card-text">
-                                   Accuracy Train:
-                                   <br/>
-                                   Accuracy Test:
-                                 </p>
-                                <button onClick={this.handleModelResult}  className="btn  sec6btn">See Details</button>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
+                <Section6/>
 
             </div >
         );

@@ -55,7 +55,7 @@ code {
 }
 .navbar-brand
 {
-  color: rgb(59, 16, 133);
+  color: rgb(32, 61, 124);
   font-size:xx-large;
   font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
   font-stretch: expanded;
@@ -64,46 +64,46 @@ code {
 }
 .navbar-brand:hover
 {
-  text-shadow: 3px 3px #111;
-  color: #752ad8;
+  text-shadow: 1px 1px rgb(224, 227, 235);
+  color: #153763;
 }
 .nav-link
 {
   margin: 1.1em;
   font-weight: 600;
   font-size: larger;
-  color: #281b6e;
+  color: #153763;
 }
 .nav-link:hover
 {
   color: #fff;
-  background-color: #281b6e;
-  /* border-radius: 2em; */
+  background-color: #153763;
+  border-radius: 5px;
 }
 .nav-link:focus
 {
   color:#fff;
-  background-color: #281b6e;
+  background-color: #153763;
   /* border-radius: 2em; */
 }
 .btn-outline-success
 {
-  color: #281b6e;
-  border-color: #281b6e;
+  color: #153763;
+  border-color: #153763;
 }
 .btn-outline-success:hover
 {
-  background-color: #281b6e;
+  background-color:#153763;
   border-color: #aaa;
 }
 .me-2
 {
-  border-color: #281b6e;
+  border-color: #153763;
 }
 .navbar-toggler{
   width: 47px;
   height: 34px;
-  background-color: #271b6e;
+  background-color: #153763;
   border:none;
 }
 .navbar-toggler .line{
@@ -130,7 +130,7 @@ code {
 .section1{
 
 /* background-image: url(./assets/img/bg1.jpg); */
-background:linear-gradient(rgba(67, 34, 87, 0.336),rgba(142, 129, 153, 0.5)), url(./assets/img/bg1.jpg);
+background:linear-gradient(rgba(22, 1, 32, 0.384),rgba(142, 129, 153,0.8 )), url(./assets/img/bg1.jpg);
  background-size: cover;
  width: 100%;
  /* opacity: 0.9; */
@@ -147,11 +147,13 @@ background:linear-gradient(rgba(67, 34, 87, 0.336),rgba(142, 129, 153, 0.5)), ur
   text-align: center;
   overflow: hidden;
   color: #fff;
+  font-family: 'Roberto' 'New Tegomin', 'cursive';
+  
 }
 .typing-text p span.typed-text {
   font-weight:bolder;
   color: #ffef13;
-  font-family:cursive;
+  
 }
 .typing-text p span.cursor {
   display: inline-block;
@@ -170,6 +172,9 @@ background:linear-gradient(rgba(67, 34, 87, 0.336),rgba(142, 129, 153, 0.5)), ur
   99% { background-color: transparent; }
   100%  { background-color: #ccc; }
 }
+.typed-text{
+  font-family: 'Lobster', cursive;
+}
 /* text1 effects */
 .section1text1{
   color: #fff;
@@ -178,7 +183,9 @@ background:linear-gradient(rgba(67, 34, 87, 0.336),rgba(142, 129, 153, 0.5)), ur
   padding-right: 25%;
   font-weight: 500;
   text-align: center;
-  margin-bottom: 5%;
+  margin-bottom: 3%;
+  font-family: 'Aleo', serif;
+  font-size: large;
  
 }
 .sec1btn-group{
@@ -190,17 +197,17 @@ background:linear-gradient(rgba(67, 34, 87, 0.336),rgba(142, 129, 153, 0.5)), ur
 {
   border-radius: 8px;
   cursor: pointer;
-  color: #421b75;
+  color: rgba(12, 24, 49, 0.901);
   font-family:Formular,sans-serif;
   font-weight: 600;
   width: 20em;
   margin: 5em;
   padding: 1em;
-  background-image:linear-gradient(to left bottom , rgb(236, 236, 236),rgb(119, 119, 116));
+  background-image:linear-gradient(to left bottom , rgba(236, 236, 236, 0.815),rgba(119, 119, 116, 0.822));
 }
 .section1button:hover{
-  background-image:linear-gradient(to top left,rgba(119, 96, 146, 0.918),rgb(27, 27, 27));
-  color: #fff;
+  background-image:linear-gradient(to left bottom , rgb(236, 236, 236),rgb(119, 119, 116));
+  color: rgb(12, 24, 49);
 }
 @media screen and (max-width: 600px) {
 .section1

@@ -1,8 +1,6 @@
 import './App.css';
 import React, { Component } from 'react';
 import Home from './components/Home.js';
-import Create from './components/create.js';
-import projects from './components/projects.js';
 import PageWrapper from './components/Pagewrapper.js';
 
 // import React, { useState, useEffect } from 'react';
@@ -25,15 +23,6 @@ class App extends Component {
           <Route
             path="/Home"
             component={Home}
-          />
-
-          <Route
-            path="/newproject"
-            component={Create}
-          />
-          <Route
-            path="/MyProjects"
-            component={projects}
           />
         </PageWrapper>
       </Router>
