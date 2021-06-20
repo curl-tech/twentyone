@@ -43,18 +43,18 @@ class Home extends Component {
         $(theFormItself).fadeOut(2000);
         var theFormItself2 = document.getElementById('form2');
         $(theFormItself2).fadeIn(5000);
-        const formData = new FormData();
-        formData.append(
+        const formdata = new FormData();
+        formdata.append(
             "projectName",
             this.state.projectname
 
         );
-        formData.append(
+        formdata.append(
             "mtype",
             this.state.mtype
 
         );
-        formData.append(
+        formdata.append(
             "train",
             this.state.train
         );
@@ -63,21 +63,26 @@ class Home extends Component {
         // let train = this.state.train
         // let mtype = this.state.mtype
         // let data = { projectname, train, mtype }
-        console.log(formData)
-        axios({
-            url: `http://localhost:8000/create`,
-            method: "POST",
-            headers:
-            {
-                // 'Accept': 'application/json',
-                'Content-Type': 'multipart/form-data'
-            },
-            body: formData
-        }).then((res) => {
-            res.json().then((result) => {
-                console.log("result", result)
-            })
-        })
+        // console.log(data)
+        console.log(formdata.getAll('train'))
+        // axios({
+        //     url: `http://localhost:8000/create`,
+        //     method: "POST",
+        //     headers:
+        //     {
+        //         // 'Accept': 'application/json',
+        //         'Content-Type': 'multipart/form-data',
+        //         'authorization':'your token'
+        //     },
+        //     body: formdata
+        // }).then((res) => {
+        //     // res.json().then((result) => {
+        //     //     console.log("result", result)
+        //     // })
+        //     console.log("Successfull",res)
+        // })
+        axios.post('http://localhost:8000/create',formdata,{headers:{'Accept': 'multipart/form-data','Content-Type': 'multipart/form-data'}})
+        .then(res =>{console.log("Successful",res)}); 
     }
     handleAuto() {
         var theFormItself = document.getElementById('form2');
@@ -121,18 +126,24 @@ class Home extends Component {
         let nulltype = this.state.nulltype
         let data = { isauto, target, modelnumber, nulltype }
         console.log(JSON.stringify(data))
-        axios({
-            url: `http://localhost:8000/auto`,
-            method: "POST",
-            headers:
-            {
-                // 'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data)
-        }).then((res) => {
-                console.log("Successfull")
-            })
+        // axios({
+        //     url: `http://localhost:8000/auto`,
+        //     method: "POST",
+        //     headers:
+        //     {
+        //         // 'Accept': 'application/json',
+        //         'Content-Type': 'application/json',
+        //     },
+        //     // body: JSON.stringify(data)
+        //     body: JSON.stringify(data)
+        // }).then((res) => {
+        //     // res.json().then((result) => {
+        //     //     console.log("result", result)
+        //     // })
+        //     console.log("Successfull",res)
+        // })
+        axios.post('http://localhost:8000/auto',JSON.stringify(data))
+        .then(res =>{console.log("Successful",res)}); 
     }
     handleModelResult = event => {
         event.preventDefault();
