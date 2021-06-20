@@ -65,13 +65,13 @@ class Home extends Component {
         // let data = { projectname, train, mtype }
         console.log(formData)
         axios({
-            url: `https://localhost:8000/create`,
+            url: `http://localhost:8000/create`,
             method: "POST",
-            // headers:
-            // {
-            //     'Accept': 'application/json',
-            //     'Content-Type': 'application/json',
-            // },
+            headers:
+            {
+                // 'Accept': 'application/json',
+                'Content-Type': 'multipart/form-data'
+            },
             body: formData
         }).then((res) => {
             res.json().then((result) => {
@@ -122,19 +122,17 @@ class Home extends Component {
         let data = { isauto, target, modelnumber, nulltype }
         console.log(JSON.stringify(data))
         axios({
-            url: `https://localhost:8000/auto`,
+            url: `http://localhost:8000/auto`,
             method: "POST",
             headers:
             {
-                'Accept': 'application/json',
+                // 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(data)
         }).then((res) => {
-            res.json().then((result) => {
-                console.log("result", result)
+                console.log("Successfull")
             })
-        })
     }
     handleModelResult = event => {
         event.preventDefault();

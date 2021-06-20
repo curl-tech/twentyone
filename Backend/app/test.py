@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Body
+from fastapi import FastAPI, Body, Request, Form
 from fastapi.datastructures import UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.param_functions import File
@@ -48,16 +48,19 @@ def startup_mongodb_client():
 def shutdown_mongodb_client():
     Project21Database.close()
 
+@app.get('/create')
+def create():
+    return "Working fine";
 @app.post('/create')
-async def create(id:int,uploadedFile: UploadFile=File(...)):
+async def create(projectName:str=Form(...),mtype:str=Form(...),train: UploadFile=File(...)):
     
-    print(uploadedFile)
-    print(uploadedFile.filename)
-    print(uploadedFile.content_type)
-    print(uploadedFile.file)
-    response=uploadedFile.read()
-    with open("destination.csv","wb") as buffer:
-        shutil.copyfileobj(uploadedFile.file,buffer)
+    print(train)
+    # print(uploadedFile.filename)
+    # print(uploadedFile.content_type)
+    # print(uploadedFile.file)
+    # response=uploadedFile.read()
+    # with open("destination.csv","wb") as buffer:
+    #     shutil.copyfileobj(uploadedFile.file,buffer)
     # projectName=createModel["projectName"]
     # train=createModel["train"] #send columns name
     # modelType=createModel["modelType"]
@@ -70,6 +73,12 @@ async def create(id:int,uploadedFile: UploadFile=File(...)):
     return {"file received":"succesfully"}
 
 #2nd api call
+@app.get('/auto')
+def auto():
+    return 'working';
+@app.post('/auto')
+async def auto(req:Request):
+    return req.body;
 #/auto -> make config file -> modeltype, target, number of models, raw data address
 #make a subfolder -> address of this location send to him
 #auto()

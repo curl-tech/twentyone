@@ -14,16 +14,16 @@ class Result extends Component {
     }
     componentDidMount() {
 
-        fetch('https://localhost:8800/auto')
-            .then(res => res.json())
-            .then(json => {
-                this.setState({
-                    items: json,
-                    isLoaded: true, 
-                })
-            }).catch((err) => {
-                console.log(err);
-            });
+        // fetch('https://localhost:8800/auto')
+        //     .then(res => res.json())
+        //     .then(json => {
+        //         this.setState({
+        //             items: json,
+        //             isLoaded: true, 
+        //         })
+        //     }).catch((err) => {
+        //         console.log(err);
+        //     });
 
     }
   render() {
