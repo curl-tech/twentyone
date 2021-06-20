@@ -40,9 +40,9 @@ class Home extends Component {
     handleSubmit = event => {
         event.preventDefault();
         var theFormItself = document.getElementById('form1');
-        $(theFormItself).fadeOut(2000);
+        $(theFormItself).hide();
         var theFormItself2 = document.getElementById('form2');
-        $(theFormItself2).fadeIn(5000);
+        $(theFormItself2).show();
         const formdata = new FormData();
         formdata.append(
             "projectName",
@@ -86,18 +86,18 @@ class Home extends Component {
     }
     handleAuto() {
         var theFormItself = document.getElementById('form2');
-        $(theFormItself).fadeOut(1000);
+        $(theFormItself).hide();
         var theFormItself2 = document.getElementById('form3');
-        $(theFormItself2).fadeIn(1000);
+        $(theFormItself2).show();
     }
     handleManual() {
         this.setState({
             auto: false
         })
         var theFormItself = document.getElementById('form2');
-        $(theFormItself).fadeOut(1000);
+        $(theFormItself).hide();
         var theFormItself2 = document.getElementById('form3');
-        $(theFormItself2).fadeIn(1000);
+        $(theFormItself2).show();
     }
     handleTargetChange = event => {
         this.setState({
@@ -117,9 +117,9 @@ class Home extends Component {
     handleSubmit2 = event => {
         event.preventDefault();
         var theFormItself = document.getElementById('form3');
-        $(theFormItself).fadeOut(2000);
+        $(theFormItself).hide();
         var theFormItself2 = document.getElementById('loader');
-        $(theFormItself2).fadeIn(2000);
+        $(theFormItself2).show();
         let isauto = this.state.auto
         let target = this.state.target
         let modelnumber = this.state.modelnum
@@ -148,9 +148,9 @@ class Home extends Component {
     handleModelResult = event => {
         event.preventDefault();
         var theFormItself = document.getElementById('section6');
-        $(theFormItself).fadeOut(300);
+        $(theFormItself).hide();
         var theFormItself2 = document.getElementById('section5');
-        $(theFormItself2).fadeIn(300);
+        $(theFormItself2).show();
     }
     handleGoBack = event => {
         event.preventDefault();
@@ -172,7 +172,7 @@ class Home extends Component {
                 <div className="section2" id="section2">
                     <div className="createpagebox ">
                         <h1>Start With Your Project</h1>
-                        <p>" Just fill relevant feeds and select few choices and you are good to go"</p>
+                        {/* <p>" Just fill relevant feeds and select few choices and you are good to go"</p> */}
                     </div>
 
                     {/* form1 */}
@@ -294,21 +294,23 @@ class Home extends Component {
                 {/* Section3  */}
                 <div className="section3" id="section3">
                     <div className="section3box">
-                        <h1>Yes, Its that Easy</h1>
+                    <h1>Yes, Its that Easy</h1>
                         <video className="section3video" width="640" height="360" controls>
                             <source src={aivideo} type="video/mp4" />
                             <p>Your browser does not support the video tag.</p>
                         </video>
                         <a href='#section2' > <button className=" col-30 section3button">Start Expereince Now &uArr;</button></a>
                     </div>
+                   
                 </div>
                 {/* ************************************************************************************************************************ */}
                 {/* Section 4 */}
                 <div className="section4" id="section4">
                     <div className="col-50 section4col1">
+                    <Link to='/#section3' > <button className=" section4button">See Demo</button></Link>
+                  
                         <h1>Curl AutoMl Engine lets you make excellent machine and deep learning models for all your needs with few clicks</h1>
-                        <Link to='/#section3' > <button className=" section4button">See Demo</button></Link>
-                    </div>
+                         </div>
                     <div className="col-50 section4col2">
                         <h3>"The best Part is its Open Source"</h3>
                         <a href='https://github.com/nikzagarwal/Project_21' > <button className=" section4button">Github Repo</button></a>

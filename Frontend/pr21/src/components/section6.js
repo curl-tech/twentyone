@@ -1,6 +1,14 @@
 import React, { Component } from 'react';
+import $ from 'jquery';
 
 class Section6 extends Component {
+    handleModelResult = event => {
+        event.preventDefault();
+        var theFormItself = document.getElementById('section6');
+        $(theFormItself).hide();
+        var theFormItself2 = document.getElementById('section5');
+        $(theFormItself2).show();
+    }
     render() {
         return (
             <div className="section6" id="section6">
