@@ -43,36 +43,20 @@ class Home extends Component {
         $(theFormItself).fadeOut(2000);
         var theFormItself2 = document.getElementById('form2');
         $(theFormItself2).fadeIn(5000);
-        const formData = new FormData();
-        formData.append(
-            "projectName",
-            this.state.projectname
-
-        );
-        formData.append(
-            "mtype",
-            this.state.mtype
-
-        );
-        formData.append(
-            "train",
-            this.state.train
-        );
-
-        // let projectname = this.state.projectname
-        // let train = this.state.train
-        // let mtype = this.state.mtype
-        // let data = { projectname, train, mtype }
-        console.log(formData)
+        let projectname = this.state.projectname
+        let train = this.state.train
+        let mtype = this.state.mtype
+        let data = { projectname, train, mtype }
+        console.log(data)
         axios({
             url: `https://localhost:8000/create`,
             method: "POST",
-            // headers:
-            // {
-            //     'Accept': 'application/json',
-            //     'Content-Type': 'application/json',
-            // },
-            body: formData
+            headers:
+            {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: this.state
         }).then((res) => {
             res.json().then((result) => {
                 console.log("result", result)
@@ -153,19 +137,19 @@ class Home extends Component {
     render() {
         return (
             <div>
-                {/* ************************************************************************************************************************ */}
+                    {/* ************************************************************************************************************************ */}
+                    
+                    {/* Section1 */}
+                        <Section1/>
 
-                {/* Section1 */}
-                <Section1 />
-
-                {/* ************************************************************************************************************************ */}
-                {/* Section2  */}
+                    {/* ************************************************************************************************************************ */}
+                    {/* Section2  */}
                 <div className="section2" id="section2">
                     <div className="createpagebox ">
                         <h1>Start With Your Project</h1>
                         <p>" Just fill relevant feeds and select few choices and you are good to go"</p>
                     </div>
-
+                       
                     {/* form1 */}
                     <div className="container " id="form1">
                         <form onSubmit={this.handleSubmit}>
@@ -208,7 +192,7 @@ class Home extends Component {
                             </div>
                         </form>
                     </div>
-                    {/* form2 */}
+                {/* form2 */}
                     <div className="container" id="form2">
                         <div className="centered ">
 
@@ -278,9 +262,9 @@ class Home extends Component {
                         </form>
                     </div>
                     {/* loader */}
-                    <Result />
+                      <Result/>  
                     {/* </div> */}
-                    {/* ************************************************************************************************************************ */}
+    {/* ************************************************************************************************************************ */}
                 </div>
                 {/* Section3  */}
                 <div className="section3" id="section3">
@@ -305,12 +289,12 @@ class Home extends Component {
                         <a href='https://github.com/nikzagarwal/Project_21' > <button className=" section4button">Github Repo</button></a>
                     </div>
                 </div>
-                {/* ************************************************************************************************************************ */}
+    {/* ************************************************************************************************************************ */}
                 {/* Section 5 */}
                 <div className="section5 " id="section5">
                     <div className="goback">
                         <button className="sec5btn" onClick={this.handleGoBack}  >&lArr; Go Back to Models </button>
-
+                        
                     </div>
                     <div className="sec5heading">
                         <h1>Results</h1>
@@ -410,9 +394,9 @@ class Home extends Component {
                         </div>
                     </div >
                 </div >
-                {/* ************************************************************************************************************************ */}
+    {/* ************************************************************************************************************************ */}
                 {/* Section 6 */}
-                <Section6 />
+                <Section6/>
 
             </div >
         );
