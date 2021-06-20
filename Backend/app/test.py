@@ -1,5 +1,8 @@
 from fastapi import FastAPI, Body
+from fastapi.datastructures import UploadFile
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.param_functions import File
+import shutil
 from app.dbclass import Database
 from app.config import settings
 from app.routers.user import user_router
@@ -38,34 +41,37 @@ def server_status():
     return {"serverstatus": "working"}
 
 @app.on_event("startup")
-async def startup_mongodb_client():
+def startup_mongodb_client():
     Project21Database.initialise(settings.DB_NAME)
 
-
 @app.on_event("shutdown")
-async def shutdown_mongodb_client():
+def shutdown_mongodb_client():
     Project21Database.close()
 
-# @app.post('/project')
-# def insert_one_project(project:Project=Body(...)):
-#     project=jsonable_encoder(project)
-#     Project21Database.insert_one("project_collection",project)
-#     return ResponseModel(project["projectID"],"Succesfully Inserted")
+@app.post('/create')
+async def create(id:int,uploadedFile: UploadFile=File(...)):
+    
+    print(uploadedFile)
+    print(uploadedFile.filename)
+    print(uploadedFile.content_type)
+    print(uploadedFile.file)
+    response=uploadedFile.read()
+    with open("destination.csv","wb") as buffer:
+        shutil.copyfileobj(uploadedFile.file,buffer)
+    # projectName=createModel["projectName"]
+    # train=createModel["train"] #send columns name
+    # modelType=createModel["modelType"]
+    #folder create - database folder
+    #project_name_random16digitnumber
+    #subfolder data
+    #train file stored here
+    #store address of train file in db
+    #store modeltype in db
+    return {"file received":"succesfully"}
 
-# @app.post('/data')
-# def insert_one_data(data:Data=Body(...)):
-#     data=jsonable_encoder(data)
-#     Project21Database.insert_one("data_collection",data)
-#     return ResponseModel(data["dataPath"],"Succesfully Inserted")
-
-# @app.post('/model')
-# def insert_one_model(model:Model=Body(...)):
-#     model=jsonable_encoder(model)
-#     Project21Database.insert_one("model_collection",model)
-#     return ResponseModel(model["modelName"],"Succesfully Inserted")
-
-# @app.post('/metrics')
-# def insert_one_metrics(metrics:Metrics=Body(...)):
-#     metrics=jsonable_encoder(metrics)
-#     Project21Database.insert_one("metrics_collection",metrics)
-#     return ResponseModel(metrics["belongsToUserID"],"Succesfully Inserted")
+#2nd api call
+#/auto -> make config file -> modeltype, target, number of models, raw data address
+#make a subfolder -> address of this location send to him
+#auto()
+#config_id -> 
+#metrics, plot files location, pickle file location, clean data location

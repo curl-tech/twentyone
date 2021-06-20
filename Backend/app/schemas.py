@@ -1,9 +1,8 @@
 from pydantic import BaseModel
-from pydantic.errors import PydanticErrorMixin
 from pydantic.fields import Field
 from pydantic.networks import EmailStr
 from typing import List, Optional
-from bson.json_util import ObjectId
+from fastapi import UploadFile, File
 
 class User(BaseModel):
     userID: int=Field(...)
@@ -180,7 +179,7 @@ class Inference(BaseModel):
     belongsToModelID: int=Field(...)
 
     class Config:
-        allow_population_by_fiel_name=True
+        allow_population_by_field_name=True
         arbitrary_types_allowed=True
         schema_extra={
             "example":{

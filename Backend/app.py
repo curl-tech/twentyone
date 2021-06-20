@@ -37,6 +37,9 @@ def preprocess():
     
     #render model selection page 
 
+#def auto for api call 2 
+#isauto, target, modelnumber, nulltype
+
 @app.post('/training',status_code=status.HTTP_202_ACCEPTED)
 def models():
     model_auto=True

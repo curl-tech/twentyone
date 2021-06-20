@@ -15,9 +15,10 @@ def ErrorResponseModel(error, code, message):
 """
 yaml format - 
 
-config.py - type? -> str            #regression, clasi
+config.py - problem_type -> str            #regression, clasi
 config.raw_data_address - > str     #path/to/file.csv
-config.target_column_name -> str    #name of column        
+config.target_column_name -> str    #name of column  
+
 config.na_valies - >                #frontend will give  
 config.experiment_name ->           #frontend
 config.id ->                    #project created -> will change the id for each run

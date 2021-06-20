@@ -11,7 +11,7 @@ def userEntity(item) -> dict:
 def usersEntity(entity) -> list:
     return [userEntity(item) for item in entity]
 
-def insert_one_user():
+def insert_one_user(id):
     pass
 
 def find_one_user():
