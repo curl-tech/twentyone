@@ -32,10 +32,10 @@ class PageWrapper extends Component {
                                         <Link className="nav-link" to="/#section6">MyProjects</Link>
                                     </li>
                                 </ul>
-                                <form className="d-flex">
+                                {/* <form className="d-flex">
                                     <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
                                     <button className="btn btn-outline-success" type="submit">Search</button>
-                                </form>
+                                </form> */}
                             </div>
                         </div>
                     </nav>
