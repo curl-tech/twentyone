@@ -1,3 +1,5 @@
+from pydantic import BaseModel
+
 def ResponseModel(data,message):
     return {
         "data": [data],
@@ -11,6 +13,17 @@ def ErrorResponseModel(error, code, message):
         "code": code,
         "message": message
     }
+
+def reqEntity(item) -> dict:
+    return {
+        "isauto":item["isauto"],
+        "target":item["target"],
+        "modelnumber":item["modelnumber"],
+        "nulltype":item["nulltype"]
+    }
+
+def reqsEntity(entity) -> list:
+    return [reqEntity(item) for item in entity]
 
 """
 yaml format - 

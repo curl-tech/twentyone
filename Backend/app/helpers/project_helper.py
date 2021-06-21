@@ -1,3 +1,6 @@
+import random
+
+
 def projectEntity(item) -> dict:
     return {
         "_id":str(item["_id"]),
@@ -23,6 +26,14 @@ def edit_project():
 
 def get_projectID():
     pass
+
+def create_projectID(projectName):
+    projectID = projectName+"_"+"%0.16d"%random.randint(0,9999999999999999)
+    return projectID
+
+def create_project_id():
+    return random.randint(10000,99999)
+
 
 def get_user_projects():
     pass

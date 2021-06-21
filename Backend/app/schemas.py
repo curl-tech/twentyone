@@ -2,7 +2,6 @@ from pydantic import BaseModel
 from pydantic.fields import Field
 from pydantic.networks import EmailStr
 from typing import List, Optional
-from fastapi import UploadFile, File
 
 class User(BaseModel):
     userID: int=Field(...)

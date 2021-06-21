@@ -1,3 +1,5 @@
+import random
+
 def modelEntity(item) -> dict:
     return {
         "_id":str(item["_id"]),
@@ -13,6 +15,8 @@ def modelEntity(item) -> dict:
 def modelsEntity(entity) -> list:
     return [modelEntity(item) for item in entity]
 
+def create_modelID():
+    return random.randint(10000,99999)
 
 def insert_one_model():
     pass
