@@ -8,9 +8,9 @@
       default: 5
       type: int
       range:
-         min: 5
+         min: 3
          max: 100
-         num_sam: 5
+         num_samp: 5
     - name: leaf_size
       default: 30
       type: int
@@ -111,7 +111,7 @@
       range:
          min: 5
          max: 100
-         num_sam: 5
+         num_samp: 5
     - name: leaf_size
       default: 30
       type: int
@@ -257,6 +257,154 @@
         - shotgun
         - coord_descent
       range: null
+
+    # Hyperparameter tuning for Logistic Classifier
+ - name: LogisticRegression
+   type: type: Classification
+   data_type: Tabular
+   complexity: ML
+   hyper:
+    - name: penalty
+      vary: false
+      default: 12
+      type: option # either option, bool or number
+      options:
+        - 11
+        - 12
+        - elasticnet
+        - none
+      range: null
+    - name: fit_intercept
+      vary: true
+      default: true
+      type: bool # either option, bool or number
+      options: null
+      range: null
+    - name: solver
+      vary: false
+      default: lbfgs
+      type: option
+      options:
+        - lbfgs
+        - newton-cg
+      range: null
+    - name: multi_class
+      vary: false
+      default: auto
+      type: option
+      options:
+        - auto
+        - ovr
+        - multinomial
+      range: null
+    # Hyperparameter tuning for Linear Regressor
+ - name: LinearRegression
+   type: Regression
+   data_type: Tabular
+   complexity: ML
+   hyper:
+    - name: fit_intercept
+      vary: true
+      default: true
+      type: bool # either option, bool or number
+      options: null
+      range: null
+  # Hyperparameter tuning for SupportVector Classifier(SVC)
+ - name: SVC
+   type: Classification
+   data_type: Tabular
+   complexity: ML
+   hyper:
+    - name:  C
+      vary: true
+      default: 1.0
+      type: float
+      options: null 
+      range:
+        - min:  1.0e-5
+        - max: 1.0e+3
+        - num_samp: 10
+        - type: log # can be log or linear
+    - name: kernel
+      vary: false
+      default: rbf
+      type: option # either option, bool or number
+      options:
+        - linear
+        - poly
+        - rbf
+        - sigmoid
+      range: null
+    - name: gamma
+      vary: false
+      default: scale
+      type: option # either option, bool or number
+      options:
+        - auto
+        - scale
+      range: null
+
+  # Hyperparameter tuning for SupportVector Regressor(SVR)
+ - name: SVR
+   type: Regression
+   data_type: Tabular
+   complexity: ML
+   hyper:
+    - name: C
+      vary: true
+      default: 1.0
+      type: float # either option, bool or number
+      options: null
+      range: 
+        - min: 1.0e-5
+        - max: 1.0e+3
+        - num_samp: 50
+        - type: log # can be log or linear
+    - name: kernel
+      vary: true
+      default: rbf
+      type: option # either option, bool or number
+      options:
+        - linear
+        - poly
+        - rbf
+        - sigmoid
+      range: null
+    - name: gamma
+      vary: false
+      default: scale
+      type: option # either option, bool or number
+      options:
+        - auto
+        - scale
+      range: null
+
+  # Hyperparameter Tuning for RandomForest Classifier
+ - name:  RandomForestClassifier
+   type: Classification
+   data_type: Tabular
+   complexity: ML
+   hyper: 
+    - name: n_estimators
+      vary: true
+      default: 100
+      type: int # either option, bool or number
+      options: null
+      range:
+        - min: 10
+        - max: 1000
+        - num_samp: 20
+        - type: linear # can be log or linear
+    - name: max_depth
+      vary: false
+      default: null
+      type: int # either option, bool or number
+      options: null
+      range:
+        - min: 5
+        - max: 100
+        - num_samp: 20
+        - type: linear # can be log or linear
 
     
 
