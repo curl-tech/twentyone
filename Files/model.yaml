@@ -296,7 +296,7 @@
 
     # Hyperparameter tuning for Logistic Classifier
  - name: LogisticRegression
-   type: type: Classification
+   type: Classification
    data_type: Tabular
    complexity: ML
    hyper:
