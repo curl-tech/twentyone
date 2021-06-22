@@ -84,7 +84,7 @@ class Home extends Component {
         console.log(formdata.getAll('train'))
 
         axios.post('http://localhost:8000/create', formdata, { headers: { 'Accept': 'multipart/form-data', 'Content-Type': 'multipart/form-data' } })
-            .then((res) => {console.log("Successful", res)},
+            .then((res) => { console.log("Successful", res) },
                 (error) => { console.log(error) });
     }
     handleAuto() {
@@ -134,6 +134,14 @@ class Home extends Component {
         axios.post('http://localhost:8000/auto', JSON.stringify(data))
             .then(res => { console.log("Successful", res) },
                 (error) => { console.log(error) });
+        axios.get('http://localhost:8000/auto')
+            .then((response) => {
+                console.log(response.data);
+                console.log(response.status);
+                console.log(response.statusText);
+                console.log(response.headers);
+                console.log(response.config);
+            });
     }
     handleCurrentModel = (val) => {
         this.setState({
