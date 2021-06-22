@@ -259,7 +259,8 @@ background-image: url(./assets/img/bg6.png);
   /* box-shadow: 5px 5px 5px grey; */
   /* color: rgba(0,0,0,0.9); */
   color:rgb(37, 8, 105);
-  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif
+  /* font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; */
+  font-family: 'Staatliches', Verdana, Geneva, Tahoma, sans-serif;
 }
 .createpagebox h1{
   text-shadow:1px 1px #111;
@@ -455,11 +456,13 @@ label {
 /* For spinner/loader */
 .loader{
   display:none;
-  margin-top: 5em;
+  margin-top: 1em;
   padding: 1.1em;
   padding-top: 2em;
   padding-bottom: 3em;
   border-radius: 1.2em;
+  margin-left:7em;
+  width:80%;
   background-color: rgba(7, 8, 59, 0.61);
   height: 20em;
   box-shadow: 10px 10px 10px 10px grey;
@@ -516,7 +519,7 @@ margin-left: 5%;
   margin-left: 10%;
   padding-right: 1em;
   color: rgb(255, 255, 255);
-  font-family:Verdana, Geneva, Tahoma, sans-serif;
+  font-family:'Staatliches', Verdana, Geneva, Tahoma, sans-serif;
 
 }
 .section3button
@@ -629,7 +632,8 @@ background-image: url(./assets/img/bg12.png);
   
 }
 .goback{
-  margin-left: 15em;
+  margin-left: 20em;
+  padding-top: 1em;
 }
 .sec5btn{
   color: rgba(12, 24, 49, 0.901);
@@ -773,6 +777,48 @@ background-image: url(./assets/img/bg12.png);
   background-image:linear-gradient(to left bottom , rgba(236, 236, 236, 1),rgba(119, 119, 116, 1));
 }
 
+/* ************************************************************************************************************************ */
+/* Metrics Table */
+.metricstable{
+  left: 50%;
+  display: flex;
+  justify-content: center;
+  padding: 2em;
+}
+.metricstable 
+table {
+	width: 400px;
+	border-collapse: collapse;
+	overflow: hidden;
+	box-shadow: 0 0 20px rgba(0,0,0,0.1);
+  border-radius: 4px;
+  
+}
+
+
+td {
+	padding: 15px;
+	background-color: rgba(255,255,255,0.5 );
+	color: #000;
+}
+
+th {
+	text-align: left;
+  padding: 1em;
+  color: #fff;
+  background-color: #03164e;
+}
+
+td :hover{
+			background-color: rgba(221, 222, 224, 0.877);		
+}
+				
+/* ************************************************************************************************************************ */
+/* plots */
+.plot{
+  padding: 2em;
+}
+				
 /* ************************************************************************************************************************ */
 
 /* footer design */

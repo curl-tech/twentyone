@@ -3,6 +3,8 @@ from fastapi import FastAPI, Body, Request, Form
 from fastapi.datastructures import UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.param_functions import File
+from fastapi.responses import StreamingResponse
+from starlette.responses import FileResponse
 from app.dbclass import Database
 from app.config import settings
 from app.routers.user import user_router
@@ -12,9 +14,10 @@ from app.routers.model import model_router
 from app.routers.metrics import metrics_router
 from app.routers.inference import inference_router
 from app.helpers.allhelpers import reqsEntity, reqEntity
-from app.helpers.project_helper import create_projectID, create_project_id
-from app.helpers.model_helper import create_modelID
+from app.helpers.project_helper import create_project_id, get_project_id, get_raw_data_path
+from app.helpers.model_helper import create_model_id
 from utils import generate_project_folder
+from app.schemas import FormData
 
 origins=settings.CORS_ORIGIN
 
@@ -36,7 +39,7 @@ app.add_middleware(
 )
 
 Project21Database=Database()
-Project21Database.initialise(settings.DB_COLLECTION_USER)
+# Project21Database.initialise(settings.DB_COLLECTION_USER)
 
 @app.get('/')
 def home():
@@ -65,28 +68,33 @@ async def create_project(projectName:str=Form(...),mtype:str=Form(...),train: Up
             "belongsToUserID": 101
             })
         Project21Database.insert_one(settings.DB_COLLECTION_MODEL,{
-            "modelID": create_modelID(),
+            "modelID": create_model_id(),
             "modelName": "Default Model",
             "modelType": mtype,
             "belongsToUserID": 101,
-            "belongsToProjectID": create_project_id(),      #to be changed to get_project_id(userID)
-            "belongsToDataID": 2
+            "belongsToProjectID": get_project_id(101)
         })
         return {"File Received Successfully": "Project Folder Creation Successful"}
     else:
         return operation["Error"]
 
 #2nd api call
-@app.get('/auto')
-def auto():
-    return {"Parent Directory":os.path.abspath(os.path.join(os.getcwd(),os.pardir))}
+@app.get('/file')
+def file():
+    path=get_raw_data_path(25763)       #Have to put projectID here
+    myfile=open(path,mode='rb')
+    return StreamingResponse(myfile,media_type="text/csv")
+
+@app.get('/file-download')
+def file_download():
+    path=get_raw_data_path(25763)       #Have to put projectID here
+    if(os.path.exists(path)):
+        return FileResponse(path,media_type="text/csv")     #for this we need aiofiles to be installed. Use pip install aiofiles
+    return {"Error":"File not found at path"}
 
 @app.post('/auto')
-async def auto(isauto:str=Form(...),target:str=Form(...),modelnumber:str=Form(...),nulltype:str=Form(...)):
-    print(isauto)
-    print(target)
-    print(modelnumber)
-    print(nulltype)
+async def auto(formData:FormData):
+    print(formData)
     return {"Successful":"True"}
 #/auto -> make config file -> modeltype, target, number of models, raw data address
 #make a subfolder -> address of this location send to him

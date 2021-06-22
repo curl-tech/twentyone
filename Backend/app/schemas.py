@@ -119,7 +119,7 @@ class Model(BaseModel):
     picklePath: Optional[str]
     belongsToUserID: int=Field(...)
     belongsToProjectID: int=Field(...)
-    belongsToDataID: int=Field(...)
+    belongsToDataID: Optional[int]
 
     class Config:
         allow_population_by_field_name=True
@@ -187,5 +187,23 @@ class Inference(BaseModel):
                 "belongsToUserID": 101,
                 "belongsToProjectID": 45,
                 "belongsToModelID": 13
+            }
+        }
+
+class FormData(BaseModel):
+    isauto:Optional[bool]
+    target:Optional[str]
+    modelnumber:Optional[int]
+    nulltype:Optional[str]
+
+    class Config:
+        arbitrary_types_allowed=True
+        allow_population_by_field_name=True
+        schema_extra={
+            "examples":{
+                "isauto":True,
+                "target":"TargetColumn",
+                "modelnumber":2,
+                "nulltype":"NA"
             }
         }

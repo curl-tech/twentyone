@@ -1,4 +1,9 @@
+from app.dbclass import Database
+from app.config import settings
 import random
+
+Project21Database=Database()
+Project21Database.initialise(settings.DB_NAME)
 
 def modelEntity(item) -> dict:
     return {
@@ -15,8 +20,13 @@ def modelEntity(item) -> dict:
 def modelsEntity(entity) -> list:
     return [modelEntity(item) for item in entity]
 
-def create_modelID():
-    return random.randint(10000,99999)
+def create_model_id():
+    id = random.randint(10000,99999)
+    result=Project21Database.find_one(settings.DB_COLLECTION_MODEL,{"modelID":id})
+    if result:
+        id=create_model_id()
+    return id
+
 
 def insert_one_model():
     pass
