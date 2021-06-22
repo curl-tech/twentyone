@@ -90,11 +90,11 @@ class Section5 extends Component {
 
 
                         <div className="tab-pane" id="plot" role="tabpanel" aria-labelledby="plot-tab">
-                            Plots will be displayed here
+                           
                                 <div className="container">
                                 <div className="d-flex flex-row justify-content-center flex-wrap">
                                     <Plots />
-                                    <div className="d-flex flex-column plot" >
+                                    {/* <div className="d-flex flex-column plot" >
                                         <img src="1" className="img-fluid" alt=" Plot1 not for this model " />
                                         <img src="2" className="img-fluid" alt=" Plot2 not for this model " />
                                         <img src="3" className="img-fluid" alt=" Plot3 not for this model " />
@@ -104,7 +104,7 @@ class Section5 extends Component {
                                         <img src="4" className="img-fluid" alt=" Plot4 not for this model " />
                                         <img src="5" className="img-fluid" alt=" Plot5 not for this model " />
                                         <img src="6" className="img-fluid" alt=" Plot6 not for this model " />
-                                    </div>
+                                    </div> */}
 
                                 </div>
                             </div>
