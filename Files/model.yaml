@@ -7,6 +7,8 @@
     - name: n_neighbors
       default: 5
       type: int
+      vary: true
+      options: null
       range:
          min: 3
          max: 100
@@ -14,6 +16,8 @@
     - name: leaf_size
       default: 30
       type: int
+      vary: true
+      options: null
       range:
           min: 10
           max: 300
@@ -21,6 +25,7 @@
     - name: algorithm
       default: auto
       type: option
+      vary: false
       options:
         - ball_tree
         - auto
@@ -36,6 +41,8 @@
     - name: max_depth
       default: null
       type: int # either option bool or number
+      options: null
+      vary: true
       range:
         min: 10
         max: 200
@@ -43,12 +50,15 @@
     - name: min_samples_split
       default: 2
       type: int # either option bool or number
+      options: null
+      vary: true
       range:
         min: 10
         max: 200
         num_samp: 5
     - name: criterion
       default: gini
+      vary: false
       type: option
       options:
         - entropy
@@ -57,6 +67,8 @@
     - name: min_samples_leaf
       default: 1
       type: int # either int or float
+      options: null
+      vary: true
       range:
         min: 5
         max: 100
@@ -70,6 +82,7 @@
    hyper:
     - name: criterion
       default: MSE
+      vary: false
       type: option
       options: 
         - MAE # Mean Absolute Error (MAE)
@@ -79,6 +92,7 @@
       default: 100
       type: int
       options: null
+      vary: true
       range:
         min: 10
         max: 1000
@@ -87,6 +101,7 @@
        default: null
        type: int
        options: null
+       vary: true
        range:
         min: 5
         max: 100
@@ -95,6 +110,7 @@
       default: 2
       type: int # either int or float
       options: null
+      vary: true
       range:
         min: 5
         max: 100
@@ -108,6 +124,8 @@
     - name: n_neighbors
       default: 5
       type: int
+      options: null
+      vary: true
       range:
          min: 5
          max: 100
@@ -115,12 +133,15 @@
     - name: leaf_size
       default: 30
       type: int
+      options: null
+      vary: true
       range:
           min: 10
           max: 300
           num_samp: 10
     - name: algorithm
       default: auto
+      vary: false
       type: option
       options:
         - ball_tree
@@ -136,6 +157,7 @@
    hyper:
     - name: criterion
       default: mse
+      vary: false
       type: option
       options:
         - friedman mse
@@ -146,6 +168,8 @@
     - name: max_depth
       default: null
       type: int # either option bool or number
+      options: null
+      vary: true
       range:
         min: 10
         max: 500
@@ -154,6 +178,7 @@
       default: 2
       type: int # either int or float
       options: null
+      vary: true
       range:
         min: 5
         max: 300
@@ -167,24 +192,27 @@
     - name: learning rate
       default: 0.3
       type: float
+      vary: true
       options: null
       range:
-        - min: 0
-        - max: 1
+         min: 0
+         max: 1
     - name: max_depth
       default: 6
       type: int
       options: null
+      vary: true
       range:
-        - min: 0
-        - max: 1000 # max value can be upto infinity
+         min: 0
+         max: 1000 # max value can be upto infinity
     - name: gamma
       default: 0
       type: int # either int or float
       options: null
+      vary: true
       range:
-        - min: 0
-        - max: 1000
+         min: 0
+         max: 1000
   # Hyperparameter tuning for Polynomial Regressor
  - name: PolynomialRegression
    type: Regression
@@ -193,9 +221,11 @@
    hyper:
     - name: poly_degree
       type: int
+      vary: true
+      options: null
       range:
-        - min: 2
-        - max: 7
+         min: 2
+         max: 7
   # Hyperparameter tuning for  GaussianNaiveBayes
  - name: GaussianNB
    type: Classification
@@ -205,10 +235,11 @@
     - name: var_smoothing
       type: float
       default: 1e-9
+      vary: true
       options: null
       range:
-        - min: 1e-5
-        - max: 1e+4
+         min: 1e-5
+         max: 1e+4
   # Hyperparameter tuning for MultinomialNaiveBayes
  - name: MultinomialNB
    type: Classification
@@ -217,13 +248,15 @@
    hyper:
     - name: alpha
       type: float
+      vary: true
       default: 1.0
       options: null
       range:
-        - min: 1.0
-        - max: 20.0
+         min: 1.0
+         max: 20.0
     - name: fit_prior
       type: bool
+      vary: false
       default: True
       options: null
       range: null
@@ -235,6 +268,7 @@
    hyper :
     - name: verbosity
       type: option
+      vary: true
       default: 1
       options:
         - 0 # 0 indicates silent
@@ -242,16 +276,18 @@
         - 2 # 2 indicates info
         - 3 # 3 indicates debug
       range:
-        - min: 0
-        - max: 3
+         min: 0
+         max: 3
     - name: booster
       default: gblinear
+      vary: false
       type: option
       options:
         - gblinear
       range: null
     - name: updater # choice of algorithm to fit linear model
       default: shotgun
+      vary: false
       type: option
       options:
         - shotgun
@@ -321,10 +357,10 @@
       type: float
       options: null 
       range:
-        - min:  1.0e-5
-        - max: 1.0e+3
-        - num_samp: 10
-        - type: log # can be log or linear
+         min:  1.0e-5
+         max: 1.0e+3
+         num_samp: 10
+         type: log # can be log or linear
     - name: kernel
       vary: false
       default: rbf
@@ -356,12 +392,12 @@
       type: float # either option, bool or number
       options: null
       range: 
-        - min: 1.0e-5
-        - max: 1.0e+3
-        - num_samp: 50
-        - type: log # can be log or linear
+         min: 1.0e-5
+         max: 1.0e+3
+         num_samp: 50
+         type: log # can be log or linear
     - name: kernel
-      vary: true
+      vary: false
       default: rbf
       type: option # either option, bool or number
       options:
@@ -391,20 +427,20 @@
       type: int # either option, bool or number
       options: null
       range:
-        - min: 10
-        - max: 1000
-        - num_samp: 20
-        - type: linear # can be log or linear
+         min: 10
+         max: 1000
+         num_samp: 20
+         type: linear # can be log or linear
     - name: max_depth
-      vary: false
+      vary: true
       default: null
       type: int # either option, bool or number
       options: null
       range:
-        - min: 5
-        - max: 100
-        - num_samp: 20
-        - type: linear # can be log or linear
+         min: 5
+         max: 100
+         num_samp: 20
+         type: linear # can be log or linear
 
     
 
