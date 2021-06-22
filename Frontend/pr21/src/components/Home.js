@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
-import aivideo from "../assets/videos/AI.mp4";
 import $ from 'jquery';
 import axios from 'axios';
 // import { HashLink as Link } from 'react-router-hash-link';
 import Result from './Result.js';
 import Section1 from './section1.js';
+import Section3 from './section3.js';
+import Section4 from './section4.js';
 import Section6 from './section6.js';
 import Section5 from './section5.js';
-import Papa from 'papaparse';
+// import Papa from 'papaparse';
 
 class Home extends Component {
     constructor(props) {
@@ -22,9 +23,8 @@ class Home extends Component {
             modelnum: 3,
             nulltype: 'NA',
             currentmodel: 1,
-            inputdata: ""
         }
-        this.updateData = this.updateData.bind(this);
+        // this.updateData = this.updateData.bind(this);
     }
     handleProjectNameChange = event => {
         this.setState({
@@ -37,13 +37,13 @@ class Home extends Component {
         })
         console.log(event.target.files[0]);
     }
-    updateData(result) {
-        this.setState({
-            data: result.data
-        });
-        var data = result.data;
-        // console.log(data);
-    }
+    // updateData(result) {
+    //     this.setState({
+    //         data: result.data
+    //     });
+    //     var data = result.data;
+    //     // console.log(data);
+    // }
     handleMtypeChange = event => {
         this.setState({
             mtype: event.target.value
@@ -55,11 +55,11 @@ class Home extends Component {
         $(theFormItself).hide();
         var theFormItself2 = document.getElementById('form2');
         $(theFormItself2).show();
-        const { train } = this.state;
-        Papa.parse(train, {
-            complete: this.updateData,
-            header: true
-        });
+        // const { train } = this.state;
+        // Papa.parse(train, {
+        //     complete: this.updateData,
+        //     header: true
+        // });
         const formdata = new FormData();
         formdata.append(
             "userID",
@@ -285,40 +285,19 @@ class Home extends Component {
                     {/* ************************************************************************************************************************ */}
                 </div>
                 {/* Section3  */}
-                <div className="section3" id="section3">
-                    <div className="section3box">
-                        <h1>Yes, Its that Easy</h1>
-                        <video className="section3video" width="640" height="360" controls>
-                            <source src={aivideo} type="video/mp4" />
-                            <p>Your browser does not support the video tag.</p>
-                        </video>
-
-                    </div>
-                    <a href='#section2' > <button className=" col-40 section3button">Start Expereince Now &uArr;</button></a>
-
-                </div>
+                {/* This section is for showing demo video */}
+                <Section3/>
                 {/* ************************************************************************************************************************ */}
                 {/* Section 4 */}
-                <div className="section4" id="section4">
-
-                    <div className="col-50 section4col1">
-
-                        {/* <Link to='/#section3' > <button className=" section4button">See Demo</button></Link> */}
-
-                    </div>
-                    <div className="col-50 section4col2">
-                        <h1>Curl AutoMl Engine lets you make excellent machine and deep learning models for all your needs with few clicks</h1>
-
-                        <h3>"The best Part is its Open Source"</h3>
-                        <a href='https://github.com/nikzagarwal/Project_21' target="_blank" rel="noopener noreferrer"> <button className=" section4button">Github Repo</button></a>
-                    </div>
-
-                </div>
+                {/* This Section id for About */}
+                <Section4/>
                 {/* ************************************************************************************************************************ */}
                 {/* Section 5 */}
+                {/* This section is to show detail of every trained model */}
                 <Section5 currentmodel={this.state.currentmodel} />
                 {/* ************************************************************************************************************************ */}
                 {/* Section 6 */}
+                {/* This section is to show all models trained */}
                 <Section6 modelnum={this.state.modelnum} handler={this.handleCurrentModel} projectname={this.state.projectname} />
 
             </div >

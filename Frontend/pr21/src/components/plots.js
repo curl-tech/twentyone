@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 function iframe() {
     return {
         __html: '<iframe src="/output.html" width="1080" height="540"></iframe>'

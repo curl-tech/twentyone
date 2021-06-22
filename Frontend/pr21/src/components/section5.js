@@ -7,6 +7,8 @@ import Plots from './plots.js';
 import Download from './download.js';
 import Metrics from './metrics.js';
 import Papa from 'papaparse';
+import axios from 'axios';
+
 class Section5 extends Component {
 
     handleGoBack = event => {
@@ -21,7 +23,8 @@ class Section5 extends Component {
         super();
         this.state = {
             csvfile: undefined,
-            data:""
+            data:"",
+            inferencefile:undefined 
         };
         this.updateData = this.updateData.bind(this);
     }
@@ -46,6 +49,32 @@ class Section5 extends Component {
         });
         var data = result.data;
         console.log(data);
+    }
+    handleInferenceChange = event => {
+        this.setState({
+            inferencefile: event.target.files[0]
+        })
+        // console.log(event.target.files[0]);
+    }
+    handleGetPrediction = event => {
+        event.preventDefault();
+        const formdata = new FormData();
+        formdata.append(
+            "InferenceData",
+            this.state.inferencefile
+
+        );
+        axios.post('http://localhost:8000/inference', formdata, { headers: { 'Accept': 'multipart/form-data', 'Content-Type': 'multipart/form-data' } })
+            .then((res) => { console.log("Successful", res) },
+                (error) => { console.log(error) });
+        axios.get('http://localhost:8000/inference')
+            .then((response) => {
+                console.log(response.data);
+                console.log(response.status);
+                console.log(response.statusText);
+                console.log(response.headers);
+                console.log(response.config);
+            });
     }
     render() {
         return (
@@ -119,14 +148,9 @@ class Section5 extends Component {
                                         </div>
                                         <div className="flip-card-back2 ">
                                             <p>"Download clean Data"</p>
-                                            <Download />
-                                            {/* <CSVLink
-                                                    data={car}
-                                                    filename="cardata.csv"
-                                                    className="btn btn-primary"
-                                                    target="_blank"
-                                                >Download Now</CSVLink> */}
-                                            <button className="sec5btn" id="form2autobutton">Download</button>
+                                            <Download type="clean" />
+            
+                                           
                                         </div>
                                     </div>
                                 </div>
@@ -137,7 +161,8 @@ class Section5 extends Component {
                                         </div>
                                         <div className="flip-card-back2 ">
                                             <p>"Download pickle file"</p>
-                                            <button className="sec5btn" >Download</button>
+                                            <Download type="pickle" />
+                                          
                                         </div>
                                     </div>
                                 </div>
@@ -162,7 +187,7 @@ class Section5 extends Component {
 
 
                                         <div>
-                                            <button type="submit" className="formbutton" id="getresults" >Get Results</button>
+                                            <button type="submit" className="formbutton" onClick={this.handleGetPrediction} id="getresults" >Get Results</button>
                                         </div>
                                     </div>
                                 </form>
