@@ -81,6 +81,7 @@ code {
   background-color: #153763;
   border-radius: 5px;
 }
+
 .nav-link:focus
 {
   color:#fff;
@@ -118,8 +119,16 @@ code {
 {
   background-color: rgba(255,255,255,0.1);
 }
+
+@media screen and (max-width: 995px) {
+  li.nav-item {
+    background-color: #fff;
+  }
+}
 @media screen and (max-width: 600px) {
-  
+  li.nav-item {
+    background-color: #fff;
+  }
   #navbarSupportedContent
   {
    padding: 1.5em;
@@ -238,8 +247,8 @@ background-image: url(./assets/img/bg6.png);
   min-height: 100vh;
   background-image:linear-gradient(to left bottom,rgba(228, 222, 235, 0.76),rgba(32, 12, 70, 0.904));
   background-image: url(./assets/img/bg17.png);
-  background-size:cover;
-  background-repeat: no-repeat;
+  /* background-size:cover; */
+  /* background-repeat: no-repeat; */
 }  
 
 .createpagebox
@@ -455,6 +464,8 @@ input[type=text],input[type=number] ,select, textarea {
   /* display: block; */
   display: none;
 }
+/* ****************************************************************************************** */
+/* For form 4 */
 #form4
 {
   display: none;
@@ -464,11 +475,11 @@ input[type=text],input[type=number] ,select, textarea {
 {
   color: rgb(255, 255, 255);
   /* margin:1em 2em 0 2em; */
-  margin-top: 8em;
+  /* margin-top: 8em; */
   padding: 1.1em;
   border-radius: 8px;
   background-color: rgba(7, 8, 59, 0.61);
-  overflow:scroll;
+  
 }
 .PreprocessForm h1{
   text-align: center;
@@ -483,6 +494,10 @@ input[type=text],input[type=number] ,select, textarea {
   padding: 0.5em;
   background-color: rgb(30, 3, 66);
   font-family: 'Roberto' 'New Tegomin', 'cursive';
+}
+.preprocesstable
+{
+  overflow:scroll;
 }
 .preprocesstable th
 {
@@ -617,6 +632,45 @@ input[type=text],input[type=number] ,select, textarea {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+/* ****************************************************************************************** */
+/* For form 5 */
+#form5
+{
+  /* display: none; */
+  display: block;
+}
+
+.Modelselection
+{
+  color: rgb(255, 255, 255);
+  /* margin:1em 2em 0 2em; */
+  /* margin-top: 8em; */
+  margin: 1em;
+  padding: 1.1em;
+  border-radius: 8px;
+  background-color: rgba(7, 8, 59, 0.61);
+  
+}
+.Modelselection h1{
+  text-align: center;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding: 10px;
+}
+.Modelselection p{
+  font-weight: bold;
+  letter-spacing: 0.1rem;
+  text-align: center;
+  color: #fff;
+  padding: 0.5em;
+  background-color: rgb(30, 3, 66);
+  font-family: 'Roberto' 'New Tegomin', 'cursive';
+}
+.manualmodelcard input[type=checkbox]{
+  margin: 4px;
+  width: 15px;
+  height: 15px;
+
 }
 /* ********************************************************************************************* */
 /* Section3 */
@@ -872,8 +926,8 @@ background-image: url(./assets/img/bg12.png);
 
 .card{
   margin: 1em;
-  margin-left: 6em;
-  margin-right: 6em;
+  margin-left: 3em;
+  margin-right: 3em;
   
   /* background:linear-gradient(rgba(67, 34, 87, 0.336),rgba(142, 129, 153, 0.5)), url(./assets/img/bg4.jpg); */
   

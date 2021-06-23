@@ -1,10 +1,23 @@
 import React from 'react';
+import $ from 'jquery';
+import axios from 'axios';
 
 
 
 
 class Preprocess extends React.Component {
+    handlePreProcess = event => {
+        event.preventDefault();
+        var theFormItself = document.getElementById('form4');
+        $(theFormItself).hide();
+        var theFormItself2 = document.getElementById('form5');
+        $(theFormItself2).show();
+        
 
+        // axios.post('http://localhost:8000/manualpreprocess', JSON.stringify(data))
+        //     .then(res => { console.log("Successful", res) },
+        //         (error) => { console.log(error) });
+    }
     render() {
         const rawdata = Object.values(this.props.rawdata);
         console.log(this.props.rawdata)
@@ -12,7 +25,7 @@ class Preprocess extends React.Component {
             <div>
                 {rawdata.map((data, i) => (
                     i === 1 ? (
-                        <div className="preprocesstable ">
+                        <div className="preprocesstable " id="preprocesstable">
                             <table>
                                 <thead>
                                     <tr>
@@ -154,7 +167,7 @@ class Preprocess extends React.Component {
                     </select>
                     </div>
                 </div>
-                <button className="preprocessbtn">Preprocess Now</button>
+                <button className="preprocessbtn" onClick={this.handlePreProcess} >Preprocess Now</button>
             </div>
         );
     }

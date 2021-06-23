@@ -4,6 +4,7 @@ import axios from 'axios';
 // import { HashLink as Link } from 'react-router-hash-link';
 import Result from './Result.js';
 import Preprocess from './Preprocess.js';
+import ManualModel from './manualmodel.js';
 import Section1 from './section1.js';
 import Section3 from './section3.js';
 import Section4 from './section4.js';
@@ -25,6 +26,7 @@ class Home extends Component {
             nulltype: 'NA',
             currentmodel: 1,
             data: "{0:0}"
+
         }
         this.updateData = this.updateData.bind(this);
     }
@@ -150,7 +152,16 @@ class Home extends Component {
             currentmodel: val
         })
     }
+    handleAutoPreprocess() {
+        var theFormItself = document.getElementById('preprocesstable');
+        $(theFormItself).toggle();
 
+    }
+    handleAutoModelSelect() {
+        var theFormItself = document.getElementById('modellist');
+        $(theFormItself).toggle();
+
+    }
 
     render() {
         return (
@@ -293,36 +304,48 @@ class Home extends Component {
                     <div className="container" id="form4">
                         <div className="PreprocessForm">
                             <div className="autocheckbox">
-                            <input type="checkbox" id="autopreprocess" name="autopreprocess" />
-                             <label for="autopreprocess"> Auto Preprocess</label>
-                             </div>
-                              <h1>Preprocess</h1>
-                                <p>Go to each column and decide how would you like to preprocess it</p>
-                                <Preprocess rawdata={this.state.data} />
+                                <input type="checkbox" id="autopreprocess" onClick={this.handleAutoPreprocess} name="autopreprocess" />
+                                <label for="autopreprocess"> Auto Preprocess</label>
+                            </div>
+                            <h1>Preprocess</h1>
+                            <p>Go to each column and decide how would you like to preprocess it</p>
+                            <Preprocess rawdata={this.state.data} />
                         </div>
-                        </div>
-
-                        {/* ************************************************************************************************************************ */}
                     </div>
-                    {/* Section3  */}
-                    {/* This section is for showing demo video */}
-                    <Section3 />
-                    {/* ************************************************************************************************************************ */}
-                    {/* Section 4 */}
-                    {/* This Section id for About */}
-                    <Section4 />
-                    {/* ************************************************************************************************************************ */}
-                    {/* Section 5 */}
-                    {/* This section is to show detail of every trained model */}
-                    <Section5 currentmodel={this.state.currentmodel} />
-                    {/* ************************************************************************************************************************ */}
-                    {/* Section 6 */}
-                    {/* This section is to show all models trained */}
-                    <Section6 modelnum={this.state.modelnum} handler={this.handleCurrentModel} projectname={this.state.projectname} />
+                    {/* form 5 for model and hypeparameters selection*/}
+                    <div className="container" id="form5">
+                        <div className="Modelselection">
+                            <div className="autocheckbox">
+                                <input type="checkbox" id="automodel" onClick={this.handleAutoModelSelect} name="automodel" />
+                                <label for="automodel"> Auto Models</label>
+                            </div>
+                            <h1>Models</h1>
+                            <p>Preprocessing is being done. Now, select models and their hyperparameters</p>
+                            <ManualModel mtype={this.state.mtype}/>
+                        </div>
+                    </div>
 
-                </div >
-                );
+                    {/* ************************************************************************************************************************ */}
+                </div>
+                {/* Section3  */}
+                {/* This section is for showing demo video */}
+                <Section3 />
+                {/* ************************************************************************************************************************ */}
+                {/* Section 4 */}
+                {/* This Section id for About */}
+                <Section4 />
+                {/* ************************************************************************************************************************ */}
+                {/* Section 5 */}
+                {/* This section is to show detail of every trained model */}
+                <Section5 currentmodel={this.state.currentmodel} />
+                {/* ************************************************************************************************************************ */}
+                {/* Section 6 */}
+                {/* This section is to show all models trained */}
+                <Section6 modelnum={this.state.modelnum} handler={this.handleCurrentModel} projectname={this.state.projectname} />
+
+            </div >
+        );
     }
 }
 
-                export default Home;
+export default Home;
