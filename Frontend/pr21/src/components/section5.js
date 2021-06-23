@@ -23,8 +23,8 @@ class Section5 extends Component {
         super();
         this.state = {
             csvfile: undefined,
-            data:"",
-            inferencefile:undefined 
+            data: "",
+            inferencefile: undefined
         };
         this.updateData = this.updateData.bind(this);
     }
@@ -87,8 +87,8 @@ class Section5 extends Component {
                 <div className="sec5heading">
                     <h1>Results (Model Number:  {this.props.currentmodel})</h1>
                 </div>
-               
-               
+
+
                 <div className="container">
                     {/* <!-- Nav tabs --> */}
                     <ul className="nav nav-tabs" id="myTab" role="tablist">
@@ -109,31 +109,24 @@ class Section5 extends Component {
                     {/* <!-- Tab panes --> */}
                     <div className="tab-content">
                         <div className="tab-pane active" id="metrics" role="tabpanel" aria-labelledby="metrics-tab">
-                            Metrics will be displayed here 
+                            Metrics will be displayed here
                             <input type="file" className="form-control" id="metric" onChange={this.handleChange} accept=".csv" name="metric"
-                    placeholder="enter data in csv" required />
-                <button onClick={this.importCSV} className="sec5btn">Import</button>
-                                <Metrics data={this.state.data}/>
+                                placeholder="enter data in csv" required />
+                            <button onClick={this.importCSV} className="sec5btn">Import</button>
+                            <Metrics data={this.state.data} />
                         </div>
 
 
 
                         <div className="tab-pane" id="plot" role="tabpanel" aria-labelledby="plot-tab">
-                           
-                                <div className="container">
+
+                            <div className="container">
                                 <div className="d-flex flex-row justify-content-center flex-wrap">
                                     <Plots />
                                     {/* <div className="d-flex flex-column plot" >
                                         <img src="1" className="img-fluid" alt=" Plot1 not for this model " />
                                         <img src="2" className="img-fluid" alt=" Plot2 not for this model " />
-                                        <img src="3" className="img-fluid" alt=" Plot3 not for this model " />
-
-                                    </div>
-                                    <div className="d-flex flex-column plot" >
-                                        <img src="4" className="img-fluid" alt=" Plot4 not for this model " />
-                                        <img src="5" className="img-fluid" alt=" Plot5 not for this model " />
-                                        <img src="6" className="img-fluid" alt=" Plot6 not for this model " />
-                                    </div> */}
+                                        <img src="3" className="img-fluid" alt=" Plot3 not for this model " />*/}
 
                                 </div>
                             </div>
@@ -149,8 +142,8 @@ class Section5 extends Component {
                                         <div className="flip-card-back2 ">
                                             <p>"Download clean Data"</p>
                                             <Download type="clean" />
-            
-                                           
+
+
                                         </div>
                                     </div>
                                 </div>
@@ -162,7 +155,7 @@ class Section5 extends Component {
                                         <div className="flip-card-back2 ">
                                             <p>"Download pickle file"</p>
                                             <Download type="pickle" />
-                                          
+
                                         </div>
                                     </div>
                                 </div>

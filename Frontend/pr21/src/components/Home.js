@@ -3,18 +3,19 @@ import $ from 'jquery';
 import axios from 'axios';
 // import { HashLink as Link } from 'react-router-hash-link';
 import Result from './Result.js';
+import Preprocess from './Preprocess.js';
 import Section1 from './section1.js';
 import Section3 from './section3.js';
 import Section4 from './section4.js';
 import Section6 from './section6.js';
 import Section5 from './section5.js';
-// import Papa from 'papaparse';
+import Papa from 'papaparse';
 
 class Home extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            userID:101,
+            userID: 101,
             projectname: '',
             train: undefined,
             mtype: 'classification',
@@ -23,8 +24,9 @@ class Home extends Component {
             modelnum: 3,
             nulltype: 'NA',
             currentmodel: 1,
+            data: "{0:0}"
         }
-        // this.updateData = this.updateData.bind(this);
+        this.updateData = this.updateData.bind(this);
     }
     handleProjectNameChange = event => {
         this.setState({
@@ -37,13 +39,13 @@ class Home extends Component {
         })
         console.log(event.target.files[0]);
     }
-    // updateData(result) {
-    //     this.setState({
-    //         data: result.data
-    //     });
-    //     var data = result.data;
-    //     // console.log(data);
-    // }
+    updateData(result) {
+        this.setState({
+            data: result.data
+        });
+        var data = result.data;
+        console.log(data);
+    }
     handleMtypeChange = event => {
         this.setState({
             mtype: event.target.value
@@ -55,11 +57,11 @@ class Home extends Component {
         $(theFormItself).hide();
         var theFormItself2 = document.getElementById('form2');
         $(theFormItself2).show();
-        // const { train } = this.state;
-        // Papa.parse(train, {
-        //     complete: this.updateData,
-        //     header: true
-        // });
+        const { train } = this.state;
+        Papa.parse(train, {
+            complete: this.updateData,
+            header: true
+        });
         const formdata = new FormData();
         formdata.append(
             "userID",
@@ -93,13 +95,13 @@ class Home extends Component {
         var theFormItself2 = document.getElementById('form3');
         $(theFormItself2).show();
     }
-    handleManual() {
+    handleManual = event => {
         this.setState({
             auto: false
         })
         var theFormItself = document.getElementById('form2');
         $(theFormItself).hide();
-        var theFormItself2 = document.getElementById('form3');
+        var theFormItself2 = document.getElementById('form4');
         $(theFormItself2).show();
     }
     handleTargetChange = event => {
@@ -251,8 +253,12 @@ class Home extends Component {
                                         <label htmlFor="target">Target Variable</label>
                                     </div>
                                     <div className="col-60">
-
-                                        <input type="text" id="target" name="target" onChange={this.handleTargetChange} placeholder="Enter target variable" required />
+                                        <select name="target" id="target" onChange={this.handleTargetChange}>
+                                            {Object.keys(this.state.data[0]).map((key, i) =>
+                                                <option value={i}>{key}</option>
+                                            )}
+                                        </select>
+                                        {/* <input type="text" id="target" name="target" onChange={this.handleTargetChange} placeholder="Enter target variable" required /> */}
                                     </div>
                                 </div>
 
@@ -281,28 +287,42 @@ class Home extends Component {
                     </div>
                     {/* loader */}
                     <Result />
-                    {/* </div> */}
                     {/* ************************************************************************************************************************ */}
-                </div>
-                {/* Section3  */}
-                {/* This section is for showing demo video */}
-                <Section3/>
-                {/* ************************************************************************************************************************ */}
-                {/* Section 4 */}
-                {/* This Section id for About */}
-                <Section4/>
-                {/* ************************************************************************************************************************ */}
-                {/* Section 5 */}
-                {/* This section is to show detail of every trained model */}
-                <Section5 currentmodel={this.state.currentmodel} />
-                {/* ************************************************************************************************************************ */}
-                {/* Section 6 */}
-                {/* This section is to show all models trained */}
-                <Section6 modelnum={this.state.modelnum} handler={this.handleCurrentModel} projectname={this.state.projectname} />
 
-            </div >
-        );
+                    {/* form 4 for manual preprocessing */}
+                    <div className="container" id="form4">
+                        <div className="PreprocessForm">
+                            <div className="autocheckbox">
+                            <input type="checkbox" id="autopreprocess" name="autopreprocess" />
+                             <label for="autopreprocess"> Auto Preprocess</label>
+                             </div>
+                              <h1>Preprocess</h1>
+                                <p>Go to each column and decide how would you like to preprocess it</p>
+                                <Preprocess rawdata={this.state.data} />
+                        </div>
+                        </div>
+
+                        {/* ************************************************************************************************************************ */}
+                    </div>
+                    {/* Section3  */}
+                    {/* This section is for showing demo video */}
+                    <Section3 />
+                    {/* ************************************************************************************************************************ */}
+                    {/* Section 4 */}
+                    {/* This Section id for About */}
+                    <Section4 />
+                    {/* ************************************************************************************************************************ */}
+                    {/* Section 5 */}
+                    {/* This section is to show detail of every trained model */}
+                    <Section5 currentmodel={this.state.currentmodel} />
+                    {/* ************************************************************************************************************************ */}
+                    {/* Section 6 */}
+                    {/* This section is to show all models trained */}
+                    <Section6 modelnum={this.state.modelnum} handler={this.handleCurrentModel} projectname={this.state.projectname} />
+
+                </div >
+                );
     }
 }
 
-export default Home;
+                export default Home;
