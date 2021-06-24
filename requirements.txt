@@ -15,3 +15,20 @@ fastapi==0.65.1
 matplotlib==3.4.1
 seaborn==0.11.1
 pydantic==1.8.1
+#Below are the aditional dependencies which is required for pandas profiling.
+scipy>=1.4.1
+PyYAML>=5.0.0
+visions[type_image_path]==0.7.1
+# Could be optional
+# Related to HTML report
+htmlmin>=0.1.12
+# Missing values
+missingno>=0.4.2
+# Correlations
+phik>=0.11.1
+# Text analysis
+tangled-up-in-unicode==0.1.0
+# Examples
+requests>=2.24.0
+# Progress bar
+tqdm>=4.48.2
