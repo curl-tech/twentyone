@@ -637,8 +637,8 @@ input[type=text],input[type=number] ,select, textarea {
 /* For form 5 */
 #form5
 {
-  /* display: none; */
-  display: block;
+  display: none;
+  /* display: block; */
 }
 
 .Modelselection
@@ -668,9 +668,21 @@ input[type=text],input[type=number] ,select, textarea {
 }
 .manualmodelcard input[type=checkbox]{
   margin: 4px;
-  width: 15px;
-  height: 15px;
-
+  width: 18px;
+  height: 18px;
+  margin-top: 1em;
+}
+.manualmodelcard label{
+  font-size: larger;
+}
+.manualcard{
+  height:10em;
+}
+/* For hyperparmeter modal css */
+.modal-backdrop
+{
+  background-color: rgba(255, 255, 255,0.2);
+    /* opacity:0.5 !important; */
 }
 /* ********************************************************************************************* */
 /* Section3 */
@@ -798,7 +810,7 @@ background-image: url(./assets/img/bg13.png);
 .section5
 { 
 background-image:linear-gradient(to left bottom ,rgba(0, 0, 0, 0.685),rgb(39, 225, 231));
-background-image: url(./assets/img/bg12.png);
+background-image: url(./assets/img/bg19.png);
   background-size: cover;
  min-height: 100vh;
  display: none;
@@ -815,18 +827,19 @@ background-image: url(./assets/img/bg12.png);
   
 }
 .goback{
-  margin-left: 20em;
+  /* margin-left: 20em; */
   padding-top: 1em;
 }
-.sec5btn{
+.backbtn{
   color: rgba(12, 24, 49, 0.901);
-  padding: 1em;
+  padding: 0.5em;
   margin: 1em;
   background-image:linear-gradient(to left bottom , rgba(236, 236, 236, 0.815),rgba(119, 119, 116, 0.822));
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   border-radius: 6px;
+  
 }
-.sec5btn:hover{
+.backbtn:hover{
   color: rgba(12, 24, 49, 1);
   background-image:linear-gradient(to left bottom , rgba(236, 236, 236, 1),rgba(119, 119, 116, 1));
 }
@@ -906,7 +919,7 @@ color: #fff;
 { 
 /* background-image:linear-gradient(to left bottom ,rgba(0, 0, 0, 0.685),rgb(39, 225, 231)); */
 /* background:linear-gradient(rgba(49, 71, 77, 0.356),rgba(235, 230, 235, 0.363)), url(./assets/img/bg12.png);  */
-background-image: url(./assets/img/bg12.png);
+background-image: url(./assets/img/bg19.png);
   background-size: cover;
  min-height: 100vh;
 }
@@ -926,8 +939,8 @@ background-image: url(./assets/img/bg12.png);
 
 .card{
   margin: 1em;
-  margin-left: 3em;
-  margin-right: 3em;
+  margin-left: 2.5em;
+  margin-right: 2.5em;
   
   /* background:linear-gradient(rgba(67, 34, 87, 0.336),rgba(142, 129, 153, 0.5)), url(./assets/img/bg4.jpg); */
   

@@ -81,7 +81,7 @@ class Section5 extends Component {
 
             <div className="section5 " id="section5">
                 <div className="goback">
-                    <button className="sec5btn" onClick={this.handleGoBack}  >&lArr; Go Back to Models </button>
+                    <button className="backbtn" onClick={this.handleGoBack}  >&lArr; Go Back to Models </button>
 
                 </div>
                 <div className="sec5heading">

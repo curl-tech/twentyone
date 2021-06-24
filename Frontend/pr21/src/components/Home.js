@@ -305,7 +305,7 @@ class Home extends Component {
                         <div className="PreprocessForm">
                             <div className="autocheckbox">
                                 <input type="checkbox" id="autopreprocess" onClick={this.handleAutoPreprocess} name="autopreprocess" />
-                                <label for="autopreprocess"> Auto Preprocess</label>
+                                <label htmlFor="autopreprocess"> Auto Preprocess</label>
                             </div>
                             <h1>Preprocess</h1>
                             <p>Go to each column and decide how would you like to preprocess it</p>
@@ -317,7 +317,7 @@ class Home extends Component {
                         <div className="Modelselection">
                             <div className="autocheckbox">
                                 <input type="checkbox" id="automodel" onClick={this.handleAutoModelSelect} name="automodel" />
-                                <label for="automodel"> Auto Models</label>
+                                <label htmlFor="automodel"> Auto Models</label>
                             </div>
                             <h1>Models</h1>
                             <p>Preprocessing is being done. Now, select models and their hyperparameters</p>

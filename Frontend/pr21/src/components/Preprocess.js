@@ -1,6 +1,6 @@
 import React from 'react';
 import $ from 'jquery';
-import axios from 'axios';
+// import axios from 'axios';
 
 
 
@@ -32,58 +32,58 @@ class Preprocess extends React.Component {
                                         {Object.keys(data).map((key, i) =>
                                             <th className="dropdown ">
                                                 {key}<span className="fa fa-caret-down"></span>
-                                                <div class="dropdown-content">
+                                                <div className="dropdown-content">
                                                     <div className="prepro">
                                                         <input type="radio" id={i + "drop"} name={i + "drop"} />
-                                                        <label for={i + "drop"}>Drop Column</label>
+                                                        <label htmlFor={i + "drop"}>Drop Column</label>
                                                     </div>
 
                                                     <div className="prepro ">
                                                         <label>Encode Column  <span className="fa fa-caret-right"> </span></label>
-                                                        <div class="dropdown-content2">
+                                                        <div className="dropdown-content2">
                                                             <div className="prepro">
                                                                 <input type="radio" id={i + "encode"} name={i + "encode"} />
-                                                                <label for={i + "encode"}>One Hot Encoding</label>
+                                                                <label htmlFor={i + "encode"}>One Hot Encoding</label>
                                                             </div>
                                                             <div className="prepro">
                                                                 <input type="radio" id={i + "encode"} name={i + "encode"} />
-                                                                <label for={i + "encode"}>Label Encoding</label>
+                                                                <label htmlFor={i + "encode"}>Label Encoding</label>
                                                             </div>
                                                            
                                                         </div>
                                                     </div>
                                                     <div className="prepro">
                                                         <label>Scale Column  <span className="fa fa-caret-right"> </span></label>
-                                                        <div class="dropdown-content2">
+                                                        <div className="dropdown-content2">
                                                             <div className="prepro">
                                                                 <input type="radio" id={i + "scale"} name={i + "scale"} />
-                                                                <label for={i + "scale"}>Standarization</label>
+                                                                <label htmlFor={i + "scale"}>Standarization</label>
                                                             </div>
                                                             <div className="prepro">
                                                                 <input type="radio" id={i + "scale"} name={i + "scale"} />
-                                                                <label for={i + "scale"}>Normalization</label>
+                                                                <label htmlFor={i + "scale"}>Normalization</label>
                                                             </div>
 
                                                         </div>
                                                     </div>
                                                     <div className="prepro">
                                                         <label>Imputation  <span className="fa fa-caret-right"> </span></label>
-                                                        <div class="dropdown-content2">
+                                                        <div className="dropdown-content2">
                                                             <div className="prepro">
                                                                 <input type="radio" id={i + "imputation"} name={i + "imputation"} />
-                                                                <label for={i + "imputation"}>Mean</label>
+                                                                <label htmlFor={i + "imputation"}>Mean</label>
                                                             </div>
                                                             <div className="prepro">
                                                                 <input type="radio" id={i + "imputation"} name={i + "imputation"} />
-                                                                <label for={i + "imputation"}>Median</label>
+                                                                <label htmlFor={i + "imputation"}>Median</label>
                                                             </div>
                                                             <div className="prepro">
                                                                 <input type="radio" id={i + "imputation"} name={i + "imputation"} />
-                                                                <label for={i + "imputation"}>Most Frequent</label>
+                                                                <label htmlFor={i + "imputation"}>Most Frequent</label>
                                                             </div>
                                                             <div className="prepro">
                                                                 <input type="radio" id={i + "imputation"} name={i + "imputation"} />
-                                                                <label for={i + "imputation"}>KNN</label>
+                                                                <label htmlFor={i + "imputation"}>KNN</label>
                                                             </div>
 
                                                         </div>
