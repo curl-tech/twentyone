@@ -81,7 +81,46 @@ class Preprocess:
         # drop columns
         if(drop_col_name[0]!="none"):
             df=df.drop(drop_col_name, axis = 1)
+        elif(drop_col_name == "none"):
+            nan_value = float("NaN")
+            df.replace("", nan_value, inplace=True)
+            df = df.dropna(how='all', axis=1, inplace=True)
+            df = df.dropna(how='all', inplace=True)
 
+            
+##############################################################################################
+                                ###  Mandatory cleaning ###
+        # This section is required because in the manual data cleaning there is a 
+        # good chance that the user can incompleatly choose the preprocessing steps.
+        # or make some other mistake, so this section removes all the necessery 
+        # parts that can lead to any kind of disfunction while the further steps.
+
+        # try to convert all non-numeric values to numeric if possible
+        df=df.infer_objects()
+        # removing columns having object type values as it will create problem in model creation
+        removecol=df.select_dtypes(include=['object']).columns
+        df.drop(labels=removecol,axis=1,inplace=True)
+
+        #test data creation
+        if dftest=="":
+            msk=np.random.rand(len(df))<0.75
+            dftrain=df[msk]
+            dftest=df[~msk]  
+        else:
+            dftrain=df
+        #target variable seperation
+        ytrain=pd.DataFrame(dftrain[config.target_col_name])
+        ytest=pd.DataFrame(dftest[config.target_col_name])
+        dftrain.drop(config.target_col_name,axis=1,inplace=True)
+        dftest.drop(config.target_col_name,axis=1,inplace=True)
+        
+        
+        dftrain.to_csv(cleandatapath+"dftrain.csv",index=None)
+        dftest.to_csv(cleandatapath+"dftest.csv",index=None)
+        ytrain.to_csv(cleandatapath+"ytrain.csv",index=None)
+        ytest.to_csv(cleandatapath+"ytest.csv",index=None)
+
+###############################################################################################
         #### Handling missing data
         # imputation
         if(impution_type[0]!="none"):
