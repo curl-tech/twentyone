@@ -67,93 +67,64 @@ class Preprocess:
             clean_data_address(string):
                      
         """
-        df = raw_data_address
-        drop_col_name=drop_col_name
-        impution_type = impution_type
-        impute_na_value = impute_na_value
-        encoding_type=encoding_type
-        encode_col_name=encode_col_name
-        scaling_type = scaling_type
-        scaling_col_name=scaling_col_name
-        Remove_outlier = True/False
-        target_col_name = target_col_name
+        raw_data_address = config.raw_data_address
+        drop_col_name=dconfig.rop_col_name
+        imputation_column = config.imputation_column
+        impution_type = config.impution_type
+        impute_na_value = config.impute_na_value
+        encoding_type=config.encoding_type
+        encode_col_name=config.encode_col_name
+        scaling_type = config.scaling_type
+        scaling_col_name=sconfig.caling_col_name
+        Remove_outlier = config.True/False
+        target_col_name = config.target_col_name
         
+        # converting the .csv file into pandas dataframe
+        df = pd.read_csv(config.raw_data_address)
+
         # drop columns
         if(drop_col_name[0]!="none"):
             df=df.drop(drop_col_name, axis = 1)
-        elif(drop_col_name == "none"):
+        elif(drop_col_name[0] == "none"):
             nan_value = float("NaN")
             df.replace("", nan_value, inplace=True)
             df = df.dropna(how='all', axis=1, inplace=True)
             df = df.dropna(how='all', inplace=True)
 
-            
-##############################################################################################
-                                ###  Mandatory cleaning ###
-        # This section is required because in the manual data cleaning there is a 
-        # good chance that the user can incompleatly choose the preprocessing steps.
-        # or make some other mistake, so this section removes all the necessery 
-        # parts that can lead to any kind of disfunction while the further steps.
-
-        # try to convert all non-numeric values to numeric if possible
-        df=df.infer_objects()
-        # removing columns having object type values as it will create problem in model creation
-        removecol=df.select_dtypes(include=['object']).columns
-        df.drop(labels=removecol,axis=1,inplace=True)
-
-        #test data creation
-        if dftest=="":
-            msk=np.random.rand(len(df))<0.75
-            dftrain=df[msk]
-            dftest=df[~msk]  
-        else:
-            dftrain=df
-        #target variable seperation
-        ytrain=pd.DataFrame(dftrain[config.target_col_name])
-        ytest=pd.DataFrame(dftest[config.target_col_name])
-        dftrain.drop(config.target_col_name,axis=1,inplace=True)
-        dftest.drop(config.target_col_name,axis=1,inplace=True)
-        
-        
-        dftrain.to_csv(cleandatapath+"dftrain.csv",index=None)
-        dftest.to_csv(cleandatapath+"dftest.csv",index=None)
-        ytrain.to_csv(cleandatapath+"ytrain.csv",index=None)
-        ytest.to_csv(cleandatapath+"ytest.csv",index=None)
-
-###############################################################################################
         #### Handling missing data
         # imputation
-        if(impution_type[0]!="none"):
-            df_value = df.values
-            if impution_type=='mean':
-                imputer = SimpleImputer(missing_value = np.NaN, strategy = 'mean')
-                imputer.fit(df)
-                imputed_data_value = imputer.transform(df)
-                imputed_df = pd.DataFrame(imputed_data_value)
+        if(imputation_column[0]!="none"):
+            for col in imputation_column:
+                df_value = df.values
+                if impution_type=='mean':
+                    imputer = SimpleImputer(missing_value = np.NaN, strategy = 'mean')
+                    imputer.fit(df)
+                    imputed_data_value = imputer.transform(df)
+                    imputed_df = pd.DataFrame(imputed_data_value)
 
-            elif impution_type=='median':
-                imputer = SimpleImputer(missing_values=np.NaN, strategy = 'median')
-                imputer.fit(df)
-                imputed_data_value = imputer.transform(df)
-                imputed_df = pd.DataFrame(imputed_data_value)
- 
-            elif impution_type=='most_frequent':
-                imputer = SimpleImputer(missing_values=np.NaN, strategy = 'most_frequent')
-                imputer.fit(df)
-                imputed_data_value = imputer.transform(df)
-                imputed_df = pd.DataFrame(imputed_data_value)
+                elif impution_type=='median':
+                    imputer = SimpleImputer(missing_values=np.NaN, strategy = 'median')
+                    imputer.fit(df)
+                    imputed_data_value = imputer.transform(df)
+                    imputed_df = pd.DataFrame(imputed_data_value)
+    
+                elif impution_type=='most_frequent':
+                    imputer = SimpleImputer(missing_values=np.NaN, strategy = 'most_frequent')
+                    imputer.fit(df)
+                    imputed_data_value = imputer.transform(df)
+                    imputed_df = pd.DataFrame(imputed_data_value)
 
-            elif impution_type=='knn':
-                imputer = KNNImputer(n_neighbors = 4, weights = "uniform",missing_values = np.NaN)
-                imputer.fit(df)
-                imputed_data_value = imputer.transform(df)
-                imputed_df = pd.DataFrame(imputed_data_value)
-                
-            elif impution_type=='Constant':
-                imputer = SimpleImputer(missing_value = np.NaN, strategy = 'constant', fill_value = impute_na_value )
-                imputer.fit(df)
-                imputed_data_value = imputer.transform(df)
-                imputed_df = pd.DataFrame(imputed_data_value)
+                elif impution_type=='knn':
+                    imputer = KNNImputer(n_neighbors = 4, weights = "uniform",missing_values = np.NaN)
+                    imputer.fit(df)
+                    imputed_data_value = imputer.transform(df)
+                    imputed_df = pd.DataFrame(imputed_data_value)
+                    
+                elif impution_type=='Constant':
+                    imputer = SimpleImputer(missing_value = np.NaN, strategy = 'constant', fill_value = impute_na_value )
+                    imputer.fit(df)
+                    imputed_data_value = imputer.transform(df)
+                    imputed_df = pd.DataFrame(imputed_data_value)
 
         #feature scaling
         if(scaling_col_name[0]!="none"):
@@ -227,6 +198,41 @@ class Preprocess:
         clean_data_address = os.getcwd()+"/clean_data.csv"
         return clean_data_address
         
+          
+##############################################################################################
+                                ###  Mandatory cleaning ###
+        # This section is required because in the manual data cleaning there is a 
+        # good chance that the user can incompleatly choose the preprocessing steps.
+        # or make some other mistake, so this section removes all the necessery 
+        # parts that can lead to any kind of disfunction while the further steps.
+
+        # try to convert all non-numeric values to numeric if possible
+        df=df.infer_objects()
+        # removing columns having object type values as it will create problem in model creation
+        removecol=df.select_dtypes(include=['object']).columns
+        df.drop(labels=removecol,axis=1,inplace=True)
+
+        #test data creation
+        if dftest=="":
+            msk=np.random.rand(len(df))<0.75
+            dftrain=df[msk]
+            dftest=df[~msk]  
+        else:
+            dftrain=df
+        #target variable seperation
+        ytrain=pd.DataFrame(dftrain[config.target_col_name])
+        ytest=pd.DataFrame(dftest[config.target_col_name])
+        dftrain.drop(config.target_col_name,axis=1,inplace=True)
+        dftest.drop(config.target_col_name,axis=1,inplace=True)
+        
+        
+        dftrain.to_csv(cleandatapath+"dftrain.csv",index=None)
+        dftest.to_csv(cleandatapath+"dftest.csv",index=None)
+        ytrain.to_csv(cleandatapath+"ytrain.csv",index=None)
+        ytest.to_csv(cleandatapath+"ytest.csv",index=None)
+
+###############################################################################################
+
 #-------------------------------------------------------------------------------------------------------------------------------------------------------#
     def auto_preprocess(model_type,raw_data_address,target_variable):
         """
