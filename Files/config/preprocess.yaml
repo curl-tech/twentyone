@@ -1,3 +1,165 @@
-- encode:
-  -one_hot_encoding: {}
-   label_encoding: {}
+# The address at which the user's uploaded raw data is saved.
+raw_data_address:
+
+pre-processing:
+# For droping empty rows and columns
+ - drop_col_name: ["none"]
+
+
+# For filling null values present in the dataset.(Imputation)
+ - imputation_column: [["none"]]
+   impution_type: ["none"]
+   missing_value:
+   
+
+  
+
+
+
+
+
+
+ - impution_type: ["none"]
+ - impution_type: ["none"]
+ - impution_type: ["none"]
+ - impution_type: ["none"]
+ - impution_type: ["none"]
+ - impution_type: ["none"]
+ - impution_type: ["none"]
+ - impution_type: ["none"]
+ - impution_type: ["none"]
+ - impution_type: ["none"]
+ - impution_type: ["none"]
+ - impution_type: ["none"]
+ - impution_type: ["none"]
+ - impution_type: ["none"]
+ - impution_type: ["none"]
+
+
+
+
+
+
+
+
+
+
+
+
+
+ - name: K-NN
+   type: Regression
+   datatype: Tabular
+   complexity: ML
+   hyper:
+    - name: n_neighbors
+      default: 5
+      type: int
+      vary: true
+      options: null
+      range:
+         min: 3
+         max: 100
+         num_samp: 5
+    - name: leaf_size
+      default: 30
+      type: int
+      vary: true
+      options: null
+      range:
+          min: 10
+          max: 300
+          num_samp: 10
+    - name: algorithm
+      default: auto
+      type: option
+      vary: false
+      options:
+        - ball_tree
+        - auto
+        - kd_tree
+        - brute
+      range: null
+    # Hyperparameter tuning for DecisionTree Classifier
+ - name: DecisionTree
+   type: Classification
+   datatype: Tabular
+   complexity: ML
+   hyper:
+    - name: max_depth
+      default: null
+      type: int # either option bool or number
+      options: null
+      vary: true
+      range:
+        min: 10
+        max: 200
+        num_samp: 5
+    - name: min_samples_split
+      default: 2
+      type: int # either option bool or number
+      options: null
+      vary: true
+      range:
+        min: 10
+        max: 200
+        num_samp: 5
+    - name: criterion
+      default: gini
+      vary: false
+      type: option
+      options:
+        - entropy
+        - gini
+      range: null
+    - name: min_samples_leaf
+      default: 1
+      type: int # either int or float
+      options: null
+      vary: true
+      range:
+        min: 5
+        max: 100
+        num_samp: 5
+ 
+      # Hyperparameter tuning for RandomForest Regressor  
+ - name: RandomForest
+   type: Regression
+   datatype: Tabular
+   complexity: ML
+   hyper:
+    - name: criterion
+      default: MSE
+      vary: false
+      type: option
+      options: 
+        - MAE # Mean Absolute Error (MAE)
+        - MSE # Mean Squared Error (MSE)
+      range: null
+    - name: n_estimators
+      default: 100
+      type: int
+      options: null
+      vary: true
+      range:
+        min: 10
+        max: 1000
+        num_samp: 15
+    -  name: max_depth
+       default: null
+       type: int
+       options: null
+       vary: true
+       range:
+        min: 5
+        max: 100
+        num_samp: 10
+    - name: min_samples_split
+      default: 2
+      type: int # either int or float
+      options: null
+      vary: true
+      range:
+        min: 5
+        max: 100
+        num_samp: 10
