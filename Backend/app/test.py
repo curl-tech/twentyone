@@ -19,7 +19,7 @@ from Backend.app.helpers.project_helper import create_project_id, get_project_id
 from Backend.app.helpers.model_helper import create_model_id
 from Backend.app.schemas import FormData
 from Backend.utils import generate_project_folder, generate_random_id
-from Files.auto import Auto
+from Files.auto import auto
 
 origins=settings.CORS_ORIGIN
 
@@ -43,7 +43,7 @@ app.add_middleware(
 Project21Database=Database()
 currentIDs=CurrentIDs()
 currentIDs.set_current_user_id(101)
-auto=Auto()
+
 
 @app.get('/')
 def home(): 
@@ -141,7 +141,7 @@ def start_auto_preprocessing(formData:FormData):
     formData=dict(formData)
     user_yaml=yaml.load(open(settings.AUTO_CONFIG_YAML_FILE),Loader=SafeLoader)
     user_yaml["id"]=generate_random_id()
-    user_yaml["raw_data_adresss"]=get_raw_data_path(currentIDs.get_current_project_id())
+    user_yaml["raw_data_address"]=get_raw_data_path(currentIDs.get_current_project_id())
     user_yaml["target_col_name"]=formData["target"]
     result_model=Project21Database.find_one(settings.DB_COLLECTION_MODEL,{"modelID":currentIDs.get_current_model_id()})
     if result_model:
@@ -155,11 +155,14 @@ def start_auto_preprocessing(formData:FormData):
     else:
         user_yaml["location"]='/'
     user_yaml["n"]=formData["modelnumber"]
+    user_yaml["experimentname"]=result_project["projectName"]
     with open(user_yaml["location"]+"/autoConfig.yaml", "w") as f:
         yaml.dump(user_yaml,f)
         f.close()
-    auto_yaml=yaml.load(user_yaml["location"]+'/autoConfig.yaml',Loader=SafeLoader)
-    #call auto(auto_yaml)
+    print(user_yaml)
+    # auto_yaml=yaml.load(user_yaml["location"]+'/autoConfig.yaml',Loader=SafeLoader)
+    automatic_model_training=auto()
+    automatic_model_training.auto(user_yaml["location"]+'/autoConfig.yaml')
     return {"Successful":"True"}
 
 

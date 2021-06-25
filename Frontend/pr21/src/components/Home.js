@@ -266,7 +266,7 @@ class Home extends Component {
                                     <div className="col-60">
                                         <select name="target" id="target" onChange={this.handleTargetChange}>
                                             {Object.keys(this.state.data[0]).map((key, i) =>
-                                                <option value={i}>{key}</option>
+                                                <option value={key}>{key}</option>
                                             )}
                                         </select>
                                         {/* <input type="text" id="target" name="target" onChange={this.handleTargetChange} placeholder="Enter target variable" required /> */}

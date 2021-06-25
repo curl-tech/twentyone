@@ -29,16 +29,18 @@ class auto:
             target_col_name (string):     (The user will select the target cloumn/variable and that target variable name have to be passed to the setup() in pycaret as patameter.)
             
         """
-        df = pd.read_csv(config.raw_data_address)
+        with open (config) as f:
+            config=yaml.load(f,Loader=SafeLoader)
+        df = pd.read_csv(config["raw_data_address"])
         
-        if config.problem_type == "classification":
-            clf1 = setup(data = df, target = config.target_col_name,silent=True, profile= True)
-        elif config.problem_type== "regression":
-            reg1 = setup(data = df, target = config.target_col_name,silent=True, profile= True)
-        elif config.problem_type == "clustering":
+        if config["problem_type"] == "classification":
+            clf1 = setup(data = df, target = config["target_col_name"],silent=True, profile= True)
+        elif config["problem_type"]== "regression":
+            reg1 = setup(data = df, target = config["target_col_name"],silent=True, profile= True)
+        elif config["problem_type"] == "clustering":
             clu1 = setup(data = df,silent=True, profile= True)
-        elif config.problem_type == "nlp":
-            nlp1 = setup(data = df, target = config.target_col_name,silent=True, profile= True)
+        elif config["problem_type"] == "nlp":
+            nlp1 = setup(data = df, target = config["target_col_name"],silent=True, profile= True)
         X_train = get_config('X_train')    
         X_train.to_csv('clean_data.csv', index=False)
         clean_data_address = os.getcwd()+"/clean_data.csv"
@@ -60,7 +62,7 @@ class auto:
         request.reset_index(drop=True, inplace=True)
         # request.to_csv('metrics.csv', index=True, index_label="Sno")
         # metrics_address = os.getcwd()+"/metrics.csv"
-        with open (os.path.join(config.location,"metrics.csv"),'w+') as f:
+        with open (os.path.join(config["location"],"/metrics.csv"),'w+') as f:
             f.write(request.to_csv('metrics.csv', index=True, index_label="Sno"))
             f.close()
         
@@ -88,40 +90,46 @@ class auto:
         here myfirstexp is the name of the experiment started by the user.
         01 is the id or the run number of the test this is inplace made to avoid repetition of names in subsequent runs on the same data set within the experiment
         """
+        with open (config) as f:
+            config=yaml.load(f,Loader=SafeLoader)
         for i in range(len(model_array)):
-            name=str(config.experimentname)+str(config.id)+"_model"+str(i)
+            name=str(config["experimentname"])+str(config["id"])+"_model"+str(i)
             save_model(model_array[i],name)
-            shutil.move(name+".pkl",str(config.location)+str(config.id)+"_model"+str(i)) ##moves  the pkl to the respective folders at the specified location 
+            shutil.move(name+".pkl",str(config["location"])+str(config["id"])+"_model"+str(i)) ##moves  the pkl to the respective folders at the specified location 
             ## folder name is of the form ex:"01_model1" 
 
     
     def model_plot(self,model_array,config):
-        if config.problem_type=="classification":
+        with open (config) as f:
+            config=yaml.load(f,Loader=SafeLoader)
+        if config["problem_type"]=="classification":
             feature_list=["feature","auc","pr","confusion_matrix","error","learning"]
             for i in range(len(model_array)):
-                location=str(config.location)+str(config.id)+"_model"+str(i)
+                location=str(config["location"])+str(config["id"])+"_model"+str(i)
                 os.mkdir(location) ## creates a folder by the name configid_model(number) at the specified location
-                os.mkdir(os.path.join(location,"plots")) ## creates a subfolder named plots to store all the plots inside it
+                os.mkdir(os.path.join(location,"/plots")) ## creates a subfolder named plots to store all the plots inside it
                 plot_list=list(plot_model(model_array[i],feature,save=True) for feature in feature_list)
                 for f in plot_list:
-                    shutil.move(f, os.path.join(location,"plots"))
+                    shutil.move(f, os.path.join(location,"/plots"))
 
         if config.problem_type=="regression":
             feature_list=["feature","residuals","cooks","vc","error","learning"]
             for i in range(len(model_array)):
-                location=str(config.location)+str(config.id)+"_model"+str(i)
+                location=str(config["location"])+str(config["id"])+"_model"+str(i)
                 os.mkdir(location)
-                os.mkdir(os.path.join(location,"plots"))
+                os.mkdir(os.path.join(location,"/plots"))
                 plot_list=list(plot_model(model_array[i],feature,save=True) for feature in feature_list)
                 for f in plot_list:
-                    shutil.move(f, os.path.join(location,"plots"))
+                    shutil.move(f, os.path.join(location,"/plots"))
         
 
     
 
     def auto(self,config):
+        with open (config) as f:
+            config2=yaml.load(f,Loader=SafeLoader)
         clean_data=self.auto_setup(config)
-        model_list=self.top_models_auto(config.n)
+        model_list=self.top_models_auto(config2["n"])
         tuned_list=self.model_tune(model_list)
         self.model_plot(tuned_list,config)
         self.model_save(tuned_list)
