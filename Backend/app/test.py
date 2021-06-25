@@ -53,6 +53,7 @@ def home():
 def startup_mongodb_client():
     Project21Database.initialise(settings.DB_NAME)
     try:
+        currentIDs.set_current_user_id(101)
         Project21Database.insert_one(settings.DB_COLLECTION_USER,{
                 "userID":101,
                 "name": "John Doe",
@@ -93,6 +94,7 @@ def create_project(projectName:str=Form(...),mtype:str=Form(...),train: UploadFi
             })
             try:
                 result=Project21Database.find_one(settings.DB_COLLECTION_USER,{"userID":currentIDs.get_current_user_id()})
+                print(result,"hihihihi")
                 Project21Database.update_one(settings.DB_COLLECTION_USER,{"userID":result["userID"]},{ "listOfProjects":result["listOfProjects"].append(inserted_projectID)})
             except:
                 print({"File Received": "Success", "Project Folder":"Success", "Database Update":"Partially Successful"})
@@ -128,23 +130,29 @@ def file_download():
 @app.post('/auto')
 def start_auto_preprocessing(formData:FormData):
     formData=dict(formData)
+    print(formData)
     user_yaml=yaml.load(open(settings.CONFIG_AUTO_YAML_FILE),Loader=SafeLoader)
     user_yaml["id"]=generate_random_id()
+    print(currentIDs.print_all_ids())
     user_yaml["raw_data_address"]=get_raw_data_path(currentIDs.get_current_project_id())
     user_yaml["target_col_name"]=formData["target"]
     result_model=Project21Database.find_one(settings.DB_COLLECTION_MODEL,{"modelID":currentIDs.get_current_model_id()})
-    # if result_model:
-    user_yaml["problem_type"]=result_model["modelType"]
-    # else:
-    #     user_yaml["problem_type"]='default'
+    if result_model:
+        user_yaml["problem_type"]=result_model["modelType"]
+    else:
+        user_yaml["problem_type"]='default'
     user_yaml["na_value"]=formData["nulltype"]
     result_project=Project21Database.find_one(settings.DB_COLLECTION_PROJECT,{"projectID":currentIDs.get_current_project_id()})
-    # if result_project:
-    user_yaml["location"]=result_project["projectFolderPath"]
-    # else:
-    #     user_yaml["location"]='/'
-    user_yaml["n"]=formData["modelnumber"]
-    user_yaml["experimentname"]=result_project["projectName"]
+    if result_project:
+        user_yaml["location"]=result_project["projectFolderPath"]
+    else:
+        user_yaml["location"]='/'
+    
+        user_yaml["n"]=formData["modelnumber"]
+    if result_project:
+        user_yaml["experimentname"]=result_project["projectName"]
+    else:
+        user_yaml["experimentname"]='default'
     with open(os.path.join(user_yaml["location"],"autoConfig.yaml"), "w") as f:
         yaml.dump(user_yaml,f)
         f.close()
