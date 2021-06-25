@@ -36,7 +36,7 @@ from pycaret.regression import *
 import os
 
 class Preprocess:     
-    def manual_preprocess(model_type,raw_data_address,target_variable,parameters):
+    def manual_preprocess(self,config):
         """
         parameters will have all the custom preprocessing that the user wants to do.
         Such as:
