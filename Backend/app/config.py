@@ -23,9 +23,9 @@ class DatabaseSettings(BaseSettings):
     DB_COLLECTION_INFERENCE: str = "inference_collection"
 
 class Settings(CommonSettings,ServerSettings,DatabaseSettings):
-    #Since api.py is running inside Backend folder thus that becomes the current working directory, hence we are going to the parent directory and there we have the DATABASE folder configured
     DATA_DATABASE_FOLDER: str = os.path.abspath(os.path.join(os.getcwd(),'Database')) 
-    AUTO_CONFIG_YAML_FILE: str = os.path.abspath(os.path.join(os.getcwd(),'Files'))+'/config/autoConfig.yaml'
+    CONFIG_AUTO_YAML_FILE: str = os.path.abspath(os.path.join(os.getcwd(),'Files','config','autoConfig.yaml'))
+    CONFIG_YAML_FOLDER: str = os.path.abspath(os.path.join(os.getcwd(),'Files','config'))
     pass
 
 settings=Settings()

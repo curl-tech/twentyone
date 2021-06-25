@@ -39,7 +39,7 @@ class Database(object):
         return Database.DATABASE[collection].find(query)
 
     @staticmethod
-    def find_one(collection, query):                        #finds one object from the collection the result is a dictionary
+    def find_one(collection, query)->dict:                        #finds one object from the collection the result is a dictionary
         return Database.DATABASE[collection].find_one(query)
 
     @staticmethod

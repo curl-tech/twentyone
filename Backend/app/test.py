@@ -47,11 +47,7 @@ currentIDs.set_current_user_id(101)
 
 @app.get('/')
 def home(): 
-    return {"hello": "world"}
-
-@app.get('/serverstatus')
-def server_status():
-    return JSONResponse({"serverstatus": "working"})
+    return JSONResponse({"Hello": "World","serverStatus":"Working"})
 
 @app.on_event("startup")
 def startup_mongodb_client():
@@ -84,8 +80,8 @@ def create_project(projectName:str=Form(...),mtype:str=Form(...),train: UploadFi
             Project21Database.insert_one(settings.DB_COLLECTION_PROJECT,{
                 "projectID":inserted_projectID,
                 "projectName":projectName,
-                "rawDataPath":operation["Path"],
-                "projectFolderPath":operation["Folder"],
+                "rawDataPath":operation["RawDataPath"],
+                "projectFolderPath":operation["ProjectFolderPath"],
                 "belongsToUserID": currentIDs.get_current_user_id()
                 })
             Project21Database.insert_one(settings.DB_COLLECTION_MODEL,{
@@ -108,18 +104,11 @@ def create_project(projectName:str=Form(...),mtype:str=Form(...),train: UploadFi
         print(operation["Error"])
         return operation["Error"]
 
-@app.get('/file')
-def file():
-    path=get_raw_data_path(45586)       #Have to put projectID here
-    myfile=open(path,mode='rb')
-    return StreamingResponse(myfile,media_type="text/csv")
-
-@app.get('/file-download')
-def file_download():
-    path=get_raw_data_path(45586)       #Have to put projectID here
-    if(os.path.exists(path)):
-        return FileResponse(path,media_type="text/csv")     #for this we need aiofiles to be installed. Use pip install aiofiles
-    return {"Error":"File not found at path"}
+# @app.get('/file')
+# def file():           #For Streaming files
+#     path=get_raw_data_path(45586)       #Have to put projectID here
+#     myfile=open(path,mode='rb')
+#     return StreamingResponse(myfile,media_type="text/csv")
 
 @app.get('/downloadClean')
 def download_clean_data():
@@ -139,36 +128,37 @@ def file_download():
 @app.post('/auto')
 def start_auto_preprocessing(formData:FormData):
     formData=dict(formData)
-    user_yaml=yaml.load(open(settings.AUTO_CONFIG_YAML_FILE),Loader=SafeLoader)
+    user_yaml=yaml.load(open(settings.CONFIG_AUTO_YAML_FILE),Loader=SafeLoader)
     user_yaml["id"]=generate_random_id()
     user_yaml["raw_data_address"]=get_raw_data_path(currentIDs.get_current_project_id())
     user_yaml["target_col_name"]=formData["target"]
     result_model=Project21Database.find_one(settings.DB_COLLECTION_MODEL,{"modelID":currentIDs.get_current_model_id()})
-    if result_model:
-        user_yaml["problem_type"]=result_model["modelType"]
-    else:
-        user_yaml["problem_type"]='default'
+    # if result_model:
+    user_yaml["problem_type"]=result_model["modelType"]
+    # else:
+    #     user_yaml["problem_type"]='default'
     user_yaml["na_value"]=formData["nulltype"]
     result_project=Project21Database.find_one(settings.DB_COLLECTION_PROJECT,{"projectID":currentIDs.get_current_project_id()})
-    if result_project:
-        user_yaml["location"]=result_project["projectFolderPath"]
-    else:
-        user_yaml["location"]='/'
+    # if result_project:
+    user_yaml["location"]=result_project["projectFolderPath"]
+    # else:
+    #     user_yaml["location"]='/'
     user_yaml["n"]=formData["modelnumber"]
     user_yaml["experimentname"]=result_project["projectName"]
-    with open(user_yaml["location"]+"/autoConfig.yaml", "w") as f:
+    with open(os.path.join(user_yaml["location"],"autoConfig.yaml"), "w") as f:
         yaml.dump(user_yaml,f)
         f.close()
     print(user_yaml)
-    # auto_yaml=yaml.load(user_yaml["location"]+'/autoConfig.yaml',Loader=SafeLoader)
     automatic_model_training=auto()
-    automatic_model_training.auto(user_yaml["location"]+'/autoConfig.yaml')
+    automatic_model_training.auto(os.path.join(user_yaml["location"],'autoConfig.yaml'))
     return {"Successful":"True"}
 
 
-@app.get('/auto')
+@app.get('/paths')
 def return_auto_preprocesseing_metrics():
-    return {"metrics":"metrics.csv"}
+    print(settings.CONFIG_AUTO_YAML_FILE)
+    print(os.path.abspath(os.path.join(settings.CONFIG_AUTO_YAML_FILE,'.yaml')))
+    return {"auto-config-path":settings.CONFIG_AUTO_YAML_FILE,"data-database-folder-path":settings.DATA_DATABASE_FOLDER,"config-yaml-folder":settings.CONFIG_YAML_FOLDER}
 #/auto -> make config file -> isauto, target, number of models
 #make a subfolder -> address of this location send to him
 #auto()

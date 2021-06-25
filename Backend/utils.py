@@ -15,13 +15,12 @@ def generate_random_id():
 
 def generate_project_folder(projectName,train):
     try:
-        newpath=os.getcwd()+"/Database/"+merge_project_path(projectName)+'/data/'
+        newpath=os.path.join(os.getcwd(),"Database",merge_project_path(projectName),'data')
         os.makedirs(newpath)
-        with open(newpath+"rawdata.csv","wb") as buffer:
+        with open(os.path.join(newpath,"rawdata.csv"),"wb") as buffer:
             shutil.copyfileobj(train.file,buffer)
-        return {"Success":True, "Path":newpath+"rawdata.csv","Folder":os.path.abspath(os.path.join(newpath,os.pardir))}
+        return {"Success":True, "RawDataPath":os.path.abspath(os.path.join(newpath,"rawdata.csv")),"ProjectFolderPath":os.path.abspath(os.path.join(newpath,os.pardir))}
     except:
-        # print({"Success":False,"Error": "File could not be saved. Folder creation unsuccessful"})
         return {"Success":False,"Error": "File could not be saved. Folder creation unsuccessful"}
 
 
