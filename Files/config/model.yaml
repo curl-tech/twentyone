@@ -345,8 +345,8 @@
       ischanged: false
       type: option # either option, bool or number
       options:
-        - 11
-        - 12
+        - l1
+        - l2
         - elasticnet
         - none
       range: null
