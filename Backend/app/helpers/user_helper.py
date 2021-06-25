@@ -1,3 +1,6 @@
+from Backend.app.dbclass import Database
+from Backend.app.config import settings
+
 def userEntity(item) -> dict:
     return {
         "_id":str(item["_id"]),
@@ -18,9 +21,6 @@ def find_one_user():
     pass
 
 def edit_user():
-    pass
-
-def get_userID():
     pass
 
 def get_user_projects():

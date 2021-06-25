@@ -1,6 +1,6 @@
 import random
-from app.dbclass import Database
-from app.config import settings
+from Backend.app.dbclass import Database
+from Backend.app.config import settings
 
 Project21Database=Database()
 Project21Database.initialise(settings.DB_NAME)
@@ -30,10 +30,13 @@ def edit_project():
 
 def get_raw_data_path(projectID):
     result=Project21Database.find_one(settings.DB_COLLECTION_PROJECT,{"projectID":projectID})
-    return result["rawDataPath"]   #path string returned
+    if result:
+        return result["rawDataPath"]   #path string returned
+    else:
+        return '/'
 
-def get_project_id(id):
-    result=Project21Database.find_one(settings.DB_COLLECTION_PROJECT,{"belongsToUserID":id})
+def get_project_id(userID):
+    result=Project21Database.find_one(settings.DB_COLLECTION_PROJECT,{"belongsToUserID":userID})
     return result["projectID"]
 
 def merge_project_path(projectName):

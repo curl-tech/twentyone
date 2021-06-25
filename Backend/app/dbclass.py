@@ -1,5 +1,6 @@
+import pymongo
 from pymongo import MongoClient
-from app import config
+from Backend.app import config
 
 class Database(object):
     '''
@@ -12,6 +13,11 @@ class Database(object):
     def initialise(dbname):
         client=MongoClient(Database.URI)
         Database.DATABASE=client[dbname]       #Database name under localhost
+        Database.DATABASE[config.settings.DB_COLLECTION_USER].create_index([('userID',pymongo.ASCENDING)],unique=True)
+        Database.DATABASE[config.settings.DB_COLLECTION_PROJECT].create_index([('projectID',pymongo.ASCENDING)],unique=True)
+        Database.DATABASE[config.settings.DB_COLLECTION_DATA].create_index([('dataID',pymongo.ASCENDING)],unique=True)
+        Database.DATABASE[config.settings.DB_COLLECTION_MODEL].create_index([('modelID',pymongo.ASCENDING)],unique=True)
+        
 
     @staticmethod
     def close():                                #To Close the Database connection
@@ -20,11 +26,13 @@ class Database(object):
 
     @staticmethod
     def insert_one(collection, data):                       #Insert data into the Collection
-        Database.DATABASE[collection].insert_one(data)
+        inserted_id=Database.DATABASE[collection].insert_one(data).inserted_id
+        return inserted_id
 
     @staticmethod
     def insert_many(collection, data):                      #insert multiple documents in the collection
-        Database.DATABASE[collection].insert_many(data)
+        inserted_ids=Database.DATABASE[collection].insert_many(data).inserted_ids
+        return inserted_ids
 
     @staticmethod
     def find(collection, query):                            #finds all data from the collection returns a cursor object

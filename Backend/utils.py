@@ -1,6 +1,7 @@
 import os
+import random
 import shutil
-from app.helpers.project_helper import merge_project_path
+from Backend.app.helpers.project_helper import merge_project_path
 
 
 def findCleanData():
@@ -9,16 +10,19 @@ def findCleanData():
 def modelPickleFile():
     pass     #pickle file returned
 
+def generate_random_id():
+    return random.randint(10000,99999)
+
 def generate_project_folder(projectName,train):
     try:
         with open("rawdata.csv","wb") as buffer:
             shutil.copyfileobj(train.file,buffer)
         path=os.getcwd()
         newpath=os.path.abspath(os.path.join(path,os.pardir))
-        newpath=newpath+'/Database/'+merge_project_path(projectName)+'/data/'
-        os.makedirs(newpath)
-        shutil.move(path+'/rawdata.csv',newpath)
-        return {"Success":True, "Path":newpath+'rawdata.csv'}
+        newpath=newpath+'/Database/'+merge_project_path(projectName)
+        os.makedirs(newpath+'/data/')
+        shutil.move(path+'/rawdata.csv',newpath+'/data/')
+        return {"Success":True, "Path":newpath+'/data/'+'rawdata.csv',"Folder":newpath}
     except:
         return {"Success":False,"Error": "File could not be saved. Folder creation unsuccessful"}
 

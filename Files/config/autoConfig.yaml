@@ -1,8 +1,7 @@
-- id: 1
-  raw_data_adresss: /
-  target_col_name: y
-  problem_type: regression
-  na_value: NA
-  location: /
-  n: 1
-  
+id: 1
+raw_data_adresss: /
+target_col_name: y
+problem_type: regression
+na_value: NA
+location: /
+n: 1

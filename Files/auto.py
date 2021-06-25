@@ -6,7 +6,7 @@ import os
 import pandas as pd
 import joblib
 import shutil
-class auto:
+class Auto:
     #df = raw_data_address
     #target_col_name = target_col_name
     #problem_type = problem_type

@@ -1,10 +1,8 @@
-from pydantic import BaseModel
-
 def ResponseModel(data,message):
     return {
         "data": [data],
         "code":200,
-        "message":message
+        "message":message,
     }
 
 def ErrorResponseModel(error, code, message):
@@ -25,6 +23,42 @@ def reqEntity(item) -> dict:
 def reqsEntity(entity) -> list:
     return [reqEntity(item) for item in entity]
 
+class CurrentIDs:
+    def __init__(self):
+        self.userID=0
+        self.projectID=0
+        self.dataID=0
+        self.modelID=0
+
+    def get_current_user_id(self):
+        return self.userID
+    
+    def get_current_project_id(self):
+        return self.projectID
+    
+    def get_current_data_id(self):
+        return self.dataID
+
+    def get_current_model_id(self):
+        return self.modelID
+    
+    def set_current_user_id(self,userID):
+        self.userID=userID
+
+    def set_current_project_id(self,projectID):
+        self.projectID=projectID
+
+    def set_current_data_id(self,dataID):
+        self.dataID=dataID
+
+    def set_current_model_id(self,modelID):
+        self.modelID=modelID
+
+    def print_all_ids(self):
+        print("userID: ",self.userID)
+        print("projectID: ",self.projectID)
+        print("dataID: ",self.dataID)
+        print("modelID: ",self.modelID)
 """
 yaml format - 
 

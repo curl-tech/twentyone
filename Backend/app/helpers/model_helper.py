@@ -1,5 +1,5 @@
-from app.dbclass import Database
-from app.config import settings
+from Backend.app.dbclass import Database
+from Backend.app.config import settings
 import random
 
 Project21Database=Database()

@@ -45,6 +45,7 @@ class Project(BaseModel):
     projectID:int=Field(...)
     projectName:Optional[str]
     rawDataPath: Optional[str]
+    projectFolderPath: Optional[str]
     belongsToUserID: int=Field(...)
     listOfDataIDs: Optional[List[int]]
 
@@ -56,6 +57,7 @@ class Project(BaseModel):
                 "projectID": 45,
                 "projectName": "Boston Housing",
                 "rawDataPath": "/path/to/data/rawfile.csv",
+                "projectFolderPath": "/path/to/data",
                 "belongsToUserID": 101,
                 "listOfDataIDs": [2,4]
             }
@@ -64,6 +66,7 @@ class Project(BaseModel):
 class UpdateProject(BaseModel):
     projectName:Optional[str]
     rawDataPath: Optional[str]
+    projectFolderPath: Optional[str]
     listOfDataIDs: Optional[List[int]]
 
     class Config:
@@ -73,6 +76,7 @@ class UpdateProject(BaseModel):
             "example":{
                 "projectName": "Boston Housing",
                 "rawDataPath": "/path/to/data/rawfile.csv",
+                "projectFolderPath" : "path/to/data",
                 "listOfDataIDs": [2,4]
             }
         }

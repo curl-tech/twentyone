@@ -1,10 +1,10 @@
 from fastapi import APIRouter, Body, HTTPException
 from fastapi.encoders import jsonable_encoder
-from app.dbclass import Database
-from app.config import settings
-from app.schemas import Inference
-from app.helpers.inference_helper import inferenceEntity, inferencesEntity
-from app.helpers.allhelpers import ErrorResponseModel, ResponseModel
+from Backend.app.dbclass import Database
+from Backend.app.config import settings
+from Backend.app.schemas import Inference
+from Backend.app.helpers.inference_helper import inferenceEntity, inferencesEntity
+from Backend.app.helpers.allhelpers import ErrorResponseModel, ResponseModel
 
 Project21Database=Database()
 Project21Database.initialise(settings.DB_NAME)
