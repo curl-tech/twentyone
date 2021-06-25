@@ -82,6 +82,8 @@ class Preprocess:
         # converting the .csv file into pandas dataframe
         df = pd.read_csv(config.raw_data_address)
 
+        #### Handling missing data
+
         # drop columns
         if(drop_col_name[0]!="none"):
             df=df.drop(drop_col_name, axis = 1)
@@ -91,73 +93,62 @@ class Preprocess:
             df = df.dropna(how='all', axis=1, inplace=True)
             df = df.dropna(how='all', inplace=True)
 
-        #### Handling missing data
         # imputation
         if(imputation_column[0]!="none"):
             for col in imputation_column:
-                df_value = df.values
-                if impution_type=='mean':
-                    imputer = SimpleImputer(missing_value = np.NaN, strategy = 'mean')
-                    imputer.fit(df)
-                    imputed_data_value = imputer.transform(df)
-                    imputed_df = pd.DataFrame(imputed_data_value)
-
-                elif impution_type=='median':
-                    imputer = SimpleImputer(missing_values=np.NaN, strategy = 'median')
-                    imputer.fit(df)
-                    imputed_data_value = imputer.transform(df)
-                    imputed_df = pd.DataFrame(imputed_data_value)
-    
-                elif impution_type=='most_frequent':
-                    imputer = SimpleImputer(missing_values=np.NaN, strategy = 'most_frequent')
-                    imputer.fit(df)
-                    imputed_data_value = imputer.transform(df)
-                    imputed_df = pd.DataFrame(imputed_data_value)
-
-                elif impution_type=='knn':
-                    imputer = KNNImputer(n_neighbors = 4, weights = "uniform",missing_values = np.NaN)
-                    imputer.fit(df)
-                    imputed_data_value = imputer.transform(df)
-                    imputed_df = pd.DataFrame(imputed_data_value)
+                for type in impution_type:
+                    x_value = df[[col]].values
+                    if type=='mean':
+                        imputer = SimpleImputer(missing_values = np.NaN, strategy = 'mean')
                     
-                elif impution_type=='Constant':
-                    imputer = SimpleImputer(missing_value = np.NaN, strategy = 'constant', fill_value = impute_na_value )
-                    imputer.fit(df)
-                    imputed_data_value = imputer.transform(df)
-                    imputed_df = pd.DataFrame(imputed_data_value)
+                    elif type=='median':
+                        imputer = SimpleImputer(missing_values=np.NaN, strategy = 'median')
+                    
+                    elif type=='most_frequent':
+                        imputer = SimpleImputer(missing_values=np.NaN, strategy = 'most_frequent')
+                    
+                    elif type=='knn':
+                        imputer = KNNImputer(n_neighbors = 4, weights = "uniform",missing_values = np.NaN)
+                    
+                    imputed_data_value = imputer.fit_transform(x_value)
+                    df[[col]]= imputed_data_value
 
         #feature scaling
         if(scaling_col_name[0]!="none"):
-            if scaling_type == "normalization":
-                x = df[scaling_col_name].values
-                scaleing = MinMaxScaler()
-                x_scaled = scaleing.fit_transform(x)
-                df[scaling_col_name]= x_scaled
+            for col in scaling_col_name:
+                for type in scaling_type:
+                    x_value = df[[col]].values
+                    if type == "normalization":
+                        scaler = MinMaxScaler()
+                
+                    elif type == 'standarization':
+                        scaler = StandardScaler()
+                            
+                    scaled_value =scaler.fit_transform(x_value)
+                    df[[col]] = scaled_value
 
-            elif scaling_type == 'standarization':
-                x = df[scaling_col_name].values
-                scaleing = StandardScaler()
-                x_scaled = scaleing.fit_transform(x)
-                df[scaling_col_name]= x_scaled
             
         #### handling catogarical data
         # encoding
         if(encode_col_name[0] != "none"):
-            if encoding_type == "Label Encodeing":
-                le = LabelEncoder()
-                x_encoded = le.fit_transform(df[encode_col_name])
-                features = x_encoded.columns
-                for feature in features:
-                    df.drop([feature],axis=1,inplace=True)
-                    df=pd.concat([df,x_encoded[feature]],axis=1)
-            elif encoding_type == "One-Hot Encoding":
-                ohe = OneHotEncoder(categories = encode_col_name, sparse = False, drop = "Frist")
-                x = ohe.fit_transform(df[encode_col_name])
-                x_encoded = pd.DataFrame(x)
-                features = x_encoded.columns
-                for feature in features:
-                    df.drop([feature],axis=1,inplace=True)
-                    df=pd.concat([df,x_encoded[feature]],axis=1) 
+            for col in encoding_type:
+                for type in encoding_type:
+                    if encoding_type == "Label Encodeing":
+                        le = LabelEncoder()
+                        x_encoded = le.fit_transform(df[encode_col_name])
+                        features = x_encoded.columns
+                        for feature in features:
+                            df.drop([feature],axis=1,inplace=True)
+                            df=pd.concat([df,x_encoded[feature]],axis=1)
+                            
+                    elif encoding_type == "One-Hot Encoding":
+                        ohe = OneHotEncoder(categories = encode_col_name, sparse = False, drop = "Frist")
+                        x = ohe.fit_transform(df[encode_col_name])
+                        x_encoded = pd.DataFrame(x)
+                        features = x_encoded.columns
+                        for feature in features:
+                            df.drop([feature],axis=1,inplace=True)
+                            df=pd.concat([df,x_encoded[feature]],axis=1) 
 
         # Feature engineering & Feature Selection
         ### Outlier detection & Removel
