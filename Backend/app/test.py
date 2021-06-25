@@ -1,5 +1,4 @@
 import os
-import shutil
 from fastapi import FastAPI, Form
 from fastapi.datastructures import UploadFile
 from fastapi.middleware.cors import CORSMiddleware
@@ -94,12 +93,17 @@ def create_project(projectName:str=Form(...),mtype:str=Form(...),train: UploadFi
                 "belongsToUserID": currentIDs.get_current_user_id(),
                 "belongsToProjectID": inserted_projectID
             })
-            result=Project21Database.find_one(settings.DB_COLLECTION_USER,{"userID":currentIDs.get_current_user_id()})
-            Project21Database.update_one(settings.DB_COLLECTION_USER,{"userID":result["userID"]},{ "listOfProjects":result["listOfProjects"].append(inserted_projectID)})
+            try:
+                result=Project21Database.find_one(settings.DB_COLLECTION_USER,{"userID":currentIDs.get_current_user_id()})
+                Project21Database.update_one(settings.DB_COLLECTION_USER,{"userID":result["userID"]},{ "listOfProjects":result["listOfProjects"].append(inserted_projectID)})
+            except:
+                print({"File Received": "Success", "Project Folder":"Success", "Database Update":"Partially Successful"})
         except:
+            print({"File Received": "Success","Project Folder":"Success","Database Update":"Failure"})
             return {"File Received": "Success","Project Folder":"Success","Database Update":"Failure"}
         return {"File Received": "Success", "Project Folder":"Success", "Database Update":"Success"}
     else:
+        print(operation["Error"])
         return operation["Error"]
 
 @app.get('/file')
@@ -145,15 +149,13 @@ def start_auto_preprocessing(formData:FormData):
     user_yaml["na_value"]=formData["nulltype"]
     result_project=Project21Database.find_one(settings.DB_COLLECTION_PROJECT,{"projectID":currentIDs.get_current_project_id()})
     if result_project:
-        user_yaml["location"]=os.path.abspath(os.path.join(result_project["rawDataPath"],os.pardir,os.pardir))
+        user_yaml["location"]=result_project["projectFolderPath"]
     else:
         user_yaml["location"]='/'
     user_yaml["n"]=formData["modelnumber"]
-    with open("autoConfig.yaml", "w") as f:
+    with open(user_yaml["location"]+"/autoConfig.yaml", "w") as f:
         yaml.dump(user_yaml,f)
         f.close()
-    
-    shutil.move('autoConfig.yaml',user_yaml["location"])
     auto_yaml=yaml.load(user_yaml["location"]+'/autoConfig.yaml',Loader=SafeLoader)
     #call auto(auto_yaml)
     return {"Successful":"True"}
