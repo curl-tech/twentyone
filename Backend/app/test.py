@@ -19,6 +19,7 @@ from Backend.app.helpers.project_helper import create_project_id, get_project_id
 from Backend.app.helpers.model_helper import create_model_id
 from Backend.app.schemas import FormData
 from Backend.utils import generate_project_folder, generate_random_id
+from Files.auto import Auto
 
 origins=settings.CORS_ORIGIN
 
@@ -42,6 +43,7 @@ app.add_middleware(
 Project21Database=Database()
 currentIDs=CurrentIDs()
 currentIDs.set_current_user_id(101)
+auto=Auto()
 
 @app.get('/')
 def home(): 
