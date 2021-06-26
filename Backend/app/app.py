@@ -4,8 +4,6 @@ from fastapi.datastructures import UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.param_functions import File
 from fastapi.responses import StreamingResponse, JSONResponse, FileResponse
-import yaml
-from yaml.loader import SafeLoader
 from Backend.app.dbclass import Database
 from Backend.app.config import settings
 from Backend.app.routers.user import user_router
@@ -14,11 +12,12 @@ from Backend.app.routers.data import data_router
 from Backend.app.routers.model import model_router
 from Backend.app.routers.metrics import metrics_router
 from Backend.app.routers.inference import inference_router
-from Backend.app.helpers.allhelpers import reqsEntity, reqEntity, CurrentIDs, serialiseDict, serialiseList
-from Backend.app.helpers.project_helper import create_project_id, get_project_id, get_raw_data_path
-from Backend.app.helpers.model_helper import create_model_id
+from Backend.app.helpers.allhelpers import CurrentIDs, serialiseDict, serialiseList
+from Backend.app.helpers.project_helper import create_project_id
+from Backend.app.helpers.data_helper import get_clean_data_path
+from Backend.app.helpers.model_helper import create_model_id, get_pickle_file_path
 from Backend.app.schemas import FormData
-from Backend.utils import generate_project_folder, generate_random_id
+from Backend.utils import generate_project_folder, generate_project_auto_config_file
 from Files.auto import auto
 
 origins=settings.CORS_ORIGIN
@@ -94,18 +93,20 @@ def create_project(projectName:str=Form(...),mtype:str=Form(...),train: UploadFi
             })
             try:
                 result=Project21Database.find_one(settings.DB_COLLECTION_USER,{"userID":currentIDs.get_current_user_id()})
-                print(serialiseDict(result),"hihihihi")
-                result=serialiseDict(result)
-                Project21Database.update_one(settings.DB_COLLECTION_USER,{"userID":result["userID"]},{ "$set":{"listOfProjects":result["listOfProjects"].append(inserted_projectID)}})
+                if result is not None:
+                    result=serialiseDict(result)
+                    if result["listOfProjects"]:
+                        newListOfProjects=result["listOfProjects"]
+                        newListOfProjects.append(inserted_projectID)
+                        Project21Database.update_one(settings.DB_COLLECTION_USER,{"userID":result["userID"]},{"$set":{"listOfProjects":newListOfProjects}})
+                    else:
+                        Project21Database.update_one(settings.DB_COLLECTION_USER,{"userID":result["userID"]},{"$set":{"listOfProjects":[inserted_projectID]}})
             except:
-                print(currentIDs.print_all_ids())
-            print({"File Received": "Success", "Project Folder":"Success", "Database Update":"Partially Successful"})
+                return {"File Received": "Success", "Project Folder":"Success", "Database Update":"Partially Successful"}
         except:
-            print({"File Received": "Success","Project Folder":"Success","Database Update":"Failure"})
             return {"File Received": "Success","Project Folder":"Success","Database Update":"Failure"}
         return {"File Received": "Success", "Project Folder":"Success", "Database Update":"Success"}
     else:
-        print(operation["Error"])
         return operation["Error"]
 
 # @app.get('/file')
@@ -117,14 +118,14 @@ def create_project(projectName:str=Form(...),mtype:str=Form(...),train: UploadFi
 @app.get('/downloadClean')
 def download_clean_data():
     print("current user id: ",currentIDs.get_current_user_id())
-    path=get_raw_data_path(68677)       #Have to put dataID here
+    path=get_clean_data_path(currentIDs.get_current_data_id())       #Have to put dataID here
     if(os.path.exists(path)):
         return FileResponse(path,media_type="text/csv")     #for this we need aiofiles to be installed. Use pip install aiofiles
     return {"Error":"File not found at path"}
 
 @app.get('/downloadPickle')
 def file_download():
-    path=get_raw_data_path(68677)       #Have to put modelID here
+    path=get_pickle_file_path(currentIDs.get_current_model_id())       #Have to put modelID here
     if(os.path.exists(path)):
         return FileResponse(path,media_type="text/csv")     #for this we need aiofiles to be installed. Use pip install aiofiles
     return {"Error":"File not found at path"}
@@ -132,45 +133,13 @@ def file_download():
 @app.post('/auto')
 def start_auto_preprocessing(formData:FormData):
     formData=dict(formData)
-    print(formData)
-    user_yaml=yaml.load(open(settings.CONFIG_AUTO_YAML_FILE),Loader=SafeLoader)
-    user_yaml["id"]=generate_random_id()
-    print(currentIDs.print_all_ids())
-    user_yaml["raw_data_address"]=get_raw_data_path(currentIDs.get_current_project_id())
-    user_yaml["target_col_name"]=formData["target"]
-    result_model=Project21Database.find_one(settings.DB_COLLECTION_MODEL,{"modelID":currentIDs.get_current_model_id()})
-    if result_model:
-        user_yaml["problem_type"]=result_model["modelType"]
-    else:
-        user_yaml["problem_type"]='default'
-    user_yaml["na_value"]=formData["nulltype"]
-    result_project=Project21Database.find_one(settings.DB_COLLECTION_PROJECT,{"projectID":currentIDs.get_current_project_id()})
-    if result_project:
-        user_yaml["location"]=result_project["projectFolderPath"]
-    else:
-        user_yaml["location"]='/'
-    
-        user_yaml["n"]=formData["modelnumber"]
-    if result_project:
-        user_yaml["experimentname"]=result_project["projectName"]
-    else:
-        user_yaml["experimentname"]='default'
-    with open(os.path.join(user_yaml["location"],"autoConfig.yaml"), "w") as f:
-        yaml.dump(user_yaml,f)
-        f.close()
-    print(user_yaml)
+    projectAutoConfigFileLocation=generate_project_auto_config_file(currentIDs,formData,)
     automatic_model_training=auto()
-    automatic_model_training.auto(os.path.join(user_yaml["location"],'autoConfig.yaml'))
+    automatic_model_training.auto(projectAutoConfigFileLocation)
+    #receive clean_data.csv path and update data_collection
+    #send metrics to frontend
     return {"Successful":"True"}
 
-
-@app.get('/paths')
-def return_auto_preprocesseing_metrics():
-    print(settings.CONFIG_AUTO_YAML_FILE)
-    print(os.path.abspath(os.path.join(settings.CONFIG_AUTO_YAML_FILE,'.yaml')))
-    return {"auto-config-path":settings.CONFIG_AUTO_YAML_FILE,"data-database-folder-path":settings.DATA_DATABASE_FOLDER,"config-yaml-folder":settings.CONFIG_YAML_FOLDER}
-#/auto -> make config file -> isauto, target, number of models
-#make a subfolder -> address of this location send to him
-#auto()
-#config_id -> 
-#metrics, plot files location, pickle file location, clean data location
+@app.get('/auto')
+def return_auto_generated_metrics():
+    return JSONResponse({"metrics":"path/to/metrics.csv"})

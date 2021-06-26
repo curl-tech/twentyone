@@ -1,3 +1,4 @@
+from Backend.app.helpers.allhelpers import serialiseDict
 from Backend.app.dbclass import Database
 from Backend.app.config import settings
 import random
@@ -27,6 +28,17 @@ def create_model_id():
         id=create_model_id()
     return id
 
+def get_pickle_file_path(modelID):
+    try:
+        result=Project21Database.find_one(settings.DB_COLLECTION_MODEL,{"modelID":modelID})
+        result=serialiseDict(result)
+        if result is not None:
+            return result["picklePath"]
+        else:
+            return '/'
+    except:
+        print("An error occured while retreiving picklePath from the Model Collection")
+        return '/'
 
 def insert_one_model():
     pass
