@@ -15,6 +15,8 @@ fastapi==0.65.1
 matplotlib==3.4.1
 seaborn==0.11.1
 pydantic==1.8.1
+python-multipart==0.0.5
+uvicorn==0.14.0
 #Below are the aditional dependencies which is required for pandas profiling.
 scipy>=1.4.1
 PyYAML>=5.0.0
