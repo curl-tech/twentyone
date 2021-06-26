@@ -14,7 +14,7 @@ from Backend.app.routers.data import data_router
 from Backend.app.routers.model import model_router
 from Backend.app.routers.metrics import metrics_router
 from Backend.app.routers.inference import inference_router
-from Backend.app.helpers.allhelpers import reqsEntity, reqEntity, CurrentIDs
+from Backend.app.helpers.allhelpers import reqsEntity, reqEntity, CurrentIDs, serialiseDict, serialiseList
 from Backend.app.helpers.project_helper import create_project_id, get_project_id, get_raw_data_path
 from Backend.app.helpers.model_helper import create_model_id
 from Backend.app.schemas import FormData
@@ -94,10 +94,12 @@ def create_project(projectName:str=Form(...),mtype:str=Form(...),train: UploadFi
             })
             try:
                 result=Project21Database.find_one(settings.DB_COLLECTION_USER,{"userID":currentIDs.get_current_user_id()})
-                print(result,"hihihihi")
-                Project21Database.update_one(settings.DB_COLLECTION_USER,{"userID":result["userID"]},{ "listOfProjects":result["listOfProjects"].append(inserted_projectID)})
+                print(serialiseDict(result),"hihihihi")
+                result=serialiseDict(result)
+                Project21Database.update_one(settings.DB_COLLECTION_USER,{"userID":result["userID"]},{ "$set":{"listOfProjects":result["listOfProjects"].append(inserted_projectID)}})
             except:
-                print({"File Received": "Success", "Project Folder":"Success", "Database Update":"Partially Successful"})
+                print(currentIDs.print_all_ids())
+            print({"File Received": "Success", "Project Folder":"Success", "Database Update":"Partially Successful"})
         except:
             print({"File Received": "Success","Project Folder":"Success","Database Update":"Failure"})
             return {"File Received": "Success","Project Folder":"Success","Database Update":"Failure"}

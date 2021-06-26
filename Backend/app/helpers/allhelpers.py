@@ -23,6 +23,12 @@ def reqEntity(item) -> dict:
 def reqsEntity(entity) -> list:
     return [reqEntity(item) for item in entity]
 
+def serialiseDict(item) -> dict:
+    return {**{k:item[k] for k in item if k!='_id'}}    #To serialise the python cursor object received using pymongo's find_many and find_one method
+
+def serialiseList(items) -> list:
+    return [serialiseDict(item) for item in items]
+
 class CurrentIDs:
     def __init__(self):
         self.userID=0

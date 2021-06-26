@@ -58,11 +58,11 @@ class auto:
         request = pull()
         request = request.rename({'Prec.': 'Precision'}, axis='columns')
         request.reset_index(drop=True, inplace=True)
-        # request.to_csv('metrics.csv', index=True, index_label="Sno")
+        request.to_csv(os.path.join(config["location"],"metrics.csv"), index=True, index_label="Sno")
         # metrics_address = os.getcwd()+"/metrics.csv"
-        with open (os.path.join(config["location"],"metrics.csv"),'w+') as f:
-            f.write(request.to_csv('metrics.csv', index=True, index_label="Sno"))
-            f.close()
+        # with open (os.path.join(config["location"],"metrics.csv"),'w+') as f:
+        #     f.write(request.to_csv('metrics.csv', index=True, index_label="Sno"))
+        #     f.close()
         
         return best
     
@@ -108,7 +108,7 @@ class auto:
                 for f in plot_list:
                     shutil.move(f, os.path.join(location,"plots"))
 
-        if config.problem_type=="regression":
+        if config["problem_type"]=="regression":
             feature_list=["feature","residuals","cooks","vc","error","learning"]
             for i in range(len(model_array)):
                 location=os.path.join(config["location"],str(config["id"])+"_model"+str(i))
