@@ -1,0 +1,35 @@
+# The address at which the user's uploaded raw data is saved.
+raw_data_address:
+
+# User specified target column.
+target_column_name:
+
+
+# For droping empty rows and columns
+- drop_column_name: ["none"]
+
+
+# For filling null values present in the dataset.(Imputation)
+- imputation_column_name: ["none"]
+  impution_type: []
+  na_notation : np.NaN
+
+
+# For feature scaling.
+- scaling_column_name: ["none"]
+  scaling_type: []
+
+
+
+# For feature scaling.
+- encode_column_name: ["none"]
+  encoding_type: []
+
+- Remove_outlier: True
+
+- feature_engineering_and_selection: True
+
+- data_imbalance: True
+
+- split_ratio_train: 70
+- split_ratio_test: 30
