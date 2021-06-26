@@ -47,14 +47,14 @@ class auto:
         return clean_data_address     
 
 
-    def top_models_auto(self,config,n):
+    def top_models_auto(self,config,n=3):
 
         """
         This funtion takes the user input n in integer format and feeds it to the pycaret function and pycaret in turn returns the top n funtion in an array format 
         The array containing classifiers is returned at the end of the function 
         """
         config=yaml.load(open(config),Loader=SafeLoader)
-        best = compare_models(n_select=n)
+        best = compare_models()
         request = pull()
         request = request.rename({'Prec.': 'Precision'}, axis='columns')
         request.reset_index(drop=True, inplace=True)
@@ -72,8 +72,12 @@ class auto:
     
     def model_tune(self,model_array):
         tuned_best=[]
+        # count=0
         for i in model_array:
             tuned_best.append(tune_model(i))
+            # count+=1
+            # if(count==2):
+            #     break
 
         return tuned_best 
     
@@ -90,10 +94,21 @@ class auto:
         """
         config=yaml.load(open(config),Loader=SafeLoader)
         for i in range(len(model_array)):
+            #/home/rishabh/githubrepos/Project_21-1/Database/Tired_7378399911531481/98686_model0
+            location=os.path.join(config["location"],str(config["id"])+"_model"+str(i))
+            os.makedirs(location) ## creates a folder by the name configid_model(number) at the specified location
+            # os.makedirs(os.path.join(location,"plots")) ## creates a subfolder named plots to store all the plots inside it
+            #Tired98686_model0
             name=str(config["experimentname"])+str(config["id"])+"_model"+str(i)
+            os.makedirs(os.path.join(config["location"],name))
             save_model(model_array[i],name)
-            shutil.move(name+".pkl",str(config["location"])+str(config["id"])+"_model"+str(i)) ##moves  the pkl to the respective folders at the specified location 
-            ## folder name is of the form ex:"01_model1" 
+            shutil.move(name+'.pkl',location) ##moves  the pkl to the respective folders at the specified location 
+        
+        # for i in range(1):
+        #     name=str(config["experimentname"])+str(config["id"])+"_model"+str(i)+'.pkl'
+        #     save_model(model_array[i],name)
+        #     shutil.move(name+".pkl",str(config["location"])+str(config["id"])+"_model"+str(i)) ##moves  the pkl to the respective folders at the specified location 
+        #     ## folder name is of the form ex:"01_model1" 
 
     
     def model_plot(self,model_array,config):
@@ -126,6 +141,10 @@ class auto:
         clean_data=self.auto_setup(config)
         model_list=self.top_models_auto(config,config2["n"])
         tuned_list=self.model_tune(model_list)
-        self.model_plot(tuned_list,config)
-        self.model_save(tuned_list)
+        print(len(model_list))
+        print(len(tuned_list))
+        print("Model List:",model_list)
+        print("Tuned List: ",tuned_list)
+        # self.model_plot(tuned_list,config)
+        # self.model_save(tuned_list,config)
         
