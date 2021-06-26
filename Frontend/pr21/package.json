@@ -20,6 +20,7 @@
     "react-router-dom": "^5.2.0",
     "react-router-hash-link": "^2.4.3",
     "react-scripts": "4.0.3",
+    "start": "^5.1.0",
     "waypoint": "^0.2.8",
     "web-vitals": "^1.1.2"
   },
