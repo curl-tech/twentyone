@@ -13,27 +13,13 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import OneHotEncoder 
 
-# Feature engineering-
-# We will do it by finding co-realation between the independent features by using-
-from itertools import combinations
-from sklearn.preprocessing import PolynomialFeatures
-
-# Dimensionality reduction using- 
-from sklearn.decomposition import PCA
-from sklearn.decomposition import KernelPCA
-
-# Feature selection-
-from sklearn.feature_selection import SelectKBest
-from sklearn.feature_selection import chi2
-# For data imbalance we just need to give a note that note that the data is having some imbalance after the training.
-
-# from main import *
 from pycaret.classification import *
 from pycaret.regression import *
 # from pycaret.clustering import *
 # from pycaret.nlp import *
 import os
 import yaml
+from scipy import stats
 from yaml.loader import SafeLoader
 
 class Preprocess:     
@@ -41,17 +27,6 @@ class Preprocess:
         """
         This function is for preprocessing the data when the user selects manual preprocessing.                     
         """
-        
-        imputation_column_name = config.imputation_column
-        impution_type = config.impution_type
-        na_notation = config.na_notation
-        encoding_type= config.encoding_type
-        encode_col_name= config.encode_col_name
-        scaling_type = config.scaling_type
-        scaling_col_name= config.caling_col_name
-        Remove_outlier = config.True/False
-        target_col_name = config.target_col_name
-        
         with open (config) as f:
             config=yaml.load(f,Loader=SafeLoader)
         df = pd.read_csv(config["raw_data_address"])
@@ -68,24 +43,23 @@ class Preprocess:
             df = df.dropna(how='all', inplace=True)
 
         # imputation
-        if(imputation_column_name[0]!="none"):
-             for index, column in enumerate(imputation_column_name):
-                type = impution_type[index] 
+        if(config["imputation_column_name"][0]!="none"):
+             for index, column in enumerate(config["imputation_column_name"]):
+                type = config["impution_type"][index] 
                 x_value = df[[column]].values
                 
                 if type == "mean" or type == "median" or type == "most_frequent":
-                    imputer = SimpleImputer(missing_values = na_notation, strategy = type)
+                    imputer = SimpleImputer(missing_values = config["na_notation"], strategy = type)
 
                 elif type=='knn':
-                    imputer = KNNImputer(n_neighbors = 4, weights = "uniform",missing_values = na_notation)
+                    imputer = KNNImputer(n_neighbors = 4, weights = "uniform",missing_values = config["na_notation"])
                 
-                imputed_data_value = imputer.fit_transform(x_value)
-                df[[column]]= imputed_data_value
+                df[[column]] = imputer.fit_transform(x_value)
 
         #feature scaling
-        if(scaling_col_name[0]!="none"):
-            for index, column in enumerate(scaling_col_name):
-                type = scaling_type[index]                
+        if(config["scaling_column_name"][0]!="none"):
+            for index, column in enumerate(config["scaling_column_name"]):
+                type = config["scaling_type"][index]                
                 x_value = df[[column]].values
 
                 if type == "normalization":
@@ -96,87 +70,58 @@ class Preprocess:
                         
                 scaled_value =scaler.fit_transform(x_value)
                 df[[column]] = scaled_value
-
-            
+                
+                
         #### handling catogarical data
         # encoding
-        if(encode_col_name[0] != "none"):
-            for index, column in enumerate(encode_col_name):
-                type = encoding_type[index]
+        if(config["encode_column_name"][0] != "none"):
+            for index, column in enumerate(config["encode_column_name"]):
+                type = config["encoding_type"][index]
                     
-                if encoding_type == "Label Encodeing":
-                    le = LabelEncoder()
-                    x_encoded = le.fit_transform(df[column])
-                    features = x_encoded.columns
-                    for feature in features:
-                        df.drop([feature],axis=1,inplace=True)
-                        df=pd.concat([df,x_encoded[feature]],axis=1)
-                    
-                elif encoding_type == "One-Hot Encoding":
-                    ohe = OneHotEncoder(categories = column, sparse = False, drop = "Frist")
-                    x = ohe.fit_transform(df[column])
-                    x_encoded = pd.DataFrame(x)
-                    features = x_encoded.columns
-                    for feature in features:
-                        df.drop([feature],axis=1,inplace=True)
-                        df=pd.concat([df,x_encoded[feature]],axis=1) 
+                if type == "Label Encodeing":
+                    encoder = LabelEncoder()
+                    df[column] = encoder.fit_transform(df[column])
+
+                elif type == "One-Hot Encoding":
+                    encoder = OneHotEncoder(drop = 'first', sparse=False)
+                    df_encoded = pd.DataFrame (encoder.fit_transform(df[[column]]))
+                    df_encoded.columns = encoder.get_feature_names([column])
+                    df.drop([column] ,axis=1, inplace=True)
+                    df= pd.concat([df, df_encoded ], axis=1)
 
         # Feature engineering & Feature Selection
         ### Outlier detection & Removel
         ### Outlier detection and removal using 3 standard deviation
-        if Remove_outlier == True:
-            df.outlier_col_name.mean()
-            df.outlier_col_name.std()
-            upper_limit = df.outlier_col_name.mean() + 3*df.outlier_col_name.std()
-            lower_limit = df.outlier_col_name.mean() -3*df.outlier_col_name.std()
-            df = df[(df.outlier_col_name<upper_limit) & (df.outlier_col_name>lower_limit)]
-            
+
+        if config["Remove_outlier"] == True:
+            z = np.abs(stats.zscore(df))
+            threshold = 3
+            df = df[(z < 3).all(axis=1)]
+              
         # Here we are droping the feature if the column is having no variance.
         # If all the rows are having the same value the feature importance of that column is not significant for the prediction. 
-        if feature_selection_type != "none":
-            if feature_selection_type == "Variance Threshold":
-                var_thres=VarianceThreshold(threshold=0)
-                var_thres.fit(df)
-                constant_columns = [column for column in df.columns if column not in df.columns[var_thres.get_support()]]
-                df = df.drop(constant_columns,axis=1)
-            
-            if feature_selection_type == "Correlation":
-                cor = df.corr()
-                # with the following function we can select highly correlated features
-                # it will remove the first feature that is correlated with anything other feature
-                def correlation(dataset, threshold):
-                    col_corr = set()  # Set of all the names of correlated columns
-                    corr_matrix = dataset.corr()
-                    for i in range(len(corr_matrix.columns)):
-                        for j in range(i):
-                            if abs(corr_matrix.iloc[i, j]) > threshold: # we are interested in absolute coeff value
-                                colname = corr_matrix.columns[i]  # getting the name of column
-                                col_corr.add(colname)
-                    return col_corr
-                corr_features = correlation(df, 0.8)
-                df = df.drop(corr_features,axis=1)
+        if config["feature_selection"] == True:
+            col_corr = set()
+            corr_matrix = df.corr()
+            for i in range(len(corr_matrix.columns)):
+                    for j in range(i):
+                        if abs(corr_matrix.iloc[i, j]) > 0.70:
+                            col_corr.add(corr_matrix.columns[i])
+                                        
+            df = df.drop(col_corr,axis=1)
 
-                
+            # with the following function we can select highly correlated features
+            # it will remove the first feature that is correlated with anything other feature
+
+        # Droping the columns which are left behind and can cause problem at the time of model training.
+        for col_name in df.columns:
+            if df[col_name].dtype == 'object':
+                df=df.drop(col_name, axis = 1)
+
         clean_data_address = os.getcwd()+"/clean_data.csv"
         return clean_data_address
-        
-          
-##############################################################################################
-                                ###  Mandatory cleaning ###
-        # This section is required because in the manual data cleaning there is a 
-        # good chance that the user can incompleatly choose the preprocessing steps.
-        # or make some other mistake, so this section removes all the necessery 
-        # parts that can lead to any kind of disfunction while the further steps.
-
-        # try to convert all non-numeric values to numeric if possible
-        df=df.infer_objects()
-        # removing columns having object type values as it will create problem in model creation
-        removecol=df.select_dtypes(include=['object']).columns
-        df.drop(labels=removecol,axis=1,inplace=True)
-
-
-###############################################################################################
-
+    
+    
 #-------------------------------------------------------------------------------------------------------------------------------------------------------#
     def auto_preprocess(model_type,raw_data_address,target_variable):
         """
@@ -198,12 +143,6 @@ class Preprocess:
         elif model_type == "regression":
             reg1 = setup(data = raw_data_address, target = target_variable,silent=True, profile= True)
 
-        # elif model_type == "clustering":            
-        #     clu1 = setup(data = raw_data_address,silent=True, profile= True)
-
-        # elif model_type == "nlp":            
-        #     nlp1 = setup(data = raw_data_address, target = target_variable,silent=True, profile= True)
-        
         X_train = get_config('X_train')        
         
         X_train.to_csv('clean_data.csv', index=False)
@@ -211,6 +150,10 @@ class Preprocess:
         clean_data_address = os.getcwd()+"/clean_data.csv"
         return clean_data_address
         
+
+
+
+###############################################################################################
 
     #--------------------------------------------------------------------------------------------------------------------------#
 

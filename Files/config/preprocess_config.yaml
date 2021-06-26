@@ -26,8 +26,9 @@ target_column_name:
   encoding_type: []
 
 - Remove_outlier: True
+  outlier_column_name: 
 
-- feature_engineering_and_selection: True
+- feature_selection: True
 
 - data_imbalance: True
 
