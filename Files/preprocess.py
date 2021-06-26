@@ -1,6 +1,5 @@
 import numpy as np
 import pandas as pd
-from sklearn import preprocessing
 
 # Handling missing data using-
 from sklearn.impute import SimpleImputer
@@ -34,121 +33,93 @@ from pycaret.regression import *
 # from pycaret.clustering import *
 # from pycaret.nlp import *
 import os
+import yaml
+from yaml.loader import SafeLoader
 
 class Preprocess:     
     def manual_preprocess(self,config):
         """
-        parameters will have all the custom preprocessing that the user wants to do.
-        Such as:
-        
-            df = raw_data_address (string)               (The address of the data stored in the database.)
-            drop_col_name=drop_col_name (string)         (The columns that the user wants to drop.)
-            impution_type = impution_type (string)       (The method of imputation that the users selects to do the imputation in the whole data set. Which includes: Mean, Media, Most frequent and KNN imputation )
-            na_value = na_value (string)                 (The notation which has been used to denote the Nan or Null values in the perticular dataset.)
-            encoding_type=encoding_type (string)         (The method the user selects to do the encoding on the selected cloumn)
-            encode_col_name=encode_col_name (string)     (The column selected by the user to do the encoding.)
-            scaling_type = scaling_type (string)         ()
-            scaling_col_name=scaling_col_name (string)   ()
-            target_col_name = target_col_name (string)   ()
-            
+        This function is for preprocessing the data when the user selects manual preprocessing.                     
         """
         
-        """
-        This function is for preprocessing the data when the user selects manual preprocessing.
-    
-        Extended description of function:-
-        Parameters:
-            model_type (string): The selection of the user for the model_type eg-classification/regression/clustering etc.
-            raw_data_address (string): As the user uploads the raw dataset it will be saved in the database, this is the address of that saved dataset.
-            target_variable (string): The user will select the target cloumn/variable and that target variable name have to be passed to the setup() in pycaret as patameter.
-            manual_preprocess_config_address(string): All the preprocessing configs passed by the user will be stored in a file and we extract the data from that file.
-        
-        Returns:
-            clean_data_address(string):
-                     
-        """
-        raw_data_address = config.raw_data_address
-        drop_col_name=dconfig.rop_col_name
-        imputation_column = config.imputation_column
+        imputation_column_name = config.imputation_column
         impution_type = config.impution_type
-        impute_na_value = config.impute_na_value
-        encoding_type=config.encoding_type
-        encode_col_name=config.encode_col_name
+        na_notation = config.na_notation
+        encoding_type= config.encoding_type
+        encode_col_name= config.encode_col_name
         scaling_type = config.scaling_type
-        scaling_col_name=sconfig.caling_col_name
+        scaling_col_name= config.caling_col_name
         Remove_outlier = config.True/False
         target_col_name = config.target_col_name
         
-        # converting the .csv file into pandas dataframe
-        df = pd.read_csv(config.raw_data_address)
-
+        with open (config) as f:
+            config=yaml.load(f,Loader=SafeLoader)
+        df = pd.read_csv(config["raw_data_address"])
+        
         #### Handling missing data
 
         # drop columns
-        if(drop_col_name[0]!="none"):
-            df=df.drop(drop_col_name, axis = 1)
-        elif(drop_col_name[0] == "none"):
+        if(config["drop_col_name"][0]!="none"):
+            df=df.drop(config["drop_col_name"], axis = 1)
+        else:
             nan_value = float("NaN")
             df.replace("", nan_value, inplace=True)
             df = df.dropna(how='all', axis=1, inplace=True)
             df = df.dropna(how='all', inplace=True)
 
         # imputation
-        if(imputation_column[0]!="none"):
-            for col in imputation_column:
-                for type in impution_type:
-                    x_value = df[[col]].values
-                    if type=='mean':
-                        imputer = SimpleImputer(missing_values = np.NaN, strategy = 'mean')
-                    
-                    elif type=='median':
-                        imputer = SimpleImputer(missing_values=np.NaN, strategy = 'median')
-                    
-                    elif type=='most_frequent':
-                        imputer = SimpleImputer(missing_values=np.NaN, strategy = 'most_frequent')
-                    
-                    elif type=='knn':
-                        imputer = KNNImputer(n_neighbors = 4, weights = "uniform",missing_values = np.NaN)
-                    
-                    imputed_data_value = imputer.fit_transform(x_value)
-                    df[[col]]= imputed_data_value
+        if(imputation_column_name[0]!="none"):
+             for index, column in enumerate(imputation_column_name):
+                type = impution_type[index] 
+                x_value = df[[column]].values
+                
+                if type == "mean" or type == "median" or type == "most_frequent":
+                    imputer = SimpleImputer(missing_values = na_notation, strategy = type)
+
+                elif type=='knn':
+                    imputer = KNNImputer(n_neighbors = 4, weights = "uniform",missing_values = na_notation)
+                
+                imputed_data_value = imputer.fit_transform(x_value)
+                df[[column]]= imputed_data_value
 
         #feature scaling
         if(scaling_col_name[0]!="none"):
-            for col in scaling_col_name:
-                for type in scaling_type:
-                    x_value = df[[col]].values
-                    if type == "normalization":
-                        scaler = MinMaxScaler()
-                
-                    elif type == 'standarization':
-                        scaler = StandardScaler()
-                            
-                    scaled_value =scaler.fit_transform(x_value)
-                    df[[col]] = scaled_value
+            for index, column in enumerate(scaling_col_name):
+                type = scaling_type[index]                
+                x_value = df[[column]].values
+
+                if type == "normalization":
+                    scaler = MinMaxScaler()
+            
+                elif type == 'standarization':
+                    scaler = StandardScaler()
+                        
+                scaled_value =scaler.fit_transform(x_value)
+                df[[column]] = scaled_value
 
             
         #### handling catogarical data
         # encoding
         if(encode_col_name[0] != "none"):
-            for col in encoding_type:
-                for type in encoding_type:
-                    if encoding_type == "Label Encodeing":
-                        le = LabelEncoder()
-                        x_encoded = le.fit_transform(df[encode_col_name])
-                        features = x_encoded.columns
-                        for feature in features:
-                            df.drop([feature],axis=1,inplace=True)
-                            df=pd.concat([df,x_encoded[feature]],axis=1)
-                            
-                    elif encoding_type == "One-Hot Encoding":
-                        ohe = OneHotEncoder(categories = encode_col_name, sparse = False, drop = "Frist")
-                        x = ohe.fit_transform(df[encode_col_name])
-                        x_encoded = pd.DataFrame(x)
-                        features = x_encoded.columns
-                        for feature in features:
-                            df.drop([feature],axis=1,inplace=True)
-                            df=pd.concat([df,x_encoded[feature]],axis=1) 
+            for index, column in enumerate(encode_col_name):
+                type = encoding_type[index]
+                    
+                if encoding_type == "Label Encodeing":
+                    le = LabelEncoder()
+                    x_encoded = le.fit_transform(df[column])
+                    features = x_encoded.columns
+                    for feature in features:
+                        df.drop([feature],axis=1,inplace=True)
+                        df=pd.concat([df,x_encoded[feature]],axis=1)
+                    
+                elif encoding_type == "One-Hot Encoding":
+                    ohe = OneHotEncoder(categories = column, sparse = False, drop = "Frist")
+                    x = ohe.fit_transform(df[column])
+                    x_encoded = pd.DataFrame(x)
+                    features = x_encoded.columns
+                    for feature in features:
+                        df.drop([feature],axis=1,inplace=True)
+                        df=pd.concat([df,x_encoded[feature]],axis=1) 
 
         # Feature engineering & Feature Selection
         ### Outlier detection & Removel
@@ -203,24 +174,6 @@ class Preprocess:
         removecol=df.select_dtypes(include=['object']).columns
         df.drop(labels=removecol,axis=1,inplace=True)
 
-        #test data creation
-        if dftest=="":
-            msk=np.random.rand(len(df))<0.75
-            dftrain=df[msk]
-            dftest=df[~msk]  
-        else:
-            dftrain=df
-        #target variable seperation
-        ytrain=pd.DataFrame(dftrain[config.target_col_name])
-        ytest=pd.DataFrame(dftest[config.target_col_name])
-        dftrain.drop(config.target_col_name,axis=1,inplace=True)
-        dftest.drop(config.target_col_name,axis=1,inplace=True)
-        
-        
-        dftrain.to_csv(cleandatapath+"dftrain.csv",index=None)
-        dftest.to_csv(cleandatapath+"dftest.csv",index=None)
-        ytrain.to_csv(cleandatapath+"ytrain.csv",index=None)
-        ytest.to_csv(cleandatapath+"ytest.csv",index=None)
 
 ###############################################################################################
 
@@ -258,6 +211,7 @@ class Preprocess:
         clean_data_address = os.getcwd()+"/clean_data.csv"
         return clean_data_address
         
+
     #--------------------------------------------------------------------------------------------------------------------------#
 
     ##### This is the code which we can use if we want to go the the manual preprocessing with the implemention of pycaret.#####
