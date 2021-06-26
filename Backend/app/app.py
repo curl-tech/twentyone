@@ -1,9 +1,11 @@
 import os
-from fastapi import FastAPI, Form
+import re
+from fastapi import FastAPI, Form, WebSocket
 from fastapi.datastructures import UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.param_functions import File
 from fastapi.responses import StreamingResponse, JSONResponse, FileResponse
+from starlette.types import Receive
 from Backend.app.dbclass import Database
 from Backend.app.config import settings
 from Backend.app.routers.user import user_router
@@ -102,18 +104,26 @@ def create_project(projectName:str=Form(...),mtype:str=Form(...),train: UploadFi
                     else:
                         Project21Database.update_one(settings.DB_COLLECTION_USER,{"userID":result["userID"]},{"$set":{"listOfProjects":[inserted_projectID]}})
             except:
-                return {"File Received": "Success", "Project Folder":"Success", "Database Update":"Partially Successful"}
+                return JSONResponse({"File Received": "Success", "Project Folder":"Success", "Database Update":"Partially Successful"})
         except:
-            return {"File Received": "Success","Project Folder":"Success","Database Update":"Failure"}
-        return {"File Received": "Success", "Project Folder":"Success", "Database Update":"Success"}
+            return JSONResponse({"File Received": "Success","Project Folder":"Success","Database Update":"Failure"})
+        return JSONResponse({"File Received": "Success", "Project Folder":"Success", "Database Update":"Success"})
     else:
-        return operation["Error"]
+        return JSONResponse(operation["Error"])
 
-# @app.get('/file')
-# def file():           #For Streaming files
-#     path=get_raw_data_path(45586)       #Have to put projectID here
-#     myfile=open(path,mode='rb')
-#     return StreamingResponse(myfile,media_type="text/csv")
+@app.post('/auto')
+def start_auto_preprocessing(formData:FormData):
+    formData=dict(formData)
+    projectAutoConfigFileLocation=generate_project_auto_config_file(currentIDs,formData,)
+    automatic_model_training=auto()
+    automatic_model_training.auto(projectAutoConfigFileLocation)
+    #receive clean_data.csv path and update data_collection
+    #send metrics to frontend
+    return JSONResponse({"Successful":"True"})
+
+@app.get('/auto')
+def return_auto_generated_metrics():
+    return JSONResponse({"metrics":"path/to/metrics.csv"})
 
 @app.get('/downloadClean')
 def download_clean_data():
@@ -129,17 +139,19 @@ def file_download():
     if(os.path.exists(path)):
         return FileResponse(path,media_type="text/csv")     #for this we need aiofiles to be installed. Use pip install aiofiles
     return {"Error":"File not found at path"}
+#     myfile=open(path,mode='rb')
+#     return StreamingResponse(myfile,media_type="text/csv")    #for streaming files instead of uploading them
 
-@app.post('/auto')
-def start_auto_preprocessing(formData:FormData):
-    formData=dict(formData)
-    projectAutoConfigFileLocation=generate_project_auto_config_file(currentIDs,formData,)
-    automatic_model_training=auto()
-    automatic_model_training.auto(projectAutoConfigFileLocation)
-    #receive clean_data.csv path and update data_collection
-    #send metrics to frontend
-    return {"Successful":"True"}
-
-@app.get('/auto')
-def return_auto_generated_metrics():
-    return JSONResponse({"metrics":"path/to/metrics.csv"})
+@app.websocket("/ws")
+async def training_status(websocket: WebSocket):
+    print("Connecting to the Frontend...")
+    await websocket.accept()
+    while True:
+        try:
+            await websocket.receive_json()  #Can be used to receive data from frontend
+            resp={"Status":"ModelRunning"}  
+            await websocket.send_json(resp) #Can be used to return data to the frontend
+        except Exception as e:
+            print("Error: ",e)
+            break
+    print("Websocket connection closing...")
