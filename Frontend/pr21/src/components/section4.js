@@ -11,7 +11,7 @@ class Section4 extends Component {
 
                     </div>
                     <div className="col-50 section4col2">
-                        <h1>Curl AutoMl Engine lets you make excellent machine and deep learning models for all your needs with few clicks</h1>
+                        <h1>Curl brings to you TwentyOne that lets you make excellent machine learning models for all your business and needs with few simple clicks</h1>
 
                         <h3>"The best Part is its Open Source"</h3>
                         <a href='https://github.com/nikzagarwal/Project_21' target="_blank" rel="noopener noreferrer"> <button className=" section4button">Github Repo</button></a>

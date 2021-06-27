@@ -16,6 +16,29 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+.ibtn{
+  background-color: #160641;
+  border-radius: 5em;
+  font-size: small;
+  font-family: 'Times New Roman', Times, serif;
+  font-weight: 600;
+  padding: 0 6px 0 6px;
+  color: #fff;
+  vertical-align: super;
+}
+#idesc{
+  position: absolute;
+  background-color: rgb(255, 253, 253);
+  color: #4b040a;
+  display: none;
+  margin: 5px;
+  font-size: 15px;
+  border-radius: 18px;
+  padding: 5px;
+}
+.ibtn:hover #idesc{
+  display: block;
+}
 /* Top moving button */
 
 #topButton{
@@ -342,7 +365,7 @@ input[type=text],input[type=number] ,select, textarea {
   padding: 12px 12px;
   border-radius: 8px;
   cursor: pointer;
-  margin-top: 5px;
+  margin-top: 10px;
   margin-left: 75%;
   font-family:Formular,sans-serif;
   font-weight: 600;
@@ -723,10 +746,11 @@ margin-left: 5%;
   cursor: pointer;
   font-family:Formular,sans-serif;
   font-weight: 600;
-  margin-top: 11em;
+  margin-top: 12em;
   position: relative;
-  margin-left: 8em;
+  margin-left: 17em;
   padding: 0.7em;
+  width: max-content;
   font-family:Formular,sans-serif;
   color: rgba(12, 24, 49, 0.901);
   background-image:linear-gradient(to left bottom , rgba(236, 236, 236, 0.815),rgba(119, 119, 116, 0.822));
@@ -777,7 +801,7 @@ background-image: url(./assets/img/bg13.png);
 }
 .section4col1{
   padding: 3em;
-  padding-top: 12em;
+  padding-top: 2em;
   text-align: center;
   font-family:Georgia, 'Times New Roman', Times, serif;
   margin-top: auto;
@@ -792,17 +816,20 @@ background-image: url(./assets/img/bg13.png);
 
 .section4col2{
   padding: 3em;
-  padding-top: 12em;
+  padding-top: 8em;
+  padding-bottom: 4em;
   font-family: 'Times New Roman', Times, serif;
  text-align: center;
   color: rgb(32, 6, 92);
 
 }
-@media screen and (max-width: 600px) 
+@media screen and (max-width: 900px) 
 {
- 
+  .section4col2{
+    padding: 1em;
+  }
   .section4button{
-    width: 100%;
+    width: 80%;
   }
 }
 /* ************************************************************************************************************************ */
@@ -926,7 +953,8 @@ background-image: url(./assets/img/bg19.png);
 .sec6heading{
   padding: 1em;
   text-align: center;
-
+  /* font-family: 'Staatliches', Verdana, Geneva, Tahoma, sans-serif; */
+  /* font-weight: bolder; */
   color: rgb(66, 49, 114);
   
 }
@@ -941,24 +969,48 @@ background-image: url(./assets/img/bg19.png);
   margin: 1em;
   margin-left: 2.5em;
   margin-right: 2.5em;
-  
+  min-height: 200px;
+  border-radius: 8px;
   /* background:linear-gradient(rgba(67, 34, 87, 0.336),rgba(142, 129, 153, 0.5)), url(./assets/img/bg4.jpg); */
   
 }
 .sec6card{
   background-image:linear-gradient(to left bottom , #090429e1,rgba(87, 6, 37, 0.87));
 }
-.card-group h5{
-  background-image:linear-gradient(to left bottom ,rgba(0, 0, 0, 0.26),rgba(232, 236, 236, 0.274));
+.card-group h1{
+  /* background-image:linear-gradient(to left bottom ,rgba(0, 0, 0, 0.26),rgba(232, 236, 236, 0.274)); */
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   padding: 3px;
   border-radius: 4px;
   color: #fff;
 }
 .card-group p{
-  padding: 3px;
+  /* padding: 1em; */
   font-size: large;
   font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  text-align: center;
+  color: #fff;
+}
+.sec6autocard{
+  background-image:linear-gradient(to left bottom , #180c42e1,rgba(68, 7, 12, 0.959));
+  width: 50%;
+  margin-left: 25%;
+  margin-right: 25%;
+  min-height: 250px;
+}
+.sec6autocard h2{
+  background-image:linear-gradient(to left bottom ,rgba(0, 0, 0, 0.089),rgba(232, 236, 236, 0.075));
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  padding: 3px;
+  text-align: center;
+  border-radius: 4px;
+  color: #fff;
+}
+.sec6autocard h4{
+  padding: 1em;
+  /* font-size: xx-large; */
+  font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  font-family: 'Staatliches', Verdana, Geneva, Tahoma, sans-serif;
   text-align: center;
   color: #fff;
 }
@@ -967,6 +1019,8 @@ background-image: url(./assets/img/bg19.png);
   background-image:linear-gradient(to left bottom , rgba(236, 236, 236, 0.815),rgba(119, 119, 116, 0.822));
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   border-radius: 4px;
+  margin-left: 42%;
+  margin-right: 41%;
 }
 .sec6btn:hover{
   color: rgba(12, 24, 49, 1);

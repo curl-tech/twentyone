@@ -22,7 +22,7 @@ class Home extends Component {
             mtype: 'classification',
             auto: true,
             target: '',
-            modelnum: 3,
+            modelnum: 1,
             nulltype: 'NA',
             currentmodel: 1,
             data: "{0:0}"
@@ -185,7 +185,7 @@ class Home extends Component {
                             <div className="createform">
                                 <div className="row">
                                     <div className="col-40">
-                                        <label htmlFor="projectname">Name of your project?</label>
+                                        <label htmlFor="projectname">Name of your project? <span className="ibtn">i <span id="idesc">Enter any relevant name for your project</span></span></label>
                                     </div>
                                     <div className="col-60">
 
@@ -195,7 +195,7 @@ class Home extends Component {
 
                                 <div className="row">
                                     <div className="col-40">
-                                        <label htmlFor="train">Enter training data</label>
+                                        <label htmlFor="train">Enter training data <span className="ibtn">i <span id="idesc">Enter the data on which you want to train your model</span></span></label>
                                     </div>
                                     <div className="col-60">
                                         <input type="file" className="form-control" id="train" onChange={this.handleTrainChange} accept=".csv" name="train"
@@ -204,7 +204,7 @@ class Home extends Component {
                                 </div>
                                 <div className="row">
                                     <div className="col-40">
-                                        <label htmlFor="type">Which type of data is it?</label>
+                                        <label htmlFor="type">Which type of data is it? <span className="ibtn">i <span id="idesc">Genrally if no. of classes less than 10 for target its Classification</span></span></label>
                                     </div>
                                     <div className="col-60 ">
                                         <select name="mtype" id="modeltype" value={this.state.mtype} onChange={this.handleMtypeChange}>
@@ -273,22 +273,22 @@ class Home extends Component {
                                     </div>
                                 </div>
 
-                                <div className="row">
+                                {/* <div className="row">
                                     <div className="col-40">
                                         <label htmlFor="modelno">How many top models you want?</label>
                                     </div>
                                     <div className="col-60" >
                                         <input type="number" id="modelno" name="modelno" onChange={this.handleModelNumChange} placeholder="Enter number of models" required />
                                     </div>
-                                </div>
-                                <div className="row">
+                                </div> */}
+                                {/* <div className="row">
                                     <div className="col-40">
                                         <label htmlFor="nulltype">How are null values specified in dataset?</label>
                                     </div>
                                     <div className="col-60" >
-                                        <input type="text" id="nulltype" name="nulltype" onChange={this.handleNullTypeChange} placeholder="Is it NULL, NA , ? , 0 or other (specify)" required />
+                                        <input type="text" id="nulltype" name="nulltype" onChange={this.handleNullTypeChange} placeholder="Is it NULL, NA , ? , 0 or other (specify)"  />
                                     </div>
-                                </div>
+                                </div> */}
 
                                 <div>
                                     <button type="submit" className="formbutton" id="trainnow" >Train Now</button>
@@ -341,7 +341,7 @@ class Home extends Component {
                 {/* ************************************************************************************************************************ */}
                 {/* Section 6 */}
                 {/* This section is to show all models trained */}
-                <Section6 modelnum={this.state.modelnum} handler={this.handleCurrentModel} projectname={this.state.projectname} />
+                <Section6 modelnum={this.state.modelnum} handler={this.handleCurrentModel} projectname={this.state.projectname} isauto={this.state.isauto}/>
 
             </div >
         );

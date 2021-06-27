@@ -126,14 +126,14 @@ class Preprocess extends React.Component {
                         </select>
                     </div>
                 </div>
-                <div className="row">
+                {/* <div className="row">
                     <div className="col-40">
                         <label htmlFor="nulltype">How are null values specified in dataset?</label>
                     </div>
                     <div className="col-60" >
                         <input type="text" id="nulltype" name="nulltype" onChange={this.handleNullTypeChange} placeholder="Is it NULL, NA , ? , 0 or other (specify)" required />
                     </div>
-                </div>
+                </div> */}
                 <div className="row">
                     <div className="col-40">
                         <label htmlFor="imbalance">Want us to check for data imbalance?</label>

@@ -13,21 +13,19 @@ class Section6 extends Component {
     }
     render() {
         const items = []
-        for (let i = 0; i < this.props.modelnum; i+=3) 
-        {
-            let item=[]
-            for (let j=i; j < i+3 && j<this.props.modelnum; j++) {
+        for (let i = 0; i < this.props.modelnum; i += 3) {
+            let item = []
+            for (let j = i; j < i + 3 && j < this.props.modelnum; j++) {
                 item.push(
                     <div className="card sec6card">
 
                         <div className="card-body">
-                            <h5 className="card-title">Model {j+1}</h5>
-                            <p className="card-text">
-                                Accuracy Train:
-                           <br />
-                           Accuracy Test:
-                         </p>
-                            <button value={j+1} onClick={this.handleModelResult} className="btn sec6btn">See Details</button>
+                            <h1 className="card-title">Model {j + 1}</h1>
+                            <p className="card-text cardp">
+                                Accuracy :
+
+                            </p>
+                            <button value={j + 1} onClick={this.handleModelResult} className="btn sec6btn">See Details</button>
                         </div>
                     </div>
 
@@ -36,31 +34,59 @@ class Section6 extends Component {
             items.push(
                 <div className="card-group  text-center">
                     {item}
-                    </div>
+                </div>
             )
-            
-        }
-        return (
-            <div className="section6" id="section6">
 
-                <div className=" sec6heading">
-                    <h1>Results</h1>
-                </div>
-                <div className=" sec6heading">
-                    <h2>Project Name: {this.props.projectname}</h2>
-                </div>
-                <div className=" sec6heading">
-                    <h2>Your Top Models</h2>
-                </div>
-                {items}
-                {/* <div className="card-group  text-center">
+        }
+        if (this.props.isauto===false) {
+            return (
+                <div className="section6" id="section6">
+
+                    <div className=" sec6heading">
+                        <h1>Results</h1>
+                    </div>
+                    <div className=" sec6heading">
+                        <h2>Project Name: {this.props.projectname}</h2>
+                    </div>
+                    <div className=" sec6heading">
+                        <h2>Your Top Models</h2>
+                    </div>
+                    {items}
+                    {/* <div className="card-group  text-center">
 
                     {items}
 
                 </div> */}
 
-            </div>
-        );
+                </div>
+            );
+        }
+        else{
+            return(
+                <div className="section6" id="section6">
+
+                    <div className=" sec6heading">
+                        <h1>Results</h1>
+                    </div>
+                    <div className=" sec6heading">
+                        <h2>Project Name: {this.props.projectname}</h2>
+                    </div>
+                    <div className=" sec6heading">
+                        <h2>The Best Model</h2>
+                    </div>
+                    
+                    <div className="card sec6autocard">
+
+                        <div className="card-body">
+                            <h2 className="card-title">Model :</h2>
+                            <h4 className="card-text cardp">Accuracy :</h4>
+                            <button value={1} onClick={this.handleModelResult} className="btn sec6btn">See Details</button>
+                        </div>
+                    </div>
+
+                </div>
+            );
+        }
     }
 }
 
