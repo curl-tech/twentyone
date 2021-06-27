@@ -41,8 +41,8 @@ class auto:
         elif config["problem_type"] == "nlp":
             nlp1 = setup(data = df, target = config["target_col_name"],silent=True)
         X_train = get_config('X_train')    
-        X_train.to_csv('clean_data.csv', index=False)
-        clean_data_address = os.path.join(os.getcwd(),"clean_data.csv")
+        X_train.to_csv(os.path.join(config["location"],'clean_data.csv'), index=False)
+        clean_data_address = os.path.join(config["location"],"clean_data.csv")
 
         return clean_data_address     
 
@@ -58,26 +58,19 @@ class auto:
         request = pull()
         request = request.rename({'Prec.': 'Precision'}, axis='columns')
         request.reset_index(drop=True, inplace=True)
-        request.to_csv(os.path.join(config["location"],"metrics.csv"), index=True, index_label="Sno")
+        metricsLocation=os.path.join(config["location"],"metrics.csv")
+        request.to_csv(metricsLocation, index=True, index_label="Sno")
         # metrics_address = os.getcwd()+"/metrics.csv"
         # with open (os.path.join(config["location"],"metrics.csv"),'w+') as f:
         #     f.write(request.to_csv('metrics.csv', index=True, index_label="Sno"))
         #     f.close()
         
-        return best
+        return best, metricsLocation
     
-    
-
 
     
     def model_tune(self,model):
-        
-        # count=0
-
         tunedmodel=tune_model(model)
-            # if(count==2):
-            #     break
-
         return tunedmodel 
     
 
@@ -93,21 +86,19 @@ class auto:
         """
         config=yaml.load(open(config),Loader=SafeLoader)
     
-        #/home/rishabh/githubrepos/Project_21-1/Database/Tired_7378399911531481/98686_model0
         location=os.path.join(config["location"],str(config["id"])+"_model")
         os.makedirs(location) ## creates a folder by the name configid_model(number) at the specified location
         # os.makedirs(os.path.join(location,"plots")) ## creates a subfolder named plots to store all the plots inside it
-        #Tired98686_model0
         name=str(config["experimentname"])+str(config["id"])+"_model"
-        os.makedirs(os.path.join(config["location"],name))
         save_model(model,name)
         shutil.move(name+'.pkl',location) ##moves  the pkl to the respective folders at the specified location 
-        shutil.move('clean_data.csv',os.path.join(config["location"],"data"))
+        # shutil.move('clean_data.csv',os.path.join(config["location"],"data"))
         # for i in range(1):
         #     name=str(config["experimentname"])+str(config["id"])+"_model"+str(i)+'.pkl'
         #     save_model(model_array[i],name)
         #     shutil.move(name+".pkl",str(config["location"])+str(config["id"])+"_model"+str(i)) ##moves  the pkl to the respective folders at the specified location 
         #     ## folder name is of the form ex:"01_model1" 
+        return location, name+'.pkl'
 
     
     def model_plot(self,model_array,config):
@@ -115,7 +106,7 @@ class auto:
         if config["problem_type"]=="classification":
             feature_list=["feature","auc","pr","confusion_matrix","error","learning"]
             for i in range(len(model_array)):
-                location=os.path.join(config["location"],str(config["id"]),"_model",str(i))
+                location=os.path.join(config["location"],str(config["id"])+"_model"+str(i))
                 os.makedirs(location) ## creates a folder by the name configid_model(number) at the specified location
                 os.makedirs(os.path.join(location,"plots")) ## creates a subfolder named plots to store all the plots inside it
                 plot_list=list(plot_model(model_array[i],feature,save=True) for feature in feature_list)
@@ -136,13 +127,18 @@ class auto:
     
 
     def auto(self,config):
-        config2=yaml.load(open(config),Loader=SafeLoader)
-        clean_data=self.auto_setup(config)
-        model=self.top_models_auto(config,config2["n"])
-        tunedmodel=self.model_tune(model)
+        try:
+            config2=yaml.load(open(config),Loader=SafeLoader)
+            cleanDataPath=self.auto_setup(config)
+            model,metricsLocation=self.top_models_auto(config,config2["n"])
+            tunedmodel=self.model_tune(model)
 
-        print("Model List:",model)
-        print("Tuned List: ",tunedmodel)
-        # self.model_plot(tunedmodel,config)
-        self.model_save(tunedmodel,config)
+            print("Model List:",model)
+            print("Tuned List: ",tunedmodel)
+            # self.model_plot(tunedmodel,config)
+            pickleFolderPath,pickleFilePath=self.model_save(tunedmodel,config)
+            return {"Successful": True, "cleanDataPath": cleanDataPath, "metricsLocation":metricsLocation, "pickleFolderPath":pickleFolderPath, "pickleFilePath":pickleFilePath}
+        except Exception as e:
+            print("An Error Occured: ",e)
+            return {"Successful": False, "Error": e}
         

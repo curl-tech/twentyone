@@ -132,8 +132,9 @@ class Model(BaseModel):
             "example":{
                 "modelID": 13,
                 "modelName": "Linear Regression",
-                "modelType": "Regression",
-                "picklePath": "/path/to/pickle/data/model.pkl",
+                "modelType": "Default Model",
+                "pickleFolderPath": "/path/to/pickel/data/",
+                "pickleFilePath": "/path/to/pickle/data/model.pkl",
                 "belongsToUserID": 101,
                 "belongsToProjectID": 45,
                 "belongsToDataID": 2
@@ -170,7 +171,7 @@ class Metrics(BaseModel):
                 "belongsToUserID": 101,
                 "belongsToProjectID": 45,
                 "belongsToModelID": 13,
-                "addressOfYamlFile": "/path/to/file.yaml"
+                "addressOfMetricsFile": "/path/to/file/metrics.csv"
             }
         }
 

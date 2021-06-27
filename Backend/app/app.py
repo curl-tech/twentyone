@@ -1,11 +1,9 @@
 import os
-import re
 from fastapi import FastAPI, Form, WebSocket
 from fastapi.datastructures import UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.param_functions import File
 from fastapi.responses import StreamingResponse, JSONResponse, FileResponse
-from starlette.types import Receive
 from Backend.app.dbclass import Database
 from Backend.app.config import settings
 from Backend.app.routers.user import user_router
@@ -14,7 +12,7 @@ from Backend.app.routers.data import data_router
 from Backend.app.routers.model import model_router
 from Backend.app.routers.metrics import metrics_router
 from Backend.app.routers.inference import inference_router
-from Backend.app.helpers.allhelpers import CurrentIDs, serialiseDict, serialiseList
+from Backend.app.helpers.allhelpers import CurrentIDs, ResultsCache, serialiseDict, serialiseList
 from Backend.app.helpers.project_helper import create_project_id
 from Backend.app.helpers.data_helper import get_clean_data_path
 from Backend.app.helpers.model_helper import create_model_id, get_pickle_file_path
@@ -43,6 +41,7 @@ app.add_middleware(
 
 Project21Database=Database()
 currentIDs=CurrentIDs()
+resultsCache=ResultsCache()
 currentIDs.set_current_user_id(101)
 
 
@@ -63,7 +62,9 @@ def startup_mongodb_client():
                 "password": "password@Super@Secure",
                 "listOfProjects": []
             })
-    except:
+    except Exception as e:
+        print("An Error Occured: ",e)
+        print("Duplicate Key Error can be ignored safely")
         pass
 
 @app.on_event("shutdown")
@@ -72,8 +73,8 @@ def shutdown_mongodb_client():
 
 @app.post('/create')
 def create_project(projectName:str=Form(...),mtype:str=Form(...),train: UploadFile=File(...)):
-    operation=generate_project_folder(projectName,train)
-    if operation["Success"]:
+    Operation=generate_project_folder(projectName,train)
+    if Operation["Success"]:
         try:
             inserted_projectID=create_project_id()
             inserted_modelID=create_model_id()
@@ -82,9 +83,10 @@ def create_project(projectName:str=Form(...),mtype:str=Form(...),train: UploadFi
             Project21Database.insert_one(settings.DB_COLLECTION_PROJECT,{
                 "projectID":inserted_projectID,
                 "projectName":projectName,
-                "rawDataPath":operation["RawDataPath"],
-                "projectFolderPath":operation["ProjectFolderPath"],
-                "belongsToUserID": currentIDs.get_current_user_id()
+                "rawDataPath":Operation["RawDataPath"],
+                "projectFolderPath":Operation["ProjectFolderPath"],
+                "belongsToUserID": currentIDs.get_current_user_id(),
+                "listOfDataIDs":[]
                 })
             Project21Database.insert_one(settings.DB_COLLECTION_MODEL,{
                 "modelID": inserted_modelID,
@@ -97,33 +99,84 @@ def create_project(projectName:str=Form(...),mtype:str=Form(...),train: UploadFi
                 result=Project21Database.find_one(settings.DB_COLLECTION_USER,{"userID":currentIDs.get_current_user_id()})
                 if result is not None:
                     result=serialiseDict(result)
-                    if result["listOfProjects"]:
+                    if result["listOfProjects"] is not None:
                         newListOfProjects=result["listOfProjects"]
                         newListOfProjects.append(inserted_projectID)
                         Project21Database.update_one(settings.DB_COLLECTION_USER,{"userID":result["userID"]},{"$set":{"listOfProjects":newListOfProjects}})
                     else:
                         Project21Database.update_one(settings.DB_COLLECTION_USER,{"userID":result["userID"]},{"$set":{"listOfProjects":[inserted_projectID]}})
-            except:
+            except Exception as e:
+                print("An Error occured: ",e)
                 return JSONResponse({"File Received": "Success", "Project Folder":"Success", "Database Update":"Partially Successful"})
-        except:
+        except Exception as e:
+            print("An Error occured: ",e)
             return JSONResponse({"File Received": "Success","Project Folder":"Success","Database Update":"Failure"})
         return JSONResponse({"File Received": "Success", "Project Folder":"Success", "Database Update":"Success"})
     else:
-        return JSONResponse(operation["Error"])
+        return JSONResponse(Operation["Error"])
 
 @app.post('/auto')
 def start_auto_preprocessing(formData:FormData):
     formData=dict(formData)
-    projectAutoConfigFileLocation=generate_project_auto_config_file(currentIDs,formData,)
+    projectAutoConfigFileLocation, dataID = generate_project_auto_config_file(currentIDs,formData,)
     automatic_model_training=auto()
-    automatic_model_training.auto(projectAutoConfigFileLocation)
-    #receive clean_data.csv path and update data_collection
-    #send metrics to frontend
-    return JSONResponse({"Successful":"True"})
+    Operation=automatic_model_training.auto(projectAutoConfigFileLocation)
+
+    if Operation["Successful"]:
+        try:
+            Project21Database.insert_one(settings.DB_COLLECTION_DATA,{
+                "dataID": dataID,
+                "cleanDataPath": Operation["cleanDataPath"],
+                "target": formData["target"],
+                "belongsToUserID": currentIDs.get_current_user_id(),
+                "belongsToProjectID": currentIDs.get_current_project_id()
+            })
+            currentIDs.set_current_data_id(dataID)
+            Project21Database.update_one(settings.DB_COLLECTION_MODEL,{"modelID":currentIDs.get_current_model_id()},{
+                "$set": {
+                    "pickleFolderPath": Operation["pickleFolderPath"],
+                    "pickleFilePath": Operation["pickleFilePath"],
+                }
+            })
+            Project21Database.insert_one(settings.DB_COLLECTION_METRICS,{
+                "belongsToUserID": currentIDs.get_current_user_id(),
+                "belongsToProjectID": currentIDs.get_current_project_id(),
+                "belongsToModelID": currentIDs.get_current_model_id(),
+                "addressOfMetricsFile": Operation["metricsLocation"]
+            })
+            try:
+                result=Project21Database.find_one(settings.DB_COLLECTION_PROJECT,{"projectID":currentIDs.get_current_project_id()})
+                result=serialiseDict(result)
+                if result is not None:
+                    if result["listOfDataIDs"] is not None:
+                        newListOfDataIDs=result["listOfDataIDs"]
+                        newListOfDataIDs.append(currentIDs.get_current_data_id())
+                        Project21Database.update_one(settings.DB_COLLECTION_PROJECT,{"projectID":result["projectID"]},{"$set":{"listOfDataIDs":newListOfDataIDs}})
+                    else:
+                        Project21Database.update_one(settings.DB_COLLECTION_USER,{"projectID":result["projectID"]},{"$set":{"listOfProjects":[currentIDs.get_current_data_id()]}})
+            except Exception as e:
+                print("An Error occured: ",e)
+                return JSONResponse({"Auto": "Success", "Database Insertion":"Success", "Project Collection Updation": "Unsuccessful"})
+        except Exception as e:
+            print("An Error occured: ",e)
+            return JSONResponse({"Auto": "Success", "Database Insertion":"Failure", "Project Collection Updation": "Unsuccessful"})
+        
+        resultsCache.set_clean_data_path(Operation["cleanDataPath"])
+        resultsCache.set_metrics_path(Operation["metricsLocation"])
+        resultsCache.set_pickle_file_path(Operation["pickleFilePath"])
+        resultsCache.set_pickle_folder_path(Operation["pickleFolderPath"])
+        return JSONResponse({"Successful":"True", "Operation": resultsCache.get_clean_data_path()})
+    else:
+        return JSONResponse({"Successful":"False"})
 
 @app.get('/auto')
 def return_auto_generated_metrics():
-    return JSONResponse({"metrics":"path/to/metrics.csv"})
+    return {"metrics": "path/to/metrics.csv"}
+    # metricsFilePath=resultsCache.get_metrics_path()
+    # if os.path.exists(metricsFilePath):
+    #     metricsFile=open(metricsFilePath,mode='rb')
+    #     return StreamingResponse(metricsFile,media_type="text/csv")
+    # return JSONResponse({"Error":"Metrics Not Found"})
 
 @app.get('/downloadClean')
 def download_clean_data():
