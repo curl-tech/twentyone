@@ -15,6 +15,7 @@ from Backend.app.routers.inference import inference_router
 from Backend.app.helpers.allhelpers import CurrentIDs, ResultsCache, serialiseDict, serialiseList
 from Backend.app.helpers.project_helper import create_project_id
 from Backend.app.helpers.data_helper import get_clean_data_path
+from Backend.app.helpers.metrics_helper import get_metrics_from_modelID, get_metrics_from_projectID
 from Backend.app.helpers.model_helper import create_model_id, get_pickle_file_path
 from Backend.app.schemas import FormData
 from Backend.utils import generate_project_folder, generate_project_auto_config_file
@@ -134,6 +135,7 @@ def start_auto_preprocessing(formData:FormData):
             currentIDs.set_current_data_id(dataID)
             Project21Database.update_one(settings.DB_COLLECTION_MODEL,{"modelID":currentIDs.get_current_model_id()},{
                 "$set": {
+                    "belongsToDataID": dataID,
                     "pickleFolderPath": Operation["pickleFolderPath"],
                     "pickleFilePath": Operation["pickleFilePath"],
                 }
@@ -169,8 +171,12 @@ def start_auto_preprocessing(formData:FormData):
     else:
         return JSONResponse({"Successful":"False"})
 
-@app.get('/auto')
-def return_auto_generated_metrics():
+@app.get('/auto/{projectID}')
+def return_auto_generated_metrics(projectID):
+    metricsFilePath=get_metrics_from_projectID(projectID)
+    if (os.path.exists(str(metricsFilePath))):
+        metricsFile=open(metricsFilePath)
+        return FileResponse(metricsFile,media_type="text/csv")
     return {"metrics": "path/to/metrics.csv"}
     # metricsFilePath=resultsCache.get_metrics_path()
     # if os.path.exists(metricsFilePath):
@@ -178,17 +184,16 @@ def return_auto_generated_metrics():
     #     return StreamingResponse(metricsFile,media_type="text/csv")
     # return JSONResponse({"Error":"Metrics Not Found"})
 
-@app.get('/downloadClean')
-def download_clean_data():
-    print("current user id: ",currentIDs.get_current_user_id())
-    path=get_clean_data_path(currentIDs.get_current_data_id())       #Have to put dataID here
+@app.get('/downloadClean/{dataID}')
+def download_clean_data(dataID):
+    path=get_clean_data_path(dataID)       #Have to put dataID here
     if(os.path.exists(path)):
         return FileResponse(path,media_type="text/csv")     #for this we need aiofiles to be installed. Use pip install aiofiles
     return {"Error":"File not found at path"}
 
-@app.get('/downloadPickle')
-def file_download():
-    path=get_pickle_file_path(currentIDs.get_current_model_id())       #Have to put modelID here
+@app.get('/downloadPickle/{modelID}')
+def file_download(modelID):
+    path=get_pickle_file_path(modelID)       #Have to put modelID here
     if(os.path.exists(path)):
         return FileResponse(path,media_type="text/csv")     #for this we need aiofiles to be installed. Use pip install aiofiles
     return {"Error":"File not found at path"}

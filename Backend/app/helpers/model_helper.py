@@ -12,7 +12,8 @@ def modelEntity(item) -> dict:
         "modelID":item["modelID"],
         "modelName":item["modelName"],
         "modelType":item["modelType"],
-        "picklePath":item["picklePath"],
+        "pickleFolderPath":item["pickleFolderPath"],
+        "pickleFilePath": item["pickleFilePath"],
         "belongsToUserID":item["belongsToUserID"],
         "belongsToProjectID":item["belongsToProjectID"],
         "belongsToDataID":item["belongsToDataID"]

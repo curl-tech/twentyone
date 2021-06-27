@@ -120,7 +120,8 @@ class Model(BaseModel):
     modelID: int=Field(...)
     modelName: Optional[str]='Default Model'
     modelType: Optional[str]
-    picklePath: Optional[str]
+    pickleFolderPath: Optional[str]
+    pickleFilePath: Optional[str]
     belongsToUserID: int=Field(...)
     belongsToProjectID: int=Field(...)
     belongsToDataID: Optional[int]
@@ -161,7 +162,7 @@ class Metrics(BaseModel):
     belongsToUserID: int=Field(...)
     belongsToProjectID: int=Field(...)
     belongsToModelID: int=Field(...)
-    addressOfYamlFile: str=Field(...)
+    addressOfMetricsFile: str=Field(...)
 
     class Config:
         allow_population_by_field_name=True

@@ -13,6 +13,7 @@ def projectEntity(item) -> dict:
         "projectID":item["projectID"],
         "projectName":item["projectName"],
         "rawDataPath":item["rawDataPath"],
+        "projectFolderPath": item["projectFolderPath"],
         "belongsToUserID":item["belongsToUserID"],
         "listOfDataIDs":item["listOfDataIDs"]
     }

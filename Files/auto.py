@@ -98,7 +98,7 @@ class auto:
         #     save_model(model_array[i],name)
         #     shutil.move(name+".pkl",str(config["location"])+str(config["id"])+"_model"+str(i)) ##moves  the pkl to the respective folders at the specified location 
         #     ## folder name is of the form ex:"01_model1" 
-        return location, name+'.pkl'
+        return location, os.path.join(location,name+'.pkl')
 
     
     def model_plot(self,model_array,config):
