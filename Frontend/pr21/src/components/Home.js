@@ -23,14 +23,14 @@ class Home extends Component {
             modelnum: 1,
             nulltype: 'NA',
             currentmodel: 1,
-            data: "{0:0}",
+            traindata: "{0:0}",
             projectdetail: {
                 "Successful": "False",
                 "dataID": 0,
                 "modelID": 0,
                 "projectID": 0,
                 "userID": 0
-            },
+            }
         }
         this.updateData = this.updateData.bind(this);
     }
@@ -47,9 +47,9 @@ class Home extends Component {
     }
     updateData(result) {
         this.setState({
-            data: result.data
+            traindata: result.data
         });
-        // console.log(data);
+        console.log(this.state.traindata);
     }
     handleMtypeChange = event => {
         this.setState({
@@ -276,7 +276,7 @@ class Home extends Component {
                                     </div>
                                     <div className="col-60">
                                         <select name="target" id="target" onChange={this.handleTargetChange}>
-                                            {Object.keys(this.state.data[0]).map((key, i) =>
+                                            {Object.keys(this.state.traindata[0]).map((key, i) =>
                                                 <option value={key}>{key}</option>
                                             )}
                                         </select>
@@ -320,7 +320,7 @@ class Home extends Component {
                             </div>
                             <h1>Preprocess</h1>
                             <p>Go to each column and decide how would you like to preprocess it</p>
-                            <Preprocess rawdata={this.state.data} />
+                            <Preprocess rawdata={this.state.traindata} />
                         </div>
                     </div>
                     {/* form 5 for model and hypeparameters selection*/}

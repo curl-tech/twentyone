@@ -6,7 +6,7 @@ import Plots from './plots.js';
 // import car from '../assets/testDataset/cardata.csv';
 import Download from './download.js';
 import Metrics from './metrics.js';
-import Papa from 'papaparse';
+// import Papa from 'papaparse';
 import axios from 'axios';
 
 class Section5 extends Component {
@@ -27,7 +27,7 @@ class Section5 extends Component {
             inferencefile: undefined,
             plot:""
         };
-        this.updateData = this.updateData.bind(this);
+        // this.updateData = this.updateData.bind(this);
     }
 
     // handleChange = event => {
@@ -41,16 +41,17 @@ class Section5 extends Component {
         const FileDownload = require('js-file-download');
         axios.get('http://localhost:8000/getMetrics/'+projectid)
             .then((response) => {
+                console.log(response)
                 console.log(response.data);
                 FileDownload(response.data, 'metrics.csv');
                 this.setState({data: response.data});
-                console.log(data);
+                console.log(this.state.data);
             });
     }
     handlePlot = event => {
         const FileDownload = require('js-file-download');
         const projectid=this.props.projectdetails["projectID"];
-        axios.get('http://localhost:8000/getPlots/93534')
+        axios.get('http://localhost:8000/getPlots/'+projectid)
             .then((response) => {
                 // console.log(response);
                 FileDownload(response.data, 'plot.html');
