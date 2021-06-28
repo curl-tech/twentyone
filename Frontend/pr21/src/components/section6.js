@@ -50,7 +50,7 @@ class Section6 extends Component {
                         <h2>Project Name: {this.props.projectname}</h2>
                     </div>
                     <div className=" sec6heading">
-                        <h2>Your Top Models</h2>
+                        <h2>Your Models</h2>
                     </div>
                     {items}
                     {/* <div className="card-group  text-center">

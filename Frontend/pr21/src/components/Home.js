@@ -8,8 +8,6 @@ import ManualModel from './manualmodel.js';
 import Section1 from './section1.js';
 import Section3 from './section3.js';
 import Section4 from './section4.js';
-import Section6 from './section6.js';
-import Section5 from './section5.js';
 import Papa from 'papaparse';
 
 class Home extends Component {
@@ -26,17 +24,13 @@ class Home extends Component {
             nulltype: 'NA',
             currentmodel: 1,
             data: "{0:0}",
-            metricData: "{0:0}",
-            plotData: "0",
-            projectdetail:{
-                "Successful":"False",
-                "dataID":0,
-                "modelID":0,
-                "projectID":0,
-                "userID":0           
-                
-            }
-
+            projectdetail: {
+                "Successful": "False",
+                "dataID": 0,
+                "modelID": 0,
+                "projectID": 0,
+                "userID": 0
+            },
         }
         this.updateData = this.updateData.bind(this);
     }
@@ -314,7 +308,7 @@ class Home extends Component {
                         </form>
                     </div>
                     {/* loader */}
-                    <Result modelnum={this.state.modelnum} projectdetail={this.state.projectdetail} handler={this.handleCurrentModel} projectname={this.state.projectname} isauto={this.state.isauto} />
+                    <Result modelnum={this.state.modelnum} currentmodel={this.state.currentmodel} projectdetail={this.state.projectdetail} handler={this.handleCurrentModel} projectname={this.state.projectname} isauto={this.state.isauto} />
                     {/* ************************************************************************************************************************ */}
 
                     {/* form 4 for manual preprocessing */}
@@ -354,11 +348,11 @@ class Home extends Component {
                 {/* ************************************************************************************************************************ */}
                 {/* Section 5 */}
                 {/* This section is to show detail of every trained model */}
-                <Section5 currentmodel={this.state.currentmodel} />
+                {/* <Section5 currentmodel={this.state.currentmodel} /> */}
                 {/* ************************************************************************************************************************ */}
                 {/* Section 6 */}
                 {/* This section is to show all models trained */}
-                <Section6 modelnum={this.state.modelnum} handler={this.handleCurrentModel} projectname={this.state.projectname} isauto={this.state.isauto} />
+                {/* <Section6 modelnum={this.state.modelnum} handler={this.handleCurrentModel} projectname={this.state.projectname} isauto={this.state.isauto} /> */}
 
             </div >
         );

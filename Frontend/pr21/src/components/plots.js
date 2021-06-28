@@ -1,13 +1,20 @@
 import React from 'react';
-function iframe() {
-    return {
-        __html: '<iframe src="/output.html" width="1080" height="540"></iframe>'
-    }
-}
-export default function Plots() {
+// import renderHTML from 'react-render-html';
+// function iframe(plot) {
+//     return {
+//         __html: '<iframe src='+plot+' width="1080" height="540"></iframe>'
+//     }
+// }
+export default function Plots(plot) {
+    
+    const plotdata=plot.plot
+    // const renderHTML = require('react-render-html');
     return (
+        
         <div>
-            <div className="plot" dangerouslySetInnerHTML={iframe()} />
+            <h1>Loading</h1>
+            {/* <div className="plot" dangerouslySetInnerHTML={iframe({plotdata})} /> */}
+            <iframe title="Plot" srcdoc={plotdata} width="1080" height="540">hi</iframe>
         </div>)
 }
 // class Plots extends Component {

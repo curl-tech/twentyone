@@ -9,6 +9,7 @@
     "axios": "^0.21.1",
     "bootstrap": "^4.6.0",
     "jquery": "^3.6.0",
+    "js-file-download": "^0.4.12",
     "papaparse": "^5.3.1",
     "react": "^17.0.2",
     "react-bootstrap": "^1.6.1",

@@ -842,7 +842,7 @@ background-image: url(./assets/img/bg13.png);
 background-image:linear-gradient(to left bottom ,rgba(0, 0, 0, 0.685),rgb(39, 225, 231));
 background-image: url(./assets/img/bg19.png);
   background-size: cover;
- min-height: 100vh;
+ /* min-height: 100vh; */
  display: none;
 }
 .sec5heading{
@@ -943,6 +943,7 @@ color: #fff;
 .flex-column { 
   max-width : 260px;
 }
+
 /* ************************************************************************************************************************ */
 /* section6 */
 .section6
@@ -951,7 +952,7 @@ color: #fff;
 /* background:linear-gradient(rgba(49, 71, 77, 0.356),rgba(235, 230, 235, 0.363)), url(./assets/img/bg12.png);  */
 background-image: url(./assets/img/bg19.png);
   background-size: cover;
- min-height: 100vh;
+ /* min-height: 100vh; */
 }
 .sec6heading{
   padding: 1em;
