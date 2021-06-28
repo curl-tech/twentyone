@@ -88,7 +88,7 @@ class Home extends Component {
         // console.log(formdata.getAll('train'))
 
         axios.post('http://localhost:8000/create', formdata, { headers: { 'Accept': 'multipart/form-data', 'Content-Type': 'multipart/form-data' } })
-            .then((res) => { console.log("Successful", res) },
+            .then((res) => { console.log("Successful1", res) },
                 (error) => { console.log(error) });
     }
     handleAuto() {
@@ -136,7 +136,7 @@ class Home extends Component {
         // console.log(JSON.stringify(data))
 
         axios.post('http://localhost:8000/auto', JSON.stringify(data))
-            .then(res => { console.log("Successful", res) },
+            .then(res => { console.log("Successful2", res) },
                 (error) => { console.log(error) });
         // axios.get('http://localhost:8000/auto')
         //     .then((response) => {
@@ -146,11 +146,11 @@ class Home extends Component {
         //         console.log(response.headers);
         //         console.log(response.config);
         //     });
-        const ws = new WebSocket('ws://localhost:8800/ws')
+        const ws = new WebSocket('ws://localhost:8000/ws')
         ws.onopen = () => {
             // on connecting, do nothing but log it to the console
             console.log('connected')
-            this.ws.send("Connected to React");
+            ws.send("Connected to React");
         }
 
         ws.onmessage = evt => {

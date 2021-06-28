@@ -5,7 +5,7 @@ class Download extends Component {
 
   handleDownloadClean = event => {
     event.preventDefault();
-    axios.get('http://localhost:8000/downloadClean')
+    axios.get('http://localhost:8000/downloadClean/36550')
       .then((response) => {
         console.log(response.data);
         console.log(response.status);
@@ -16,7 +16,7 @@ class Download extends Component {
   }
   handleDownloadPickle = event => {
     event.preventDefault();
-    axios.get('http://localhost:8000/downloadPickle')
+    axios.get('http://localhost:8000/downloadPickle/36550')
       .then((response) => {
         console.log(response.data);
         console.log(response.status);

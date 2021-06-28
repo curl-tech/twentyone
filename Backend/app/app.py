@@ -201,7 +201,9 @@ async def training_status(websocket: WebSocket):
     await websocket.accept()
     while True:
         try:
-            await websocket.receive_json()  #Can be used to receive data from frontend
+            data= await websocket.receive_text()  #Can be used to receive data from frontend
+            print(data)
+            #metrics.csv, plot.html, dataid,projectid,userid,modelid
             resp={"Status":"ModelRunning"}  
             await websocket.send_json(resp) #Can be used to return data to the frontend
         except Exception as e:
