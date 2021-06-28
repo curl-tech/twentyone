@@ -29,16 +29,17 @@ def create_model_id():
         id=create_model_id()
     return id
 
-def get_pickle_file_path(modelID):
+def get_pickle_file_path(modelID:int):
     try:
         result=Project21Database.find_one(settings.DB_COLLECTION_MODEL,{"modelID":modelID})
         result=serialiseDict(result)
         if result is not None:
-            return result["picklePath"]
+            return result["pickleFilePath"]
         else:
             return '/'
-    except:
-        print("An error occured while retreiving picklePath from the Model Collection")
+    except Exception as e:
+        print("An error occured while retreiving pickleFilePath from the Model Collection")
+        print("Error: ",e)
         return '/'
 
 def insert_one_model():

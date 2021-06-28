@@ -119,7 +119,7 @@ def create_project(projectName:str=Form(...),mtype:str=Form(...),train: UploadFi
 @app.post('/auto')
 def start_auto_preprocessing(formData:FormData):
     formData=dict(formData)
-    projectAutoConfigFileLocation, dataID = generate_project_auto_config_file(currentIDs,formData,)
+    projectAutoConfigFileLocation, dataID = generate_project_auto_config_file(currentIDs,formData)
     automatic_model_training=auto()
     Operation=automatic_model_training.auto(projectAutoConfigFileLocation)
 
@@ -167,35 +167,30 @@ def start_auto_preprocessing(formData:FormData):
         resultsCache.set_metrics_path(Operation["metricsLocation"])
         resultsCache.set_pickle_file_path(Operation["pickleFilePath"])
         resultsCache.set_pickle_folder_path(Operation["pickleFolderPath"])
-        return JSONResponse({"Successful":"True", "Operation": resultsCache.get_clean_data_path()})
+        return JSONResponse({"Successful":"True", "projectID": currentIDs.get_current_project_id(), "dataID":currentIDs.get_current_data_id(), "modelID": currentIDs.get_current_model_id()})
     else:
         return JSONResponse({"Successful":"False"})
 
 @app.get('/auto/{projectID}')
-def return_auto_generated_metrics(projectID):
+def return_auto_generated_metrics(projectID:int):
     metricsFilePath=get_metrics_from_projectID(projectID)
     if (os.path.exists(str(metricsFilePath))):
-        metricsFile=open(metricsFilePath)
-        return FileResponse(metricsFile,media_type="text/csv")
-    return {"metrics": "path/to/metrics.csv"}
-    # metricsFilePath=resultsCache.get_metrics_path()
-    # if os.path.exists(metricsFilePath):
-    #     metricsFile=open(metricsFilePath,mode='rb')
-    #     return StreamingResponse(metricsFile,media_type="text/csv")
-    # return JSONResponse({"Error":"Metrics Not Found"})
+        return FileResponse(metricsFilePath,media_type="text/csv")
+    return {"Error": "Mertics File not found at path"}
 
 @app.get('/downloadClean/{dataID}')
-def download_clean_data(dataID):
+def download_clean_data(dataID:int):
     path=get_clean_data_path(dataID)       #Have to put dataID here
     if(os.path.exists(path)):
-        return FileResponse(path,media_type="text/csv")     #for this we need aiofiles to be installed. Use pip install aiofiles
-    return {"Error":"File not found at path"}
+        return FileResponse(path,media_type="text/csv",filename="clean_data.csv")     #for this we need aiofiles to be installed. Use pip install aiofiles
+    return {"Error":"Clean Data File not found at path"}
 
 @app.get('/downloadPickle/{modelID}')
-def file_download(modelID):
+def download_pickle_file(modelID:int):
     path=get_pickle_file_path(modelID)       #Have to put modelID here
     if(os.path.exists(path)):
-        return FileResponse(path,media_type="text/csv")     #for this we need aiofiles to be installed. Use pip install aiofiles
+        print("Path: ",path)
+        return FileResponse(path,media_type="application/octet-stream",filename="model.pkl")   #for this we need aiofiles to be installed. Use pip install aiofiles
     return {"Error":"File not found at path"}
 #     myfile=open(path,mode='rb')
 #     return StreamingResponse(myfile,media_type="text/csv")    #for streaming files instead of uploading them

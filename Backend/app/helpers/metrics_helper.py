@@ -41,9 +41,11 @@ def get_metrics_from_modelID(modelID):
 def get_metrics_from_projectID(projectID):
     try:
         result=Project21Database.find_one(settings.DB_COLLECTION_METRICS,{"belongsToProjectID":projectID})
-        result=metricEntity(result)
         if result is not None:
-            return result["addressOfMetricsFile"]
+            result=serialiseDict(result)
+            print("Result is: ",result)
+            print("Result path is ", result["addressOfMetricsFile"])
+            return str(result["addressOfMetricsFile"])
     except Exception as e:
         print("An Error Occured: ", e)
     return 'result["addressOfMetricsFile"]'
