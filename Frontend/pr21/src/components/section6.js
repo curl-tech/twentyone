@@ -6,6 +6,7 @@ class Section6 extends Component {
         event.preventDefault();
         var theFormItself = document.getElementById('section6');
         $(theFormItself).hide();
+
         var theFormItself2 = document.getElementById('section5');
         $(theFormItself2).show();
         this.props.handler(event.target.value);
@@ -38,13 +39,13 @@ class Section6 extends Component {
             )
 
         }
-        if (this.props.isauto===false) {
+        if (this.props.isauto === false) {
             return (
                 <div className="section6" id="section6">
 
-                    <div className=" sec6heading">
+                    {/* <div className=" sec6heading">
                         <h1>Results</h1>
-                    </div>
+                    </div> */}
                     <div className=" sec6heading">
                         <h2>Project Name: {this.props.projectname}</h2>
                     </div>
@@ -61,25 +62,31 @@ class Section6 extends Component {
                 </div>
             );
         }
-        else{
-            return(
-                <div className="section6" id="section6">
+        else {
+            return (
+                <div className="section6 " id="section6">
 
-                    <div className=" sec6heading">
+                    {/* <div className=" sec6heading">
                         <h1>Results</h1>
-                    </div>
+                    </div> */}
                     <div className=" sec6heading">
-                        <h2>Project Name: {this.props.projectname}</h2>
+                        <h1>Project Name: {this.props.projectname}</h1>
                     </div>
-                    <div className=" sec6heading">
+                    {/* <div className=" sec6heading">
                         <h2>The Best Model</h2>
-                    </div>
-                    
+                    </div> */}
+
                     <div className="card sec6autocard">
 
                         <div className="card-body">
-                            <h2 className="card-title">Model :</h2>
-                            <h4 className="card-text cardp">Accuracy :</h4>
+                            <h2 className="card-title">Top Model</h2>
+                            <h4 className="card-text cardp">See Details For:
+                                <li>Metrics</li>
+                                <li>Plots</li>
+                                <li>Clean Data</li>
+                                <li>Pickle File</li>
+                                <li>Inferencing New Data</li>
+                            </h4>
                             <button value={1} onClick={this.handleModelResult} className="btn sec6btn">See Details</button>
                         </div>
                     </div>

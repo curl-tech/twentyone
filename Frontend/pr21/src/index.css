@@ -301,6 +301,9 @@ background-image: url(./assets/img/bg6.png);
   font-size: larger;
   text-shadow:3px 3px #111;
 }
+#sec1heading2{
+ display: none;
+}
 .createform
 {
 
@@ -1011,7 +1014,7 @@ background-image: url(./assets/img/bg19.png);
   /* font-size: xx-large; */
   font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
   font-family: 'Staatliches', Verdana, Geneva, Tahoma, sans-serif;
-  text-align: center;
+  /* text-align: center; */
   color: #fff;
 }
 .sec6btn{

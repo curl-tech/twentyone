@@ -35,6 +35,27 @@ class Section5 extends Component {
         });
     };
 
+    handlemetric = event => {
+        axios.get('http://localhost:8000/getMetrics')
+            .then((response) => {
+                console.log(response.data);
+                console.log(response.status);
+                console.log(response.statusText);
+                console.log(response.headers);
+                console.log(response.config);
+            });
+    }
+    handlePlot = event => {
+        axios.get('http://localhost:8000/getPlot')
+            .then((response) => {
+                console.log(response.data);
+                console.log(response.status);
+                console.log(response.statusText);
+                console.log(response.headers);
+                console.log(response.config);
+            });
+    }
+
     importCSV = () => {
         const { csvfile } = this.state;
         Papa.parse(csvfile, {
@@ -64,18 +85,16 @@ class Section5 extends Component {
             this.state.inferencefile
 
         );
+        const FileDownload = require('js-file-download');
         axios.post('http://localhost:8000/inference', formdata, { headers: { 'Accept': 'multipart/form-data', 'Content-Type': 'multipart/form-data' } })
-            .then((res) => { console.log("Successful", res) },
+            .then((res) => {
+                console.log("Successful", res)
+                FileDownload(res.data, 'prediction.csv');
+
+            },
                 (error) => { console.log(error) });
-        axios.get('http://localhost:8000/inference')
-            .then((response) => {
-                console.log(response.data);
-                console.log(response.status);
-                console.log(response.statusText);
-                console.log(response.headers);
-                console.log(response.config);
-            });
     }
+
     render() {
         return (
 
@@ -93,10 +112,10 @@ class Section5 extends Component {
                     {/* <!-- Nav tabs --> */}
                     <ul className="nav nav-tabs" id="myTab" role="tablist">
                         <li className="nav-item" role="presentation">
-                            <button className="nav-link tabbtn active" id="Metrics-tab" data-bs-toggle="tab" data-bs-target="#metrics" type="button" role="tab" aria-controls="metrics" aria-selected="true">Metrics</button>
+                            <button className="nav-link tabbtn active" id="Metrics-tab" onClick={this.handlemetric} data-bs-toggle="tab" data-bs-target="#metrics" type="button" role="tab" aria-controls="metrics" aria-selected="true">Metrics</button>
                         </li>
                         <li className="nav-item" role="presentation">
-                            <button className="nav-link tabbtn " id="plot-tab" data-bs-toggle="tab" data-bs-target="#plot" type="button" role="tab" aria-controls="Plot" aria-selected="false">Plots</button>
+                            <button className="nav-link tabbtn " id="plot-tab" onClick={this.handlePlot} data-bs-toggle="tab" data-bs-target="#plot" type="button" role="tab" aria-controls="Plot" aria-selected="false">Plots</button>
                         </li>
                         <li className="nav-item" role="presentation">
                             <button className="nav-link tabbtn" id="download-tab" data-bs-toggle="tab" data-bs-target="#download" type="button" role="tab" aria-controls="Download" aria-selected="false">Download</button>
@@ -124,9 +143,7 @@ class Section5 extends Component {
                                 <div className="d-flex flex-row justify-content-center flex-wrap">
                                     <Plots />
                                     {/* <div className="d-flex flex-column plot" >
-                                        <img src="1" className="img-fluid" alt=" Plot1 not for this model " />
-                                        <img src="2" className="img-fluid" alt=" Plot2 not for this model " />
-                                        <img src="3" className="img-fluid" alt=" Plot3 not for this model " />*/}
+                                         <img src="3" className="img-fluid" alt=" Plot3 not for this model " />*/}
 
                                 </div>
                             </div>
@@ -141,7 +158,7 @@ class Section5 extends Component {
                                         </div>
                                         <div className="flip-card-back2 ">
                                             <p>"Download clean Data"</p>
-                                            <Download type="clean" />
+                                            <Download type="clean" projectdetails={this.props.projectdetails} />
 
 
                                         </div>
@@ -154,7 +171,7 @@ class Section5 extends Component {
                                         </div>
                                         <div className="flip-card-back2 ">
                                             <p>"Download pickle file"</p>
-                                            <Download type="pickle" />
+                                            <Download type="pickle" projectdetails={this.props.projectdetails} />
 
                                         </div>
                                     </div>

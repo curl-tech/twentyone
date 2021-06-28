@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Section6 from './section6.js';
+import Section5 from './section5.js';
 
 class Result extends Component {
     constructor(props) {
@@ -12,7 +13,7 @@ class Result extends Component {
         }
 
     }
-    
+
     // componentDidMount() {
 
     //     // fetch('https://localhost:8800/auto')
@@ -48,7 +49,7 @@ class Result extends Component {
     // }
     render() {
 
-        if (!this.state.isLoaded)
+        if (this.props.projectdetail["Successful"] === "False")
             return (
                 <div className="container loader" id="loader">
                     <p>" Your models are been created... Can we take a quick Tea Break ?? "</p>
@@ -60,11 +61,14 @@ class Result extends Component {
 
                 </div>
             );
-        return (
-            <div>
-                <Section6 metricData={this.state.metricData} modelnum={this.props.modelnum} handler={this.props.handler} projectname={this.props.projectname} isauto={this.props.isauto} />
-            </div>
-        );
+        else {
+            return (
+                <div>
+                    <Section6 metricData={this.state.metricData} modelnum={this.props.modelnum} handler={this.props.handler} projectname={this.props.projectname} isauto={this.props.isauto} />
+                    <Section5 currentmodel={this.state.currentmodel} projectdetails={this.props.projectdetail} />
+                </div>
+            );
+        }
     }
 }
 

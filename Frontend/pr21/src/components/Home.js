@@ -26,7 +26,16 @@ class Home extends Component {
             nulltype: 'NA',
             currentmodel: 1,
             data: "{0:0}",
-            metricData: "{0:0}"
+            metricData: "{0:0}",
+            plotData: "0",
+            projectdetail:{
+                "Successful":"False",
+                "dataID":0,
+                "modelID":0,
+                "projectID":0,
+                "userID":0           
+                
+            }
 
         }
         this.updateData = this.updateData.bind(this);
@@ -125,8 +134,12 @@ class Home extends Component {
         event.preventDefault();
         var theFormItself = document.getElementById('form3');
         $(theFormItself).hide();
-        var theFormItself2 = document.getElementById('loader');
-        $(theFormItself2).show();
+        var theFormItself2 = document.getElementById('sec1heading');
+        $(theFormItself2).hide();
+        var theFormItself3 = document.getElementById('sec1heading2');
+        $(theFormItself3).show();
+        var theFormItself4 = document.getElementById('loader');
+        $(theFormItself4).show();
         let userID = this.state.userID
         let isauto = this.state.auto
         let target = this.state.target
@@ -138,6 +151,10 @@ class Home extends Component {
         axios.post('http://localhost:8000/auto', JSON.stringify(data))
             .then(res => {
                 console.log("Successful2", res)
+                this.setState({
+                    projectdetail: res.data
+                })
+                console.log(this.state.projectdetail)
             },
                 (error) => { console.log(error) });
 
@@ -170,8 +187,12 @@ class Home extends Component {
                 {/* ************************************************************************************************************************ */}
                 {/* Section2  */}
                 <div className="section2" id="section2">
-                    <div className="createpagebox ">
+                    <div className="createpagebox " id="sec1heading">
                         <h1>Start With Your Project</h1>
+                        {/* <p>" Just fill relevant feeds and select few choices and you are good to go"</p> */}
+                    </div>
+                    <div className="createpagebox " id="sec1heading2">
+                        <h1>TwentyOne Results</h1>
                         {/* <p>" Just fill relevant feeds and select few choices and you are good to go"</p> */}
                     </div>
 
@@ -293,7 +314,7 @@ class Home extends Component {
                         </form>
                     </div>
                     {/* loader */}
-                    <Result modelnum={this.state.modelnum} handler={this.handleCurrentModel} projectname={this.state.projectname} isauto={this.state.isauto} />
+                    <Result modelnum={this.state.modelnum} projectdetail={this.state.projectdetail} handler={this.handleCurrentModel} projectname={this.state.projectname} isauto={this.state.isauto} />
                     {/* ************************************************************************************************************************ */}
 
                     {/* form 4 for manual preprocessing */}

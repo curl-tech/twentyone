@@ -5,24 +5,20 @@ class Download extends Component {
 
   handleDownloadClean = event => {
     event.preventDefault();
-    axios.get('http://localhost:8000/downloadClean/36550')
+    const FileDownload = require('js-file-download');
+    const dataid=this.props.projectdetails["dataID"];
+    axios.get('http://localhost:8000/downloadClean/'+dataid)
       .then((response) => {
-        console.log(response.data);
-        console.log(response.status);
-        console.log(response.statusText);
-        console.log(response.headers);
-        console.log(response.config);
+        FileDownload(response.data, 'cleandata.csv');
       });
   }
   handleDownloadPickle = event => {
     event.preventDefault();
-    axios.get('http://localhost:8000/downloadPickle/36550')
+    const FileDownload = require('js-file-download');
+    const modelid=this.props.projectdetails["modelID"];
+    axios.get('http://localhost:8000/downloadPickle/'+modelid)
       .then((response) => {
-        console.log(response.data);
-        console.log(response.status);
-        console.log(response.statusText);
-        console.log(response.headers);
-        console.log(response.config);
+        FileDownload(response.data, 'pickledmodel.pkl');
       });
   }
   render() {
