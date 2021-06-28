@@ -90,7 +90,7 @@ class AutoReg:
         #     save_model(model_array[i],name)
         #     shutil.move(name+".pkl",str(config["location"])+str(config["id"])+"_model"+str(i)) ##moves  the pkl to the respective folders at the specified location 
         #     ## folder name is of the form ex:"01_model1" 
-        return location, name+'.pkl'
+        return location, os.path.join(location,name+'.pkl')
 
     
     def model_plot(self,model_array,config):
@@ -128,8 +128,8 @@ class AutoReg:
             print("Model List:",model)
             print("Tuned List: ",tunedmodel)
             # self.model_plot(tunedmodel,config)
-            pikleFolderPath, pickleFilePath=self.model_save(tunedmodel,config)
-            return {"Successful": True, "cleanDataPath": cleanDataPath, "metricsLocation":metricsLocation, "pikleFolderPath":pikleFolderPath, "pickleFilePath":pickleFilePath}
+            pickleFolderPath, pickleFilePath=self.model_save(tunedmodel,config)
+            return {"Successful": True, "cleanDataPath": cleanDataPath, "metricsLocation":metricsLocation, "pickleFolderPath":pickleFolderPath, "pickleFilePath":pickleFilePath}
         except Exception as e:
             print("An Error Occured: ",e)
             return {"Successful": False, "Error": e}
