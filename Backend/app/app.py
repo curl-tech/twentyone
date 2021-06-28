@@ -201,28 +201,28 @@ def download_pickle_file(modelID:int):
 async def training_status(websocket: WebSocket):
     print("Connecting to the Frontend...")
     await websocket.accept()
-    while (not resultsCache.get_auto_mode_status()):
-        try:
+    # while (not resultsCache.get_auto_mode_status()):
+    try:
+        data={
+            "Successful":"False",
+            "Status": "Model Running"
+        }
+        if (resultsCache.get_auto_mode_status()):
             data={
-                "Successful":"False",
-                "Status": "Model Running"
+            "Successful":"True",
+            "Status": "Model Successfully Created",
+            "userID": currentIDs.get_current_user_id(),
+            "projectID": currentIDs.get_current_project_id(),
+            "dataID":currentIDs.get_current_data_id(),
+            "modelID": currentIDs.get_current_model_id()
             }
-            if (resultsCache.get_auto_mode_status()):
-                data={
-                "Successful":"True",
-                "Status": "Model Successfully Created",
-                "userID": currentIDs.get_current_user_id(),
-                "projectID": currentIDs.get_current_project_id(),
-                "dataID":currentIDs.get_current_data_id(),
-                "modelID": currentIDs.get_current_model_id()
-                }
-                await websocket.send_json(data)
-                break
+            await websocket.send_json(data)
+            
 
-            data2= await websocket.receive_text()  #Can be used to receive data from frontend
-            print(data2)
-            await websocket.send_json(data) #Can be used to return data to the frontend
-        except Exception as e:
-            print("Error: ",e)
-            break
+        data2= await websocket.receive_text()  #Can be used to receive data from frontend
+        print(data2)
+        await websocket.send_json(data) #Can be used to return data to the frontend
+    except Exception as e:
+        print("Error: ",e)
+        # break
     print("Websocket connection closing...")

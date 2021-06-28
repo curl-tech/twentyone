@@ -13,39 +13,39 @@ class Result extends Component {
 
     }
     
-    componentDidMount() {
+    // componentDidMount() {
 
-        // fetch('https://localhost:8800/auto')
-        //     .then(res => res.json())
-        //     .then(json => {
-        //         this.setState({
-        //             items: json,
-        //             isLoaded: true, 
-        //         })
-        //     }).catch((err) => {
-        //         console.log(err);
-        //     });
-        const ws = new WebSocket('ws://localhost:8000/ws')
-        ws.onopen = () => {
-            // on connecting, do nothing but log it to the console
-            console.log('connected')
-            ws.send("Connected to React");
-        }
+    //     // fetch('https://localhost:8800/auto')
+    //     //     .then(res => res.json())
+    //     //     .then(json => {
+    //     //         this.setState({
+    //     //             items: json,
+    //     //             isLoaded: true, 
+    //     //         })
+    //     //     }).catch((err) => {
+    //     //         console.log(err);
+    //     //     });
+    //     const ws = new WebSocket('ws://localhost:8000/ws')
+    //     ws.onopen = () => {
+    //         // on connecting, do nothing but log it to the console
+    //         console.log('connected')
+    //         ws.send("Connected to React");
+    //     }
 
-        ws.onmessage = evt => {
-            // listen to data sent from the websocket server
-            console.log("getting message")
-            const message = JSON.parse(evt.data)
-            this.setState({ metricData: message })
-            console.log(message)
-        }
+    //     ws.onmessage = evt => {
+    //         // listen to data sent from the websocket server
+    //         console.log("getting message")
+    //         const message = JSON.parse(evt.data)
+    //         this.setState({ metricData: message })
+    //         console.log(message)
+    //     }
 
-        ws.onclose = () => {
-            console.log('disconnected')
-            // automatically try to reconnect on connection loss
+    //     ws.onclose = () => {
+    //         console.log('disconnected')
+    //         // automatically try to reconnect on connection loss
 
-        }
-    }
+    //     }
+    // }
     render() {
 
         if (!this.state.isLoaded)
