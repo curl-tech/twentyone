@@ -136,44 +136,12 @@ class Home extends Component {
         // console.log(JSON.stringify(data))
 
         axios.post('http://localhost:8000/auto', JSON.stringify(data))
-            .then(res => { console.log("Successful2", res) },
+            .then(res => {
+                console.log("Successful2", res)
+            },
                 (error) => { console.log(error) });
-        // axios.get('http://localhost:8000/auto')
-        //     .then((response) => {
-        //         console.log(response.data);
-        //         console.log(response.status);
-        //         console.log(response.statusText);
-        //         console.log(response.headers);
-        //         console.log(response.config);
-        //     });
-        const ws = new WebSocket('ws://localhost:8000/ws')
-        ws.onopen = () => {
-            // on connecting, do nothing but log it to the console
-            console.log('connected')
-            ws.send("Connected to React");
-        }
 
-        ws.onmessage = evt => {
-            // while (true) {
-                // listen to data sent from the websocket server
-                console.log("getting message")
-                const message = JSON.parse(evt.data)
-                if (message["Successful"] === "False") {
-                    //
-                    // this.setState({ metricData: message })
-                    console.log(message)
-                }
-                if (message["Successful"] === "True") {
-                    console.log(message)
-                   
-                }
-            // }
-        }
-        ws.onclose = () => {
-            console.log('disconnected')
-            // automatically try to reconnect on connection loss
 
-        }
     }
     handleCurrentModel = (val) => {
         this.setState({
