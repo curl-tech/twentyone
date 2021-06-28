@@ -152,15 +152,20 @@ class Home extends Component {
             console.log('connected')
             ws.send("Connected to React");
         }
-
+        
         ws.onmessage = evt => {
-            // listen to data sent from the websocket server
-            console.log("getting message")
-            const message = JSON.parse(evt.data)
-            this.setState({ metricData: message })
-            console.log(message)
+                while (true){
+                // listen to data sent from the websocket server
+                console.log("getting message")
+                const message = JSON.parse(evt.data)
+                this.setState({ metricData: message })
+                console.log(message)
+                if (message["Successful"]==="True"){
+                    console.log(message)
+                    break;
+                }
+            }
         }
-
         ws.onclose = () => {
             console.log('disconnected')
             // automatically try to reconnect on connection loss

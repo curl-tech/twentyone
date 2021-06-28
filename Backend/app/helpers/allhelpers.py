@@ -75,6 +75,13 @@ class ResultsCache:
         self.metricsPath=path
         self.pickleFilePath=path
         self.pickleFolderPath=path
+        self.status=False
+
+    def set_auto_mode_status(self,status):
+        self.status=False
+    
+    def get_auto_mode_status(self):
+        return self.status
 
     def set_clean_data_path(self,cleanDataPath):
         self.cleanDataPath=cleanDataPath
