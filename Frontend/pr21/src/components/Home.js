@@ -25,7 +25,8 @@ class Home extends Component {
             modelnum: 1,
             nulltype: 'NA',
             currentmodel: 1,
-            data: "{0:0}"
+            data: "{0:0}",
+            metricData: "{0:0}"
 
         }
         this.updateData = this.updateData.bind(this);
@@ -39,14 +40,13 @@ class Home extends Component {
         this.setState({
             train: event.target.files[0]
         })
-        console.log(event.target.files[0]);
+        // console.log(event.target.files[0]);
     }
     updateData(result) {
         this.setState({
             data: result.data
         });
-        var data = result.data;
-        console.log(data);
+        // console.log(data);
     }
     handleMtypeChange = event => {
         this.setState({
@@ -85,7 +85,7 @@ class Home extends Component {
             this.state.train
         );
 
-        console.log(formdata.getAll('train'))
+        // console.log(formdata.getAll('train'))
 
         axios.post('http://localhost:8000/create', formdata, { headers: { 'Accept': 'multipart/form-data', 'Content-Type': 'multipart/form-data' } })
             .then((res) => { console.log("Successful", res) },
@@ -133,19 +133,39 @@ class Home extends Component {
         let modelnumber = this.state.modelnum
         let nulltype = this.state.nulltype
         let data = { userID, isauto, target, modelnumber, nulltype }
-        console.log(JSON.stringify(data))
+        // console.log(JSON.stringify(data))
 
         axios.post('http://localhost:8000/auto', JSON.stringify(data))
             .then(res => { console.log("Successful", res) },
                 (error) => { console.log(error) });
-        axios.get('http://localhost:8000/auto')
-            .then((response) => {
-                console.log(response.data);
-                console.log(response.status);
-                console.log(response.statusText);
-                console.log(response.headers);
-                console.log(response.config);
-            });
+        // axios.get('http://localhost:8000/auto')
+        //     .then((response) => {
+        //         console.log(response.data);
+        //         console.log(response.status);
+        //         console.log(response.statusText);
+        //         console.log(response.headers);
+        //         console.log(response.config);
+        //     });
+        const ws = new WebSocket('ws://localhost:8800/ws')
+        ws.onopen = () => {
+            // on connecting, do nothing but log it to the console
+            console.log('connected')
+            this.ws.send("Connected to React");
+        }
+
+        ws.onmessage = evt => {
+            // listen to data sent from the websocket server
+            console.log("getting message")
+            const message = JSON.parse(evt.data)
+            this.setState({ metricData: message })
+            console.log(message)
+        }
+
+        ws.onclose = () => {
+            console.log('disconnected')
+            // automatically try to reconnect on connection loss
+
+        }
     }
     handleCurrentModel = (val) => {
         this.setState({
@@ -297,7 +317,7 @@ class Home extends Component {
                         </form>
                     </div>
                     {/* loader */}
-                    <Result />
+                    <Result modelnum={this.state.modelnum} handler={this.handleCurrentModel} projectname={this.state.projectname} isauto={this.state.isauto} />
                     {/* ************************************************************************************************************************ */}
 
                     {/* form 4 for manual preprocessing */}
@@ -321,7 +341,7 @@ class Home extends Component {
                             </div>
                             <h1>Models</h1>
                             <p>Preprocessing is being done. Now, select models and their hyperparameters</p>
-                            <ManualModel mtype={this.state.mtype}/>
+                            <ManualModel mtype={this.state.mtype} />
                         </div>
                     </div>
 
@@ -341,7 +361,7 @@ class Home extends Component {
                 {/* ************************************************************************************************************************ */}
                 {/* Section 6 */}
                 {/* This section is to show all models trained */}
-                <Section6 modelnum={this.state.modelnum} handler={this.handleCurrentModel} projectname={this.state.projectname} isauto={this.state.isauto}/>
+                <Section6 modelnum={this.state.modelnum} handler={this.handleCurrentModel} projectname={this.state.projectname} isauto={this.state.isauto} />
 
             </div >
         );

@@ -20,7 +20,7 @@ class Preprocess extends React.Component {
     }
     render() {
         const rawdata = Object.values(this.props.rawdata);
-        console.log(this.props.rawdata)
+        // console.log(this.props.rawdata)
         return (
             <div>
                 {rawdata.map((data, i) => (
