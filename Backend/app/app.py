@@ -19,8 +19,8 @@ from Backend.app.helpers.metrics_helper import get_metrics_from_modelID, get_met
 from Backend.app.helpers.model_helper import create_model_id, get_pickle_file_path
 from Backend.app.schemas import FormData
 from Backend.utils import generate_project_folder, generate_project_auto_config_file
-from Files.auto import auto
-
+from Files.auto import Auto
+from Files.autoreg import AutoReg
 origins=settings.CORS_ORIGIN
 
 app=FastAPI()
@@ -120,10 +120,15 @@ def create_project(projectName:str=Form(...),mtype:str=Form(...),train: UploadFi
 @app.post('/auto')
 def start_auto_preprocessing(formData:FormData):
     formData=dict(formData)
-    projectAutoConfigFileLocation, dataID = generate_project_auto_config_file(currentIDs,formData)
+    projectAutoConfigFileLocation, dataID, problem_type = generate_project_auto_config_file(currentIDs,formData)
     resultsCache.set_auto_mode_status(False)
-    automatic_model_training=auto()
-    Operation=automatic_model_training.auto(projectAutoConfigFileLocation)
+    if(problem_type=='regression'):
+        automatic_model_training=AutoReg()
+        Operation=automatic_model_training.auto(projectAutoConfigFileLocation)
+    else:
+        automatic_model_training=Auto()
+        Operation=automatic_model_training.auto(projectAutoConfigFileLocation)
+        
     if Operation["Successful"]:
         try:
             Project21Database.insert_one(settings.DB_COLLECTION_DATA,{
@@ -169,7 +174,7 @@ def start_auto_preprocessing(formData:FormData):
         resultsCache.set_pickle_file_path(Operation["pickleFilePath"])
         resultsCache.set_pickle_folder_path(Operation["pickleFolderPath"])
         resultsCache.set_auto_mode_status(True)
-        return JSONResponse({"Successful":"True", "projectID": currentIDs.get_current_project_id(), "dataID":currentIDs.get_current_data_id(), "modelID": currentIDs.get_current_model_id()})
+        return JSONResponse({"Successful":"True", "userID": currentIDs.get_current_user_id(), "projectID": currentIDs.get_current_project_id(), "dataID":currentIDs.get_current_data_id(), "modelID": currentIDs.get_current_model_id()})
     else:
         return JSONResponse({"Successful":"False"})
 
@@ -197,32 +202,32 @@ def download_pickle_file(modelID:int):
 #     myfile=open(path,mode='rb')
 #     return StreamingResponse(myfile,media_type="text/csv")    #for streaming files instead of uploading them
 
-@app.websocket("/ws")
-async def training_status(websocket: WebSocket):
-    print("Connecting to the Frontend...")
-    await websocket.accept()
-    # while (not resultsCache.get_auto_mode_status()):
-    try:
-        data={
-            "Successful":"False",
-            "Status": "Model Running"
-        }
-        if (resultsCache.get_auto_mode_status()):
-            data={
-            "Successful":"True",
-            "Status": "Model Successfully Created",
-            "userID": currentIDs.get_current_user_id(),
-            "projectID": currentIDs.get_current_project_id(),
-            "dataID":currentIDs.get_current_data_id(),
-            "modelID": currentIDs.get_current_model_id()
-            }
-            await websocket.send_json(data)
+# @app.websocket("/ws")
+# async def training_status(websocket: WebSocket):
+#     print("Connecting to the Frontend...")
+#     await websocket.accept()
+#     # while (not resultsCache.get_auto_mode_status()):
+#     try:
+#         data={
+#             "Successful":"False",
+#             "Status": "Model Running"
+#         }
+#         if (resultsCache.get_auto_mode_status()):
+#             data={
+#             "Successful":"True",
+#             "Status": "Model Successfully Created",
+#             "userID": currentIDs.get_current_user_id(),
+#             "projectID": currentIDs.get_current_project_id(),
+#             "dataID":currentIDs.get_current_data_id(),
+#             "modelID": currentIDs.get_current_model_id()
+#             }
+#             await websocket.send_json(data)
             
 
-        data2= await websocket.receive_text()  #Can be used to receive data from frontend
-        print(data2)
-        await websocket.send_json(data) #Can be used to return data to the frontend
-    except Exception as e:
-        print("Error: ",e)
-        # break
-    print("Websocket connection closing...")
+#         data2= await websocket.receive_text()  #Can be used to receive data from frontend
+#         print(data2)
+#         await websocket.send_json(data) #Can be used to return data to the frontend
+#     except Exception as e:
+#         print("Error: ",e)
+#         # break
+#     print("Websocket connection closing...")

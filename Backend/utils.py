@@ -68,7 +68,7 @@ def generate_project_auto_config_file(currentIDs,formData):
         yaml.dump(user_yaml,f)
         f.close()
     
-    return os.path.join(user_yaml["location"],'autoConfig.yaml'), random_id
+    return os.path.join(user_yaml["location"],'autoConfig.yaml'), random_id , user_yaml["problem_type"]
 
 
 """

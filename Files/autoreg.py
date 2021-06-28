@@ -7,7 +7,7 @@ import joblib
 import shutil
 import yaml
 from yaml.loader import SafeLoader
-class auto:
+class AutoReg:
     #df = raw_data_address
     #target_col_name = target_col_name
     #problem_type = problem_type
