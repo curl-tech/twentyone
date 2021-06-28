@@ -31,7 +31,7 @@ class Auto:
         config=yaml.load(open(config),Loader=SafeLoader)
         df = pd.read_csv(config["raw_data_address"])
         
-        nlp1 = setup(data = df, target = config["target_col_name"],silent=True)
+        clf1 = setup(data = df, target = config["target_col_name"],silent=True)
         X_train = get_config('X_train')    
         X_train.to_csv(os.path.join(config["location"],'clean_data.csv'), index=False)
         clean_data_address = os.path.join(config["location"],"clean_data.csv")
