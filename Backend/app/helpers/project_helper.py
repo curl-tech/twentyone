@@ -15,7 +15,8 @@ def projectEntity(item) -> dict:
         "rawDataPath":item["rawDataPath"],
         "projectFolderPath": item["projectFolderPath"],
         "belongsToUserID":item["belongsToUserID"],
-        "listOfDataIDs":item["listOfDataIDs"]
+        "listOfDataIDs":item["listOfDataIDs"],
+        "autoConfigFileLocation": item["autoConfigFileLocation"]
     }
 
 def projectsEntity(entity) -> list:

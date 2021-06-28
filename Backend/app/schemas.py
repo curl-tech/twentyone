@@ -48,6 +48,7 @@ class Project(BaseModel):
     projectFolderPath: Optional[str]
     belongsToUserID: int=Field(...)
     listOfDataIDs: Optional[List[int]]
+    autoConfigFileLocation: Optional[str]
 
     class Config:
         arbitrary_types_allowed=True
@@ -59,7 +60,8 @@ class Project(BaseModel):
                 "rawDataPath": "/path/to/data/rawfile.csv",
                 "projectFolderPath": "/path/to/data",
                 "belongsToUserID": 101,
-                "listOfDataIDs": [2,4]
+                "listOfDataIDs": [2,4],
+                "autoConfigFileLocation": "path/to/auto/config/file.yaml"
             }
         }
 

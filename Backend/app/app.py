@@ -4,6 +4,8 @@ from fastapi.datastructures import UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.param_functions import File
 from fastapi.responses import StreamingResponse, JSONResponse, FileResponse
+from pydantic.types import Json
+from starlette.responses import HTMLResponse
 from Backend.app.dbclass import Database
 from Backend.app.config import settings
 from Backend.app.routers.user import user_router
@@ -21,6 +23,7 @@ from Backend.app.schemas import FormData
 from Backend.utils import generate_project_folder, generate_project_auto_config_file
 from Files.auto import Auto
 from Files.autoreg import AutoReg
+from Files.plot import plot
 origins=settings.CORS_ORIGIN
 
 app=FastAPI()
@@ -88,7 +91,8 @@ def create_project(projectName:str=Form(...),mtype:str=Form(...),train: UploadFi
                 "rawDataPath":Operation["RawDataPath"],
                 "projectFolderPath":Operation["ProjectFolderPath"],
                 "belongsToUserID": currentIDs.get_current_user_id(),
-                "listOfDataIDs":[]
+                "listOfDataIDs":[],
+                "autoConfigFileLocation": None
                 })
             Project21Database.insert_one(settings.DB_COLLECTION_MODEL,{
                 "modelID": inserted_modelID,
@@ -159,9 +163,19 @@ def start_auto_preprocessing(formData:FormData):
                     if result["listOfDataIDs"] is not None:
                         newListOfDataIDs=result["listOfDataIDs"]
                         newListOfDataIDs.append(currentIDs.get_current_data_id())
-                        Project21Database.update_one(settings.DB_COLLECTION_PROJECT,{"projectID":result["projectID"]},{"$set":{"listOfDataIDs":newListOfDataIDs}})
+                        Project21Database.update_one(settings.DB_COLLECTION_PROJECT,{"projectID":result["projectID"]},{
+                            "$set":{
+                                "listOfDataIDs":newListOfDataIDs,
+                                "autoConfigFileLocation": projectAutoConfigFileLocation
+                                }
+                            })
                     else:
-                        Project21Database.update_one(settings.DB_COLLECTION_USER,{"projectID":result["projectID"]},{"$set":{"listOfProjects":[currentIDs.get_current_data_id()]}})
+                        Project21Database.update_one(settings.DB_COLLECTION_USER,{"projectID":result["projectID"]},{
+                            "$set":{
+                                "listOfProjects":[currentIDs.get_current_data_id()],
+                                "autoConfigFileLocation": projectAutoConfigFileLocation
+                                }
+                            })
             except Exception as e:
                 print("An Error occured: ",e)
                 return JSONResponse({"Auto": "Success", "Database Insertion":"Success", "Project Collection Updation": "Unsuccessful"})
@@ -178,11 +192,11 @@ def start_auto_preprocessing(formData:FormData):
     else:
         return JSONResponse({"Successful":"False"})
 
-@app.get('/auto/{projectID}')
-def return_auto_generated_metrics(projectID:int):
+@app.get('/getMetrics/{projectID}')
+def get_auto_generated_metrics(projectID:int):
     metricsFilePath=get_metrics_from_projectID(projectID)
     if (os.path.exists(str(metricsFilePath))):
-        return FileResponse(metricsFilePath,media_type="text/csv")
+        return FileResponse(metricsFilePath,media_type="text/csv", filename="metrics.csv")
     return {"Error": "Mertics File not found at path"}
 
 @app.get('/downloadClean/{dataID}')
@@ -201,6 +215,30 @@ def download_pickle_file(modelID:int):
     return {"Error":"File not found at path"}
 #     myfile=open(path,mode='rb')
 #     return StreamingResponse(myfile,media_type="text/csv")    #for streaming files instead of uploading them
+
+@app.get('/getPlots/{projectID}')
+def get_plots(projectID:int):
+    try:
+        result=Project21Database.find_one(settings.DB_COLLECTION_PROJECT,{"projectID":projectID})
+        if result is not None:
+            result=serialiseDict(result)
+            if result["autoConfigFileLocation"] is not None:
+                print("plotting...")
+                plotFilePath=plot(result["autoConfigFileLocation"])
+                print("plotted successfully")
+                return FileResponse(plotFilePath,media_type='text/html',filename='plot.html')
+    except Exception as e:
+        print("An Error Occured: ",e)
+        return JSONResponse({"Plots": "Not generated"})
+
+@app.get('/getAllProjects')
+def get_all_project_details():
+    pass
+
+@app.get('/inference')
+def get_inference_results():
+    pass
+
 
 # @app.websocket("/ws")
 # async def training_status(websocket: WebSocket):
