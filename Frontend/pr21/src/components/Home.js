@@ -8,6 +8,8 @@ import ManualModel from './manualmodel.js';
 import Section1 from './section1.js';
 import Section3 from './section3.js';
 import Section4 from './section4.js';
+import Section5 from './section5.js';
+import Section6 from './section6.js';
 import Papa from 'papaparse';
 
 class Home extends Component {
@@ -49,7 +51,7 @@ class Home extends Component {
         this.setState({
             traindata: result.data
         });
-        console.log(this.state.traindata);
+        // console.log(this.state.traindata);
     }
     handleMtypeChange = event => {
         this.setState({

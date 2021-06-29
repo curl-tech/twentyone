@@ -11,13 +11,7 @@ import axios from 'axios';
 
 class Section5 extends Component {
 
-    handleGoBack = event => {
-        event.preventDefault();
-        var theFormItself = document.getElementById('section5');
-        $(theFormItself).hide();
-        var theFormItself2 = document.getElementById('section6');
-        $(theFormItself2).show();
-    }
+   
 
     constructor() {
         super();
@@ -29,6 +23,13 @@ class Section5 extends Component {
         };
         // this.updateData = this.updateData.bind(this);
     }
+    handleGoBack = event => {
+        event.preventDefault();
+        var theFormItself = document.getElementById('section5');
+        $(theFormItself).hide();
+        var theFormItself2 = document.getElementById('section6');
+        $(theFormItself2).show();
+    }
 
     // handleChange = event => {
     //     this.setState({
@@ -37,6 +38,9 @@ class Section5 extends Component {
     // };
 
     handlemetric = event => {
+        var thebtnItself = document.getElementById('show');
+        $(thebtnItself).hide();
+        this.setState({data: "a"});
         const projectid=this.props.projectdetails["projectID"];
         const FileDownload = require('js-file-download');
         axios.get('http://localhost:8000/getMetrics/'+projectid)
@@ -47,6 +51,7 @@ class Section5 extends Component {
                 this.setState({data: response.data});
                 console.log(this.state.data);
             });
+       
     }
     handlePlot = event => {
         const FileDownload = require('js-file-download');
@@ -136,7 +141,7 @@ class Section5 extends Component {
                             {/* <input type="file" className="form-control" id="metric" onChange={this.handleChange} accept=".csv" name="metric"
                                 placeholder="enter data in csv" required />
                             <button onClick={this.importCSV} className="sec5btn">Import</button> */}
-                            <button onClick={this.handlemetric} className="sec5btn">Show</button>
+                            <button onClick={this.handlemetric} className="sec5btn" id="show">Show</button>
                             <Metrics data={this.state.data} />
                         </div>
 

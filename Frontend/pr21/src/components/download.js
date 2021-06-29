@@ -9,6 +9,7 @@ class Download extends Component {
     const dataid=this.props.projectdetails["dataID"];
     axios.get('http://localhost:8000/downloadClean/'+dataid)
       .then((response) => {
+        console.log(response)
         FileDownload(response.data, 'cleandata.csv');
       });
   }
