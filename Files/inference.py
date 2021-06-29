@@ -5,18 +5,16 @@ import pandas as pd
 import os
 
 class inference:
-    def inference(isAuto,location,data_location,name):
+    def inference(isAuto,filelocation,data_location,storelocation):
         
-        if isAuto:
-            data=pd.read_csv(data_location)
-            clf=load_model(os.path.join(location,name).replace("\\","/"))
-            results=predict_model(clf,data=data)
+    
+        data=pd.read_csv(data_location)
+        clf=load_model(filelocation)
+        results=predict_model(clf,data=data)
 
-            csvresults=results.to_csv()
+        csvresults=results.to_csv()
 
-            inference=open(os.path.jois(location,"inference.csv").replace("\\","/"),"w+")
-            inference.write(csvresults)
-            inference.close()
-            return results.to_html()
-        else:
-            pass
+        inference=open(os.path.join(storelocation,"inference.csv"),"w+")
+        inference.write(csvresults)
+        inference.close()
+    
