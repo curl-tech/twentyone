@@ -53,9 +53,7 @@ To run the project do the following -
 
   
 
-  
-  ![](/home/pooja/Downloads/twentyone (1).jpeg)
-
+  ![alt text](https://github.com/nikzagarwal/Project_21/blob/master/images/twentyone%20(1)(1).jpeg)
 
 
 
@@ -93,9 +91,7 @@ Top level architecture provides how things works in twentyone.
 
 - 21 builds "Robust Models"
 
-  
-
-  <img src="https://www.pngitem.com/pimgs/m/72-726551_shocked-emoji-omg-freetoedit-wow-emoji-hd-png.png" alt="Shocked Emoji Omg Freetoedit - Wow Emoji, HD Png Download , Transparent Png  Image - PNGitem" style="zoom: 33%;" />21 requires less amount of data  
+- 21 requires less amount of data  
 
 - Cost for development is minimal (mainly compute cost, rest is reduced).
 
@@ -168,7 +164,7 @@ Top level architecture provides how things works in twentyone.
 
 <img src="https://www.researchgate.net/profile/Celestine-Iwendi/publication/342410608/figure/fig3/AS:909206194507778@1593783057258/Evaluation-metrics-for-decision-tree.png" alt="| Evaluation metrics for decision tree." style="zoom:50%;" />
 
-# Random Forest
+## Random Forest
 
 - Random forests creates decision trees on randomly selected data samples, gets prediction from each tree and selects the best solution by means  of voting. It also provides a pretty good indicator of the feature  importance.
 
