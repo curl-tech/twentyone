@@ -21,7 +21,7 @@ class Metrics extends React.Component {
             return (
                 <div>
                     {data.map((data, i) => (
-                        i === 1 ?
+                        i === 0 ?
 
                             (<div className="metricstable">
 

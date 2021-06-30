@@ -8,7 +8,7 @@ import Download from './download.js';
 import Metrics from './metrics.js';
 // import Papa from 'papaparse';
 import axios from 'axios';
-
+import Papa from 'papaparse';
 class Section5 extends Component {
 
    
@@ -21,7 +21,7 @@ class Section5 extends Component {
             inferencefile: undefined,
             plot:""
         };
-        // this.updateData = this.updateData.bind(this);
+        this.updateData = this.updateData.bind(this);
     }
     handleGoBack = event => {
         event.preventDefault();
@@ -30,27 +30,44 @@ class Section5 extends Component {
         var theFormItself2 = document.getElementById('section6');
         $(theFormItself2).show();
     }
+    handleRetrain = event => {
+        event.preventDefault();
+        var theFormItself = document.getElementById('section5');
+        $(theFormItself).hide();
+        var theFormItself2 = document.getElementById('form2');
+        $(theFormItself2).show();
+    }
 
     // handleChange = event => {
     //     this.setState({
     //         csvfile: event.target.files[0]
     //     });
     // };
-
+    updateData(result) {
+        this.setState({
+            data: result.data
+        });
+        // console.log(this.state.traindata);
+    }
     handlemetric = event => {
         var thebtnItself = document.getElementById('show');
         $(thebtnItself).hide();
         this.setState({data: "a"});
         const projectid=this.props.projectdetails["projectID"];
-        const FileDownload = require('js-file-download');
+        
         axios.get('http://localhost:8000/getMetrics/'+projectid)
-            .then((response) => {
-                console.log(response)
-                console.log(response.data);
-                FileDownload(response.data, 'metrics.csv');
-                this.setState({data: response.data});
-                console.log(this.state.data);
+        .then((response) => {
+            console.log(response)
+            console.log(response.data);
+            Papa.parse(response.data, {
+                complete: this.updateData,
+                header: true
             });
+            // FileDownload(response.data, 'metrics.csv');
+            // this.setState({data: response.data});
+            // console.log(this.state.data);
+        });
+
        
     }
     handlePlot = event => {
@@ -90,12 +107,22 @@ class Section5 extends Component {
         event.preventDefault();
         const formdata = new FormData();
         formdata.append(
-            "InferenceData",
+            "projectID",
+            this.props.projectdetails["projectID"]
+
+        );
+        formdata.append(
+            "modelID",
+            this.props.projectdetails["modelID"]
+
+        );
+        formdata.append(
+            "inferenceDataFile",
             this.state.inferencefile
 
         );
         const FileDownload = require('js-file-download');
-        axios.post('http://localhost:8000/inference', formdata, { headers: { 'Accept': 'multipart/form-data', 'Content-Type': 'multipart/form-data' } })
+        axios.post('http://localhost:8000/doInference', formdata, { headers: { 'Accept': 'multipart/form-data', 'Content-Type': 'multipart/form-data' } })
             .then((res) => {
                 console.log("Successful", res)
                 FileDownload(res.data, 'prediction.csv');
@@ -110,6 +137,10 @@ class Section5 extends Component {
             <div className="section5 " id="section5">
                 <div className="goback">
                     <button className="backbtn" onClick={this.handleGoBack}  >&lArr; Go Back to Models </button>
+
+                </div>
+                <div className="goback">
+                    <button className="backbtn" onClick={this.handleRetrain}  >&lArr;Retrain</button>
 
                 </div>
                 <div className="sec5heading">

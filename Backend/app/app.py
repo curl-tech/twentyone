@@ -197,28 +197,14 @@ def start_auto_preprocessing(formData:FormData):
     else:
         return JSONResponse({"Successful":"False"})
 
-@app.get('/getMetrics1/{projectID}')
+@app.get('/getMetrics/{projectID}')
 def get_auto_generated_metrics(projectID:int):
     metricsFilePath=get_metrics_from_projectID(projectID)
     if (os.path.exists(metricsFilePath)):
         return FileResponse(metricsFilePath,media_type="text/csv", filename="metrics.csv")
     return {"Error": "Metrics File not found at path"}
 
-@app.get('/getMetrics2/{projectID}')
-def get_auto_generated_metrics(projectID:int):
-    metricsFilePath=get_metrics_from_projectID(projectID)
-    if (os.path.exists(metricsFilePath)):
-        jsonCSVStream=open(metricsFilePath,mode='r')
-        return StreamingResponse(jsonCSVStream,media_type="text/csv")
-    return {"Error": "Metrics File not found at path"}
 
-@app.get('/getMetrics3/{projectID}')
-def get_auto_generated_metrics(projectID:int):
-    metricsFilePath=get_metrics_from_projectID(projectID)
-    if (os.path.exists(metricsFilePath)):
-        jsonData = [json.dumps(d) for d in csv.DictReader(open(metricsFilePath))]
-        return JSONResponse(jsonData)
-    return {"Error": "Metrics File not found at path"}
 
 @app.get('/downloadClean/{dataID}')
 def download_clean_data(dataID:int):
