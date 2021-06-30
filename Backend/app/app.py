@@ -1,3 +1,5 @@
+import json
+import csv
 import os
 from pickle import NONE
 import shutil
@@ -22,7 +24,7 @@ from Backend.app.helpers.data_helper import get_clean_data_path
 from Backend.app.helpers.metrics_helper import get_metrics_from_modelID, get_metrics_from_projectID
 from Backend.app.helpers.model_helper import create_model_id, get_pickle_file_path
 from Backend.app.schemas import FormData, Inference
-from Backend.utils import generate_project_folder, generate_project_auto_config_file
+from Backend.utils import generate_project_folder, generate_project_auto_config_file, csv_to_json
 from Files.auto import Auto
 from Files.autoreg import AutoReg
 from Files.plot import plot
@@ -214,8 +216,8 @@ def get_auto_generated_metrics(projectID:int):
 def get_auto_generated_metrics(projectID:int):
     metricsFilePath=get_metrics_from_projectID(projectID)
     if (os.path.exists(metricsFilePath)):
-        jsonCSVStream=open(metricsFilePath,mode='r')
-        return JSONResponse(jsonCSVStream)
+        jsonData = [json.dumps(d) for d in csv.DictReader(open(metricsFilePath))]
+        return JSONResponse(jsonData)
     return {"Error": "Metrics File not found at path"}
 
 @app.get('/downloadClean/{dataID}')

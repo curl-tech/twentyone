@@ -2,6 +2,8 @@ import os
 import random
 import shutil
 import yaml
+import csv
+import json
 from yaml.loader import SafeLoader
 from Backend.app.config import settings
 from Backend.app.helpers.project_helper import merge_project_path, get_raw_data_path
@@ -70,6 +72,17 @@ def generate_project_auto_config_file(currentIDs,formData):
     
     return os.path.join(user_yaml["location"],'autoConfig.yaml'), random_id , user_yaml["problem_type"]
 
+
+def csv_to_json(csvFilePath, jsonFilePath):
+    jsonArray = []
+    with open(csvFilePath, encoding='utf-8') as csvFile: 
+        csvReader = csv.DictReader(csvFile) 
+        for row in csvReader: 
+            jsonArray.append(row)
+
+    with open(jsonFilePath, 'w', encoding='utf-8') as jsonFile: 
+        jsonString = json.dumps(jsonArray, indent=4) #4 indents are 4 spaces which is 1 tab
+        jsonFile.write(jsonString)
 
 """
 yaml format - 
