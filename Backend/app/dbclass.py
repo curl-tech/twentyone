@@ -1,24 +1,27 @@
 import pymongo
 from pymongo import MongoClient
-from Backend.app import config
+from Backend.app.config import settings
 
 class Database(object):
     '''
     Class for initialising the MongoDB Database and functions for easy access to the DB and its collections.
     '''
-    URI=config.settings.DB_URI     #Specifying the URI for the local database
-    DATABASE=None                       #Database name
+    URI=settings.DB_URI     #Specifying the URI for the local database
+    DATABASE=None           #Database name
 
     @staticmethod
     def initialise(dbname):
         client=MongoClient(Database.URI)
+        dbnames=client.list_database_names()
         Database.DATABASE=client[dbname]       #Database name under localhost
-        Database.DATABASE[config.settings.DB_COLLECTION_USER].create_index([('userID',pymongo.ASCENDING)],unique=True)
-        Database.DATABASE[config.settings.DB_COLLECTION_PROJECT].create_index([('projectID',pymongo.ASCENDING)],unique=True)
-        Database.DATABASE[config.settings.DB_COLLECTION_DATA].create_index([('dataID',pymongo.ASCENDING)],unique=True)
-        Database.DATABASE[config.settings.DB_COLLECTION_MODEL].create_index([('modelID',pymongo.ASCENDING)],unique=True)
+        if settings.DB_NAME in dbnames:
+            return
+        else:
+            Database.DATABASE[settings.DB_COLLECTION_USER].create_index([('userID',pymongo.ASCENDING)],unique=True)
+            Database.DATABASE[settings.DB_COLLECTION_PROJECT].create_index([('projectID',pymongo.ASCENDING)],unique=True)
+            Database.DATABASE[settings.DB_COLLECTION_DATA].create_index([('dataID',pymongo.ASCENDING)],unique=True)
+            Database.DATABASE[settings.DB_COLLECTION_MODEL].create_index([('modelID',pymongo.ASCENDING)],unique=True)
         
-
     @staticmethod
     def close():                                #To Close the Database connection
         client=MongoClient(Database.URI)

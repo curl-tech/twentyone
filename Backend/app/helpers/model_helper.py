@@ -1,10 +1,6 @@
 from Backend.app.helpers.allhelpers import serialiseDict
-from Backend.app.dbclass import Database
 from Backend.app.config import settings
 import random
-
-Project21Database=Database()
-Project21Database.initialise(settings.DB_NAME)
 
 def modelEntity(item) -> dict:
     return {
@@ -22,37 +18,25 @@ def modelEntity(item) -> dict:
 def modelsEntity(entity) -> list:
     return [modelEntity(item) for item in entity]
 
-def create_model_id():
+def create_model_id(Project21Database):
     id = random.randint(10000,99999)
     result=Project21Database.find_one(settings.DB_COLLECTION_MODEL,{"modelID":id})
     if result:
         id=create_model_id()
     return id
 
-def get_pickle_file_path(modelID:int):
+def get_pickle_file_path(modelID,Project21Database):
     try:
         result=Project21Database.find_one(settings.DB_COLLECTION_MODEL,{"modelID":modelID})
-        result=serialiseDict(result)
         if result is not None:
+            result=serialiseDict(result)
             return result["pickleFilePath"]
+            # if result["pickleFilePath"] is not None:
+            #     return result["pickleFilePath"]
         else:
+            print("result is none")
             return '/'
     except Exception as e:
         print("An error occured while retreiving pickleFilePath from the Model Collection")
         print("Error: ",e)
         return '/'
-
-def insert_one_model():
-    pass
-
-def find_one_model():
-    pass
-
-def edit_model():
-    pass
-
-def get_modelID():
-    pass
-
-def get_user_projects():
-    pass
