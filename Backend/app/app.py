@@ -1,4 +1,6 @@
 import os
+from pickle import NONE
+import shutil
 from fastapi import FastAPI, Form, WebSocket
 from fastapi.datastructures import UploadFile
 from fastapi.middleware.cors import CORSMiddleware
@@ -19,11 +21,12 @@ from Backend.app.helpers.project_helper import create_project_id
 from Backend.app.helpers.data_helper import get_clean_data_path
 from Backend.app.helpers.metrics_helper import get_metrics_from_modelID, get_metrics_from_projectID
 from Backend.app.helpers.model_helper import create_model_id, get_pickle_file_path
-from Backend.app.schemas import FormData
+from Backend.app.schemas import FormData, Inference
 from Backend.utils import generate_project_folder, generate_project_auto_config_file
 from Files.auto import Auto
 from Files.autoreg import AutoReg
 from Files.plot import plot
+from Files.inference import Inference
 origins=settings.CORS_ORIGIN
 
 app=FastAPI()
@@ -192,12 +195,28 @@ def start_auto_preprocessing(formData:FormData):
     else:
         return JSONResponse({"Successful":"False"})
 
-@app.get('/getMetrics/{projectID}')
+@app.get('/getMetrics1/{projectID}')
 def get_auto_generated_metrics(projectID:int):
     metricsFilePath=get_metrics_from_projectID(projectID)
-    if (os.path.exists(str(metricsFilePath))):
+    if (os.path.exists(metricsFilePath)):
         return FileResponse(metricsFilePath,media_type="text/csv", filename="metrics.csv")
-    return {"Error": "Mertics File not found at path"}
+    return {"Error": "Metrics File not found at path"}
+
+@app.get('/getMetrics2/{projectID}')
+def get_auto_generated_metrics(projectID:int):
+    metricsFilePath=get_metrics_from_projectID(projectID)
+    if (os.path.exists(metricsFilePath)):
+        jsonCSVStream=open(metricsFilePath,mode='r')
+        return StreamingResponse(jsonCSVStream,media_type="text/csv")
+    return {"Error": "Metrics File not found at path"}
+
+@app.get('/getMetrics3/{projectID}')
+def get_auto_generated_metrics(projectID:int):
+    metricsFilePath=get_metrics_from_projectID(projectID)
+    if (os.path.exists(metricsFilePath)):
+        jsonCSVStream=open(metricsFilePath,mode='r')
+        return JSONResponse(jsonCSVStream)
+    return {"Error": "Metrics File not found at path"}
 
 @app.get('/downloadClean/{dataID}')
 def download_clean_data(dataID:int):
@@ -235,9 +254,54 @@ def get_plots(projectID:int):
 def get_all_project_details():
     pass
 
-@app.get('/inference')
-def get_inference_results():
-    pass
+@app.post('/doInference')
+def get_inference_results(projectID:int=Form(...),modelID:int=Form(...),inferenceDataFile: UploadFile=File(...)):
+    newDataPath='/'
+    try:
+        result=Project21Database.find_one(settings.DB_COLLECTION_PROJECT,{"projectID":projectID})
+        if result is not None:
+            result=serialiseDict(result)
+            if result["projectFolderPath"] is not None:
+                path=os.path.join(result["projectFolderPath"],'inference_data')
+                os.makedirs(path)
+                newDataPath=os.path.join(path,"inference_data.csv")
+                with open(newDataPath,"wb") as buffer:
+                    shutil.copyfileobj(inferenceDataFile.file,buffer)
+    except Exception as e:
+        print("An Error Occured: ",e)
+        print("Could not find the project")
+
+    pickleFilePath='/'
+    try:
+        result=Project21Database.find_one(settings.DB_COLLECTION_MODEL,{"modelID":modelID})
+        if result is not None:
+            result=serialiseDict(result)
+            if result["pickleFilePath"] is not None:
+                pickleFilePath=result["pickleFilePath"]
+    except Exception as e:
+        print("An error occured: ", e)
+        print("Unable to find model from model Collection")
+
+    inferenceDataResultsPath='/'
+    try:
+        inference=Inference()
+        inferenceDataResultsPath=inference.inference(pickleFilePath,newDataPath,path)
+        Project21Database.insert_one(settings.DB_COLLECTION_INFERENCE,{
+            "newData": newDataPath,
+            "results": inferenceDataResultsPath,
+            "belongsToUserID": currentIDs.get_current_user_id(),
+            "belongsToProjectID": currentIDs.get_current_project_id(),
+            "belongsToModelID": currentIDs.get_current_model_id()
+        })
+        if os.path.exists(inferenceDataResultsPath):
+            print({"Metrics Generation":"Successful"})
+            return FileResponse(inferenceDataResultsPath,media_type="text/csv",filename="inference.csv")
+    except Exception as e:
+        print("An Error Occured: ",e)
+        print("Unable to Insert into the Inference Collection")
+        return JSONResponse({"Metrics Generation":"Failed"})
+    
+
 
 
 # @app.websocket("/ws")
@@ -260,8 +324,6 @@ def get_inference_results():
 #             "modelID": currentIDs.get_current_model_id()
 #             }
 #             await websocket.send_json(data)
-            
-
 #         data2= await websocket.receive_text()  #Can be used to receive data from frontend
 #         print(data2)
 #         await websocket.send_json(data) #Can be used to return data to the frontend

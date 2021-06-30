@@ -4,17 +4,19 @@ from pycaret.regression import *
 import pandas as pd
 import os
 
-class inference:
-    def inference(isAuto,filelocation,data_location,storelocation):
+class Inference:
+    def inference(self,pickleFileLocation,newDataLocation,storeLocation):    #isAuto parameter removed because of error
         
     
-        data=pd.read_csv(data_location)
-        clf=load_model(filelocation)
+        data=pd.read_csv(newDataLocation)
+        clf=load_model(pickleFileLocation)
         results=predict_model(clf,data=data)
 
         csvresults=results.to_csv()
 
-        inference=open(os.path.join(storelocation,"inference.csv"),"w+")
+        inferenceDataResultsPath=os.path.join(storeLocation,"inference.csv")
+        inference=open(inferenceDataResultsPath,"w+")
         inference.write(csvresults)
         inference.close()
     
+        return inferenceDataResultsPath
