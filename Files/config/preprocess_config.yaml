@@ -6,31 +6,31 @@ target_column_name:
 
 
 # For droping empty rows and columns
-- drop_column_name: ["none"]
+drop_column_name: ["none"]
 
 
 # For filling null values present in the dataset.(Imputation)
-- imputation_column_name: ["none"]
-  impution_type: []
-  na_notation : np.NaN
+imputation_column_name: ["none"]
+impution_type: []
+na_notation : np.NaN
 
 
 # For feature scaling.
-- scaling_column_name: ["none"]
-  scaling_type: []
+scaling_column_name: ["none"]
+scaling_type: []
+min:
 
 
 
 # For feature scaling.
-- encode_column_name: ["none"]
-  encoding_type: []
+encode_column_name: ["none"]
+encoding_type: []
 
-- Remove_outlier: True
-  outlier_column_name: 
+Remove_outlier: True
 
-- feature_selection: True
+feature_selection: True
 
-- data_imbalance: True
+data_imbalance: True
 
-- split_ratio_train: 70
-- split_ratio_test: 30
+split_ratio_test: 0.3
+is_auto: True
