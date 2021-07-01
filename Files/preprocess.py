@@ -20,7 +20,6 @@ from pycaret.regression import *
 import os
 import yaml
 from scipy import stats
-from yaml.loader import SafeLoader
 
 class Preprocess:     
     def manual_preprocess(self,config):
@@ -57,6 +56,10 @@ class Preprocess:
                     imputer = KNNImputer(n_neighbors = 4, weights = "uniform",missing_values = config_data["na_notation"])
                 
                 df[[column]] = imputer.fit_transform(df_value)
+        else:
+            df.replace(to_replace =[config_data["na_notation"]], 
+                            value =0)
+            
 
         #feature scaling
         if(config_data["scaling_column_name"][0]!="none"):
@@ -90,6 +93,12 @@ class Preprocess:
                     df_encoded.columns = encoder.get_feature_names([column])
                     df.drop([column] ,axis=1, inplace=True)
                     df= pd.concat([df, df_encoded ], axis=1)
+        else:
+            objest_type_colunm_list = []
+            for col_name in df.columns:
+                if df[col_name].dtype == 'object':
+                    objest_type_colunm_list.append(col_name)
+            config_data['encoding_type'] = objest_type_colunm_list   
 
         # Feature engineering & Feature Selection
         ### Outlier detection & Removel
@@ -118,10 +127,9 @@ class Preprocess:
             if df[col_name].dtype == 'object':
                 df=df.drop(col_name, axis = 1)
 
+        with open("preprocess_config.yaml", 'w') as yaml_file:
+            yaml_file.write( yaml.dump(config_data, default_flow_style=False))
+
         clean_data_address = os.getcwd()+"/clean_data.csv"
         return clean_data_address
     
-    
-#-------------------------------------------------------------------------------------------------------------------------------------------------------#
-    def auto_preprocess():
-        pass

@@ -12,7 +12,7 @@ drop_column_name: ["none"]
 # For filling null values present in the dataset.(Imputation)
 imputation_column_name: ["none"]
 impution_type: []
-na_notation : np.NaN
+na_notation : NaN
 
 
 # For feature scaling.
