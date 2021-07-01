@@ -11,10 +11,6 @@ from Files.hyperparameter import hyperparameter as hp
 import os
 
 
-    #pred=clf.predict(data)
-    #print(roc_auc_score(y,pred))
-
-
 class training:
 
     def train(userinputconfig,dataconfig,preprocessconfig):
@@ -31,10 +27,13 @@ class training:
         models=[]
         ans=[]
 
-        test_ratio=preprocessconfig["split_ratio_test"] / 100
-        xdata=dataconfig["Xdata"]
-        ydata=dataconfig["Ydata"]
+        test_ratio=preprocessconfig["split_ratio_test"] / 100 #input given the the user usually 30 by default
         
+        xdata=dataconfig["Xdata"] #the location of the x data
+
+        ydata=dataconfig["Ydata"] #the location of the y data
+        
+        #creates a pandas dataframe to store the metrics of the created model
         for model in userinputconfig:
             if model["isSelected"]:
                 if model["type"]=='Classification':
@@ -53,6 +52,7 @@ class training:
                 model_str=model["modelname"] + "(" + ", ".join(hypers) + ")"
     
                 metrics=hp.optimize(model_str,model["modelname"],userinputconfig,xdata,ydata,metrics,dataconfig)
-                
+
+        #stores the metrics in the assigned folder       
         metricsLocation=os.path.join(dataconfig["location"],"metrics.csv")
         metrics.to_csv(metricsLocation, index=True, index_label="modelname")
