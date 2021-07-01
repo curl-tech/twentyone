@@ -8,6 +8,7 @@ import ManualModel from './manualmodel.js';
 import Section1 from './section1.js';
 import Section3 from './section3.js';
 import Section4 from './section4.js';
+import Section7 from './section7.js';
 // import Section5 from './section5.js';
 // import Section6 from './section6.js';
 import Papa from 'papaparse';
@@ -16,7 +17,7 @@ class Home extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            userID: 101,
+            // userID: 101,
             projectname: '',
             train: undefined,
             mtype: 'classification',
@@ -26,10 +27,14 @@ class Home extends Component {
             nulltype: 'NA',
             currentmodel: 1,
             traindata: "{0:0}",
-            projectdetail: {
+            modeldetail: {
                 "Successful": "False",
                 "dataID": 0,
                 "modelID": 0,
+                "projectID": 0,
+                "userID": 0
+            },
+            projectdetail:{
                 "projectID": 0,
                 "userID": 0
             }
@@ -93,7 +98,13 @@ class Home extends Component {
         // console.log(formdata.getAll('train'))
 
         axios.post('http://localhost:8000/create', formdata, { headers: { 'Accept': 'multipart/form-data', 'Content-Type': 'multipart/form-data' } })
-            .then((res) => { console.log("Successful1", res) },
+            .then((res) => {
+                console.log("Successful1", res);
+                this.setState({
+                    projectdetail: res.data
+                })
+                console.log(this.state.projectdetail)
+            },
                 (error) => { console.log(error) });
     }
     handleAuto() {
@@ -136,21 +147,22 @@ class Home extends Component {
         $(theFormItself3).show();
         var theFormItself4 = document.getElementById('loader');
         $(theFormItself4).show();
-        let userID = this.state.userID
+        let userID = this.state.projectdetail["userID"]
+        let projectID = this.state.projectdetail["projectID"]
         let isauto = this.state.auto
         let target = this.state.target
         let modelnumber = this.state.modelnum
         let nulltype = this.state.nulltype
-        let data = { userID, isauto, target, modelnumber, nulltype }
+        let data = { userID,projectID, isauto, target, modelnumber, nulltype }
         // console.log(JSON.stringify(data))
 
         axios.post('http://localhost:8000/auto', JSON.stringify(data))
             .then(res => {
                 console.log("Successful2", res)
                 this.setState({
-                    projectdetail: res.data
+                    modeldetail: res.data
                 })
-                console.log(this.state.projectdetail)
+                console.log(this.state.modeldetail)
             },
                 (error) => { console.log(error) });
 
@@ -310,7 +322,7 @@ class Home extends Component {
                         </form>
                     </div>
                     {/* loader */}
-                    <Result modelnum={this.state.modelnum} currentmodel={this.state.currentmodel} projectdetail={this.state.projectdetail} handler={this.handleCurrentModel} projectname={this.state.projectname} isauto={this.state.isauto} />
+                    <Result modelnum={this.state.modelnum} currentmodel={this.state.currentmodel} projectdetail={this.state.modeldetail} handler={this.handleCurrentModel} projectname={this.state.projectname} isauto={this.state.isauto} />
                     {/* ************************************************************************************************************************ */}
 
                     {/* form 4 for manual preprocessing */}
@@ -355,6 +367,10 @@ class Home extends Component {
                 {/* Section 6 */}
                 {/* This section is to show all models trained */}
                 {/* <Section6 modelnum={this.state.modelnum} handler={this.handleCurrentModel} projectname={this.state.projectname} isauto={this.state.isauto} /> */}
+                {/* ************************************************************************************************************************ */}
+                {/* Section 7 */}
+                {/* This section is to show detail of every Project  */}
+                <Section7 handler={this.handleCurrentModel} currentmodel={this.state.currentmodel} />
 
             </div >
         );

@@ -6,6 +6,8 @@ import $ from 'jquery';
 
 
 class Preprocess extends React.Component {
+
+    
     handlePreProcess = event => {
         event.preventDefault();
         var theFormItself = document.getElementById('form4');

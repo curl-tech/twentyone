@@ -848,7 +848,7 @@ background-image:linear-gradient(to left bottom ,rgba(0, 0, 0, 0.685),rgb(39, 22
 background-image: url(./assets/img/bg19.png);
   background-size: cover;
  min-height: 80vh;
- /* display: none; */
+ display: none;
 }
 .sec5heading{
   padding: 1em;
@@ -1084,6 +1084,51 @@ table {
   padding: 2em;
 }
 				
+/* ************************************************************************************************************************ */
+/* section 7 */
+.section7{
+  min-height: 100vh;
+  background-color: #130336;
+}		
+.sec7heading{
+  color: #fff;
+  padding: 2em;
+  text-align: center;
+}
+.sec7card{
+  background-image:linear-gradient(to top left,rgba(245, 245, 248, 0.918),rgba(48, 48, 49, 0.76));
+  /* box-shadow: 5px 3px 3px #aaa; */
+}
+.sec7text{
+  color: #000;
+}
+.sec7card h2{
+  padding: 1em;
+  font-size: 40px;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  padding: 3px;
+  border-radius: 4px;
+}
+.sec7card h5{
+  padding: 0.5em;
+  font-size: 20px;
+  font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+ 
+}
+.sec7btn{
+  color: rgba(12, 24, 49, 0.901);
+  background-image:linear-gradient(to left bottom , rgba(14, 4, 68, 0.815),rgba(66, 5, 25, 0.822));
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  border-radius: 8px;
+ color: #fff;
+}
+.sec7btn:hover{
+  background-color: #000;
+  color: #fff;
+}
+.modelDetails{
+  display: none;
+}
 /* ************************************************************************************************************************ */
 
 /* footer design */

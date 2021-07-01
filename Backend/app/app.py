@@ -201,7 +201,7 @@ def start_auto_preprocessing(formData:FormData):
         return JSONResponse({"Successful":"False"})
 
 
-@app.get('/getMetrics',tags=["Auto Mode"])
+@app.get('/getMetrics/{projectID}/{modelID}',tags=["Auto Mode"])
 def get_auto_generated_metrics(projectID:int,modelID:int):
     metricsFilePath=get_metrics(projectID,modelID,Project21Database)
     if (os.path.exists(metricsFilePath)):

@@ -11,6 +11,8 @@ class Section6 extends Component {
         $(theFormItself2).show();
         this.props.handler(event.target.value);
 
+        
+
     }
     render() {
         const items = []
@@ -43,9 +45,7 @@ class Section6 extends Component {
             return (
                 <div className="section6" id="section6">
 
-                    {/* <div className=" sec6heading">
-                        <h1>Results</h1>
-                    </div> */}
+                    
                     <div className=" sec6heading">
                         <h2>Project Name: {this.props.projectname}</h2>
                     </div>
@@ -53,11 +53,6 @@ class Section6 extends Component {
                         <h2>Your Models</h2>
                     </div>
                     {items}
-                    {/* <div className="card-group  text-center">
-
-                    {items}
-
-                </div> */}
 
                 </div>
             );

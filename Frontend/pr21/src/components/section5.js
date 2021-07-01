@@ -11,7 +11,7 @@ import axios from 'axios';
 import Papa from 'papaparse';
 class Section5 extends Component {
 
-   
+
 
     constructor() {
         super();
@@ -19,16 +19,24 @@ class Section5 extends Component {
             // csvfile: undefined,
             data: "",
             inferencefile: undefined,
-            plot:""
+            plot: "",
+            countplot: 0
         };
         this.updateData = this.updateData.bind(this);
     }
+    // componentDidMount(){
+    //     this.setState({data:""})
+    // }
     handleGoBack = event => {
         event.preventDefault();
         var theFormItself = document.getElementById('section5');
         $(theFormItself).hide();
         var theFormItself2 = document.getElementById('section6');
         $(theFormItself2).show();
+        var thebtnItself = document.getElementById('show');
+        $(thebtnItself).show();
+        this.setState({ data: "" });
+
     }
     handleRetrain = event => {
         event.preventDefault();
@@ -52,34 +60,37 @@ class Section5 extends Component {
     handlemetric = event => {
         var thebtnItself = document.getElementById('show');
         $(thebtnItself).hide();
-        this.setState({data: "a"});
-        const projectid=this.props.projectdetails["projectID"];
-        
-        axios.get('http://localhost:8000/getMetrics/'+projectid)
-        .then((response) => {
-            console.log(response)
-            console.log(response.data);
-            Papa.parse(response.data, {
-                complete: this.updateData,
-                header: true
+        this.setState({ data: "a" });
+        const projectid = this.props.projectdetails["projectID"];
+        const modelid = this.props.projectdetails["modelID"];   
+        axios.get('http://localhost:8000/getMetrics/'+projectid+"/"+modelid)
+            .then((response) => {
+                console.log(response)
+                console.log(response.data);
+                Papa.parse(response.data, {
+                    complete: this.updateData,
+                    header: true
+                });
+                // FileDownload(response.data, 'metrics.csv');
+                // this.setState({data: response.data});
+                // console.log(this.state.data);
             });
-            // FileDownload(response.data, 'metrics.csv');
-            // this.setState({data: response.data});
-            // console.log(this.state.data);
-        });
 
-       
+
     }
     handlePlot = event => {
         const FileDownload = require('js-file-download');
-        const projectid=this.props.projectdetails["projectID"];
-        axios.get('http://localhost:8000/getPlots/'+projectid)
-            .then((response) => {
-                // console.log(response);
-                FileDownload(response.data, 'plot.html');
-                this.setState({plot: response.data});
-                // console.log (this.state.plot)
-            });
+        const projectid = this.props.projectdetails["projectID"];
+        if (this.state.countplot === 0) {
+            axios.get('http://localhost:8000/getPlots/' + projectid)
+                .then((response) => {
+                    // console.log(response);
+                    FileDownload(response.data, 'plot.html');
+                    this.setState({ plot: response.data });
+                    // console.log (this.state.plot)
+                });
+            this.setState({ countplot: 1 })
+        }
     }
 
     // importCSV = () => {
@@ -139,10 +150,13 @@ class Section5 extends Component {
                     <button className="backbtn" onClick={this.handleGoBack}  >&lArr; Go Back to Models </button>
 
                 </div>
-                <div className="goback">
-                    <button className="backbtn" onClick={this.handleRetrain}  >&lArr;Retrain</button>
+                {this.props.showRetrain === false ? null :
+                    <div className="goback">
+                        <button className="backbtn" onClick={this.handleRetrain}  >&lArr;Retrain</button>
 
-                </div>
+                    </div>
+                }
+
                 <div className="sec5heading">
                     <h1>Results (Model Number:  {this.props.currentmodel})</h1>
                 </div>
@@ -152,7 +166,7 @@ class Section5 extends Component {
                     {/* <!-- Nav tabs --> */}
                     <ul className="nav nav-tabs" id="myTab" role="tablist">
                         <li className="nav-item" role="presentation">
-                            <button className="nav-link tabbtn active" id="Metrics-tab"  data-bs-toggle="tab" data-bs-target="#metrics" type="button" role="tab" aria-controls="metrics" aria-selected="true">Metrics</button>
+                            <button className="nav-link tabbtn active" id="Metrics-tab" data-bs-toggle="tab" data-bs-target="#metrics" type="button" role="tab" aria-controls="metrics" aria-selected="true">Metrics</button>
                         </li>
                         <li className="nav-item" role="presentation">
                             <button className="nav-link tabbtn " id="plot-tab" onClick={this.handlePlot} data-bs-toggle="tab" data-bs-target="#plot" type="button" role="tab" aria-controls="Plot" aria-selected="false">Plots</button>
@@ -182,7 +196,7 @@ class Section5 extends Component {
 
                             <div className="container">
                                 <div className="d-flex flex-row justify-content-center flex-wrap">
-                                    <Plots plot={this.state.plot}/>
+                                    <Plots plot={this.state.plot} />
                                     {/* <div className="d-flex flex-column plot" >
                                          <img src="3" className="img-fluid" alt=" Plot3 not for this model " />*/}
 
