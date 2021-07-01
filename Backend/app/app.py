@@ -170,18 +170,20 @@ def start_auto_preprocessing(formData:FormData):
                 if result is not None:
                     if result["listOfDataIDs"] is not None:
                         newListOfDataIDs=result["listOfDataIDs"]
-                        newListOfDataIDs.append(currentIDs.get_current_data_id())
+                        newListOfDataIDs.append(dataID)
                         Project21Database.update_one(settings.DB_COLLECTION_PROJECT,{"projectID":result["projectID"]},{
                             "$set":{
                                 "listOfDataIDs":newListOfDataIDs,
-                                "autoConfigFileLocation": projectAutoConfigFileLocation
+                                "autoConfigFileLocation": projectAutoConfigFileLocation,
+                                "isAuto": formData["isauto"]
                                 }
                             })
                     else:
-                        Project21Database.update_one(settings.DB_COLLECTION_USER,{"projectID":result["projectID"]},{
+                        Project21Database.update_one(settings.DB_COLLECTION_PROJECT,{"projectID":result["projectID"]},{
                             "$set":{
-                                "listOfProjects":[currentIDs.get_current_data_id()],
-                                "autoConfigFileLocation": projectAutoConfigFileLocation
+                                "listOfDataIDs":[dataID],
+                                "autoConfigFileLocation": projectAutoConfigFileLocation,
+                                "isAuto": formData["isauto"]
                                 }
                             })
             except Exception as e:
@@ -284,7 +286,7 @@ def get_inference_results(projectID:int=Form(...),modelID:int=Form(...),inferenc
                 shutil.copyfileobj(inferenceDataFile.file,buffer)
 
             inference=Inference()
-            inferenceDataResultsPath=inference.inference(pickleFilePath,newDataPath,path)
+            inferenceDataResultsPath=inference.inference(pickleFilePath,newDataPath,path,True)
             Project21Database.insert_one(settings.DB_COLLECTION_INFERENCE,{
                 "newData": newDataPath,
                 "results": inferenceDataResultsPath,
