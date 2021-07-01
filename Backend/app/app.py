@@ -175,7 +175,8 @@ def start_auto_preprocessing(formData:FormData):
                             "$set":{
                                 "listOfDataIDs":newListOfDataIDs,
                                 "autoConfigFileLocation": projectAutoConfigFileLocation,
-                                "isAuto": formData["isauto"]
+                                "isAuto": formData["isauto"],
+                                "target": formData["target"]
                                 }
                             })
                     else:
@@ -183,7 +184,8 @@ def start_auto_preprocessing(formData:FormData):
                             "$set":{
                                 "listOfDataIDs":[dataID],
                                 "autoConfigFileLocation": projectAutoConfigFileLocation,
-                                "isAuto": formData["isauto"]
+                                "isAuto": formData["isauto"],
+                                "target": formData["target"]
                                 }
                             })
             except Exception as e:
@@ -254,13 +256,25 @@ def get_plots(projectID:int):       #check if it already exists - change locatio
 
 @app.get('/getAllProjects',tags=["Auto Mode"])
 def get_all_project_details(userID:int):
-    # try:
-    #     result=Project21Database.find_one(settings.DB_COLLECTION_PROJECT,{"belongsToUserID":userID})
-    #     if result is not None:
-    #         listOfDataIDs=result["listOfDataIDs"]
-    #         for dataID in listOfDataIDs:
-                
-    pass
+    listOfProjects=[]
+    try:   
+        results=Project21Database.find(settings.DB_COLLECTION_PROJECT,{"belongsToUserID":userID})
+        for result in results:
+            result=serialiseDict(result)
+            projectTemplate={
+                "projectID": result["projectID"],
+                "projectName": result["projectName"],
+                "target": result["target"],
+                "modelType": result["projectType"],
+                "listOfDataIDs": result["listOfDataIDs"],
+                "isAuto": result["isAuto"]
+            }
+            listOfProjects.append(projectTemplate)
+    except Exception as e:
+        print("An Error Occured: ",e)
+        print("Unable to get all projects")
+        return JSONResponse({"GetAllProjects":"Failed"})
+    return listOfProjects
 
 
 @app.post('/doInference',tags=["Auto Mode"])
@@ -269,6 +283,15 @@ def get_inference_results(projectID:int=Form(...),modelID:int=Form(...),inferenc
     pickleFilePath='/'
     path='/'
     inferenceDataResultsPath='/'
+    isAuto=False
+    try:
+        result=Project21Database.find_one(settings.DB_COLLECTION_PROJECT,{"projectID":projectID})
+        if result is not None:
+            result=serialiseDict(result)
+            isAuto=result["isAuto"]
+    except Exception as e:
+        print("An Error Occured: ",e)
+        print("Could not find the project in the Project Collection")
     try:
         result=Project21Database.find_one(settings.DB_COLLECTION_MODEL,{"modelID":modelID,"belongsToProjectID":projectID})
         if result is not None:
@@ -286,7 +309,7 @@ def get_inference_results(projectID:int=Form(...),modelID:int=Form(...),inferenc
                 shutil.copyfileobj(inferenceDataFile.file,buffer)
 
             inference=Inference()
-            inferenceDataResultsPath=inference.inference(pickleFilePath,newDataPath,path,True)
+            inferenceDataResultsPath=inference.inference(pickleFilePath,newDataPath,path,isAuto)
             Project21Database.insert_one(settings.DB_COLLECTION_INFERENCE,{
                 "newData": newDataPath,
                 "results": inferenceDataResultsPath,
