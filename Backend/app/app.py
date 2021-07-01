@@ -122,7 +122,7 @@ def create_project(projectName:str=Form(...),mtype:str=Form(...),train: UploadFi
         except Exception as e:
             print("An Error occured: ",e)
             return JSONResponse({"File Received": "Success","Project Folder":"Success","Database Update":"Failure"})
-        return JSONResponse({"File Received": "Success", "Project Folder":"Success", "Database Update":"Success","userID":currentIDs.get_current_user_id(),"projectID":inserted_projectID})
+        return JSONResponse({"userID":currentIDs.get_current_user_id(),"projectID":inserted_projectID})
     else:
         return JSONResponse(Operation["Error"])
 
@@ -229,7 +229,7 @@ def download_pickle_file(modelID:int):
 
 
 @app.get('/getPlots/{projectID}',tags=["Auto Mode"])        #To-DO: make the plots appear in each sub directory and see the config file according to the userID, projectID and dataID given
-def get_plots(projectID:int):
+def get_plots(projectID:int):       #check if it already exists - change location address
     try:
         result=Project21Database.find_one(settings.DB_COLLECTION_PROJECT,{"projectID":projectID})
         if result is not None:
@@ -251,7 +251,13 @@ def get_plots(projectID:int):
 
 
 @app.get('/getAllProjects',tags=["Auto Mode"])
-def get_all_project_details():
+def get_all_project_details(userID:int):
+    # try:
+    #     result=Project21Database.find_one(settings.DB_COLLECTION_PROJECT,{"belongsToUserID":userID})
+    #     if result is not None:
+    #         listOfDataIDs=result["listOfDataIDs"]
+    #         for dataID in listOfDataIDs:
+                
     pass
 
 

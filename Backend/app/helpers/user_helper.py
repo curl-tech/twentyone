@@ -1,5 +1,5 @@
-from Backend.app.dbclass import Database
-from Backend.app.config import settings
+from Backend.app.helpers.allhelpers import serialiseDict
+
 
 def userEntity(item) -> dict:
     return {
@@ -12,16 +12,4 @@ def userEntity(item) -> dict:
     }
 
 def usersEntity(entity) -> list:
-    return [userEntity(item) for item in entity]
-
-def insert_one_user(id):
-    pass
-
-def find_one_user():
-    pass
-
-def edit_user():
-    pass
-
-def get_user_projects():
-    pass
+    return [serialiseDict(item) for item in entity]
