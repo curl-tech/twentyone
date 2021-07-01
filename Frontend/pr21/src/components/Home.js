@@ -34,7 +34,7 @@ class Home extends Component {
                 "projectID": 0,
                 "userID": 0
             },
-            projectdetail:{
+            projectdetail: {
                 "projectID": 0,
                 "userID": 0
             }
@@ -147,13 +147,22 @@ class Home extends Component {
         $(theFormItself3).show();
         var theFormItself4 = document.getElementById('loader');
         $(theFormItself4).show();
+        this.setState({
+            modeldetail: {
+                "Successful": "False",
+                "dataID": 0,
+                "modelID": 0,
+                "projectID": 0,
+                "userID": 0
+            },
+        })
         let userID = this.state.projectdetail["userID"]
         let projectID = this.state.projectdetail["projectID"]
         let isauto = this.state.auto
         let target = this.state.target
         let modelnumber = this.state.modelnum
         let nulltype = this.state.nulltype
-        let data = { userID,projectID, isauto, target, modelnumber, nulltype }
+        let data = { userID, projectID, isauto, target, modelnumber, nulltype }
         // console.log(JSON.stringify(data))
 
         axios.post('http://localhost:8000/auto', JSON.stringify(data))
@@ -183,6 +192,34 @@ class Home extends Component {
         $(theFormItself).toggle();
 
     }
+    handleGoForm2() {
+        var theFormItself = document.getElementById('form3');
+        $(theFormItself).hide();
+        var theFormItself3 = document.getElementById('form4');
+        $(theFormItself3).hide();
+        var theFormItself2 = document.getElementById('form2');
+        $(theFormItself2).show();
+
+    }
+    handleNewProject() {
+        var theFormItself = document.getElementById('form2');
+        $(theFormItself).hide();
+        var theFormItself2 = document.getElementById('form3');
+        $(theFormItself2).hide();
+        var theFormItself3 = document.getElementById('form4');
+        $(theFormItself3).hide();
+        var theFormItself4 = document.getElementById('form5');
+        $(theFormItself4).hide();
+        var theFormItself5 = document.getElementById('loader');
+        $(theFormItself5).hide();
+        var theFormItself6 = document.getElementById('section6');
+        $(theFormItself6).hide();
+        var theFormItself7 = document.getElementById('section5');
+        $(theFormItself7).hide();
+        var theFormItself8 = document.getElementById('form1');
+        $(theFormItself8).show();
+
+    }
 
     render() {
         return (
@@ -195,7 +232,12 @@ class Home extends Component {
                 {/* ************************************************************************************************************************ */}
                 {/* Section2  */}
                 <div className="section2" id="section2">
+                    <div className="newprojectback" >
+                        <button className="newprojectbtn" onClick={this.handleNewProject}  >Start New Project </button>
+
+                    </div>
                     <div className="createpagebox " id="sec1heading">
+
                         <h1>Start With Your Project</h1>
                         {/* <p>" Just fill relevant feeds and select few choices and you are good to go"</p> */}
                     </div>
@@ -281,8 +323,12 @@ class Home extends Component {
                     </div>
                     {/* form3 */}
                     <div className="container" id="form3">
+                        <div className="goback">
+                            <button className="backbtn" onClick={this.handleGoForm2}  >&lArr; Go Back </button>
+                        </div>
                         <form onSubmit={this.handleSubmit2}>
                             <div className="createform">
+
 
                                 <div className="row">
                                     <div className="col-40">
@@ -327,6 +373,10 @@ class Home extends Component {
 
                     {/* form 4 for manual preprocessing */}
                     <div className="container" id="form4">
+                        <div className="goback">
+                            <button className="backbtn" onClick={this.handleGoForm2}  >&lArr; Go Back </button>
+
+                        </div>
                         <div className="PreprocessForm">
                             <div className="autocheckbox">
                                 <input type="checkbox" id="autopreprocess" onClick={this.handleAutoPreprocess} name="autopreprocess" />

@@ -9,7 +9,7 @@ import Metrics from './metrics.js';
 // import Papa from 'papaparse';
 import axios from 'axios';
 import Papa from 'papaparse';
-class Section5 extends Component {
+class ProjectsSection5 extends Component {
 
 
 
@@ -24,31 +24,27 @@ class Section5 extends Component {
         };
         this.updateData = this.updateData.bind(this);
     }
-    // componentDidMount(){
-    //     this.setState({data:""})
-    // }
+    method() {
+        this.setState({ data: "" });
+      }
     handleGoBack = event => {
         event.preventDefault();
-        var theFormItself = document.getElementById('section5');
+        var theFormItself = document.getElementById('projectsection5');
         $(theFormItself).hide();
-        var theFormItself2 = document.getElementById('section6');
+        var theFormItself2 = document.getElementById('projectsection6');
         $(theFormItself2).show();
         var thebtnItself = document.getElementById('show');
         $(thebtnItself).show();
         this.setState({ data: "" });
 
     }
-    handleRetrain = event => {
-        event.preventDefault();
-        var theFormItself = document.getElementById('section5');
-        $(theFormItself).hide();
-        var theFormItself2 = document.getElementById('form2');
-        $(theFormItself2).show();
-        // var theFormItself3 = document.getElementById('section6');
-        // $(theFormItself3).show();
-        
-        
-    }
+    // handleRetrain = event => {
+    //     event.preventDefault();
+    //     var theFormItself = document.getElementById('section5');
+    //     $(theFormItself).hide();
+    //     var theFormItself2 = document.getElementById('form2');
+    //     $(theFormItself2).show();
+    // }
 
     // handleChange = event => {
     //     this.setState({
@@ -62,6 +58,7 @@ class Section5 extends Component {
         // console.log(this.state.traindata);
     }
     handlemetric = event => {
+        console.log(this.props.projectdetails)
         var thebtnItself = document.getElementById('show');
         $(thebtnItself).hide();
         this.setState({ data: "a" });
@@ -149,17 +146,17 @@ class Section5 extends Component {
     render() {
         return (
 
-            <div className="section5 " id="section5">
+            <div className="section5 " id="projectsection5">
                 <div className="goback">
                     <button className="backbtn" onClick={this.handleGoBack}  >&lArr; Go Back to Models </button>
 
                 </div>
-                {this.props.showRetrain === false ? null :
+                {/* {this.props.showRetrain === false ? null :
                     <div className="goback">
                         <button className="backbtn" onClick={this.handleRetrain}  >&lArr;Retrain</button>
 
                     </div>
-                }
+                } */}
 
                 <div className="sec5heading">
                     <h1>Results (Model Number:  {this.props.currentmodel})</h1>
@@ -271,4 +268,4 @@ class Section5 extends Component {
     }
 }
 
-export default Section5;
+export default ProjectsSection5;

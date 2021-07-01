@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import Section6 from './section6.js';
-import Section5 from './section5.js';
+import ProjectsSection6 from './projectsSection6.js';
+import ProjectsSection5 from './projectsSection5.js';
 import $ from 'jquery';
 class Section7 extends Component {
     constructor(props) {
@@ -14,24 +14,24 @@ class Section7 extends Component {
                 "modelID": 0,
                 "projectID": 0,
             },
-            projectList: {
-                0: {
-                    "projectID": 63479,
+            projectList: [
+                {
+                    "projectID": 45547,
                     "projectName": "Nik",
                     "target": "y",
                     "modelType": "regression",
-                    "listOFDataIDs":{0:65025, 2:51356, 3:32541},
+                    "listOFDataIDs": [13235, 65526, 32541],
                     "isAuto": true
                 },
-                1: {
-                    "projectID": 66655,
+                {
+                    "projectID": 17131,
                     "projectName": "Nik2",
                     "target": "y2",
                     "modelType": "classification",
-                    "listOFDataIDs": {0:90662, 5:45452, 6:54152},
+                    "listOFDataIDs": [18036, 52595, 54152],
                     "isAuto": true
                 },
-                2: {
+                {
                     "projectID": 3,
                     "projectName": "Nik3",
                     "target": "y3",
@@ -40,9 +40,9 @@ class Section7 extends Component {
                     "isAuto": false
                 }
 
-            }
+            ],
         }
-
+        this.changeChild=React.createRef()
     }
     handleProjectResult = event => {
         this.setState(
@@ -53,29 +53,30 @@ class Section7 extends Component {
         $(theSectionItself).show();
         var theSectionItself2 = document.getElementById('projectDetails');
         $(theSectionItself2).hide();
-        
-        
+
         this.setState({
-            currentProjectDetails:{
-                "dataID":this.state.projectList[event.target.value].listOFDataIDs[0][0],
-                "modelID":this.state.projectList[event.target.value].listOFDataIDs[0][0],
-                "projectID":this.state.projectList[event.target.value].projectID
+            currentProjectDetails: {
+                "dataID": this.state.projectList[event.target.value].listOFDataIDs[this.props.currentmodel],
+                "modelID": this.state.projectList[event.target.value].listOFDataIDs[this.props.currentmodel],
+                "projectID": this.state.projectList[event.target.value].projectID
             }
         })
     }
-    handleGoBack =event=> {
+    handleGoBack = event => {
         var theSectionItself = document.getElementById('modelDetails');
         $(theSectionItself).hide();
         var theSectionItself2 = document.getElementById('projectDetails');
         $(theSectionItself2).show();
-        var theFormItself = document.getElementById('section6');
+        var theFormItself = document.getElementById('projectsection6');
         $(theFormItself).show();
 
-        var theFormItself2 = document.getElementById('section5');
+        var theFormItself2 = document.getElementById('projectsection5');
         $(theFormItself2).hide();
 
         var thebtnItself = document.getElementById('show');
         $(thebtnItself).show();
+        // this.child.method()
+        this.changeChild.current.method()
         // this.setState({ reset: 1});
     }
     render() {
@@ -116,7 +117,7 @@ class Section7 extends Component {
             <div className="section7" id="section7">
                 <div className="projectDetails" id="projectDetails">
                     <div className=" sec7heading">
-                        <h2>List of all the Projects you have trained</h2>
+                        <h2>List of all the Your Projects</h2>
                     </div>
 
                     {items}
@@ -128,10 +129,10 @@ class Section7 extends Component {
 
                     </div>
                     <div id="sec6">
-                    < Section6  handler={this.props.handler} isauto={this.state.projectList[this.state.currentProject].isAuto} projectname={this.state.projectList[this.state.currentProject].projectName} />
-                   </div>
-                   <div id="sec5">
-                    < Section5 showRetrain={this.state.showRetrain} currentmodel={this.props.currentmodel} projectdetails={this.state.currentProjectDetails} />
+                        < ProjectsSection6 handler={this.props.handler} isauto={this.state.projectList[this.state.currentProject].isAuto} projectname={this.state.projectList[this.state.currentProject].projectName} />
+                    </div>
+                    <div id="sec5">
+                        < ProjectsSection5 ref={this.changeChild} showRetrain={this.state.showRetrain} currentmodel={this.props.currentmodel} projectdetails={this.state.currentProjectDetails} />
                     </div>
                 </div>
             </div>

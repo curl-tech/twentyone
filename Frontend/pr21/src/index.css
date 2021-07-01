@@ -267,13 +267,25 @@ background-image: url(./assets/img/bg6.png);
   width: 100%;
   height:500%; */
   padding: 5em;
+  padding-top: 2em;
   min-height: 100vh;
   background-image:linear-gradient(to left bottom,rgba(228, 222, 235, 0.76),rgba(32, 12, 70, 0.904));
   background-image: url(./assets/img/bg17.png);
   /* background-size:cover; */
   /* background-repeat: no-repeat; */
 }  
-
+.newprojectbtn{
+  color: rgba(12, 24, 49, 0.901);
+  padding: 0.5em;
+  /* margin: 1em; */
+  background-image:linear-gradient(to left bottom , rgba(236, 236, 236, 0.815),rgba(119, 119, 116, 0.822));
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  border-radius: 6px;
+}
+.newprojectbtn:hover{
+  background-image:linear-gradient(to left bottom , rgba(236, 236, 236, 1),rgba(119, 119, 116, 1));
+ 
+}
 .createpagebox
 {
   padding: 1.2em;
@@ -1094,6 +1106,11 @@ table {
   color: #fff;
   padding: 2em;
   text-align: center;
+  
+}
+.sec7heading h2{
+  font-size: 3em;
+  font-family:'Roberto','Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 .sec7card{
   background-image:linear-gradient(to top left,rgba(245, 245, 248, 0.918),rgba(48, 48, 49, 0.76));
@@ -1135,10 +1152,10 @@ table {
 .footer
 {
   background-color: rgb(5, 3, 70);
-  background-image:linear-gradient(to top left,rgba(5, 3, 70, 0.918),rgba(48, 48, 49, 0.76));
+  background-image:linear-gradient(to top left,rgb(219, 219, 223),rgba(143, 143, 145, 0.96));
   min-height: 20vh;
 }
 .text-center{
   padding: 2em;
-  color: rgb(240, 235, 235);
+  color: #000;
 }
