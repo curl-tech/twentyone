@@ -1,22 +1,12 @@
 from pycaret.classification import *
-# from pycaret.clustering import *
-# from pycaret.nlp import *
 import os
 import pandas as pd
 import joblib
 import shutil
 import yaml
 from yaml.loader import SafeLoader
+
 class Auto:
-    #df = raw_data_address
-    #target_col_name = target_col_name
-    #problem_type = problem_type
-    #na_value = na_value
-    #encoding_type=encoding_type
-    #encode_col_name=encode_col_name
-    #scaling_type = scaling_type
-    #scaling_col_name=scaling_col_name
-    
     def auto_setup(self,config):   
         """
         This function is for preprocessing the data when the user selects auto.
