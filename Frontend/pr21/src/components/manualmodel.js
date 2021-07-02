@@ -77,7 +77,7 @@ class ManualModel extends Component {
                         <div className="card sec6card manualcard">
 
                             <div className="card-body">
-                                <h4 className="card-title">{this.state.regmodellist[j]}</h4>
+                                <h4 className="card-title heading">{this.state.regmodellist[j]}</h4>
                                 <div className="manualmodelcard">
                                     <input type="checkbox" id="automodel" value={this.state.regmodellist[j]} onClick={this.handlehyperselection} name="automodel" />
                                     <label htmlFor="automodel"> Select</label>

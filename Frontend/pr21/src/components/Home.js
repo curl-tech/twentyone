@@ -197,6 +197,8 @@ class Home extends Component {
         $(theFormItself).hide();
         var theFormItself3 = document.getElementById('form4');
         $(theFormItself3).hide();
+        var theFormItself4 = document.getElementById('form5');
+        $(theFormItself4).hide();
         var theFormItself2 = document.getElementById('form2');
         $(theFormItself2).show();
 
@@ -232,7 +234,7 @@ class Home extends Component {
                 {/* ************************************************************************************************************************ */}
                 {/* Section2  */}
                 <div className="section2" id="section2">
-                    <div className="newprojectback" >
+                    <div className="newproject" >
                         <button className="newprojectbtn" onClick={this.handleNewProject}  >Start New Project </button>
 
                     </div>
@@ -332,12 +334,13 @@ class Home extends Component {
 
                                 <div className="row">
                                     <div className="col-40">
-                                        <label htmlFor="target">Target Variable</label>
+
+                                        <label htmlFor="target">Target Variable  <span className="ibtn">i <span id="idesc">Select column which you want model to predict</span></span></label>
                                     </div>
                                     <div className="col-60">
                                         <select name="target" id="target" onChange={this.handleTargetChange}>
                                             {Object.keys(this.state.traindata[0]).map((key, i) =>
-                                                <option value={key}>{key}</option>
+                                                <option key={i} value={key} >{key}</option>
                                             )}
                                         </select>
                                         {/* <input type="text" id="target" name="target" onChange={this.handleTargetChange} placeholder="Enter target variable" required /> */}
@@ -389,6 +392,9 @@ class Home extends Component {
                     </div>
                     {/* form 5 for model and hypeparameters selection*/}
                     <div className="container" id="form5">
+                    <div className="goback">
+                            <button className="backbtn" onClick={this.handleGoForm2}  >&lArr; Go Back </button>
+                        </div>
                         <div className="Modelselection">
                             <div className="autocheckbox">
                                 <input type="checkbox" id="automodel" onClick={this.handleAutoModelSelect} name="automodel" />

@@ -10,32 +10,41 @@ class ProjectsSection6 extends Component {
         var theFormItself2 = document.getElementById('projectsection5');
         $(theFormItself2).show();
         this.props.handler(event.target.value);
-
-        
-
+        this.props.handleModelDetails(this.props.currentproject,event.target.value-1);
     }
     render() {
         const items = []
-        for (let i = 0; i < this.props.modelnum; i += 3) {
+        for (let i = 0; i < this.props.modelnum; i += 2) {
             let item = []
-            for (let j = i; j < i + 3 && j < this.props.modelnum; j++) {
+            for (let j = i; j < i + 2 && j < this.props.modelnum; j++) {
                 item.push(
-                    <div className="card sec6card">
+                    // <div className="card sec6card">
+                    //     <div className="card-body">
+                    //         <h1 className="card-title">Model {j + 1}</h1>
+                    //         <p className="card-text cardp">
+                    //             Accuracy :
+                    //         </p>
+                    //         <button value={j + 1} onClick={this.handleModelResult} className="btn sec6btn">See Details</button>
+                    //     </div>
+                    // </div>
+                    <div key={j} className="card projectsec6autocard">
 
                         <div className="card-body">
-                            <h1 className="card-title">Model {j + 1}</h1>
-                            <p className="card-text cardp">
-                                Accuracy :
-
-                            </p>
+                            <h2 className="card-title">{this.props.isauto === true ? <span>Top Model for run: {j + 1}</span> : <span>Model: {j + 1}</span>}</h2>
+                            <h4 className="card-text cardp">See Details For:
+                                <li>Metrics</li>
+                                <li>Plots</li>
+                                <li>Clean Data</li>
+                                <li>Pickle File</li>
+                                <li>Inferencing New Data</li>
+                            </h4>
                             <button value={j + 1} onClick={this.handleModelResult} className="btn sec6btn">See Details</button>
                         </div>
                     </div>
-
                 )
             }
             items.push(
-                <div className="card-group  text-center">
+                <div className="card-group  ">
                     {item}
                 </div>
             )
@@ -45,12 +54,12 @@ class ProjectsSection6 extends Component {
             return (
                 <div className="section6" id="projectsection6">
 
-                    
+
                     <div className=" sec6heading">
-                        <h2>Project Name: {this.props.projectname}</h2>
+                        <h1>Project Name: {this.props.projectname}</h1>
                     </div>
                     <div className=" sec6heading">
-                        <h2>Your Models</h2>
+                        <h1>Your Models</h1>
                     </div>
                     {items}
 
@@ -58,6 +67,7 @@ class ProjectsSection6 extends Component {
             );
         }
         else {
+
             return (
                 <div className="section6 " id="projectsection6">
 
@@ -70,8 +80,8 @@ class ProjectsSection6 extends Component {
                     {/* <div className=" sec6heading">
                         <h2>The Best Model</h2>
                     </div> */}
-
-                    <div className="card sec6autocard">
+                    {items}
+                    {/* <div className="card sec6autocard">
 
                         <div className="card-body">
                             <h2 className="card-title">Top Model</h2>
@@ -84,7 +94,7 @@ class ProjectsSection6 extends Component {
                             </h4>
                             <button value={1} onClick={this.handleModelResult} className="btn sec6btn">See Details</button>
                         </div>
-                    </div>
+                    </div> */}
 
                 </div>
             );

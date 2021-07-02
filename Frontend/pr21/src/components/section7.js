@@ -20,7 +20,7 @@ class Section7 extends Component {
                     "projectName": "Nik",
                     "target": "y",
                     "modelType": "regression",
-                    "listOFDataIDs": [13235, 65526, 32541],
+                    "listOFDataIDs": [13235, 65526],
                     "isAuto": true
                 },
                 {
@@ -36,7 +36,7 @@ class Section7 extends Component {
                     "projectName": "Nik3",
                     "target": "y3",
                     "modelType": "regression",
-                    "listOFDataIDs": [7, 8, 9],
+                    "listOFDataIDs": [7,8,9],
                     "isAuto": false
                 }
 
@@ -54,11 +54,17 @@ class Section7 extends Component {
         var theSectionItself2 = document.getElementById('projectDetails');
         $(theSectionItself2).hide();
 
+        // this.handleModelDetails(event.target.value)
+        
+    }
+    handleModelDetails= (event,modelnumber) =>{
+        console.log(event," ",modelnumber)
+        console.log(this.state.projectList[event])
         this.setState({
             currentProjectDetails: {
-                "dataID": this.state.projectList[event.target.value].listOFDataIDs[this.props.currentmodel],
-                "modelID": this.state.projectList[event.target.value].listOFDataIDs[this.props.currentmodel],
-                "projectID": this.state.projectList[event.target.value].projectID
+                "dataID": this.state.projectList[event].listOFDataIDs[modelnumber],
+                "modelID": this.state.projectList[event].listOFDataIDs[modelnumber],
+                "projectID": this.state.projectList[event].projectID
             }
         })
     }
@@ -90,7 +96,10 @@ class Section7 extends Component {
                     <div className="card sec7card">
 
                         <div className="card-body">
+                            <div className="sec7h2">
                             <h2 className="card-title sec7text">{this.state.projectList[j].projectName}</h2>
+                            </div>
+                            <div className="sec7h5">
                             <h5 className="card-text cardp sec7text">
                                 Target Variable :{this.state.projectList[j].target}
                             </h5>
@@ -100,6 +109,7 @@ class Section7 extends Component {
                             <h5 className="card-text cardp sec7text">
                                 Creation type :{this.state.projectList[j].isAuto ? "Auto" : "Manual"}
                             </h5>
+                            </div>
                             <button value={j} onClick={this.handleProjectResult} className="btn sec7btn">See Details</button>
                         </div>
                     </div>
@@ -117,7 +127,7 @@ class Section7 extends Component {
             <div className="section7" id="section7">
                 <div className="projectDetails" id="projectDetails">
                     <div className=" sec7heading">
-                        <h2>List of all the Your Projects</h2>
+                        <h2>List of all your Projects</h2>
                     </div>
 
                     {items}
@@ -129,7 +139,7 @@ class Section7 extends Component {
 
                     </div>
                     <div id="sec6">
-                        < ProjectsSection6 handler={this.props.handler} isauto={this.state.projectList[this.state.currentProject].isAuto} projectname={this.state.projectList[this.state.currentProject].projectName} />
+                        < ProjectsSection6 handler={this.props.handler} handleModelDetails={this.handleModelDetails} modelnum={this.state.projectList[this.state.currentProject].listOFDataIDs.length} isauto={this.state.projectList[this.state.currentProject].isAuto} projectname={this.state.projectList[this.state.currentProject].projectName} currentproject={this.state.currentProject} />
                     </div>
                     <div id="sec5">
                         < ProjectsSection5 ref={this.changeChild} showRetrain={this.state.showRetrain} currentmodel={this.props.currentmodel} projectdetails={this.state.currentProjectDetails} />

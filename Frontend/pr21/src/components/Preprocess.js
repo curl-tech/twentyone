@@ -32,7 +32,7 @@ class Preprocess extends React.Component {
                                 <thead>
                                     <tr>
                                         {Object.keys(data).map((key, i) =>
-                                            <th className="dropdown ">
+                                            <th  className="dropdown ">
                                                 {key}<span className="fa fa-caret-down"></span>
                                                 <div className="dropdown-content">
                                                     <div className="prepro">

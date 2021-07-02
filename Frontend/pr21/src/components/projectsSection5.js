@@ -25,7 +25,12 @@ class ProjectsSection5 extends Component {
         this.updateData = this.updateData.bind(this);
     }
     method() {
-        this.setState({ data: "" });
+        this.setState(
+            { data: "" ,
+            counterplot:0
+            }
+            );
+
       }
     handleGoBack = event => {
         event.preventDefault();
@@ -66,8 +71,8 @@ class ProjectsSection5 extends Component {
         const modelid = this.props.projectdetails["modelID"];   
         axios.get('http://localhost:8000/getMetrics/'+projectid+"/"+modelid)
             .then((response) => {
-                console.log(response)
-                console.log(response.data);
+                // console.log(response)
+                // console.log(response.data);
                 Papa.parse(response.data, {
                     complete: this.updateData,
                     header: true

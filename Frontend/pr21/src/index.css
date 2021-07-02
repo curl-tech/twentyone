@@ -277,6 +277,7 @@ background-image: url(./assets/img/bg6.png);
 .newprojectbtn{
   color: rgba(12, 24, 49, 0.901);
   padding: 0.5em;
+  margin-left: 80%;
   /* margin: 1em; */
   background-image:linear-gradient(to left bottom , rgba(236, 236, 236, 0.815),rgba(119, 119, 116, 0.822));
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
@@ -467,6 +468,8 @@ input[type=text],input[type=number] ,select, textarea {
 .btn2
 {
   border-radius: 4px;
+  padding:8px;
+  font-weight: 600;
   cursor: pointer;
   width:5em;
   color: rgba(12, 24, 49, 0.901);
@@ -727,6 +730,9 @@ input[type=text],input[type=number] ,select, textarea {
   background-color: rgba(255, 255, 255,0.2);
     /* opacity:0.5 !important; */
 }
+.manualmodelheading{
+  color: #fff;
+}
 /* ********************************************************************************************* */
 /* Section3 */
 .section3
@@ -806,7 +812,7 @@ background-image: url(./assets/img/bg13.png);
 {
   border-radius: 8px;
   cursor: pointer;
-  color: #00000094;
+  color: rgba(12, 24, 49, 0.901);
   font-family:Formular,sans-serif;
   font-weight: 600;
   margin: 2em;
@@ -861,6 +867,7 @@ background-image: url(./assets/img/bg19.png);
   background-size: cover;
  min-height: 80vh;
  display: none;
+ padding: 1em;
 }
 .sec5heading{
   padding: 1em;
@@ -949,7 +956,7 @@ color: #fff;
 {
   border-radius: 4px;
   cursor: pointer;
-  
+  padding:8px;
   color: rgba(12, 24, 49, 0.901);
   background-image:linear-gradient(to left bottom , rgba(236, 236, 236, 0.342),rgba(119, 119, 116, 0.8));
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
@@ -976,6 +983,7 @@ color: #fff;
 background-image: url(./assets/img/bg19.png);
   background-size: cover;
  min-height: 80vh;
+ padding: 1em;
 }
 .sec6heading{
   padding: 1em;
@@ -997,7 +1005,7 @@ background-image: url(./assets/img/bg19.png);
   margin-left: 2.5em;
   margin-right: 2.5em;
   min-height: 200px;
-  border-radius: 8px;
+  border-radius: 1px;
   /* background:linear-gradient(rgba(67, 34, 87, 0.336),rgba(142, 129, 153, 0.5)), url(./assets/img/bg4.jpg); */
   
 }
@@ -1025,17 +1033,27 @@ background-image: url(./assets/img/bg19.png);
   margin-right: 25%;
   min-height: 250px;
 }
-.sec6autocard h2{
-  background-image:linear-gradient(to left bottom ,rgba(0, 0, 0, 0.089),rgba(232, 236, 236, 0.075));
+.projectsec6autocard{
+  background-image:linear-gradient(to left bottom , #180c42e1,rgba(68, 7, 12, 0.959));
+  width: 50%;
+  /* margin-left: 25%; */
+  /* margin-right: 25%; */
+  min-height: 250px;
+}
+.sec6autocard h2, .projectsec6autocard h2{
+  background-image:linear-gradient(to left bottom ,rgba(0, 0, 0, 0.389),rgba(232, 236, 236, 0.375));
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-  padding: 3px;
+  padding: 8px;
   text-align: center;
-  border-radius: 4px;
+  border-radius: 6px;
   color: #fff;
 }
-.sec6autocard h4{
+.sec6autocard h4, .projectsec6autocard h4{
   padding: 1em;
+  margin:10px;
   /* font-size: xx-large; */
+  background-image:linear-gradient(to left bottom ,rgba(0, 0, 0, 0.389),rgba(232, 236, 236, 0.375));
+  border-radius: 8px;
   font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
   font-family: 'Staatliches', Verdana, Geneva, Tahoma, sans-serif;
   /* text-align: center; */
@@ -1044,10 +1062,12 @@ background-image: url(./assets/img/bg19.png);
 .sec6btn{
   color: rgba(12, 24, 49, 0.901);
   background-image:linear-gradient(to left bottom , rgba(236, 236, 236, 0.815),rgba(119, 119, 116, 0.822));
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-family:Formular,sans-serif;
+  font-weight: 600;
   border-radius: 4px;
-  margin-left: 42%;
-  margin-right: 41%;
+  padding: 0.8em;
+  margin-left: 44%;
+  margin-right: 36%;
 }
 .sec6btn:hover{
   color: rgba(12, 24, 49, 1);
@@ -1101,23 +1121,38 @@ table {
 .section7{
   min-height: 100vh;
   background-color: #130336;
+  padding: 2em;
+  background-image: url(./assets/img/bg23.png);
 }		
 .sec7heading{
   color: #fff;
   padding: 2em;
   text-align: center;
-  
-}
+ }
 .sec7heading h2{
   font-size: 3em;
   font-family:'Roberto','Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 .sec7card{
-  background-image:linear-gradient(to top left,rgba(245, 245, 248, 0.918),rgba(48, 48, 49, 0.76));
+  /* background-image:linear-gradient(to top left,rgba(245, 245, 248, 0.918),rgba(48, 48, 49, 0.76)); */
+  background-color: #fff;
   /* box-shadow: 5px 3px 3px #aaa; */
 }
+.sec7h2{
+  background-image:linear-gradient(to top left,rgba(231, 231, 238, 0.918),rgba(172, 172, 202, 0.76));
+  border-radius: 8px;
+}
+.sec7h5{
+  background-image:linear-gradient(to top left,rgba(193, 193, 199, 0.918),rgba(209, 183, 183, 0.76));
+  border-radius: 8px;
+  margin:8px;
+}
 .sec7text{
-  color: #000;
+  color: rgb(82, 11, 32);
+  background: -webkit-linear-gradient(rgb(65, 2, 11), rgb(34, 3, 68));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent; 
 }
 .sec7card h2{
   padding: 1em;
@@ -1128,15 +1163,17 @@ table {
 }
 .sec7card h5{
   padding: 0.5em;
+  font-weight: 800;
   font-size: 20px;
   font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
- 
+ text-align: left;
 }
 .sec7btn{
   color: rgba(12, 24, 49, 0.901);
   background-image:linear-gradient(to left bottom , rgba(14, 4, 68, 0.815),rgba(66, 5, 25, 0.822));
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-  border-radius: 8px;
+  font-family:Formular,sans-serif;
+  border-radius: 6px;
+  padding: 12px;
  color: #fff;
 }
 .sec7btn:hover{

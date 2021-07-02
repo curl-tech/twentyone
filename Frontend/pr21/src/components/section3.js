@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import aivideo from "../assets/videos/AI.mp4";
+import aivideo from "../assets/videos/curl21.mp4";
 class Section3 extends Component {
     render() {
         return (
