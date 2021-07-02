@@ -19,7 +19,7 @@ class Section7 extends Component {
             projectList: {
                 0:{
                     "projectID": 45547,
-                    "projectName": "Nik",
+                    "projectName": "Test1",
                     "target": "y",
                     "modelType": "regression",
                     "listOfDataIDs": [13235, 65526],
@@ -27,7 +27,7 @@ class Section7 extends Component {
                 },
                 1:{
                     "projectID": 17131,
-                    "projectName": "Nik2",
+                    "projectName": "Test2",
                     "target": "y2",
                     "modelType": "classification",
                     "listOfDataIDs": [18036, 52595, 54152],
@@ -35,10 +35,10 @@ class Section7 extends Component {
                 },
                 2:{
                     "projectID": 3,
-                    "projectName": "Nik3",
+                    "projectName": "Test3",
                     "target": "y3",
                     "modelType": "regression",
-                    "listOfDataIDs": [7,8,9],
+                    "listOfDataIDs": [7],
                     "isAuto": false
                 }
 

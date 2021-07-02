@@ -1042,7 +1042,7 @@ background-image: url(./assets/img/bg19.png);
   min-height: 250px;
 }
 .sec6autocard h2, .projectsec6autocard h2{
-  background-image:linear-gradient(to left bottom ,rgba(0, 0, 0, 0.389),rgba(232, 236, 236, 0.375));
+  background-image:linear-gradient(to left bottom ,rgba(250, 248, 248, 0.189),rgba(232, 236, 236, 0.175));
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   padding: 8px;
   text-align: center;
@@ -1053,7 +1053,7 @@ background-image: url(./assets/img/bg19.png);
   padding: 1em;
   margin:10px;
   /* font-size: xx-large; */
-  background-image:linear-gradient(to left bottom ,rgba(0, 0, 0, 0.389),rgba(232, 236, 236, 0.375));
+  background-image:linear-gradient(to left bottom ,rgba(240, 236, 236, 0.189),rgba(232, 236, 236, 0.175));
   border-radius: 8px;
   font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
   font-family: 'Staatliches', Verdana, Geneva, Tahoma, sans-serif;
@@ -1196,4 +1196,5 @@ table {
 .text-center{
   padding: 2em;
   color: #000;
+  font-weight: 500;
 }

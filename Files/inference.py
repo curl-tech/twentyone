@@ -3,6 +3,7 @@ from pycaret.classification import *
 from pycaret.regression import *
 import pandas as pd
 import os
+import random
 
 class Inference:
     def inference(self,pickleFileLocation,newDataLocation,storeLocation,isAuto):    #isAuto parameter removed because of error
@@ -13,8 +14,8 @@ class Inference:
             results=predict_model(clf,data=data)
 
             csvresults=results.to_csv()
-
-            inferenceDataResultsPath=os.path.join(storeLocation,"inference.csv")
+            ran=random.randint(100,999)
+            inferenceDataResultsPath=os.path.join(storeLocation,"inference"+str(ran)+".csv")
             inference=open(inferenceDataResultsPath,"w+")
             inference.write(csvresults)
             inference.close()
@@ -29,8 +30,8 @@ class Inference:
             results["predictions"]=predictions
 
             csvresults=results.to_csv()
-
-            inferenceDataResultsPath=os.path.join(storeLocation,"inference.csv")
+            ran=random.randint(100,999)
+            inferenceDataResultsPath=os.path.join(storeLocation,"inference"+str(ran)+".csv")
             inference=open(inferenceDataResultsPath,"w+")
             inference.write(csvresults)
             inference.close()
