@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import ProjectsSection6 from './projectsSection6.js';
 import ProjectsSection5 from './projectsSection5.js';
 import $ from 'jquery';
+import axios from 'axios';
+
 class Section7 extends Component {
     constructor(props) {
         super(props)
@@ -14,35 +16,44 @@ class Section7 extends Component {
                 "modelID": 0,
                 "projectID": 0,
             },
-            projectList: [
-                {
+            projectList: {
+                0:{
                     "projectID": 45547,
                     "projectName": "Nik",
                     "target": "y",
                     "modelType": "regression",
-                    "listOFDataIDs": [13235, 65526],
+                    "listOfDataIDs": [13235, 65526],
                     "isAuto": true
                 },
-                {
+                1:{
                     "projectID": 17131,
                     "projectName": "Nik2",
                     "target": "y2",
                     "modelType": "classification",
-                    "listOFDataIDs": [18036, 52595, 54152],
+                    "listOfDataIDs": [18036, 52595, 54152],
                     "isAuto": true
                 },
-                {
+                2:{
                     "projectID": 3,
                     "projectName": "Nik3",
                     "target": "y3",
                     "modelType": "regression",
-                    "listOFDataIDs": [7,8,9],
+                    "listOfDataIDs": [7,8,9],
                     "isAuto": false
                 }
 
-            ],
+        },
         }
         this.changeChild=React.createRef()
+    }
+
+    componentDidMount(){
+        axios.get('http://localhost:8000/getAllProjects?userID=101')
+            .then((response) => {
+                console.log(response.data)
+                this.setState({projectList: response.data});
+            });
+
     }
     handleProjectResult = event => {
         this.setState(
@@ -62,8 +73,8 @@ class Section7 extends Component {
         console.log(this.state.projectList[event])
         this.setState({
             currentProjectDetails: {
-                "dataID": this.state.projectList[event].listOFDataIDs[modelnumber],
-                "modelID": this.state.projectList[event].listOFDataIDs[modelnumber],
+                "dataID": this.state.projectList[event].listOfDataIDs[modelnumber],
+                "modelID": this.state.projectList[event].listOfDataIDs[modelnumber],
                 "projectID": this.state.projectList[event].projectID
             }
         })
@@ -88,7 +99,9 @@ class Section7 extends Component {
     render() {
         const items = []
         let len = Object.keys(this.state.projectList).length;
-        // console.log(len)
+        // let len=3
+        console.log(len)
+
         for (let i = 0; i < len; i += 3) {
             let item = []
             for (let j = i; j < i + 3 && j < len; j++) {
@@ -139,7 +152,7 @@ class Section7 extends Component {
 
                     </div>
                     <div id="sec6">
-                        < ProjectsSection6 handler={this.props.handler} handleModelDetails={this.handleModelDetails} modelnum={this.state.projectList[this.state.currentProject].listOFDataIDs.length} isauto={this.state.projectList[this.state.currentProject].isAuto} projectname={this.state.projectList[this.state.currentProject].projectName} currentproject={this.state.currentProject} />
+                        < ProjectsSection6 handler={this.props.handler} handleModelDetails={this.handleModelDetails} modelnum={this.state.projectList[this.state.currentProject].listOfDataIDs.length} isauto={this.state.projectList[this.state.currentProject].isAuto} projectname={this.state.projectList[this.state.currentProject].projectName} currentproject={this.state.currentProject} />
                     </div>
                     <div id="sec5">
                         < ProjectsSection5 ref={this.changeChild} showRetrain={this.state.showRetrain} currentmodel={this.props.currentmodel} projectdetails={this.state.currentProjectDetails} />

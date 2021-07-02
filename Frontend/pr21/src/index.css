@@ -1034,7 +1034,8 @@ background-image: url(./assets/img/bg19.png);
   min-height: 250px;
 }
 .projectsec6autocard{
-  background-image:linear-gradient(to left bottom , #180c42e1,rgba(68, 7, 12, 0.959));
+  /* background-image:linear-gradient(to left bottom , #180c42e1,rgba(68, 7, 12, 0.959)); */
+  background-image: url(./assets/img/bg25.jpg);
   width: 50%;
   /* margin-left: 25%; */
   /* margin-right: 25%; */
