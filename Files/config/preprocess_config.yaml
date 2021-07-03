@@ -24,9 +24,7 @@ na_notation :
 
 # For feature scaling.
 scaling_column_name: 
-- age 
-- sex
-- salery
+- 
 scaling_type: 
 - s
   -mi
