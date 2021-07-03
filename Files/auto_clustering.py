@@ -28,11 +28,6 @@ class Autoclu:
 
         return clean_data_address     
 
-
-    ####### Following function needs to be chanced as in we need to "create_model('kmeans')" instade of "compare_model()".
-    
-   
-    
     def model_create(self,config,type="kmeans"):
         config=yaml.load(open(config),Loader=SafeLoader)
         model=create_model(type)
