@@ -227,3 +227,96 @@ class FormData(BaseModel):
                 "userID": 101
             }
         }
+
+class PreprocessJSONData(BaseModel):
+    raw_data_address: Optional[str]
+    target_column_name: Optional[str]
+    drop_column_name: Optional[List[str]]
+    imputation_column_name: Optional[List[str]]
+    impution_type: Optional[List[str]]
+    mean_median_mode_values: Optional[List[int]]
+    na_notation: Optional[List]
+    scaling_column_name: Optional[List[str]]
+    scaling_type: Optional[List]
+    min: Optional[List[int]]
+    max: Optional[List[int]]
+    mean: Optional[List[int]]
+    std: Optional[List[int]]
+    encode_column_name: Optional[List]
+    encoding_type:Optional[List]
+    labels: Optional[List[str]]
+    Remove_outlier: Optional[bool]
+    feature_selection: Optional[bool]
+    data_imbalance: Optional[bool]
+    split_ratio_test: Optional[int]
+    is_auto: Optional[bool]
+
+    class Config:
+        arbitrary_types_allowed=True
+        allow_population_by_field_name=True
+        schema_extra={
+            "examples":{
+                "raw_data_address": "path/to/raw/data/file.csv",
+                "target_column_name": "target",
+                "drop_column_name": [
+                    "column_name1",
+                    "column_name2",
+                    "column_name3"
+                ],
+                "imputation_column_name": [
+                    "column_name1",
+                    "column_name2",
+                    "column_name3"
+                ],
+                "impution_type": [
+                    "type1",
+                    "type2"
+                ],
+                "mean_median_mode_values": [
+                    0,
+                    0,
+                    0
+                ],
+                "na_notation": [
+                    "NaN"
+                ],
+                "scaling_column_name": [
+                    "age",
+                    "sex",
+                    "salery"
+                ],
+                "scaling_type": [
+                    "s -mi -ma",
+                    "n",
+                    "s"
+                ],
+                "min": [
+                    0
+                ],
+                "max": [
+                    1
+                ],
+                "mean": [
+                    0,
+                    2
+                ],
+                "std": [
+                    1,
+                    3
+                ],
+                "encode_column_name": [
+                    "encoded_column1"
+                ],
+                "encoding_type": [
+                    "encoding_type"
+                ],
+                "labels": [
+                    "label"
+                ],
+                "Remove_outlier": True,
+                "feature_selection": True,
+                "data_imbalance": False,
+                "split_ratio_test": 0.3,
+                "is_auto": True
+                }
+        }
