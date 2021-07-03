@@ -7,7 +7,7 @@ import yaml
 from yaml.loader import SafeLoader
 
 class Autoclu:
-    def auto_setup(self,config):   
+    def auto_setup(self,config,ignorelist):   
         """
         This function is for preprocessing the data when the user selects auto.
     
@@ -21,7 +21,7 @@ class Autoclu:
         config=yaml.load(open(config),Loader=SafeLoader)
         df = pd.read_csv(config["raw_data_address"])
         
-        clu = setup(data = df, normalize = True, target = config ,silent=True)
+        clu = setup(data = df, normalize = True, target = config ,silent=True,ignore_features=ignorelist)
         X_train = get_config('X_train')    
         X_train.to_csv(os.path.join(config["location"],'clean_data.csv'), index=False)
         clean_data_address = os.path.join(config["location"],"clean_data.csv")
@@ -31,32 +31,16 @@ class Autoclu:
 
     ####### Following function needs to be chanced as in we need to "create_model('kmeans')" instade of "compare_model()".
     
-    def top_models_auto(self,config,n=3):
-
-        """
-        This funtion takes the user input n in integer format and feeds it to the pycaret function and pycaret in turn returns the top n funtion in an array format 
-        The array containing classifiers is returned at the end of the function 
-        """
+   
+    
+    def model_create(self,config,type="kmeans"):
         config=yaml.load(open(config),Loader=SafeLoader)
-        best = compare_models()
-        request = pull()
-        request = request.rename({'Prec.': 'Precision'}, axis='columns')
-        request.reset_index(drop=True, inplace=True)
-        metricsLocation=os.path.join(config["location"],"metrics.csv")
-        request.to_csv(metricsLocation, index=True, index_label="Sno")
-        # metrics_address = os.getcwd()+"/metrics.csv"
-        # with open (os.path.join(config["location"],"metrics.csv"),'w+') as f:
-        #     f.write(request.to_csv('metrics.csv', index=True, index_label="Sno"))
-        #     f.close()
-        
-        return best, metricsLocation
-    
+        model=create_model(type)
+        assignedlabels=assign_model(model)
+        resultLocation=os.path.join(config["location"],"assignedlabels.csv")
+        assignedlabels.to_csv(resultLocation,index=True)
+        return model, resultLocation
 
-    
-    def model_tune(self,model):
-        tunedmodel=tune_model(model)
-        return tunedmodel 
-    
 
 
     def model_save(self,model,config):
@@ -85,42 +69,18 @@ class Autoclu:
         return location, os.path.join(location,name)
 
     
-    def model_plot(self,model_array,config):
-        config=yaml.load(open(config),Loader=SafeLoader)
-        if config["problem_type"]=="classification":
-            feature_list=["feature","auc","pr","confusion_matrix","error","learning"]
-            for i in range(len(model_array)):
-                location=os.path.join(config["location"],str(config["id"]),"_model",str(i))
-                os.makedirs(location) ## creates a folder by the name configid_model(number) at the specified location
-                os.makedirs(os.path.join(location,"plots")) ## creates a subfolder named plots to store all the plots inside it
-                plot_list=list(plot_model(model_array[i],feature,save=True) for feature in feature_list)
-                for f in plot_list:
-                    shutil.move(f, os.path.join(location,"plots"))
-
-        if config["problem_type"]=="regression":
-            feature_list=["feature","residuals","cooks","vc","error","learning"]
-            for i in range(len(model_array)):
-                location=os.path.join(config["location"],str(config["id"])+"_model"+str(i))
-                os.makedirs(location)
-                os.makedirs(os.path.join(location,"plots"))
-                plot_list=list(plot_model(model_array[i],feature,save=True) for feature in feature_list)
-                for f in plot_list:
-                    shutil.move(f, os.path.join(location,"plots"))
-        
-
-    
+    def model_plot(self,model,location):
+        shutil.move(plot_model(model,save=True),location)
+        return location
 
     def auto(self,config):
         try:
             config2=yaml.load(open(config),Loader=SafeLoader)
             cleanDataPath=self.auto_setup(config)
-            model, metricsLocation=self.top_models_auto(config,config2["n"])
-            tunedmodel=self.model_tune(model)
-
-            print("Model List:",model)
-            print("Tuned List: ",tunedmodel)
+            model, resultLocation=self.models_create(config,type)
             # self.model_plot(tunedmodel,config)
-            pickleFolderPath, pickleFilePath=self.model_save(tunedmodel,config)
+            pickleFolderPath, pickleFilePath=self.model_save(model,config)
+            pickleFolderPath=self.model_plot(model,pickleFolderPath)
             return {"Successful": True, "cleanDataPath": cleanDataPath, "metricsLocation":metricsLocation, "pickleFolderPath":pickleFolderPath, "pickleFilePath":pickleFilePath}
         except Exception as e:
             print("An Error Occured: ",e)
