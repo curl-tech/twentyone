@@ -41,13 +41,13 @@ To run the project do the following -
 
 # Table of Contents
 
-- [Getting Started]()
+-  [Getting Started](# Getting-Started)
 
-- [Architecture of Auto ML 21]()
+-  [Architecture of Auto ML 21](## BLOCKS)
 
-- [Features of Auto ML 21]()
+-  [Features of Auto ML 21](# Features-of-Auto-ML-21)
 
-- [ML Models]()
+-  [ML Models](# ML-Models)
 
   # Getting Started
 
