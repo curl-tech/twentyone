@@ -39,14 +39,14 @@ class Preprocess:
             df = df.dropna(how='all', axis=1, inplace=True)
             df = df.dropna(how='all', inplace=True)
             
-        if(config_data["drop_col_name"][0]!="none"):
+        if config_data['drop_column_name'][0] != None:
             df=df.drop(config_data["drop_col_name"], axis = 1)
             drop_NA(df)
         else:
             drop_NA(df)
 
         # imputation
-        if(config_data["imputation_column_name"][0]!="none"):
+        if config_data['imputation_column_name'][0] != None:
             for index, column in enumerate(config_data["imputation_column_name"]):
                 replace_value = config_data["mean_median_mode_values"][index] 
                 
@@ -62,7 +62,7 @@ class Preprocess:
             
 
         #feature scaling
-        if(config_data["scaling_column_name"][0]!="none"):
+        if config_data['scaling_column_name'][0] != None:
             for index, column in enumerate(config_data["scaling_column_name"]):
                 type = config_data["scaling_type"][index]                
                 df_value = df[[column]].values
@@ -80,7 +80,7 @@ class Preprocess:
         #### handling catogarical data
         # encoding
         # Under the following if block only the columns selected by the used will be encoded as choosed by the used. 
-        if(config_data["encode_column_name"][0] != "none"):
+        if config_data['encode_column_name'][0] != None:
             for index, column in enumerate(config_data["encode_column_name"]):
                 type = config_data["encoding_type"][index]
                     

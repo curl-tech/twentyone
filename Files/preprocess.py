@@ -43,14 +43,14 @@ class Preprocess:
             df = df.dropna(how='all', axis=1, inplace=True)
             df = df.dropna(how='all', inplace=True)
             
-        if(config_data["drop_col_name"][0]!="none"):
+        if config_data['drop_column_name'][0] != None:
             df=df.drop(config_data["drop_col_name"], axis = 1)
             drop_NA(df)
         else:
             drop_NA(df)
 
         # imputation
-        if(config_data["imputation_column_name"][0]!="none"):
+        if config_data['imputation_column_name'][0] != None:
             strategy_values_list=[]
             for index, column in enumerate(config_data["imputation_column_name"]):
                 type = config_data["impution_type"][index] 
@@ -85,7 +85,7 @@ class Preprocess:
              
 
         #feature scaling
-        if(config_data["scaling_column_name"][0]!="none"):
+        if config_data['scaling_column_name'][0] != None:
             for index, column in enumerate(config_data["scaling_column_name"]):
                 type = config_data["scaling_type"][index]                
                 df_value = df[[column]].values
@@ -104,7 +104,7 @@ class Preprocess:
         # encoding
         
         # Under the following if block only the columns selected by the used will be encoded as choosed by the used. 
-        if(config_data["encode_column_name"][0] != "none"):
+        if config_data['encode_column_name'][0] != None:
             for index, column in enumerate(config_data["encode_column_name"]):
                 type = config_data["encoding_type"][index]
                     
@@ -120,38 +120,22 @@ class Preprocess:
                     df= pd.concat([df, df_encoded ], axis=1)
                     
             # In case the user missed any column which is object type and need to be encoded will be encoded using OneHot encoding.       
-            
-            objest_type_column_list = []
-            for col_name in df.columns:
-                if df[col_name].dtype == 'object':
-                    objest_type_column_list.append(col_name)
-                    config_data['encodeing_type'].extend(['One-Hot Encoding'])
-                    
-            if objest_type_column_list != [] :
-                config_data['encode_column_name'] = objest_type_column_list
-
-                encoder = OneHotEncoder(drop = 'first', sparse=False)
-                df_encoded = pd.DataFrame (encoder.fit_transform(df[objest_type_column_list]))
-                df_encoded.columns = encoder.get_feature_names([objest_type_column_list])
-                df.drop([objest_type_column_list] ,axis=1, inplace=True)
-                df= pd.concat([df, df_encoded ], axis=1)       
-            
-        # In this else block if the user does not choose any column to be encode we will do a cross validation.
-        # to check and fix if any cloumn is having catogarical data.
-        #--------------------------------------------------------
-        else:
-            objest_type_column_list = []
-            for col_name in df.columns:
-                if df[col_name].dtype == 'object':
-                    objest_type_column_list.append(col_name)
+        
+        objest_type_column_list = []
+        for col_name in df.columns:
+            if df[col_name].dtype == 'object':
+                objest_type_column_list.append(col_name)
+                config_data['encodeing_type'].extend(['One-Hot Encoding'])
+                
+        if objest_type_column_list != [] :
             config_data['encode_column_name'] = objest_type_column_list
-            
+
             encoder = OneHotEncoder(drop = 'first', sparse=False)
             df_encoded = pd.DataFrame (encoder.fit_transform(df[objest_type_column_list]))
             df_encoded.columns = encoder.get_feature_names([objest_type_column_list])
             df.drop([objest_type_column_list] ,axis=1, inplace=True)
-            df= pd.concat([df, df_encoded ], axis=1)
-        #-=------------------------------------------------------------
+            df= pd.concat([df, df_encoded ], axis=1)       
+            
 
         # Feature engineering & Feature Selection
         ### Outlier detection & Removel
