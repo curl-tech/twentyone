@@ -26,12 +26,13 @@ class ProjectsSection5 extends Component {
     }
     method() {
         this.setState(
-            { data: "" ,
-            counterplot:0
+            {
+                data: "",
+                counterplot: 0
             }
-            );
+        );
 
-      }
+    }
     handleGoBack = event => {
         event.preventDefault();
         var theFormItself = document.getElementById('projectsection5');
@@ -68,8 +69,8 @@ class ProjectsSection5 extends Component {
         $(thebtnItself).hide();
         this.setState({ data: "a" });
         const projectid = this.props.projectdetails["projectID"];
-        const modelid = this.props.projectdetails["modelID"];   
-        axios.get('http://localhost:8000/getMetrics/'+projectid+"/"+modelid)
+        const modelid = this.props.projectdetails["modelID"];
+        axios.get('http://localhost:8000/getMetrics/' + projectid + "/" + modelid)
             .then((response) => {
                 // console.log(response)
                 // console.log(response.data);
@@ -87,16 +88,21 @@ class ProjectsSection5 extends Component {
     handlePlot = event => {
         const FileDownload = require('js-file-download');
         const projectid = this.props.projectdetails["projectID"];
-        if (this.state.countplot === 0) {
-            axios.get('http://localhost:8000/getPlots/' + projectid)
-                .then((response) => {
-                    // console.log(response);
+        // if (this.state.countplot === 0) {
+        axios.get('http://localhost:8000/getPlots/' + projectid)
+            .then((response) => {
+                // console.log(response);
+                this.setState({ plot: response.data });
+                var answer = window.confirm("Plots are ready and displayed. Want to Download in a file?");
+                if (answer) {
                     FileDownload(response.data, 'plot.html');
-                    this.setState({ plot: response.data });
-                    // console.log (this.state.plot)
-                });
-            this.setState({ countplot: 1 })
-        }
+                }
+                else {
+                    console.log("plots not downloaded")
+                }
+            });
+        this.setState({ countplot: 1 })
+        // }
     }
 
     // importCSV = () => {
@@ -143,7 +149,7 @@ class ProjectsSection5 extends Component {
             .then((res) => {
                 console.log("Successful", res)
                 FileDownload(res.data, 'prediction.csv');
-
+                alert("Prediction is Ready and Downloaded");
             },
                 (error) => { console.log(error) });
     }

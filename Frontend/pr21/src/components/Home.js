@@ -108,6 +108,9 @@ class Home extends Component {
                 (error) => { console.log(error) });
     }
     handleAuto() {
+        this.setState({
+            auto: true
+        })
         var theFormItself = document.getElementById('form2');
         $(theFormItself).hide();
         var theFormItself2 = document.getElementById('form3');

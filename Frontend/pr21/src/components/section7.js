@@ -19,28 +19,28 @@ class Section7 extends Component {
             projectList: {
                 0:{
                     "projectID": 45547,
-                    "projectName": "Test1",
-                    "target": "y",
-                    "modelType": "regression",
+                    "projectName": "Please Create your first project",
+                    "target": "NONE",
+                    "modelType": "NONE",
                     "listOfDataIDs": [13235, 65526],
                     "isAuto": true
                 },
-                1:{
-                    "projectID": 17131,
-                    "projectName": "Test2",
-                    "target": "y2",
-                    "modelType": "classification",
-                    "listOfDataIDs": [18036, 52595, 54152],
-                    "isAuto": true
-                },
-                2:{
-                    "projectID": 3,
-                    "projectName": "Test3",
-                    "target": "y3",
-                    "modelType": "regression",
-                    "listOfDataIDs": [7],
-                    "isAuto": false
-                }
+                // 1:{
+                //     "projectID": 17131,
+                //     "projectName": "Test2",
+                //     "target": "y2",
+                //     "modelType": "classification",
+                //     "listOfDataIDs": [18036, 52595, 54152],
+                //     "isAuto": true
+                // },
+                // 2:{
+                //     "projectID": 3,
+                //     "projectName": "Test3",
+                //     "target": "y3",
+                //     "modelType": "regression",
+                //     "listOfDataIDs": [7],
+                //     "isAuto": false
+                // }
 
         },
         }
@@ -51,6 +51,7 @@ class Section7 extends Component {
         axios.get('http://localhost:8000/getAllProjects?userID=101')
             .then((response) => {
                 console.log(response.data)
+                if(response.data!=="")
                 this.setState({projectList: response.data});
             });
 
@@ -114,13 +115,13 @@ class Section7 extends Component {
                             </div>
                             <div className="sec7h5">
                             <h5 className="card-text cardp sec7text">
-                                Target Variable :{this.state.projectList[j].target}
+                                Target Variable: {this.state.projectList[j].target}
                             </h5>
                             <h5 className="card-text cardp sec7text">
-                                Model Type :{this.state.projectList[j].modelType}
+                                Model Type: {this.state.projectList[j].modelType}
                             </h5>
                             <h5 className="card-text cardp sec7text">
-                                Creation type :{this.state.projectList[j].isAuto ? "Auto" : "Manual"}
+                                Creation type: {this.state.projectList[j].isAuto ? "Auto" : "Manual"}
                             </h5>
                             </div>
                             <button value={j} onClick={this.handleProjectResult} className="btn sec7btn">See Details</button>

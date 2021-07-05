@@ -46,8 +46,8 @@ class Section5 extends Component {
         $(theFormItself2).show();
         // var theFormItself3 = document.getElementById('section6');
         // $(theFormItself3).show();
-        
-        
+
+
     }
 
     // handleChange = event => {
@@ -66,8 +66,8 @@ class Section5 extends Component {
         $(thebtnItself).hide();
         this.setState({ data: "a" });
         const projectid = this.props.projectdetails["projectID"];
-        const modelid = this.props.projectdetails["modelID"];   
-        axios.get('http://localhost:8000/getMetrics/'+projectid+"/"+modelid)
+        const modelid = this.props.projectdetails["modelID"];
+        axios.get('http://localhost:8000/getMetrics/' + projectid + "/" + modelid)
             .then((response) => {
                 console.log(response)
                 console.log(response.data);
@@ -89,9 +89,14 @@ class Section5 extends Component {
             axios.get('http://localhost:8000/getPlots/' + projectid)
                 .then((response) => {
                     // console.log(response);
-                    FileDownload(response.data, 'plot.html');
                     this.setState({ plot: response.data });
-                    // console.log (this.state.plot)
+                    var answer = window.confirm("Plots are ready and displayed. Want to Download in a file?");
+                    if (answer) {
+                        FileDownload(response.data, 'plot.html');
+                    }
+                    else {
+                        console.log("plots not downloaded")
+                    }
                 });
             this.setState({ countplot: 1 })
         }
@@ -141,7 +146,7 @@ class Section5 extends Component {
             .then((res) => {
                 console.log("Successful", res)
                 FileDownload(res.data, 'prediction.csv');
-
+                alert("Prediction is Ready and Downloaded");
             },
                 (error) => { console.log(error) });
     }
