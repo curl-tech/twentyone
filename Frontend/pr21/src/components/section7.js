@@ -51,7 +51,7 @@ class Section7 extends Component {
         axios.get('http://localhost:8000/getAllProjects?userID=101')
             .then((response) => {
                 console.log(response.data)
-                if(response.data!=="")
+                if(response.data.length!==0)
                 this.setState({projectList: response.data});
             });
 
