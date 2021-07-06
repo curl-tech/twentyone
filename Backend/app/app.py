@@ -100,7 +100,8 @@ def create_project(projectName:str=Form(...),mtype:str=Form(...),train: UploadFi
                 "listOfDataIDs":[],
                 "autoConfigFileLocation": None,
                 "plotsPath": "",
-                "projectType": mtype
+                "projectType": mtype,
+                "target":None
                 })
             # Project21Database.insert_one(settings.DB_COLLECTION_MODEL,{
             #     "modelID": inserted_modelID,
@@ -142,7 +143,7 @@ def start_auto_preprocessing_and_training(formData:FormData):
         Operation=automatic_model_training.auto(projectAutoConfigFileLocation)
     elif (problem_type=='clustering'):
         automatic_model_training=Autoclu()
-        Operation=automatic_model_training.auto()
+        Operation=automatic_model_training.auto(projectAutoConfigFileLocation)
 
         
     if Operation["Successful"]:
@@ -268,15 +269,16 @@ def get_all_project_details(userID:int):
         results=Project21Database.find(settings.DB_COLLECTION_PROJECT,{"belongsToUserID":userID})
         for result in results:
             result=serialiseDict(result)
-            projectTemplate={
-                "projectID": result["projectID"],
-                "projectName": result["projectName"],
-                "target": result["target"],
-                "modelType": result["projectType"],
-                "listOfDataIDs": result["listOfDataIDs"],
-                "isAuto": result["isAuto"]
-            }
-            listOfProjects.append(projectTemplate)
+            if result["target"] is not None:
+                projectTemplate={
+                    "projectID": result["projectID"],
+                    "projectName": result["projectName"],
+                    "target": result["target"],
+                    "modelType": result["projectType"],
+                    "listOfDataIDs": result["listOfDataIDs"],
+                    "isAuto": result["isAuto"]
+                }
+                listOfProjects.append(projectTemplate)
     except Exception as e:
         print("An Error Occured: ",e)
         print("Unable to get all projects")

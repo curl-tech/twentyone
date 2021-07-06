@@ -21,8 +21,9 @@ class Autoclu:
         config=yaml.load(open(config),Loader=SafeLoader)
         df = pd.read_csv(config["raw_data_address"])
         
-        clu = setup(data = df, normalize = True, target = config ,silent=True)
-        X_train = get_config('X_train')    
+        clu = setup(data = df, normalize = True ,silent=True)
+        # X_train = get_config()    
+        X_train=df
         X_train.to_csv(os.path.join(config["location"],'clean_data.csv'), index=False)
         clean_data_address = os.path.join(config["location"],"clean_data.csv")
 
@@ -72,7 +73,7 @@ class Autoclu:
         try:
             config2=yaml.load(open(config),Loader=SafeLoader)
             cleanDataPath=self.auto_setup(config)
-            model, resultLocation=self.models_create(config,config2["type"])
+            model, resultLocation=self.model_create(config,config2["clusteringType"])
             # self.model_plot(tunedmodel,config)
             pickleFolderPath, pickleFilePath=self.model_save(model,config)
 
