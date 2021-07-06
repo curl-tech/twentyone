@@ -213,6 +213,7 @@ class FormData(BaseModel):
     nulltype:Optional[str]
     projectID: Optional[int]
     userID: Optional[int]
+    clusteringType: Optional[str]
 
     class Config:
         arbitrary_types_allowed=True
@@ -224,7 +225,8 @@ class FormData(BaseModel):
                 "modelnumber":2,
                 "nulltype":"NA",
                 "projectID": 45,
-                "userID": 101
+                "userID": 101,
+                "clusteringType": "kmeans"
             }
         }
 

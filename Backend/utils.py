@@ -46,7 +46,8 @@ def generate_project_auto_config_file(projectID,currentIDs,formData,Project21Dat
     user_yaml["na_value"]=formData["nulltype"]
     user_yaml["n"]=formData["modelnumber"]
     user_yaml["problem_type"]=get_project_type(projectID,Project21Database)
-    
+    if(user_yaml["problem_type"]=='clustering'):
+        user_yaml["clusteringType"]=formData["clusteringType"]
     # try:
     #     result_model=Project21Database.find_one(settings.DB_COLLECTION_MODEL,{"modelID":currentIDs.get_current_model_id()})
     #     result_model=serialiseDict(result_model)
