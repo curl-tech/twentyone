@@ -24,6 +24,7 @@ from Backend.app.schemas import FormData, Inference, PreprocessJSONData
 from Backend.utils import generate_project_folder, generate_project_auto_config_file
 from Files.auto import Auto
 from Files.autoreg import AutoReg
+from Files.auto_clustering import Autoclu
 from Files.plot import plot
 from Files.inference import Inference
 
@@ -136,9 +137,13 @@ def start_auto_preprocessing_and_training(formData:FormData):
     if(problem_type=='regression'):
         automatic_model_training=AutoReg()
         Operation=automatic_model_training.auto(projectAutoConfigFileLocation)
-    else:
+    elif (problem_type=='classification'):
         automatic_model_training=Auto()
         Operation=automatic_model_training.auto(projectAutoConfigFileLocation)
+    elif (problem_type=='clustering'):
+        automatic_model_training=Autoclu()
+        Operation=automatic_model_training.auto()
+
         
     if Operation["Successful"]:
         try:
