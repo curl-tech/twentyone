@@ -1082,6 +1082,7 @@ background-image: url(./assets/img/bg19.png);
   display: flex;
   justify-content: center;
   padding: 2em;
+  overflow:scroll;
 }
 .metricstable 
 table {
@@ -1183,6 +1184,10 @@ table {
 }
 .modelDetails{
   display: none;
+}
+.metricsNote{
+  text-align: center;
+  color: red;
 }
 /* ************************************************************************************************************************ */
 

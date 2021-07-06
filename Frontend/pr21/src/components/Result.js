@@ -22,7 +22,7 @@ class Result extends Component {
             return (
                 <div>
                     <Section6 modelnum={this.props.modelnum} handler={this.props.handler}  projectname={this.props.projectname} isauto={this.props.isauto} />
-                    <Section5 currentmodel={this.props.currentmodel}  projectdetails={this.props.projectdetail} />
+                    <Section5 currentmodel={this.props.currentmodel}  projectdetails={this.props.projectdetail} mtype={this.props.mtype} />
                 </div>
             );
         }

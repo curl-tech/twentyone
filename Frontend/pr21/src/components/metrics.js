@@ -14,62 +14,88 @@ class Metrics extends React.Component {
                     </div>
                 </div>
             );
-        
+
         else {
             const data = Object.values(this.props.data);
-        
-            return (
-                <div>
-                    {data.map((data, i) => (
-                        i === 0 ?
+            if (this.props.mtype !== "clustering") {
+                return (
+                    <div>
+                        {data.map((data, i) => (
+                            i === 0 ?
 
-                            (<div className="metricstable">
+                                (<div className="metricstable">
 
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th>Model</th>
-                                            <th>{data.Model}</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>Model</th>
+                                                <th>{data.Model}</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
 
-                                        {Object.keys(data).map((key, i) => (
+                                            {Object.keys(data).map((key, i) => (
 
-                                            (i > 1) ? (
+                                                (i > 1) ? (
 
-                                                < tr >
-                                                    <td>{key}</td>
-                                                    <td>   {data[key]}</td>
-                                                </tr>
-                                            ) : null))}
+                                                    < tr >
+                                                        <td>{key}</td>
+                                                        <td>   {data[key]}</td>
+                                                    </tr>
+                                                ) : null))}
 
 
-                                    </tbody>
-                                    {/* <tbody>
-                                    <tr>
-                                        <td>Accuracy</td>
-                                        <td>{data.Accuracy}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Precision</td>
-                                        <td>{data.Prec}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Recall</td>
-                                        <td>{data.Recall}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>F1 Score</td>
-                                        <td>{data.F1}</td>
-                                    </tr>
-                                </tbody> */}
-                                </table>
-                            </div>) : null
-                    ))
-                    }
-                </div>
-            );
+                                        </tbody>
+
+                                    </table>
+                                </div>) : null
+                        ))
+                        }
+                    </div>
+                );
+            }
+            else {
+                return (
+                    <div>
+                        {data.map((data2, i) => (
+                            i === 0 ?
+
+                                (<div className="metricstable">
+
+                                    <table>
+                                        <thead>
+                                            < tr >
+                                                {Object.keys(data2).map((key, i) => (
+                                                    i>0?
+                                                    <th>{key}</th>:null
+                                                ))}
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            {data.map((key, i) => (
+
+                                                (i < 5) ? (
+
+                                                    < tr >
+                                                        {Object.keys(data2).map((key, i) => (
+                                                            i>0?
+                                                            <td>   {data2[key]}</td>:null
+                                                        ))}
+                                                    </tr>
+                                                ) : null))}
+
+
+                                        </tbody>
+
+                                    </table>
+                                </div>) : null
+                        ))
+                        }
+                        <h4 className="metricsNote">Note: Every row in dataset is alloted clusters and full list can be downloaded </h4>
+                    </div>
+                );
+            }
         }
     }
 }

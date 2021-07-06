@@ -361,7 +361,7 @@ class Home extends Component {
                                     <div>
                                         <div className="row">
                                             <div className="col-40">
-                                                <label htmlFor="clusteringType">Which type of data is it? <span className="ibtn">i <span id="idesc">You may leave blank or select Kmeans generally</span></span></label>
+                                                <label htmlFor="clusteringType">Which type of data is it? <span className="ibtn">i <span id="idesc">Kmeans is best in general</span></span></label>
                                             </div>
                                             <div className="col-60 ">
                                                 <select name="clusteringType" id="clusteringType" value={this.state.clusteringType} onChange={this.handleClusteringTypeChange}>
@@ -399,7 +399,7 @@ class Home extends Component {
                         </form>
                     </div>
                     {/* loader */}
-                    <Result modelnum={this.state.modelnum} currentmodel={this.state.currentmodel} projectdetail={this.state.modeldetail} handler={this.handleCurrentModel} projectname={this.state.projectname} isauto={this.state.isauto} />
+                    <Result modelnum={this.state.modelnum} currentmodel={this.state.currentmodel} projectdetail={this.state.modeldetail} handler={this.handleCurrentModel} projectname={this.state.projectname} isauto={this.state.isauto} mtype={this.state.mtype}/>
                     {/* ************************************************************************************************************************ */}
 
                     {/* form 4 for manual preprocessing */}

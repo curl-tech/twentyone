@@ -67,6 +67,7 @@ class Section5 extends Component {
         this.setState({ data: "a" });
         const projectid = this.props.projectdetails["projectID"];
         const modelid = this.props.projectdetails["modelID"];
+        const FileDownload = require('js-file-download');
         axios.get('http://localhost:8000/getMetrics/' + projectid + "/" + modelid)
             .then((response) => {
                 console.log(response)
@@ -75,6 +76,11 @@ class Section5 extends Component {
                     complete: this.updateData,
                     header: true
                 });
+                if (this.props.projectdetails.modelType === "clustering")
+                {
+                    FileDownload(response.data, 'metrics.csv');
+                    alert("File is big so it is downloaded");
+                }// this.setState({data: response.data});
                 // FileDownload(response.data, 'metrics.csv');
                 // this.setState({data: response.data});
                 // console.log(this.state.data);
@@ -175,7 +181,8 @@ class Section5 extends Component {
                     {/* <!-- Nav tabs --> */}
                     <ul className="nav nav-tabs" id="myTab" role="tablist">
                         <li className="nav-item" role="presentation">
-                            <button className="nav-link tabbtn active" id="Metrics-tab" data-bs-toggle="tab" data-bs-target="#metrics" type="button" role="tab" aria-controls="metrics" aria-selected="true">Metrics</button>
+                            <button className="nav-link tabbtn active" id="Metrics-tab" data-bs-toggle="tab" data-bs-target="#metrics" type="button" role="tab" aria-controls="metrics" aria-selected="true">
+                            {this.props.projectdetails.modelType==="clustering"?"Alloted Clusters":"Metrics"}</button>
                         </li>
                         <li className="nav-item" role="presentation">
                             <button className="nav-link tabbtn " id="plot-tab" onClick={this.handlePlot} data-bs-toggle="tab" data-bs-target="#plot" type="button" role="tab" aria-controls="Plot" aria-selected="false">Plots</button>
@@ -196,7 +203,7 @@ class Section5 extends Component {
                                 placeholder="enter data in csv" required />
                             <button onClick={this.importCSV} className="sec5btn">Import</button> */}
                             <button onClick={this.handlemetric} className="sec5btn" id="show">Show</button>
-                            <Metrics data={this.state.data} />
+                            <Metrics data={this.state.data} mtype={this.props.mtype}/>
                         </div>
 
 
