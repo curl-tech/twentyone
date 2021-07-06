@@ -111,6 +111,13 @@ class ManualModel extends Component {
 
             );
         }
+        else {
+            return(
+            <div>
+                <h1>Clustering manual models</h1>
+            </div>
+            );
+        }
 
 
     }

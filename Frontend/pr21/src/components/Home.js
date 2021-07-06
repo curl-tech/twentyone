@@ -27,6 +27,7 @@ class Home extends Component {
             nulltype: 'NA',
             currentmodel: 1,
             traindata: "{0:0}",
+            clusteringType: "kmeans",
             modeldetail: {
                 "Successful": "False",
                 "dataID": 0,
@@ -107,7 +108,7 @@ class Home extends Component {
             },
                 (error) => { console.log(error) });
     }
-    handleAuto() {
+    handleAuto = event => {
         this.setState({
             auto: true
         })
@@ -133,6 +134,11 @@ class Home extends Component {
     handleModelNumChange = event => {
         this.setState({
             modelnum: event.target.value
+        })
+    }
+    handleClusteringTypeChange =event=>{
+        this.setState({
+            clusteringType: event.target.value
         })
     }
     handleNullTypeChange = event => {
@@ -165,7 +171,8 @@ class Home extends Component {
         let target = this.state.target
         let modelnumber = this.state.modelnum
         let nulltype = this.state.nulltype
-        let data = { userID, projectID, isauto, target, modelnumber, nulltype }
+        let clusteringType=this.state.clusteringType
+        let data = { userID, projectID, isauto, target, modelnumber, nulltype,clusteringType }
         // console.log(JSON.stringify(data))
 
         axios.post('http://localhost:8000/auto', JSON.stringify(data))
@@ -282,6 +289,7 @@ class Home extends Component {
                                         <select name="mtype" id="modeltype" value={this.state.mtype} onChange={this.handleMtypeChange}>
                                             <option value="classification">Classification</option>
                                             <option value="regression">Regression</option>
+                                            <option value="clustering">Clustering</option>
                                         </select>
 
                                     </div>
@@ -334,21 +342,38 @@ class Home extends Component {
                         <form onSubmit={this.handleSubmit2}>
                             <div className="createform">
 
+                                {this.state.mtype !== "clustering" ?
+                                    <div className="row">
+                                        <div className="col-40">
 
-                                <div className="row">
-                                    <div className="col-40">
+                                            <label htmlFor="target">Target Variable  <span className="ibtn">i <span id="idesc">Select column which you want model to predict</span></span></label>
+                                        </div>
+                                        <div className="col-60">
+                                            <select name="target" id="target" onChange={this.handleTargetChange}>
+                                                {Object.keys(this.state.traindata[0]).map((key, i) =>
+                                                    <option key={i} value={key} >{key}</option>
+                                                )}
+                                            </select>
+                                            {/* <input type="text" id="target" name="target" onChange={this.handleTargetChange} placeholder="Enter target variable" required /> */}
+                                        </div>
+                                    </div>
+                                    :
+                                    <div>
+                                        <div className="row">
+                                            <div className="col-40">
+                                                <label htmlFor="clusteringType">Which type of data is it? <span className="ibtn">i <span id="idesc">You may leave blank or select Kmeans generally</span></span></label>
+                                            </div>
+                                            <div className="col-60 ">
+                                                <select name="clusteringType" id="clusteringType" value={this.state.clusteringType} onChange={this.handleClusteringTypeChange}>
+                                                    <option value="kmeans">K-Means</option>
+                                                    <option value="kmodes">K-Modes</option>
+                                                    <option value="dbscan">DBSCAN</option>
+                                                </select>
 
-                                        <label htmlFor="target">Target Variable  <span className="ibtn">i <span id="idesc">Select column which you want model to predict</span></span></label>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div className="col-60">
-                                        <select name="target" id="target" onChange={this.handleTargetChange}>
-                                            {Object.keys(this.state.traindata[0]).map((key, i) =>
-                                                <option key={i} value={key} >{key}</option>
-                                            )}
-                                        </select>
-                                        {/* <input type="text" id="target" name="target" onChange={this.handleTargetChange} placeholder="Enter target variable" required /> */}
-                                    </div>
-                                </div>
+                                }
 
                                 {/* <div className="row">
                                     <div className="col-40">
@@ -395,7 +420,7 @@ class Home extends Component {
                     </div>
                     {/* form 5 for model and hypeparameters selection*/}
                     <div className="container" id="form5">
-                    <div className="goback">
+                        <div className="goback">
                             <button className="backbtn" onClick={this.handleGoForm2}  >&lArr; Go Back </button>
                         </div>
                         <div className="Modelselection">
