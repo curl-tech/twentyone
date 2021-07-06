@@ -99,7 +99,7 @@ def create_project(projectName:str=Form(...),mtype:str=Form(...),train: UploadFi
                 "belongsToUserID": currentIDs.get_current_user_id(),
                 "listOfDataIDs":[],
                 "autoConfigFileLocation": None,
-                "plotsPath": "",
+                "plotsPath": None,
                 "projectType": mtype,
                 "target":None
                 })
@@ -144,7 +144,6 @@ def start_auto_preprocessing_and_training(formData:FormData):
     elif (problem_type=='clustering'):
         automatic_model_training=Autoclu()
         Operation=automatic_model_training.auto(projectAutoConfigFileLocation)
-
         
     if Operation["Successful"]:
         try:
@@ -172,33 +171,35 @@ def start_auto_preprocessing_and_training(formData:FormData):
                 "belongsToModelID": dataID,
                 "addressOfMetricsFile": Operation["metricsLocation"]
             })
-            try:
-                result=Project21Database.find_one(settings.DB_COLLECTION_PROJECT,{"projectID":formData["projectID"]})
-                result=serialiseDict(result)
-                if result is not None:
-                    if result["listOfDataIDs"] is not None:
-                        newListOfDataIDs=result["listOfDataIDs"]
-                        newListOfDataIDs.append(dataID)
-                        Project21Database.update_one(settings.DB_COLLECTION_PROJECT,{"projectID":result["projectID"]},{
-                            "$set":{
-                                "listOfDataIDs":newListOfDataIDs,
-                                "autoConfigFileLocation": projectAutoConfigFileLocation,
-                                "isAuto": formData["isauto"],
-                                "target": formData["target"]
-                                }
-                            })
-                    else:
-                        Project21Database.update_one(settings.DB_COLLECTION_PROJECT,{"projectID":result["projectID"]},{
-                            "$set":{
-                                "listOfDataIDs":[dataID],
-                                "autoConfigFileLocation": projectAutoConfigFileLocation,
-                                "isAuto": formData["isauto"],
-                                "target": formData["target"]
-                                }
-                            })
-            except Exception as e:
-                print("An Error occured: ",e)
-                return JSONResponse({"Auto": "Success", "Database Insertion":"Success", "Project Collection Updation": "Unsuccessful"})
+            result=Project21Database.find_one(settings.DB_COLLECTION_PROJECT,{"projectID":formData["projectID"]})
+            result=serialiseDict(result)
+            if result is not None:
+                if result["listOfDataIDs"] is not None:
+                    newListOfDataIDs=result["listOfDataIDs"]
+                    newListOfDataIDs.append(dataID)
+                    Project21Database.update_one(settings.DB_COLLECTION_PROJECT,{"projectID":result["projectID"]},{
+                        "$set":{
+                            "listOfDataIDs":newListOfDataIDs,
+                            "autoConfigFileLocation": projectAutoConfigFileLocation,
+                            "isAuto": formData["isauto"],
+                            "target": formData["target"]
+                            }
+                        })
+                else:
+                    Project21Database.update_one(settings.DB_COLLECTION_PROJECT,{"projectID":result["projectID"]},{
+                        "$set":{
+                            "listOfDataIDs":[dataID],
+                            "autoConfigFileLocation": projectAutoConfigFileLocation,
+                            "isAuto": formData["isauto"],
+                            "target": formData["target"]
+                            }
+                        })
+                if (problem_type=='clustering'):
+                    Project21Database.update_one(settings.DB_COLLECTION_PROJECT,{"projectID":result["projectID"]},{
+                        "$set":{
+                            "clusterPlotLocation":Operation["clusterPlotLocation"]
+                        }
+                    })
         except Exception as e:
             print("An Error occured: ",e)
             return JSONResponse({"Auto": "Success", "Database Insertion":"Failure", "Project Collection Updation": "Unsuccessful"})
@@ -246,16 +247,21 @@ def get_plots(projectID:int):       #check if it already exists - change locatio
         result=Project21Database.find_one(settings.DB_COLLECTION_PROJECT,{"projectID":projectID})
         if result is not None:
             result=serialiseDict(result)
+            if (result["projectType"]=='clustering'):
+                return FileResponse(result["clusterPlotLocation"],media_type="text/html",filename="plot.html")
             if result["autoConfigFileLocation"] is not None:
-                plotFilePath=plot(result["autoConfigFileLocation"]) #plot function requires the auto config file
-                try:
-                    Project21Database.update_one(settings.DB_COLLECTION_PROJECT,{"projectID":projectID},{
-                        "$set": {
-                            "plotsPath": plotFilePath
-                        }
-                    })
-                except Exception as e:
-                    print("An Error occured while storing the plot path into the project collection")
+                if result["projectType"]=='clustering':
+                    print("projecttype")
+                else:
+                    plotFilePath=plot(result["autoConfigFileLocation"]) #plot function requires the auto config file
+                    try:
+                        Project21Database.update_one(settings.DB_COLLECTION_PROJECT,{"projectID":projectID},{
+                            "$set": {
+                                "plotsPath": plotFilePath
+                            }
+                        })
+                    except Exception as e:
+                        print("An Error occured while storing the plot path into the project collection")
                 return FileResponse(plotFilePath,media_type='text/html',filename='plot.html')
     except Exception as e:
         print("An Error Occured: ",e)

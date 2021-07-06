@@ -67,7 +67,7 @@ class Autoclu:
     
     def model_plot(self,model,location):
         shutil.move(plot_model(model,save=True),location)
-        return location
+        return os.path.join(location,'Cluster PCA Plot (2d).html')
 
     def auto(self,config):
         try:
@@ -76,11 +76,8 @@ class Autoclu:
             model, resultLocation=self.model_create(config,config2["clusteringType"])
             # self.model_plot(tunedmodel,config)
             pickleFolderPath, pickleFilePath=self.model_save(model,config)
-
-            plotFolderPath=self.model_plot(model,pickleFolderPath)
-            return {"Successful": True, "cleanDataPath": cleanDataPath, "resultPath":resultLocation, "pickleFolderPath":pickleFolderPath, "pickleFilePath":pickleFilePath}
-
-            
+            clusterPlotLocation=self.model_plot(model,os.path.join(pickleFolderPath,os.pardir))
+            return {"Successful": True, "cleanDataPath": cleanDataPath, "metricsLocation":resultLocation, "clusterPlotLocation":clusterPlotLocation, "pickleFolderPath":pickleFolderPath, "pickleFilePath":pickleFilePath}
         except Exception as e:
             print("An Error Occured: ",e)
             return {"Successful": False, "Error": e}
