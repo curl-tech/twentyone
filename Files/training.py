@@ -16,25 +16,25 @@ class training:
     def train(userinputconfig,dataconfig,preprocessconfig):
 
         with open(preprocessconfig) as f:
-            preprocessconfig= yaml.load(f,Loader=FullLoader) #for split ratio
+            preprocessconfigfile= yaml.load(f,Loader=FullLoader) #for split ratio
         
 
         with open(dataconfig) as f:
-            dataconfig= yaml.load(f,Loader=FullLoader) #has info about where the data is stored and where the model must be stored
+            dataconfigfile= yaml.load(f,Loader=FullLoader) #has info about where the data is stored and where the model must be stored
 
         with open(userinputconfig) as file:
-            userinputconfig=yaml.load(file,Loader=FullLoader) #modified version of model universe for each run
+            userinputconfigfile=yaml.load(file,Loader=FullLoader) #modified version of model universe for each run
         models=[]
         ans=[]
 
-        test_ratio=preprocessconfig["split_ratio_test"] / 100 #input given the the user usually 30 by default
+        test_ratio=preprocessconfigfile["split_ratio_test"] #input given the the user usually 30 by default
         
-        xdata=dataconfig["Xdata"] #the location of the x data
+        xdata=dataconfigfile["Xdata"] #the location of the x data
 
-        ydata=dataconfig["Ydata"] #the location of the y data
+        ydata=dataconfigfile["Ydata"] #the location of the y data
         
         #creates a pandas dataframe to store the metrics of the created model
-        for model in userinputconfig:
+        for model in userinputconfigfile:
             if model["isSelected"]:
                 if model["type"]=='Classification':
                     metrics=pd.DataFrame(columns = ['modelname','accuracy_score','recall_score','precision_score','f1_score','cohen_kappa_score','matthews_corrcoef'])

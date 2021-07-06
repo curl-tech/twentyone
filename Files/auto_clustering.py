@@ -7,7 +7,7 @@ import yaml
 from yaml.loader import SafeLoader
 
 class Autoclu:
-    def auto_setup(self,config,ignorelist):   
+    def auto_setup(self,config):   
         """
         This function is for preprocessing the data when the user selects auto.
     
@@ -21,7 +21,7 @@ class Autoclu:
         config=yaml.load(open(config),Loader=SafeLoader)
         df = pd.read_csv(config["raw_data_address"])
         
-        clu = setup(data = df, normalize = True, target = config ,silent=True,ignore_features=ignorelist)
+        clu = setup(data = df, normalize = True, target = config ,silent=True)
         X_train = get_config('X_train')    
         X_train.to_csv(os.path.join(config["location"],'clean_data.csv'), index=False)
         clean_data_address = os.path.join(config["location"],"clean_data.csv")
@@ -77,11 +77,11 @@ class Autoclu:
         try:
             config2=yaml.load(open(config),Loader=SafeLoader)
             cleanDataPath=self.auto_setup(config)
-            model, resultLocation=self.models_create(config,type)
+            model, resultLocation=self.models_create(config,config2["type"])
             # self.model_plot(tunedmodel,config)
             pickleFolderPath, pickleFilePath=self.model_save(model,config)
             pickleFolderPath=self.model_plot(model,pickleFolderPath)
-            return {"Successful": True, "cleanDataPath": cleanDataPath, "metricsLocation":metricsLocation, "pickleFolderPath":pickleFolderPath, "pickleFilePath":pickleFilePath}
+            return {"Successful": True, "cleanDataPath": cleanDataPath, "resultPath":resultLocation, "pickleFolderPath":pickleFolderPath, "pickleFilePath":pickleFilePath,}
         except Exception as e:
             print("An Error Occured: ",e)
             return {"Successful": False, "Error": e}
