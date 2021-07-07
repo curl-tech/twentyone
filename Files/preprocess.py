@@ -4,10 +4,6 @@ import pandas as pd
 # Handling missing data using-
 from sklearn.impute import SimpleImputer
 from sklearn.impute import KNNImputer
-
-# Scaling and Teansforming using- 
-from sklearn.preprocessing import MinMaxScaler
-from sklearn.preprocessing import StandardScaler
  
 # Handling non-numeric data using-
 from sklearn.preprocessing import LabelEncoder
@@ -91,10 +87,16 @@ class Preprocess:
                 df_value = df[[column]].values
 
                 if type == "normalization":
-                    scaler = MinMaxScaler()
-            
+                    df_std = (df_value - df_value.min(axis=0)) / (df_value.max(axis=0) - df_value.min(axis=0))
+                    scaled_value = df_std * (1 - 0)
+                    
                 elif type == 'standarization':
-                    scaler = StandardScaler()
+                    df_std = (df_value - df_value.min(axis=0)) / (df_value.max(axis=0) - df_value.min(axis=0))
+                    scaled_value = (df_value - df.value.mean()) / df_std 
+                    # where u is the mean of the training samples or zero if with_mean=False, and s is the standard deviation of the training samples or one if with_std=False.
+
+
+                    
                         
                 scaled_value =scaler.fit_transform(df_value)
                 df[[column]] = scaled_value
@@ -164,9 +166,9 @@ class Preprocess:
             if df[col_name].dtype == 'object':
                 df=df.drop(col_name, axis = 1)
 
-        with open("preprocess_config.yaml", 'w') as yaml_file:
-            yaml_file.write( yaml.dump(config_data, default_flow_style=False))
 
         clean_data_address = os.getcwd()+"/clean_data.csv"
-        return clean_data_address
+        config_data['clean_data_address'] = clean_data_address
     
+        with open("preprocess_config.yaml", 'w') as yaml_file:
+            yaml_file.write( yaml.dump(config_data, default_flow_style=False))

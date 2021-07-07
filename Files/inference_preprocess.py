@@ -57,9 +57,15 @@ class Preprocess:
                     df_value = df[[column]].values
                     imputer = KNNImputer(n_neighbors = 4, weights = "uniform",missing_values = config_data["na_notation"])
                     df[[column]] = imputer.fit_transform(df_value)
-        else:
-            df.replace(to_replace =[config_data["na_notation"]],value =0)
+        
+        elif config_data['imputation_column_name'][0] == None:
+            for col_name in df.columns:
+                if df[col_name].dtype == 'object':
+                    df.replace(to_replace =[config_data["na_notation"]],value ="No data")
+                else:
+                    df.replace(to_replace =[config_data["na_notation"]],value =0)
             
+        
 
         #feature scaling
         if config_data['scaling_column_name'][0] != None:
