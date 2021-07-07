@@ -20,8 +20,8 @@ from Backend.app.helpers.project_helper import create_project_id
 from Backend.app.helpers.data_helper import get_clean_data_path
 from Backend.app.helpers.metrics_helper import get_metrics
 from Backend.app.helpers.model_helper import create_model_id, get_pickle_file_path
-from Backend.app.schemas import FormData, Inference, PreprocessJSONData
-from Backend.utils import generate_project_folder, generate_project_auto_config_file
+from Backend.app.schemas import FormData, Inference, PreprocessJSONFormData
+from Backend.utils import generate_project_folder, generate_project_auto_config_file, generate_project_manual_config_file
 from Files.auto import Auto
 from Files.autoreg import AutoReg
 from Files.auto_clustering import Autoclu
@@ -347,8 +347,83 @@ def get_preprocessing_parameters():
     return JSONResponse(yaml_json)
 
 @app.post('/getHyperparams',tags=["Manual Mode"])
-def get_hyper_parameters(preprocessJSONData:PreprocessJSONData):
-    return preprocessJSONData
+def get_hyper_parameters(preprocessJSONFormData:PreprocessJSONFormData):
+    preprocessJSONFormData=dict(preprocessJSONFormData)
+    projectManualConfigFileLocation, dataID, problem_type = generate_project_manual_config_file(preprocessJSONFormData["projectID"],preprocessJSONFormData,Project21Database)
+    # TODO: Call function manual preprocess generate the clean data and save it in DB
+    # if(problem_type=='regression'):
+    #     automatic_model_training=AutoReg()
+    #     Operation=automatic_model_training.auto(projectAutoConfigFileLocation)
+    # elif (problem_type=='classification'):
+    #     automatic_model_training=Auto()
+    #     Operation=automatic_model_training.auto(projectAutoConfigFileLocation)
+    # elif (problem_type=='clustering'):
+    #     automatic_model_training=Autoclu()
+    #     Operation=automatic_model_training.auto(projectAutoConfigFileLocation)
+    
+    # if Operation["Successful"]:
+    #     try:
+    #         Project21Database.insert_one(settings.DB_COLLECTION_DATA,{
+    #             "dataID": dataID,
+    #             "cleanDataPath": Operation["cleanDataPath"],
+    #             "target": formData["target"],
+    #             "belongsToUserID": currentIDs.get_current_user_id(),
+    #             "belongsToProjectID": formData["projectID"]
+    #         })
+    #         currentIDs.set_current_data_id(dataID)
+    #         Project21Database.insert_one(settings.DB_COLLECTION_MODEL,{
+    #             "modelID": dataID,
+    #             "modelName": "Default Name",
+    #             "modelType": problem_type,
+    #             "pickleFolderPath": Operation["pickleFolderPath"],
+    #             "pickleFilePath": Operation["pickleFilePath"],
+    #             "belongsToUserID": formData["userID"],
+    #             "belongsToProjectID": formData["projectID"],
+    #             "belongsToDataID": dataID
+    #         })
+    #         Project21Database.insert_one(settings.DB_COLLECTION_METRICS,{
+    #             "belongsToUserID": formData["userID"],
+    #             "belongsToProjectID": formData["projectID"],
+    #             "belongsToModelID": dataID,
+    #             "addressOfMetricsFile": Operation["metricsLocation"]
+    #         })
+    #         result=Project21Database.find_one(settings.DB_COLLECTION_PROJECT,{"projectID":formData["projectID"]})
+    #         result=serialiseDict(result)
+    #         if result is not None:
+    #             if result["listOfDataIDs"] is not None:
+    #                 newListOfDataIDs=result["listOfDataIDs"]
+    #                 newListOfDataIDs.append(dataID)
+    #                 Project21Database.update_one(settings.DB_COLLECTION_PROJECT,{"projectID":result["projectID"]},{
+    #                     "$set":{
+    #                         "listOfDataIDs":newListOfDataIDs,
+    #                         "autoConfigFileLocation": projectAutoConfigFileLocation,
+    #                         "isAuto": formData["isauto"],
+    #                         "target": formData["target"]
+    #                         }
+    #                     })
+    #             else:
+    #                 Project21Database.update_one(settings.DB_COLLECTION_PROJECT,{"projectID":result["projectID"]},{
+    #                     "$set":{
+    #                         "listOfDataIDs":[dataID],
+    #                         "autoConfigFileLocation": projectAutoConfigFileLocation,
+    #                         "isAuto": formData["isauto"],
+    #                         "target": formData["target"]
+    #                         }
+    #                     })
+    #             if (problem_type=='clustering'):
+    #                 Project21Database.update_one(settings.DB_COLLECTION_PROJECT,{"projectID":result["projectID"]},{
+    #                     "$set":{
+    #                         "clusterPlotLocation":Operation["clusterPlotLocation"]
+    #                     }
+    #                 })
+    #     except Exception as e:
+    #         print("An Error occured: ",e)
+    #         return JSONResponse({"Auto": "Success", "Database Insertion":"Failure", "Project Collection Updation": "Unsuccessful"})
+    #     return JSONResponse({"Successful":"True", "userID": currentIDs.get_current_user_id(), "projectID": preprocessJSONFormData["projectID"], "dataID":dataID, "modelID": dataID})
+    # else:
+    #     return JSONResponse({"Successful":"False"})
+    yaml_json=yaml.load(open(settings.CONFIG_MODEL_YAML_FILE),Loader=SafeLoader)
+    return yaml_json
 
 @app.post('/manual',tags=["Manual Mode"])
 def start_manual_training():

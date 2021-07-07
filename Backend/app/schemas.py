@@ -230,7 +230,7 @@ class FormData(BaseModel):
             }
         }
 
-class PreprocessJSONData(BaseModel):
+class PreprocessJSONFormData(BaseModel):
     raw_data_address: Optional[str]
     target_column_name: Optional[str]
     drop_column_name: Optional[List[str]]
@@ -252,6 +252,8 @@ class PreprocessJSONData(BaseModel):
     data_imbalance: Optional[bool]
     split_ratio_test: Optional[int]
     is_auto: Optional[bool]
+    userID: Optional[int]
+    projectID: Optional[int]
 
     class Config:
         arbitrary_types_allowed=True
@@ -319,6 +321,8 @@ class PreprocessJSONData(BaseModel):
                 "feature_selection": True,
                 "data_imbalance": False,
                 "split_ratio_test": 0.3,
-                "is_auto": True
+                "is_auto": True,
+                "userID": 101,
+                "projectID":45
                 }
         }

@@ -76,3 +76,26 @@ def generate_project_auto_config_file(projectID,currentIDs,formData,Project21Dat
         f.close()
     
     return os.path.join(user_yaml["location"],'autoConfig.yaml'), random_id , user_yaml["problem_type"]
+
+
+
+def generate_project_manual_config_file(projectID,preprocessJSONFormData,Project21Database):
+    """
+    
+    """
+    location="/"
+    random_id=generate_random_id()
+    try:
+        result_project=Project21Database.find_one(settings.DB_COLLECTION_PROJECT,{"projectID":projectID})
+        result_project=serialiseDict(result_project)
+        if result_project is not None:
+            location=os.path.join(result_project["projectFolderPath"],'run'+str(random_id))
+    except:
+        print("Unable to Update User's Project's Config File")
+    if(not os.path.exists(location)):
+        os.makedirs(location)
+    with open(os.path.join(location,"preprocess_config.yaml"), "w") as f:
+        yaml.dump(preprocessJSONFormData,f)
+        f.close()
+    
+    return os.path.join(location,'preprocess_config.yaml'), random_id , result_project["projectType"]
