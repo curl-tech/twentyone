@@ -89,16 +89,14 @@ class Preprocess:
                 if type == "normalization":
                     df_std = (df_value - df_value.min(axis=0)) / (df_value.max(axis=0) - df_value.min(axis=0))
                     scaled_value = df_std * (1 - 0)
+                    config_data['scaling_type'][index] = {config_data['scaling_type'][index]:{"min":df_value.min(axis=0),"max":df_value.max(axis=0)}}
+                    
                     
                 elif type == 'standarization':
                     df_std = (df_value - df_value.min(axis=0)) / (df_value.max(axis=0) - df_value.min(axis=0))
                     scaled_value = (df_value - df.value.mean()) / df_std 
-                    # where u is the mean of the training samples or zero if with_mean=False, and s is the standard deviation of the training samples or one if with_std=False.
-
-
+                    config_data['scaling_type'][index] = {config_data['scaling_type'][index]:{"std":df_std,"mean":df.value.mean()}}
                     
-                        
-                scaled_value =scaler.fit_transform(df_value)
                 df[[column]] = scaled_value
                 
                 
