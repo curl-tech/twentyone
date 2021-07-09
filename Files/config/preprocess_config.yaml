@@ -8,7 +8,6 @@ target_column_name: ""
 drop_column_name: 
 - ""
 
-
 # For filling null values present in the dataset.(Imputation)
 imputation_column_name: 
 - ""
