@@ -11,8 +11,7 @@ from sklearn.preprocessing import OneHotEncoder
 
 from pycaret.classification import *
 from pycaret.regression import *
-# from pycaret.clustering import *
-# from pycaret.nlp import *
+
 import os
 import yaml
 from scipy import stats
@@ -89,13 +88,14 @@ class Preprocess:
                 if type == "normalization":
                     df_std = (df_value - df_value.min(axis=0)) / (df_value.max(axis=0) - df_value.min(axis=0))
                     scaled_value = df_std * (1 - 0)
-                    config_data['scaling_type'][index] = {config_data['scaling_type'][index]:{"min":df_value.min(axis=0),"max":df_value.max(axis=0)}}
+                    config_data['scaling_values'][index]={"min":df_value.min(axis=0),"max":df_value.max(axis=0)}
+
                     
                     
                 elif type == 'standarization':
                     df_std = (df_value - df_value.min(axis=0)) / (df_value.max(axis=0) - df_value.min(axis=0))
                     scaled_value = (df_value - df.value.mean()) / df_std 
-                    config_data['scaling_type'][index] = {config_data['scaling_type'][index]:{"std":df_std,"mean":df.value.mean()}}
+                    config_data['scaling_values'][index]={"std":df_std,"mean":df.value.mean()}
                     
                 df[[column]] = scaled_value
                 
@@ -114,9 +114,6 @@ class Preprocess:
 
                     label_encoding_list = dict(zip(encoder.classes_, range(len(encoder.classes_))))
                     config_data['labels']= [label_encoding_list]
-
-
-   
 
                 elif type == "One-Hot Encoding":
                     encoder = OneHotEncoder(drop = 'first', sparse=False)
