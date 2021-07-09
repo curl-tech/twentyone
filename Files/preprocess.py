@@ -111,13 +111,10 @@ class Preprocess:
                 if type == "Label Encodeing":
                     encoder = LabelEncoder()
                     df[column] = encoder.fit_transform(df[column])
-                    label_encoded_elements_list = encoder.classes_
-                    ladels_used_list = []
-                    i = 0
-                    for i in range (len(label_encoded_elements_list)):
-                        ladels_used_list.extend([i])
-                    label_encoding_list = dict(zip(label_encoded_elements_list, ladels_used_list))
-                    config_data['labels'].extend([label_encoding_list])
+
+                    label_encoding_list = dict(zip(encoder.classes_, range(len(encoder.classes_))))
+                    config_data['labels']= [label_encoding_list]
+
 
    
 
