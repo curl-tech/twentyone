@@ -64,7 +64,6 @@ class Preprocess extends React.Component {
                 }
             }
         })
-        console.log(this.state.preprocessForm)
     }
 
     render() {
