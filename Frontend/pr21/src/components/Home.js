@@ -38,7 +38,8 @@ class Home extends Component {
             projectdetail: {
                 "projectID": 0,
                 "userID": 0
-            }
+            },
+            preprocessForm:""
         }
         this.updateData = this.updateData.bind(this);
     }
@@ -125,6 +126,14 @@ class Home extends Component {
         $(theFormItself).hide();
         var theFormItself2 = document.getElementById('form4');
         $(theFormItself2).show();
+
+        axios.get('http://localhost:8000/getPreprocessParam')
+            .then((response) => {
+                console.log(response);
+                this.setState({
+                    preprocessForm: response
+                })
+            });
     }
     handleTargetChange = event => {
         this.setState({
@@ -136,7 +145,7 @@ class Home extends Component {
             modelnum: event.target.value
         })
     }
-    handleClusteringTypeChange =event=>{
+    handleClusteringTypeChange = event => {
         this.setState({
             clusteringType: event.target.value
         })
@@ -171,8 +180,8 @@ class Home extends Component {
         let target = this.state.target
         let modelnumber = this.state.modelnum
         let nulltype = this.state.nulltype
-        let clusteringType=this.state.clusteringType
-        let data = { userID, projectID, isauto, target, modelnumber, nulltype,clusteringType }
+        let clusteringType = this.state.clusteringType
+        let data = { userID, projectID, isauto, target, modelnumber, nulltype, clusteringType }
         // console.log(JSON.stringify(data))
 
         axios.post('http://localhost:8000/auto', JSON.stringify(data))
@@ -399,7 +408,7 @@ class Home extends Component {
                         </form>
                     </div>
                     {/* loader */}
-                    <Result modelnum={this.state.modelnum} currentmodel={this.state.currentmodel} projectdetail={this.state.modeldetail} handler={this.handleCurrentModel} projectname={this.state.projectname} isauto={this.state.isauto} mtype={this.state.mtype}/>
+                    <Result modelnum={this.state.modelnum} currentmodel={this.state.currentmodel} projectdetail={this.state.modeldetail} handler={this.handleCurrentModel} projectname={this.state.projectname} isauto={this.state.isauto} mtype={this.state.mtype} />
                     {/* ************************************************************************************************************************ */}
 
                     {/* form 4 for manual preprocessing */}
@@ -415,7 +424,7 @@ class Home extends Component {
                             </div>
                             <h1>Preprocess</h1>
                             <p>Go to each column and decide how would you like to preprocess it</p>
-                            <Preprocess rawdata={this.state.traindata} />
+                            <Preprocess rawdata={this.state.traindata} proprocessForm={this.state.preprocessForm}/>
                         </div>
                     </div>
                     {/* form 5 for model and hypeparameters selection*/}

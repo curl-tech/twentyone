@@ -6,23 +6,70 @@ import $ from 'jquery';
 
 
 class Preprocess extends React.Component {
+    constructor(props) {
+        super(props);
 
-    
+        this.state = {
+            preprocessForm: props.preprocessForm
+        };
+    }
+
     handlePreProcess = event => {
         event.preventDefault();
         var theFormItself = document.getElementById('form4');
         $(theFormItself).hide();
         var theFormItself2 = document.getElementById('form5');
         $(theFormItself2).show();
-        
-
-        // axios.post('http://localhost:8000/manualpreprocess', JSON.stringify(data))
-        //     .then(res => { console.log("Successful", res) },
-        //         (error) => { console.log(error) });
     }
+    handleTargetChange= event =>{
+        this.setState(prevState=>{
+            return{
+                ...prevState,
+                preprocessForm:{
+                    ...prevState,
+                    "target_column_name": event.target.value
+                }
+            }
+        })
+    }
+    handleOutlierChange= event =>{
+        this.setState(prevState=>{
+            return{
+                ...prevState,
+                preprocessForm:{
+                    ...prevState,
+                    "data_imbalance": Boolean(event.target.value)
+                }
+            }
+        })
+    }
+    handleImbalanceChange= event =>{
+        this.setState(prevState=>{
+            return{
+                ...prevState,
+                preprocessForm:{
+                    ...prevState,
+                    "Remove_outlier": Boolean(event.target.value)
+                }
+            }
+        })
+    }
+    handleFeatureChange= event =>{
+        this.setState(prevState=>{
+            return{
+                ...prevState,
+                preprocessForm:{
+                    ...prevState,
+                    "feature_selection": Boolean(event.target.value)
+                }
+            }
+        })
+        console.log(this.state.preprocessForm)
+    }
+
     render() {
         const rawdata = Object.values(this.props.rawdata);
-        // console.log(this.props.rawdata)
+        console.log(this.state.preprocessForm)
         return (
             <div>
                 {rawdata.map((data, i) => (
@@ -32,7 +79,7 @@ class Preprocess extends React.Component {
                                 <thead>
                                     <tr>
                                         {Object.keys(data).map((key, i) =>
-                                            <th  className="dropdown ">
+                                            <th className="dropdown ">
                                                 {key}<span className="fa fa-caret-down"></span>
                                                 <div className="dropdown-content">
                                                     <div className="prepro">
@@ -51,7 +98,7 @@ class Preprocess extends React.Component {
                                                                 <input type="radio" id={i + "encode"} name={i + "encode"} />
                                                                 <label htmlFor={i + "encode"}>Label Encoding</label>
                                                             </div>
-                                                           
+
                                                         </div>
                                                     </div>
                                                     <div className="prepro">
@@ -121,9 +168,9 @@ class Preprocess extends React.Component {
                     </div>
                     <div className="col-60">
 
-                        <select name="target" id="target" onChange={this.handletargetChange}>
+                        <select name="target" id="target" onChange={this.handleTargetChange}>
                             {Object.keys(rawdata[0]).map((key, i) =>
-                                <option value={i}>{key}</option>
+                                <option value={key}>{key}</option>
                             )}
                         </select>
                     </div>
@@ -140,33 +187,33 @@ class Preprocess extends React.Component {
                     <div className="col-40">
                         <label htmlFor="imbalance">Want us to check for data imbalance?</label>
                     </div>
-                     <div className="col-60 ">
-                    <select name="imbalance" id="imbalance"  onChange={this.handleChange}>
-                        <option value="fasle">No</option>
-                        <option value="true">Yes</option>
-                    </select>
+                    <div className="col-60 ">
+                        <select name="imbalance" id="imbalance" onChange={this.handleImbalanceChange}>
+                            <option value="false">No</option>
+                            <option value="true">Yes</option>
+                        </select>
                     </div>
                 </div>
                 <div className="row">
                     <div className="col-40">
                         <label htmlFor="outlier">Check for Outliers?</label>
                     </div>
-                     <div className="col-60 ">
-                    <select name="outlier" id="outlier"  onChange={this.handleChange}>
-                        <option value="fasle">No</option>
-                        <option value="true">Yes</option>
-                    </select>
+                    <div className="col-60 ">
+                        <select name="outlier" id="outlier" onChange={this.handleOutlierChange}>
+                            <option value="false">No</option>
+                            <option value="true">Yes</option>
+                        </select>
                     </div>
                 </div>
                 <div className="row">
                     <div className="col-40">
                         <label htmlFor="featureeng">Want us to perform feature engineering?</label>
                     </div>
-                     <div className="col-60 ">
-                    <select name="featureeng" id="featureeng"  onChange={this.handleChange}>
-                        <option value="fasle">No</option>
-                        <option value="true">Yes</option>
-                    </select>
+                    <div className="col-60 ">
+                        <select name="featureeng" id="featureeng" onChange={this.handleFeatureChange}>
+                            <option value="false">No</option>
+                            <option value="true">Yes</option>
+                        </select>
                     </div>
                 </div>
                 <button className="preprocessbtn" onClick={this.handlePreProcess} >Preprocess Now</button>
