@@ -82,19 +82,20 @@ class Preprocess:
         #feature scaling
         if config_data['scaling_column_name'][0] != None:
             for index, column in enumerate(config_data["scaling_column_name"]):
-                type = config_data["scaling_type"][index]                
+                type = config_data["scaling_type"][index]
+                config_data['scaling_values'] = {}
                 df_value = df[[column]].values
 
                 if type == "normalization":
                     df_std = (df_value - df_value.min(axis=0)) / (df_value.max(axis=0) - df_value.min(axis=0))
                     scaled_value = df_std * (1 - 0)
+                    
                     config_data['scaling_values'][index]={"min":df_value.min(axis=0),"max":df_value.max(axis=0)}
 
-                    
-                    
                 elif type == 'standarization':
                     df_std = (df_value - df_value.min(axis=0)) / (df_value.max(axis=0) - df_value.min(axis=0))
                     scaled_value = (df_value - df.value.mean()) / df_std 
+                    
                     config_data['scaling_values'][index]={"std":df_std,"mean":df.value.mean()}
                     
                 df[[column]] = scaled_value
@@ -112,8 +113,9 @@ class Preprocess:
                     encoder = LabelEncoder()
                     df[column] = encoder.fit_transform(df[column])
 
-                    label_encoding_list = dict(zip(encoder.classes_, range(len(encoder.classes_))))
-                    config_data['labels']= [label_encoding_list]
+                    label_encoding_dict = dict(zip(encoder.classes_, range(len(encoder.classes_))))
+                    config_data['labels'] = {}
+                    config_data['labels']= [label_encoding_dict]
 
                 elif type == "One-Hot Encoding":
                     encoder = OneHotEncoder(drop = 'first', sparse=False)

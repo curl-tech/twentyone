@@ -27,7 +27,6 @@ scaling_column_name:
 scaling_type: 
 - ""
 scaling_values:
--
 
 # For feature scaling.
 encode_column_name: 
@@ -35,7 +34,6 @@ encode_column_name:
 encoding_type: 
 - ""
 labels:
--
 
 Remove_outlier: True
 

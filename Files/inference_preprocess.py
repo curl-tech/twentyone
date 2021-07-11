@@ -65,8 +65,6 @@ class Preprocess:
                 else:
                     df.replace(to_replace =[config_data["na_notation"]],value =0)
             
-        
-
         #feature scaling
         if config_data['scaling_column_name'][0] != None:
             for index, column in enumerate(config_data["scaling_column_name"]):
@@ -74,22 +72,28 @@ class Preprocess:
                 df_value = df[[column]].values
 
                 if type == "normalization":
-                    scaler = MinMaxScaler()
-            
+                    
+                    df_std = (df_value - df_value.min(axis=0)) / (df_value.max(axis=0) - df_value.min(axis=0))
+                    scaled_value = df_std * (1 - 0)
+                    config_data['scaling_type'][index] = {config_data['scaling_type'][index]:{"min":df_value.min(axis=0),"max":df_value.max(axis=0)}}
+                    
+                    
                 elif type == 'standarization':
-                    scaler = StandardScaler()
-                        
-                scaled_value =scaler.fit_transform(df_value)
+                    df_std = (df_value - df_value.min(axis=0)) / (df_value.max(axis=0) - df_value.min(axis=0))
+                    scaled_value = (df_value - df.value.mean()) / df_std 
+                    config_data['scaling_type'][index] = {config_data['scaling_type'][index]:{"std":df_std,"mean":df.value.mean()}}
+                    
                 df[[column]] = scaled_value
                 
-                
+   
         #### handling catogarical data
         # encoding
         # Under the following if block only the columns selected by the used will be encoded as choosed by the used. 
         if config_data['encode_column_name'][0] != None:
             for index, column in enumerate(config_data["encode_column_name"]):
                 type = config_data["encoding_type"][index]
-                    
+                
+                                    
                 if type == "Label Encodeing":
                     encoder = LabelEncoder()
                     df[column] = encoder.fit_transform(df[column])
