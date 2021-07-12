@@ -2,21 +2,13 @@ import numpy as np
 import pandas as pd
 
 # Handling missing data using-
-from sklearn.impute import SimpleImputer
 from sklearn.impute import KNNImputer
 
-# Scaling and Teansforming using- 
-from sklearn.preprocessing import MinMaxScaler
-from sklearn.preprocessing import StandardScaler
- 
 # Handling non-numeric data using-
 from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import OneHotEncoder 
 
-from pycaret.classification import *
-from pycaret.regression import *
-# from pycaret.clustering import *
-# from pycaret.nlp import *
+
 import os
 import yaml
 from scipy import stats
@@ -72,16 +64,20 @@ class Preprocess:
                 df_value = df[[column]].values
 
                 if type == "normalization":
-                    
-                    df_std = (df_value - df_value.min(axis=0)) / (df_value.max(axis=0) - df_value.min(axis=0))
+                    min = config_data['scaling_values'][index]['min']
+                    max = config_data['scaling_values'][index]['max']
+
+                    df_std = (df_value - min / max - min)
                     scaled_value = df_std * (1 - 0)
-                    config_data['scaling_type'][index] = {config_data['scaling_type'][index]:{"min":df_value.min(axis=0),"max":df_value.max(axis=0)}}
                     
                     
                 elif type == 'standarization':
+                    std = config_data['scaling_values'][index]['std']
+                    mean = config_data['scaling_values'][index]['mean']
+                    
                     df_std = (df_value - df_value.min(axis=0)) / (df_value.max(axis=0) - df_value.min(axis=0))
-                    scaled_value = (df_value - df.value.mean()) / df_std 
-                    config_data['scaling_type'][index] = {config_data['scaling_type'][index]:{"std":df_std,"mean":df.value.mean()}}
+                    scaled_value = (df_value - mean) / std 
+                                    
                     
                 df[[column]] = scaled_value
                 
