@@ -65,6 +65,50 @@ class Preprocess extends React.Component {
             }
         })
     }
+    handleDropChange= event =>{
+        this.setState(prevState=>{
+            return{
+                ...prevState,
+                preprocessForm:{
+                    ...prevState,
+                    "drop_column_name":this.state.pre.preprocessForm.drop_column_name.concat([event.target.value])
+                }
+            }
+        })
+    }
+    handleEncodingChange= event =>{
+        this.setState(prevState=>{
+            return{
+                ...prevState,
+                preprocessForm:{
+                    ...prevState,
+                    "drop_column_name":this.state.pre.preprocessForm.drop_column_name.concat([event.target.value])
+                }
+            }
+        })
+    }
+    handleScalingChange= event =>{
+        this.setState(prevState=>{
+            return{
+                ...prevState,
+                preprocessForm:{
+                    ...prevState,
+                    "drop_column_name":this.state.pre.preprocessForm.drop_column_name.concat([event.target.value])
+                }
+            }
+        })
+    }
+    handleImputattionChange= event =>{
+        this.setState(prevState=>{
+            return{
+                ...prevState,
+                preprocessForm:{
+                    ...prevState,
+                    "drop_column_name":this.state.pre.preprocessForm.drop_column_name.concat([event.target.value])
+                }
+            }
+        })
+    }
 
     render() {
         const rawdata = Object.values(this.props.rawdata);
@@ -82,7 +126,7 @@ class Preprocess extends React.Component {
                                                 {key}<span className="fa fa-caret-down"></span>
                                                 <div className="dropdown-content">
                                                     <div className="prepro">
-                                                        <input type="radio" id={i + "drop"} name={i + "drop"} />
+                                                        <input type="radio" id={i + "drop"} name={i + "drop"} value={key} onSelect={this.handleDrop}/>
                                                         <label htmlFor={i + "drop"}>Drop Column</label>
                                                     </div>
 

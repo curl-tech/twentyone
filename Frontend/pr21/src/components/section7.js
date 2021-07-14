@@ -126,7 +126,7 @@ class Section7 extends Component {
                                 Creation type: {this.state.projectList[j].isAuto ? "Auto" : "Manual"}
                             </h5>
                             </div>
-                            <button value={j} onClick={this.handleProjectResult} className="btn sec7btn">See Details</button>
+                            <button value={j} onClick={this.handleProjectResult} className="btn sec7btn btn-primary">See Details</button>
                         </div>
                     </div>
 
@@ -151,7 +151,7 @@ class Section7 extends Component {
                 <div className="modelDetails" id="modelDetails">
 
                     <div className="goback">
-                        <button className="backbtn" onClick={this.handleGoBack}  >&lArr; Go Back to Projects </button>
+                        <button className="backbtn btn btn-secondary" onClick={this.handleGoBack}  >&lArr; Go Back to Projects </button>
 
                     </div>
                     <div id="sec6">

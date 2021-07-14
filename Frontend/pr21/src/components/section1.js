@@ -7,10 +7,10 @@ class Section1 extends Component {
                 <div className="container typing-text">
                     <p>Curl Brings <span className="typed-text"></span><span className="cursor">&nbsp;</span></p>
                     <p>Together under one Umbrella</p>
-                    <div className="section1text1">The Easy to go auto-ml engine for all your data, it creates end to end experiencce of machine and deep elarning without a single line of code</div>
+                    <div className="section1text1">The Easy to go auto-ml engine for all your data, it creates end to end experience of machine and deep learning without a single line of code</div>
                     <div className="sec1btn-group">
-                        <a href='#section2'> <button className="  section1button">Start Expereince &dArr;</button></a>
-                        <a href='#section3'> <button className=" section1button ">View Demo &dArr;</button></a>
+                        <a href='#section2'> <button className="  btn btn-primary section1button">Start Expereince </button></a>
+                        <a href='#section3'> <button className=" btn btn-primary section1button ">View Demo </button></a>
                     </div>
                 </div>
             </div>

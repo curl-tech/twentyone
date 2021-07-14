@@ -39,7 +39,7 @@ class Home extends Component {
                 "projectID": 0,
                 "userID": 0
             },
-            preprocessForm:""
+            preprocessForm: ""
         }
         this.updateData = this.updateData.bind(this);
     }
@@ -254,13 +254,12 @@ class Home extends Component {
                 {/* Section2  */}
                 <div className="section2" id="section2">
                     <div className="newproject" >
-                        <button className="newprojectbtn" onClick={this.handleNewProject}  >Start New Project </button>
 
                     </div>
                     <div className="createpagebox " id="sec1heading">
+                        <h1 className="d-inline-block">Start With Your Project</h1>
+                        <button className="btn btn-primary" onClick={this.handleNewProject}  >Start New Project </button>
 
-                        <h1>Start With Your Project</h1>
-                        {/* <p>" Just fill relevant feeds and select few choices and you are good to go"</p> */}
                     </div>
                     <div className="createpagebox " id="sec1heading2">
                         <h1>TwentyOne Results</h1>
@@ -305,7 +304,7 @@ class Home extends Component {
                                 </div>
 
                                 <div>
-                                    <button type="submit" className="formbutton" id="startengine" >Begin Engine </button>
+                                    <button type="submit" className="btn btn-secondary" id="startengine" >Begin Engine </button>
                                 </div>
                             </div>
                         </form>
@@ -346,7 +345,7 @@ class Home extends Component {
                     {/* form3 */}
                     <div className="container" id="form3">
                         <div className="goback">
-                            <button className="backbtn" onClick={this.handleGoForm2}  >&lArr; Go Back </button>
+                            <button className="btn btn-primary backbtn " onClick={this.handleGoForm2}  >&lArr; Go Back </button>
                         </div>
                         <form onSubmit={this.handleSubmit2}>
                             <div className="createform">
@@ -414,7 +413,7 @@ class Home extends Component {
                     {/* form 4 for manual preprocessing */}
                     <div className="container" id="form4">
                         <div className="goback">
-                            <button className="backbtn" onClick={this.handleGoForm2}  >&lArr; Go Back </button>
+                            <button className="btn btn-primary backbtn" onClick={this.handleGoForm2}  >&lArr; Go Back </button>
 
                         </div>
                         <div className="PreprocessForm">
@@ -424,13 +423,13 @@ class Home extends Component {
                             </div>
                             <h1>Preprocess</h1>
                             <p>Go to each column and decide how would you like to preprocess it</p>
-                            <Preprocess rawdata={this.state.traindata} proprocessForm={this.state.preprocessForm}/>
+                            <Preprocess rawdata={this.state.traindata} proprocessForm={this.state.preprocessForm} />
                         </div>
                     </div>
                     {/* form 5 for model and hypeparameters selection*/}
                     <div className="container" id="form5">
                         <div className="goback">
-                            <button className="backbtn" onClick={this.handleGoForm2}  >&lArr; Go Back </button>
+                            <button className="btn btn-primary backbtn" onClick={this.handleGoForm2}  >&lArr; Go Back </button>
                         </div>
                         <div className="Modelselection">
                             <div className="autocheckbox">
@@ -449,10 +448,6 @@ class Home extends Component {
                 {/* This section is for showing demo video */}
                 <Section3 />
                 {/* ************************************************************************************************************************ */}
-                {/* Section 4 */}
-                {/* This Section id for About */}
-                <Section4 />
-                {/* ************************************************************************************************************************ */}
                 {/* Section 5 */}
                 {/* This section is to show detail of every trained model */}
                 {/* <Section5 currentmodel={this.state.currentmodel} /> */}
@@ -464,6 +459,10 @@ class Home extends Component {
                 {/* Section 7 */}
                 {/* This section is to show detail of every Project  */}
                 <Section7 handler={this.handleCurrentModel} currentmodel={this.state.currentmodel} />
+                {/* Section 4 */}
+                {/* This Section id for About */}
+                <Section4 />
+                {/* ************************************************************************************************************************ */}
 
             </div >
         );
