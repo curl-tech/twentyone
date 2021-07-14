@@ -9,9 +9,6 @@ from sklearn.impute import KNNImputer
 from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import OneHotEncoder 
 
-from pycaret.classification import *
-from pycaret.regression import *
-
 import os
 import yaml
 from scipy import stats

@@ -3,7 +3,6 @@ import pandas as pd
 
 # Handling missing data using-
 from sklearn.impute import SimpleImputer
-from sklearn.impute import KNNImputer
  
 # Handling non-numeric data using-
 from sklearn.preprocessing import LabelEncoder
@@ -14,7 +13,7 @@ import yaml
 from scipy import stats
 
 class Preprocess:     
-    def manual_preprocess(self,config):
+    def preprocess(self,config):
         """
         This function is for preprocessing the data when the user selects manual preprocessing.                     
         """
@@ -51,30 +50,32 @@ class Preprocess:
                 if type == "mean":
                     imputer = SimpleImputer(missing_values = config_data["na_notation"], strategy = "mean")
                     strategy_values_list.append(df[column].mean())
+                    df[[column]] = imputer.fit_transform(df_value)
                     
                 elif type == "median":
                     imputer = SimpleImputer(missing_values = config_data["na_notation"], strategy = "median")
                     strategy_values_list.append(df[column].median())
+                    df[[column]] = imputer.fit_transform(df_value)
                     
                 elif type == "most_frequent":
                     imputer = SimpleImputer(missing_values = config_data["na_notation"], strategy = "most_frequent")
                     strategy_values_list.append(df[column].mode())
+                    df[[column]] = imputer.fit_transform(df_value)
 
-                elif type=='knn':
-                    imputer = KNNImputer(n_neighbors = 4, weights = "uniform",missing_values = config_data["na_notation"])
+                elif type == 'forward_fill':
+                    df = df.ffill()
+                    
+                elif type == 'backward_fill':
+                    df = df.bfill()  
                 
-                df[[column]] = imputer.fit_transform(df_value)
-            
             df.replace(to_replace =[config_data["na_notation"]],value =0)
             if strategy_values_list != [] :
                 config_data['mean_median_mode_values'] = strategy_values_list
            
             
         else:
-            ## Checkin the z scone and replace it with mean if z < 3 
-            df.replace(to_replace =[config_data["na_notation"]],value =0)
-            ####using others for object type data.
-             
+            df = df.ffill().bfill()
+
 
         #feature scaling
         if config_data['scaling_column_name'][0] != None:
