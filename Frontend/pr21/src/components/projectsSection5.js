@@ -163,7 +163,7 @@ class ProjectsSection5 extends Component {
 
             <div className="section5 " id="projectsection5">
                 <div className="goback">
-                    <button className="backbtn" onClick={this.handleGoBack}  >&lArr; Go Back to Models </button>
+                    <button className="backbtn btn btn-secondary" onClick={this.handleGoBack}  >&lArr; Go Back to Models </button>
 
                 </div>
                 {/* {this.props.showRetrain === false ? null :
@@ -203,7 +203,7 @@ class ProjectsSection5 extends Component {
                             {/* <input type="file" className="form-control" id="metric" onChange={this.handleChange} accept=".csv" name="metric"
                                 placeholder="enter data in csv" required />
                             <button onClick={this.importCSV} className="sec5btn">Import</button> */}
-                            <button onClick={this.handlemetric} className="sec5btn" id="show">Show</button>
+                            <button onClick={this.handlemetric} className="sec5btn btn btn-primary" id="show">Show</button>
                             <Metrics data={this.state.data} mtype={this.props.projectdetails.modelType} />
                         </div>
 
@@ -269,7 +269,7 @@ class ProjectsSection5 extends Component {
 
 
                                         <div>
-                                            <button type="submit" className="formbutton" onClick={this.handleGetPrediction} id="getresults" >Get Results</button>
+                                            <button type="submit" className="btn btn-secondary" onClick={this.handleGetPrediction} id="getresults" >Get Results</button>
                                         </div>
                                     </div>
                                 </form>

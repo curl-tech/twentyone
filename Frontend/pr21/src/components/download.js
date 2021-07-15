@@ -25,12 +25,12 @@ class Download extends Component {
   render() {
     if (this.props.type === "clean") {
       return (
-        <button className="sec5btn" onClick={this.handleDownloadClean} >Download</button>
+        <button className="sec5btn btn btn-primary" onClick={this.handleDownloadClean} >Download</button>
       );
     }
     else {
       return (
-        <button className="sec5btn" onClick={this.handleDownloadPickle} >Download</button>
+        <button className="sec5btn btn btn-primary" onClick={this.handleDownloadPickle} >Download</button>
       );
     }
   }

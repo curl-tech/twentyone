@@ -259,7 +259,7 @@ class Preprocess extends React.Component {
                         </select>
                     </div>
                 </div>
-                <button className="preprocessbtn" onClick={this.handlePreProcess} >Preprocess Now</button>
+                <button className="preprocessbtn btn btn-secondary" onClick={this.handlePreProcess} >Preprocess Now</button>
             </div>
         );
     }

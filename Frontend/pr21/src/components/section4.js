@@ -5,12 +5,12 @@ class Section4 extends Component {
         return (
             <div className="section4" id="section4">
 
-                {/* <div className="col-50 section4col1"> */}
+                <div className="col-50 section4col1">
 
                 {/* <Link to='/#section3' > <button className=" section4button">See Demo</button></Link> */}
 
-                {/* </div> */}
-                <div className="section4col2">
+                </div>
+                <div className="col-50 section4col2">
                     <h1>Curl brings to you TwentyOne that lets you make excellent machine learning models for all your business and needs with few simple clicks</h1>
                     <br />
                     <h3>"The best Part is its Open Source"</h3>

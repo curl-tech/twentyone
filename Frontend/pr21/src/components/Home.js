@@ -322,7 +322,7 @@ class Home extends Component {
                                             </div>
                                             <div className="flip-card-back">
                                                 <p>"Leave everything on us and see the beauty of artificial Intelligence"</p>
-                                                <button className="btn2" onClick={this.handleAuto} id="form2autobutton">Select</button>
+                                                <button className="btn2 btn btn-primary" onClick={this.handleAuto} id="form2autobutton ">Select</button>
                                             </div>
                                         </div>
                                     </div>
@@ -333,7 +333,7 @@ class Home extends Component {
                                             </div>
                                             <div className="flip-card-back">
                                                 <p>"We believe you are always the boss and you can choose to make models as you wish"</p>
-                                                <button className="btn2" onClick={this.handleManual}>Select</button>
+                                                <button className="btn2 btn btn-primary" onClick={this.handleManual}>Select</button>
                                             </div>
                                         </div>
                                     </div>
@@ -401,7 +401,7 @@ class Home extends Component {
                                 </div> */}
 
                                 <div>
-                                    <button type="submit" className="formbutton" id="trainnow" >Train Now</button>
+                                    <button type="submit" className="btn btn-secondary" id="trainnow" >Train Now</button>
                                 </div>
                             </div>
                         </form>

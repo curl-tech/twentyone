@@ -105,7 +105,7 @@ class ManualModel extends Component {
                     <div id="modellist">
                         {Regressionitems}
                     </div>
-                    <button className="preprocessbtn" onClick={this.handleTrain}> Train Now</button>
+                    <button className="preprocessbtn btn btn-secondary" onClick={this.handleTrain}> Train Now</button>
 
                 </div>
 
