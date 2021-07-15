@@ -1,8 +1,15 @@
 # The address at which the user's uploaded raw data is saved.
 raw_data_address: ""
 
+# For the time series data.
+date_format: "%Y-%m-%d"
+date_index: ""
+frequency: ""
+
+
 # User specified target column.
 target_column_name: ""
+
 
 # For droping empty rows and columns
 drop_column_name: 
