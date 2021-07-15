@@ -2,22 +2,6 @@ from Backend.app.helpers.allhelpers import serialiseDict
 from Backend.app.config import settings
 import random
 
-def modelEntity(item) -> dict:
-    return {
-        "_id":str(item["_id"]),
-        "modelID":item["modelID"],
-        "modelName":item["modelName"],
-        "modelType":item["modelType"],
-        "pickleFolderPath":item["pickleFolderPath"],
-        "pickleFilePath": item["pickleFilePath"],
-        "belongsToUserID":item["belongsToUserID"],
-        "belongsToProjectID":item["belongsToProjectID"],
-        "belongsToDataID":item["belongsToDataID"]
-    }
-
-def modelsEntity(entity) -> list:
-    return [modelEntity(item) for item in entity]
-
 def create_model_id(Project21Database):
     id = random.randint(10000,99999)
     result=Project21Database.find_one(settings.DB_COLLECTION_MODEL,{"modelID":id})

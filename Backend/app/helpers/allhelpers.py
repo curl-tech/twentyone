@@ -14,16 +14,6 @@ def ErrorResponseModel(error, code, message):
         "message": message
     }
 
-def reqEntity(item) -> dict:
-    return {
-        "isauto":item["isauto"],
-        "target":item["target"],
-        "modelnumber":item["modelnumber"],
-        "nulltype":item["nulltype"]
-    }
-
-def reqsEntity(entity) -> list:
-    return [reqEntity(item) for item in entity]
 
 def serialiseDict(item) -> dict:
     return {**{k:item[k] for k in item if k!='_id'}}    #To serialise the python cursor object received using pymongo's find_many and find_one method

@@ -3,8 +3,7 @@ from fastapi.encoders import jsonable_encoder
 from Backend.app.dbclass import Database
 from Backend.app.config import settings
 from Backend.app.schemas import Project, UpdateProject
-from Backend.app.helpers.project_helper import projectEntity, projectsEntity
-from Backend.app.helpers.allhelpers import ErrorResponseModel, ResponseModel
+from Backend.app.helpers.allhelpers import ErrorResponseModel, ResponseModel, serialiseDict, serialiseList
 
 Project21Database=Database()
 Project21Database.initialise(settings.DB_NAME)
@@ -14,7 +13,7 @@ project_router=APIRouter()
 @project_router.get('/projects')
 def get_all_projects():
     projects=[]
-    all_projects=projectsEntity(Project21Database.find(settings.DB_COLLECTION_PROJECT,{}))
+    all_projects=serialiseList(Project21Database.find(settings.DB_COLLECTION_PROJECT,{}))
     for project in all_projects:
         projects.append(project)
     return projects
@@ -22,7 +21,7 @@ def get_all_projects():
 @project_router.get('/project/{projectID}')
 def get_one_project(projectID:int):
     try:
-        project=projectEntity(Project21Database.find_one(settings.DB_COLLECTION_PROJECT,{"projectID":projectID}))
+        project=serialiseDict(Project21Database.find_one(settings.DB_COLLECTION_PROJECT,{"projectID":projectID}))
     except:
         return ErrorResponseModel("An Error Occured",404,"Project could not be found")
     return project

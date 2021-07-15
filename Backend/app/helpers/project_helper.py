@@ -2,22 +2,6 @@ import random
 from Backend.app.config import settings
 from Backend.app.helpers.allhelpers import serialiseDict
 
-def projectEntity(item) -> dict:
-    return {
-        "_id":str(item["_id"]),
-        "projectID":item["projectID"],
-        "projectName":item["projectName"],
-        "rawDataPath":item["rawDataPath"],
-        "projectFolderPath": item["projectFolderPath"],
-        "belongsToUserID":item["belongsToUserID"],
-        "listOfDataIDs":item["listOfDataIDs"],
-        "autoConfigFileLocation": item["autoConfigFileLocation"],
-        "plotsPath": item["plotsPath"],
-        "projectType":item["projectType"]
-    }
-
-def projectsEntity(entity) -> list:
-    return [projectEntity(item) for item in entity]
 
 def get_raw_data_path(projectID,Project21Database):
     try:  

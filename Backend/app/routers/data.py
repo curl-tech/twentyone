@@ -3,8 +3,7 @@ from fastapi.encoders import jsonable_encoder
 from Backend.app.dbclass import Database
 from Backend.app.config import settings
 from Backend.app.schemas import Data, UpdateData
-from Backend.app.helpers.data_helper import dataEntity, datasEntity
-from Backend.app.helpers.allhelpers import ErrorResponseModel, ResponseModel
+from Backend.app.helpers.allhelpers import ErrorResponseModel, ResponseModel, serialiseDict, serialiseList
 
 Project21Database=Database()
 Project21Database.initialise(settings.DB_NAME)
@@ -14,7 +13,7 @@ data_router=APIRouter()
 @data_router.get('/datas')
 def get_all_datas():
     datas=[]
-    all_datas=datasEntity(Project21Database.find(settings.DB_COLLECTION_DATA,{}))
+    all_datas=serialiseList(Project21Database.find(settings.DB_COLLECTION_DATA,{}))
     for data in all_datas:
         datas.append(data)
     return datas
@@ -22,7 +21,7 @@ def get_all_datas():
 @data_router.get('/data/{dataID}')
 def get_one_data(dataID:int):
     try:
-        data=dataEntity(Project21Database.find_one(settings.DB_COLLECTION_DATA,{"dataID":dataID}))
+        data=serialiseDict(Project21Database.find_one(settings.DB_COLLECTION_DATA,{"dataID":dataID}))
     except:
         return ErrorResponseModel("An Error Occured",404,"Data could not be found")
     return data
