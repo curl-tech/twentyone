@@ -19,7 +19,7 @@ code {
 }
 
 .ibtn{
-  background-color: #160641;
+  background-color: #04080F;
   border-radius: 5em;
   font-size: small;
   /* font-family: 'Times New Roman', Times, serif; */
@@ -81,7 +81,7 @@ code {
 }
 .navbar-brand
 {
-  color: #507DBC;
+  color: #1470f1;
   font-size:xx-large;
   /* font-family:'Times New Roman', Times, serif; */
   font-family: 'Roboto', sans-serif;
@@ -91,13 +91,13 @@ code {
 }
 .navbar-brand:hover
 {
-  color: rgba(109, 160, 231, 0.836);
+  color: rgba(37, 125, 248, 0.836);
 }
 .nav-link
 {
   margin: 1.1em;
   font-size: larger;
-  color: #507DBC;
+  color: #1470f1;
 }
 .nav-link:hover
 {
@@ -644,9 +644,9 @@ input[type=text],input[type=number] ,select, textarea {
   border-radius: 1.2em;
   margin-left:7em;
   width:80%;
-  background-color: #04080F;
+  background-color: #507DBC;
   height: 20em;
-  box-shadow: 10px 10px 10px 10px grey;
+  box-shadow: 5px 5px 5px 5px grey;
   /* background-color: #000; */
 }
 .loader p{
@@ -760,10 +760,13 @@ margin-left: 5%;
 }
 .section3 h1{
   /* text-align: center; */
-  padding: 1em;
+  padding: 0.5em;
+  border-radius: 4px;
   color: #04080F;
   font-weight: 700;
- 
+ background-color: #A1C6EA;
+ width: 500px;
+ margin-left: 33%;
   text-align: center;
   /* font-family:'Staatliches', Verdana, Geneva, Tahoma, sans-serif; */
   font-family: 'Roboto', sans-serif;
@@ -779,7 +782,7 @@ margin: 0 auto;
   font-family: 'Roboto', sans-serif;
   float: none;
   position: relative;
-margin: 12em 20em 1em 25em;
+margin: 15em 20em 1em 25em;
 }
 @media screen and (max-width: 600px) 
 {
@@ -1033,7 +1036,7 @@ color: #fff;
   color: #04080F;
 }
 .sec6autocard{
-  background-image:linear-gradient(to left bottom , #180c42e1,rgba(68, 7, 12, 0.959));
+  /* background-image:linear-gradient(to left bottom , #180c42e1,rgba(68, 7, 12, 0.959)); */
   width: 50%;
   margin-left: 25%;
   margin-right: 25%;
@@ -1077,8 +1080,8 @@ color: #fff;
   font-family: 'Roboto', sans-serif;
   border-radius: 4px;
   padding: 0.8em;
-  margin-left: 44%;
-  margin-right: 36%;
+  /* margin-left: 44%;
+  margin-right: 36%; */
 }
 
 /* ************************************************************************************************************************ */
@@ -1103,21 +1106,25 @@ table {
 
 .metricstable td {
 	padding: 15px;
-	background-color: #BBD1EA;
+	/* background-color: #BBD1EA; */
 	color: #000;
 }
 
 .metricstable th {
 	text-align: left;
   padding: 1em;
-  color: #fff;
+  color: #04080F;
   background-color: #507DBC;
 }
 
 .metricstable td :hover{
-			background-color: #A1C6EA;		
+			background-color: #BBD1EA;		
 }
-				
+.metricValue{
+  background-color: #A1C6EA;
+  text-align: center;
+  font-size: large;
+}	
 /* ************************************************************************************************************************ */
 /* plots */
 .plot{

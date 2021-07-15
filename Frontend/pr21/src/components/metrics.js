@@ -40,7 +40,7 @@ class Metrics extends React.Component {
 
                                                     < tr >
                                                         <td>{key}</td>
-                                                        <td>   {data[key]}</td>
+                                                        <td className="metricValue">   {data[key]}</td>
                                                     </tr>
                                                 ) : null))}
 

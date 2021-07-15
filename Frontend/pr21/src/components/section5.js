@@ -268,7 +268,7 @@ class Section5 extends Component {
 
 
                                         <div>
-                                            <button type="submit" className="formbutton btn btn-primary" onClick={this.handleGetPrediction} id="getresults" >Get Results</button>
+                                            <button type="submit" className="formbutton btn btn-secondary" onClick={this.handleGetPrediction} id="getresults" >Get Results</button>
                                         </div>
                                     </div>
                                 </form>

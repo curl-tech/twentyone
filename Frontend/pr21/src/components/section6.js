@@ -82,7 +82,7 @@ class Section6 extends Component {
                                 <li>Pickle File</li>
                                 <li>Inferencing New Data</li>
                             </h4>
-                            <button value={1} onClick={this.handleModelResult} className="btn sec6btn">See Details</button>
+                            <button value={1} onClick={this.handleModelResult} className="btn sec6btn btn-primary">See Details</button>
                         </div>
                     </div>
 
