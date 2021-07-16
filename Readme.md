@@ -41,15 +41,15 @@ To run the project do the following -
 
 # Table of Contents
 
--  [Getting Started](# Getting-Started)
+-  [Getting Started](#getting_started)
 
--  [Architecture of Auto ML 21](## BLOCKS)
+-  [Architecture of Auto ML 21](#BLOCKS)
 
--  [Features of Auto ML 21](# Features-of-Auto-ML-21)
+-  [Features of Auto ML 21](#Features-of-Auto-ML-21)
 
--  [ML Models](# ML-Models)
+-  [ML Models](#ML-Models)
 
-  # Getting Started
+  # Getting Started <a id='getting_started'></a>
 
   
 
@@ -60,7 +60,7 @@ To run the project do the following -
 
 # Architecture of AUTO ML 21
 
-## BLOCKS
+## BLOCKS <a id='BLOCKS'></a>
 
 ### Main concepts
 
@@ -83,7 +83,7 @@ Top level architecture provides how things works in twentyone.
 
 
 
-# Features of Auto ML 21
+# Features of Auto ML 21 <a id='Features-of-Auto-ML-21'></a>
 
 - TwentyOne is designed to leverage transfer learning as much as possible. For  many problems the data requirement for 21 is minimal. This saves a lot  of time, effort and cost in data collection. Model training is also  greatly reduced.
 
@@ -101,7 +101,7 @@ Top level architecture provides how things works in twentyone.
 
   
 
-  # ML Models
+  # ML Models <a id='ML-Models'></a>
 
   In 21 user can build two categories of machine learning models. They are:
 
