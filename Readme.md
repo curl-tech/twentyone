@@ -58,9 +58,7 @@ To run the project do the following -
 
 
 
-# Architecture of AUTO ML 21
-
-## BLOCKS <a id='BLOCKS'></a>
+# Architecture of AUTO ML 21  <a id='BLOCKS'></a>
 
 ### Main concepts
 
