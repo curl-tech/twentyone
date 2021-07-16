@@ -78,6 +78,8 @@ code {
   /* background-color: rgba(10, 0, 2, 0.815); */
   /* background-color: #DAE3E5; */
   height:6em;
+  /* background-color: #dae3e51e; */
+  box-shadow: 1px 5px 20px 5px rgb(224, 232, 248);
 }
 .navbar-brand
 {
@@ -273,7 +275,7 @@ background-image: url(./assets/img/bg27.png);
 .section2
 {
   /* padding: 5em; */
-  padding-top: 2em;
+  /* padding-top: 2em; */
   min-height: 100vh;
   background-color: #DAE3E5;
   /* background-image:linear-gradient(to left bottom,rgba(228, 222, 235, 0.76),rgba(32, 12, 70, 0.904)); */
@@ -283,16 +285,16 @@ background-image: url(./assets/img/bg27.png);
 } 
 .createpagebox
 {
-  padding: 1em 5em 1em 5em;
-  margin: 1em;
-  /* background-color: #D4C2FC; */
+  padding: 3em 5em 3em 5em;
+  background-color: #A1C6EA;
+}
+.createpagebox h1{
+  font-weight: 600;
+  font-family: 'Roboto', sans-serif;
   text-align: left;
   color:#04080f;
-  font-family: 'Roboto', sans-serif;
 }
-.d-inline-block{
-  font-weight: 600;
-}
+
 
 #sec1heading2{
  display: none;
@@ -732,6 +734,11 @@ input[type=text],input[type=number] ,select, textarea {
 }
 .manualmodelheading{
   color: #fff;
+}
+
+/* form6 */
+#form6{
+  display: none;
 }
 /* ********************************************************************************************* */
 /* Section3 */
@@ -1202,7 +1209,7 @@ table {
 }
 .metricsNote{
   text-align: center;
-  color: red;
+  color: rgb(3, 53, 99);
 }
 /* ************************************************************************************************************************ */
 
@@ -1212,7 +1219,7 @@ table {
   /* background-color: rgb(5, 3, 70); */
   /* background-image:linear-gradient(to top left,rgb(219, 219, 223),rgba(143, 143, 145, 0.96)); */
   height: 5em;
-  background-color: #BBD1EA;
+  background-color: #DAE3E5;
 }
 .text-center{
   /* padding: 1em; */
