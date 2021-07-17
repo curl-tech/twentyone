@@ -168,7 +168,7 @@ class Preprocess:
                 df=df.drop(col_name, axis = 1)
 
         df.to_csv('clean_data.csv')
-        shutil.move("clean_data_address.csv",folderLocation)
+        shutil.move("clean_data.csv",folderLocation)
         clean_data_address = os.path.abspath(os.path.join(folderLocation,"clean_data.csv"))
         config_data['clean_data_address'] = clean_data_address
     

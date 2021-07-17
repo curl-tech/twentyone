@@ -50,6 +50,8 @@ data_imbalance: False
 
 split_ratio_test: 0.3
 
-is_auto: True
+is_auto_preprocess: False
 
 clean_data_address:
+  
+inference_clean_data_address:

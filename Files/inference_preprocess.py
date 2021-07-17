@@ -1,3 +1,4 @@
+import shutil
 import numpy as np
 import pandas as pd
 
@@ -13,8 +14,8 @@ import os
 import yaml
 from scipy import stats
 
-class Preprocess:     
-    def inference_preprocess(self,config):
+class InferencePreprocess:     
+    def inference_preprocess(self,config,folderLocation):
         """
         This function is for preprocessing the data when the user selects manual preprocessing.                     
         """
@@ -128,9 +129,12 @@ class Preprocess:
             if df[col_name].dtype == 'object':
                 df=df.drop(col_name, axis = 1)
 
+        df.to_csv('inference_clean_data.csv')
+        shutil.move("inference_clean_data.csv",folderLocation)
+        inference_clean_data_address = os.path.abspath(os.path.join(folderLocation,"inference_clean_data.csv"))
+        config_data['inference_clean_data_address'] = inference_clean_data_address
+
         with open("preprocess_config.yaml", 'w') as yaml_file:
             yaml_file.write( yaml.dump(config_data, default_flow_style=False))
-
-        clean_data_address = os.getcwd()+"/clean_data.csv"
-        return clean_data_address
-    
+        
+        return inference_clean_data_address

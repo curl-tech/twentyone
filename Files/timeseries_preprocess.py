@@ -1,4 +1,4 @@
-import numpy as np
+import shutil
 import pandas as pd
 
 from sklearn.preprocessing import OneHotEncoder 
@@ -7,8 +7,8 @@ import os
 import yaml
 from scipy import stats
 
-class Preprocess:     
-    def preprocess(self,config):
+class TimeseriesPreprocess:     
+    def preprocess(self,config,folderLocation):
 
         config = open("preprocess_config.yaml", 'r')
         config_data = yaml.safe_load(config)
@@ -49,8 +49,14 @@ class Preprocess:
         
         df.set_index('y', inplace=True)
         
-        clean_data_address = os.getcwd()+"/clean_data.csv"
+        df.to_csv('clean_data.csv')
+        shutil.move("clean_data.csv",folderLocation)
+        clean_data_address = os.path.abspath(os.path.join(folderLocation,"clean_data.csv"))
         config_data['clean_data_address'] = clean_data_address
+    
+    
     
         with open("preprocess_config.yaml", 'w') as yaml_file:
             yaml_file.write( yaml.dump(config_data, default_flow_style=False))
+
+        return clean_data_address
