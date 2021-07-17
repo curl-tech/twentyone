@@ -6,7 +6,7 @@ class Section3 extends Component {
             <div className="section3 " id="section3">
                
                     <div className="  section3box">
-                        <h1>Yes, Its that Easy</h1>
+                        <h1>Yes, Its that Easy!</h1>
                         <br/>
                         <br/>
                         <video className="section3video" width="640" height="320" controls>

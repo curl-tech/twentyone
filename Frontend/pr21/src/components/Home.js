@@ -42,6 +42,7 @@ class Home extends Component {
             preprocessForm: "",
             frequency: "D",
             dateColumn: '',
+            automanualpreprocess:false,
         }
         this.updateData = this.updateData.bind(this);
     }
@@ -283,6 +284,9 @@ class Home extends Component {
     handleAutoPreprocess() {
         var theFormItself = document.getElementById('preprocesstable');
         $(theFormItself).toggle();
+        this.setState({
+            automanualpreprocess:true
+        })
 
     }
     handleAutoModelSelect() {
@@ -338,7 +342,7 @@ class Home extends Component {
 
                     </div>
                     <div className="createpagebox " id="sec1heading">
-                        <h1 className="">Start With Your Project
+                        <h1 className="">Start your project
                             <button className="btn btn-primary" onClick={this.handleNewProject}  >Start New Project </button>
                         </h1>
                     </div>
@@ -505,7 +509,7 @@ class Home extends Component {
                             </div>
                             <h1>Preprocess</h1>
                             <p>Go to each column and decide how would you like to preprocess it</p>
-                            <Preprocess rawdata={this.state.traindata} proprocessForm={this.state.preprocessForm} />
+                            <Preprocess rawdata={this.state.traindata} proprocessForm={this.state.preprocessForm} automanualpreprocess={this.state.automanualpreprocess}/>
                         </div>
                     </div>
                     {/* form 5 for model and hypeparameters selection*/}

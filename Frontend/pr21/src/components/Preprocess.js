@@ -26,6 +26,18 @@ class Preprocess extends React.Component {
         $(theFormItself).hide();
         var theFormItself2 = document.getElementById('form5');
         $(theFormItself2).show();
+        if(this.props.automanualpreprocess===true)
+        {
+            this.setState(prevState => ({
+
+                preprocessForm: {
+                    ...prevState.preprocessForm,
+                    "is_auto_preprocess": true
+                }
+            }
+            ))
+        }
+        
     }
     handleTargetChange = event => {
         this.setState(prevState => ({
@@ -33,6 +45,16 @@ class Preprocess extends React.Component {
             preprocessForm: {
                 ...prevState.preprocessForm,
                 "target_column_name": event.target.value
+            }
+        }
+        ))
+    }
+    handleTargetChange = event => {
+        this.setState(prevState => ({
+
+            preprocessForm: {
+                ...prevState.preprocessForm,
+                "split_ratio_test": event.target.value
             }
         }
         ))
@@ -107,91 +129,207 @@ class Preprocess extends React.Component {
             ))
         }
     }
-    handleEncodingChange = event => {
-        var checkBox = document.getElementById(event.target.value + "encode");
-       
-        if (checkBox.checked === true) {
-            this.setState(prevState => ({
-                preprocessForm: {
-                    ...prevState.preprocessForm,
-                    "encode_column_name": this.state.preprocessForm.encode_column_name.concat([event.target.value])
+    handleEncodingChange = (key) => event => {
+        var checkBox = document.getElementById(key + "encode");
+        const rbs = document.querySelectorAll('input[name=' + "\"" + key + 'encodetype"]');
+        let selectedValue;
+        if (key != 0) {
+            console.log(key)
+            for (const rb of rbs) {
+                if (rb.checked) {
+                    selectedValue = rb.value;
+                    break;
                 }
             }
-            ))
-        }
-        else{
-           const id = this.state.preprocessForm.encode_column_name.indexOf(event.target.value);
-            console.log(id)
-            console.log(this.state.preprocessForm.encode_column_name)
-            let x = this.state.preprocessForm.encode_column_name.splice(id + 1)
-            let y = this.state.preprocessForm.encode_column_name.splice(0, id)
-            this.setState(prevState => ({
+            console.log(selectedValue)
+            if (checkBox.checked === false)
+                checkBox.checked = true;
+            if (checkBox.checked === true) {
+                const id = this.state.preprocessForm.encode_column_name.indexOf(key);
 
-                preprocessForm: {
-                    ...prevState.preprocessForm,
-                    "encode_column_name": y.concat(x)
+                if (id != -1) {
+                    let x = this.state.preprocessForm.encoding_type.splice(id + 1)
+                    let y = this.state.preprocessForm.encoding_type.splice(0, id)
+                    this.setState(prevState => ({
+                        preprocessForm: {
+                            ...prevState.preprocessForm,
+                            "encoding_type": y.concat([selectedValue]).concat(x)
+                        }
+                    }
+                    ))
                 }
-            }
-            ))
-        }
-    }
-    handleScalingChange = event => {
-        var checkBox = document.getElementById(event.target.value + "scale");
-        if (checkBox.checked === true) {
-            this.setState(prevState => ({
+                else {
+                    this.setState(prevState => ({
+                        preprocessForm: {
+                            ...prevState.preprocessForm,
+                            "encode_column_name": this.state.preprocessForm.encode_column_name.concat([key]),
+                            "encoding_type": this.state.preprocessForm.encoding_type.concat([selectedValue])
+                        }
+                    }
+                    ))
 
-                preprocessForm: {
-                    ...prevState.preprocessForm,
-                    "scaling_column_name": this.state.preprocessForm.scaling_column_name.concat([event.target.value])
                 }
             }
-            ))
         }
-        else {
-            const id = this.state.preprocessForm.scaling_column_name.indexOf(event.target.value);
-            console.log(id)
-            console.log(this.state.preprocessForm.scaling_column_name)
-            let x = this.state.preprocessForm.scaling_column_name.splice(id + 1)
-            let y = this.state.preprocessForm.scaling_column_name.splice(0, id)
-            this.setState(prevState => ({
 
-                preprocessForm: {
-                    ...prevState.preprocessForm,
-                    "scaling_column_name": y.concat(x)
-                }
-            }
-            ))
-        }
-    }
-    handleImputationChange = event => {
-        var checkBox = document.getElementById(event.target.value + "impute");
-        if (checkBox.checked === true) {
-            this.setState(prevState => ({
-
-                preprocessForm: {
-                    ...prevState.preprocessForm,
-                    "imputation_column_name": this.state.preprocessForm.imputation_column_name.concat([event.target.value])
-                }
-            }
-            ))
-        }
-        else {
-            const id = this.state.preprocessForm.imputation_column_name.indexOf(event.target.value);
-            console.log(id)
-            console.log(this.state.preprocessForm.imputation_column_name)
-            let x = this.state.preprocessForm.imputation_column_name.splice(id + 1)
-            let y = this.state.preprocessForm.imputation_column_name.splice(0, id)
-            this.setState(prevState => ({
-
-                preprocessForm: {
-                    ...prevState.preprocessForm,
-                    "imputation_column_name": y.concat(x)
-                }
-            }
-            ))
-        }
     }
 
+
+    handleEncodingRemove = event => {
+        const id = this.state.preprocessForm.encode_column_name.indexOf(event.target.value);
+        console.log(id)
+        console.log(this.state.preprocessForm.encode_column_name)
+        const rbs = document.querySelectorAll('input[name=' + "\"" + event.target.value + 'encodetype"]');
+        for (const rb of rbs) {
+            rb.checked = false;
+        }
+        let x = this.state.preprocessForm.encode_column_name.splice(id + 1)
+        let y = this.state.preprocessForm.encode_column_name.splice(0, id)
+        let x2 = this.state.preprocessForm.encoding_type.splice(id + 1)
+        let y2 = this.state.preprocessForm.encoding_type.splice(0, id)
+        this.setState(prevState => ({
+
+            preprocessForm: {
+                ...prevState.preprocessForm,
+                "encode_column_name": y.concat(x),
+                "encoding_type": y2.concat(x2)
+            }
+        }
+        ))
+
+    }
+    handleScalingChange = (key) => event => {
+        var checkBox = document.getElementById(key + "scale");
+        const rbs = document.querySelectorAll('input[name=' + "\"" + key + 'scaletype"]');
+        let selectedValue;
+        if (key != 0) {
+            console.log(key)
+            for (const rb of rbs) {
+                if (rb.checked) {
+                    selectedValue = rb.value;
+                    break;
+                }
+            }
+            console.log(selectedValue)
+            if (checkBox.checked === false)
+                checkBox.checked = true;
+            if (checkBox.checked === true) {
+                const id = this.state.preprocessForm.scaling_column_name.indexOf(key);
+
+                if (id != -1) {
+                    let x = this.state.preprocessForm.scaling_type.splice(id + 1)
+                    let y = this.state.preprocessForm.scaling_type.splice(0, id)
+                    this.setState(prevState => ({
+                        preprocessForm: {
+                            ...prevState.preprocessForm,
+                            "scaling_type": y.concat([selectedValue]).concat(x)
+                        }
+                    }
+                    ))
+                }
+                else {
+                    this.setState(prevState => ({
+                        preprocessForm: {
+                            ...prevState.preprocessForm,
+                            "scaling_column_name": this.state.preprocessForm.scaling_column_name.concat([key]),
+                            "scaling_type": this.state.preprocessForm.scaling_type.concat([selectedValue])
+                        }
+                    }
+                    ))
+
+                }
+            }
+        }
+    }
+    handleScalingRemove = event => {
+        const id = this.state.preprocessForm.scaling_column_name.indexOf(event.target.value);
+        console.log(id)
+        console.log(this.state.preprocessForm.scaling_column_name)
+        const rbs = document.querySelectorAll('input[name=' + "\"" + event.target.value + 'scaletype"]');
+        for (const rb of rbs) {
+            rb.checked = false;
+        }
+        let x = this.state.preprocessForm.scaling_column_name.splice(id + 1)
+        let y = this.state.preprocessForm.scaling_column_name.splice(0, id)
+        let x2 = this.state.preprocessForm.scaling_type.splice(id + 1)
+        let y2 = this.state.preprocessForm.scaling_type.splice(0, id)
+        this.setState(prevState => ({
+
+            preprocessForm: {
+                ...prevState.preprocessForm,
+                "scaling_column_name": y.concat(x),
+                "scaling_type": y2.concat(x2)
+            }
+        }
+        ))
+
+    }
+    handleImputationChange = (key) => event => {
+        var checkBox = document.getElementById(key + "impute");
+        const rbs = document.querySelectorAll('input[name=' + "\"" + key + 'imputetype"]');
+        let selectedValue;
+        if (key != 0) {
+            console.log(key)
+            for (const rb of rbs) {
+                if (rb.checked) {
+                    selectedValue = rb.value;
+                    break;
+                }
+            }
+            console.log(selectedValue)
+            if (checkBox.checked === false)
+                checkBox.checked = true;
+            if (checkBox.checked === true) {
+                const id = this.state.preprocessForm.imputation_column_name.indexOf(key);
+
+                if (id != -1) {
+                    let x = this.state.preprocessForm.impution_type.splice(id + 1)
+                    let y = this.state.preprocessForm.impution_type.splice(0, id)
+                    this.setState(prevState => ({
+                        preprocessForm: {
+                            ...prevState.preprocessForm,
+                            "impution_type": y.concat([selectedValue]).concat(x)
+                        }
+                    }
+                    ))
+                }
+                else {
+                    this.setState(prevState => ({
+                        preprocessForm: {
+                            ...prevState.preprocessForm,
+                            "imputation_column_name": this.state.preprocessForm.imputation_column_name.concat([key]),
+                            "impution_type": this.state.preprocessForm.impution_type.concat([selectedValue])
+                        }
+                    }
+                    ))
+
+                }
+            }
+        }
+    }
+    handleImputationRemove = event => {
+        const id = this.state.preprocessForm.imputation_column_name.indexOf(event.target.value);
+        console.log(id)
+        console.log(this.state.preprocessForm.imputation_column_name)
+        const rbs = document.querySelectorAll('input[name=' + "\"" + event.target.value + 'imputetype"]');
+        for (const rb of rbs) {
+            rb.checked = false;
+        }
+        let x = this.state.preprocessForm.imputation_column_name.splice(id + 1)
+        let y = this.state.preprocessForm.imputation_column_name.splice(0, id)
+        let x2 = this.state.preprocessForm.impution_type.splice(id + 1)
+        let y2 = this.state.preprocessForm.impution_type.splice(0, id)
+        this.setState(prevState => ({
+
+            preprocessForm: {
+                ...prevState.preprocessForm,
+                "imputation_column_name": y.concat(x),
+                "impution_type": y2.concat(x2)
+            }
+        }
+        ))
+
+    }
     render() {
         const rawdata = Object.values(this.props.rawdata);
         // console.log(this.props)
@@ -215,59 +353,59 @@ class Preprocess extends React.Component {
                                                     </div>
 
                                                     <div className="prepro ">
-                                                        <input type="checkbox" id={key + "encode"} name={i + "encode"} value={key} onChange={this.handleEncodingChange} />
+                                                        <input type="checkbox" id={key + "encode"} name={key + "encode"} value={key} onChange={this.handleEncodingRemove} />
                                                         <label htmlFor={i + "encode"}>Encode Column <span className="fa fa-caret-right"> </span></label>
                                                         {/* <label>Encode Column  </label>   */}
                                                         <div className="dropdown-content2 " >
                                                             <div className="prepro">
-                                                                <input type="radio" id={key + "onehotencode"} name={i + "encode"} />
+                                                                <input type="radio" id={key + "onehotencode"} name={key + "encodetype"} value="One-Hot Encoding" onChange={this.handleEncodingChange(key)} />
                                                                 <label htmlFor={i + "encode"}>One Hot Encoding</label>
                                                             </div>
                                                             <div className="prepro">
-                                                                <input type="radio" id={key + "label"} name={i + "encode"} />
+                                                                <input type="radio" id={key + "label"} name={key + "encodetype"} value="Label Encodeing" onChange={this.handleEncodingChange(key)} />
                                                                 <label htmlFor={i + "encode"}>Label Encoding</label>
                                                             </div>
 
                                                         </div>
                                                     </div>
                                                     <div className="prepro">
-                                                        <input type="checkbox" id={key + "scale"} name={i + "scale"} value={key} onChange={this.handleScalingChange} />
+                                                        <input type="checkbox" id={key + "scale"} name={key + "scale"} value={key} onChange={this.handleScalingRemove} />
                                                         <label htmlFor={i + "scale"}>Scale Column <span className="fa fa-caret-right"> </span></label>
 
                                                         {/* <label>Scale Column  <span className="fa fa-caret-right"> </span></label> */}
                                                         <div className="dropdown-content2">
                                                             <div className="prepro">
-                                                                <input type="radio" id={i + "scale"} name={i + "scale"} />
-                                                                <label htmlFor={i + "scale"}>Standarization</label>
+                                                                <input type="radio" id={key + "scaletype"} name={key + "scaletype"} value="standarization" onChange={this.handleScalingChange(key)} />
+                                                                <label htmlFor={i + "scaletype"}>Standarization</label>
                                                             </div>
                                                             <div className="prepro">
-                                                                <input type="radio" id={i + "scale"} name={i + "scale"} />
-                                                                <label htmlFor={i + "scale"}>Normalization</label>
+                                                                <input type="radio" id={key + "scaletype"} name={key + "scaletype"} value="normalization" onChange={this.handleScalingChange(key)} />
+                                                                <label htmlFor={i + "scaletype"}>Normalization</label>
                                                             </div>
 
                                                         </div>
                                                     </div>
                                                     <div className="prepro">
-                                                    <input type="checkbox" id={key + "impute"} name={i + "impute"} value={key} onChange={this.handleImputationChange} />
+                                                        <input type="checkbox" id={key + "impute"} name={key + "impute"} value={key} onChange={this.handleImputationRemove} />
                                                         <label htmlFor={i + "impute"}>Imputation <span className="fa fa-caret-right"> </span></label>
-                                                        
+
                                                         {/* <label>Imputation  <span className="fa fa-caret-right"> </span></label> */}
                                                         <div className="dropdown-content2">
                                                             <div className="prepro">
-                                                                <input type="radio" id={i + "imputation"} name={i + "imputation"} />
-                                                                <label htmlFor={i + "imputation"}>Mean</label>
+                                                                <input type="radio" id={key + "imputetype"} name={key + "imputetype"} value="mean" onChange={this.handleImputationChange(key)} />
+                                                                <label htmlFor={i + "imputetype"}>Mean</label>
                                                             </div>
                                                             <div className="prepro">
-                                                                <input type="radio" id={i + "imputation"} name={i + "imputation"} />
-                                                                <label htmlFor={i + "imputation"}>Median</label>
+                                                                <input type="radio" id={key + "imputetype"} name={key + "imputetype"} value="median" onChange={this.handleImputationChange(key)} />
+                                                                <label htmlFor={i + "imputetype"}>Median</label>
                                                             </div>
                                                             <div className="prepro">
-                                                                <input type="radio" id={i + "imputation"} name={i + "imputation"} />
-                                                                <label htmlFor={i + "imputation"}>Most Frequent</label>
+                                                                <input type="radio" id={key + "imputetype"} name={key + "imputetype"} value="most_frequent" onChange={this.handleImputationChange(key)} />
+                                                                <label htmlFor={i + "imputetype"}>Most Frequent</label>
                                                             </div>
                                                             <div className="prepro">
-                                                                <input type="radio" id={i + "imputation"} name={i + "imputation"} />
-                                                                <label htmlFor={i + "imputation"}>KNN</label>
+                                                                <input type="radio" id={key + "imputetype"} name={key + "imputetype"} value="knn" onChange={this.handleImputationChange(key)} />
+                                                                <label htmlFor={i + "imputetype"}>KNN</label>
                                                             </div>
 
                                                         </div>
@@ -307,6 +445,22 @@ class Preprocess extends React.Component {
                             {Object.keys(rawdata[0]).map((key, i) =>
                                 <option value={key}>{key}</option>
                             )}
+                        </select>
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="col-40">
+                        <label htmlFor="split">Train-Test Split Ratio</label>
+                    </div>
+                    <div className="col-60">
+
+                        <select name="split" id="split" onChange={this.handleSplitChange}>
+                            <option value="0.3">70-30</option>
+                            <option value="0.25">75-25</option>
+                            <option value="0.2">80-20</option>
+                            <option value="0.15">85-15</option>
+                            <option value="0.1">90-10</option>
+                            
                         </select>
                     </div>
                 </div>
