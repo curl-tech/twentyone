@@ -186,7 +186,7 @@ class Metrics(BaseModel):
             }
         }
 
-class Inference(BaseModel):
+class InferenceCollection(BaseModel):
     newData: Optional[str]    #address
     results: Optional[str]    #yaml file
     belongsToUserID: int=Field(...)
@@ -206,7 +206,7 @@ class Inference(BaseModel):
             }
         }
 
-class FormData(BaseModel):
+class AutoFormData(BaseModel):
     isauto:Optional[bool]
     target:Optional[str]
     modelnumber:Optional[int]
@@ -230,20 +230,40 @@ class FormData(BaseModel):
             }
         }
 
+class TimeseriesFormData(BaseModel):
+    userID:int
+    projectID:int
+    target:str
+    dateColumn:str
+    frequency:str
+
+    class Config:
+        arbitrary_types_allowed=True
+        allow_population_by_field_name=True
+        schema_extra={
+            "examples":{
+                "userID": "101",
+                "projectID": "45",
+                "target": "TargetColumn",
+                "dateColumn": "DateColumn",
+                "frequency": "Frequency"
+            }
+        }
+
 class PreprocessJSONFormData(BaseModel):
     raw_data_address: Optional[str]
+    date_format: Optional[str]
+    date_index: Optional[str]
+    frequency: Optional[str]
     target_column_name: Optional[str]
     drop_column_name: Optional[List[str]]
     imputation_column_name: Optional[List[str]]
     impution_type: Optional[List[str]]
     mean_median_mode_values: Optional[List[int]]
-    na_notation: Optional[List]
+    na_notation: Optional[List[str]]
     scaling_column_name: Optional[List[str]]
-    scaling_type: Optional[List]
-    min: Optional[List[int]]
-    max: Optional[List[int]]
-    mean: Optional[List[int]]
-    std: Optional[List[int]]
+    scaling_type: Optional[List[str]]
+    scaling_vales: Optional[List[int]]
     encode_column_name: Optional[List]
     encoding_type:Optional[List]
     labels: Optional[List[str]]
@@ -252,6 +272,7 @@ class PreprocessJSONFormData(BaseModel):
     data_imbalance: Optional[bool]
     split_ratio_test: Optional[int]
     is_auto: Optional[bool]
+    clean_data_address: Optional[str]
     userID: Optional[int]
     projectID: Optional[int]
 
@@ -261,6 +282,9 @@ class PreprocessJSONFormData(BaseModel):
         schema_extra={
             "examples":{
                 "raw_data_address": "path/to/raw/data/file.csv",
+                "date_format": "%Y-%m-%d",
+                "date_index": "",
+                "frequency": "",
                 "target_column_name": "target",
                 "drop_column_name": [
                     "column_name1",
@@ -294,19 +318,9 @@ class PreprocessJSONFormData(BaseModel):
                     "n",
                     "s"
                 ],
-                "min": [
-                    0
-                ],
-                "max": [
-                    1
-                ],
-                "mean": [
-                    0,
-                    2
-                ],
-                "std": [
+                "scaling_values": [
                     1,
-                    3
+                    1
                 ],
                 "encode_column_name": [
                     "encoded_column1"
@@ -322,6 +336,7 @@ class PreprocessJSONFormData(BaseModel):
                 "data_imbalance": False,
                 "split_ratio_test": 0.3,
                 "is_auto": True,
+                "clean_data_address":"/path/to/clean/data.csv",
                 "userID": 101,
                 "projectID":45
                 }

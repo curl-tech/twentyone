@@ -1,3 +1,4 @@
+import shutil
 import numpy as np
 import pandas as pd
 
@@ -14,12 +15,12 @@ import yaml
 from scipy import stats
 
 class Preprocess:     
-    def manual_preprocess(self,config):
+    def manual_preprocess(self,config, folderLocation):
         """
         This function is for preprocessing the data when the user selects manual preprocessing.                     
         """
-        config = open("preprocess_config.yaml", 'r')
-        config_data = yaml.safe_load(config)
+        # config = open("preprocess_config.yaml", 'r')
+        config_data = yaml.safe_load(open(config,'r'))
 
         
         df = pd.read_csv(config_data["raw_data_address"])
@@ -166,9 +167,12 @@ class Preprocess:
             if df[col_name].dtype == 'object':
                 df=df.drop(col_name, axis = 1)
 
-
-        clean_data_address = os.getcwd()+"/clean_data.csv"
+        df.to_csv('clean_data.csv')
+        shutil.move("clean_data_address.csv",folderLocation)
+        clean_data_address = os.path.abspath(os.path.join(folderLocation,"clean_data.csv"))
         config_data['clean_data_address'] = clean_data_address
     
-        with open("preprocess_config.yaml", 'w') as yaml_file:
+        with open(config, 'w') as yaml_file:
             yaml_file.write( yaml.dump(config_data, default_flow_style=False))
+
+        return clean_data_address

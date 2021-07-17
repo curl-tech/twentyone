@@ -5,9 +5,12 @@ import yaml
 from yaml.loader import SafeLoader
 from Backend.app.config import settings
 from Backend.app.helpers.project_helper import merge_project_path, get_raw_data_path, get_project_type
-from Backend.app.helpers.allhelpers import serialiseDict
+from Backend.app.helpers.allhelpers import CurrentIDs, serialiseDict
 
 def generate_random_id():
+    """
+    Generates a 5 digit random number from 10000 to 99999
+    """
     return random.randint(10000,99999)
 
 def generate_project_folder(projectName,trainFileStream):
@@ -36,7 +39,18 @@ def generate_project_folder(projectName,trainFileStream):
 
 def generate_project_auto_config_file(projectID,currentIDs,formData,Project21Database):
     """
+    Returns the auto config file generated for the project
+    ...
+    Parameters
+    ----------
+    projectID: int
+    currentIDs: obj
+    formData: obj
+    Project21Databse: obj
     
+    Returns
+    -------
+    tuple: path, randomID, problemType
     """
     user_yaml=yaml.load(open(settings.CONFIG_AUTO_YAML_FILE),Loader=SafeLoader)
     random_id=generate_random_id()
@@ -79,6 +93,7 @@ def generate_project_auto_config_file(projectID,currentIDs,formData,Project21Dat
 
 
 
+
 def generate_project_manual_config_file(projectID,preprocessJSONFormData,Project21Database):
     """
     
@@ -98,4 +113,4 @@ def generate_project_manual_config_file(projectID,preprocessJSONFormData,Project
         yaml.dump(preprocessJSONFormData,f)
         f.close()
     
-    return os.path.join(location,'preprocess_config.yaml'), random_id , result_project["projectType"]
+    return os.path.join(location,'preprocess_config.yaml'), random_id , result_project["projectType"], location

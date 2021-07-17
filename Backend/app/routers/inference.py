@@ -2,7 +2,7 @@ from fastapi import APIRouter, Body, HTTPException
 from fastapi.encoders import jsonable_encoder
 from Backend.app.dbclass import Database
 from Backend.app.config import settings
-from Backend.app.schemas import Inference
+from Backend.app.schemas import InferenceCollection
 from Backend.app.helpers.allhelpers import ErrorResponseModel, ResponseModel, serialiseDict, serialiseList
 
 Project21Database=Database()
@@ -27,7 +27,7 @@ def get_one_inference(belongsToModelID:int):
     return inference
 
 @inference_router.post('/inference')
-def insert_one_inference(inference: Inference=Body(...)):
+def insert_one_inference(inference: InferenceCollection=Body(...)):
     inference=jsonable_encoder(inference)
     try:
         Project21Database.insert_one(settings.DB_COLLECTION_INFERENCE,inference)
