@@ -1,7 +1,6 @@
 import numpy as np
 import pandas as pd
 
-from datetime import datetime
 from sklearn.preprocessing import OneHotEncoder 
 
 import os
@@ -15,10 +14,6 @@ class Preprocess:
         config_data = yaml.safe_load(config)
         
         df = pd.read_csv(config_data["raw_data_address"])
-        
-        # The following line will be used if the user want's to remove all the exoginous columns. 
-        # df = df[[config_data['data_index_column'],config_data['target_column_name']]]
-        # df[config_data['data_index_column']] = pd.to_datetime(df[config_data['data_index_column']]).dt.strftime(config_data['date_format'])
         
         df = df.dropna(how='all', axis=1, inplace=True)
         
@@ -43,10 +38,16 @@ class Preprocess:
             df= pd.concat([df, df_encoded ], axis=1)                 
             
             
-            
-            
-            
-        df.set_index('Month', inplace=True)            
+        df.rename(columns = {config_data['data_index_column']:'ds', config_data['target_column_name']:'y'}, inplace = True)
+
+        index_column = df.pop("ds")
+        df.insert(0, "ds", index_column)
+        df[config_data['data_index_column']] = pd.to_datetime(df[config_data['data_index_column']]).dt.strftime(config_data['date_format'])
+                
+        target_column_name = df.pop("y")
+        df.insert(1, "y", target_column_name)
+        
+        df.set_index('y', inplace=True)
         
         clean_data_address = os.getcwd()+"/clean_data.csv"
         config_data['clean_data_address'] = clean_data_address
