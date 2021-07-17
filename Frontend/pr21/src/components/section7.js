@@ -103,7 +103,7 @@ class Section7 extends Component {
         const items = []
         let len = Object.keys(this.state.projectList).length;
         // let len=3
-        console.log(len)
+        // console.log(len)
 
         for (let i = 0; i < len; i += 3) {
             let item = []

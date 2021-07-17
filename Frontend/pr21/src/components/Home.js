@@ -41,7 +41,7 @@ class Home extends Component {
             },
             preprocessForm: "",
             frequency: "D",
-            dateColumn: "",
+            dateColumn: '',
         }
         this.updateData = this.updateData.bind(this);
     }
@@ -130,18 +130,19 @@ class Home extends Component {
         this.setState({
             auto: false
         })
-        var theFormItself = document.getElementById('form2');
-        $(theFormItself).hide();
-        var theFormItself2 = document.getElementById('form4');
-        $(theFormItself2).show();
 
         axios.get('http://localhost:8000/getPreprocessParam')
             .then((response) => {
                 console.log(response);
                 this.setState({
-                    preprocessForm: response
+                    preprocessForm: response.data
+
                 })
             });
+        var theFormItself = document.getElementById('form2');
+        $(theFormItself).hide();
+        var theFormItself2 = document.getElementById('form4');
+        $(theFormItself2).show();
     }
     handleTargetChange = event => {
         this.setState({
@@ -152,6 +153,7 @@ class Home extends Component {
         this.setState({
             dateColumn: event.target.value
         })
+        console.log(this.state.dateColumn)
     }
     handleFrequencyChange = event => {
         this.setState({
@@ -196,11 +198,17 @@ class Home extends Component {
         let projectID = this.state.projectdetail["projectID"]
         let isauto = this.state.auto
         let target = this.state.target
+        if (target === '') {
+            this.setState({
+                target: Object.keys(this.state.traindata[0])[0]
+            })
+            target = Object.keys(this.state.traindata[0])[0]
+        }
         let modelnumber = this.state.modelnum
         let nulltype = this.state.nulltype
         let clusteringType = this.state.clusteringType
         let data = { userID, projectID, isauto, target, modelnumber, nulltype, clusteringType }
-        // console.log(JSON.stringify(data))
+        console.log(JSON.stringify(data))
 
         axios.post('http://localhost:8000/auto', JSON.stringify(data))
             .then(res => {
@@ -211,6 +219,59 @@ class Home extends Component {
                 console.log(this.state.modeldetail)
             },
                 (error) => { console.log(error) });
+
+
+    }
+    handleSubmitTime = event => {
+        event.preventDefault();
+        var theFormItself = document.getElementById('form6');
+        $(theFormItself).hide();
+        var theFormItself2 = document.getElementById('sec1heading');
+        $(theFormItself2).hide();
+        var theFormItself3 = document.getElementById('sec1heading2');
+        $(theFormItself3).show();
+        var theFormItself4 = document.getElementById('loader');
+        $(theFormItself4).show();
+        this.setState({
+            modeldetail: {
+                "Successful": "False",
+                "dataID": 0,
+                "modelID": 0,
+                "projectID": 0,
+                "userID": 0
+            },
+        })
+        let userID = this.state.projectdetail["userID"]
+        let projectID = this.state.projectdetail["projectID"]
+        let target = this.state.target
+        let dateColumn = this.state.dateColumn
+        let frequency = this.state.frequency
+        if (target === '') {
+            this.setState({
+                target: Object.keys(this.state.traindata[0])[0]
+            })
+            target = Object.keys(this.state.traindata[0])[0]
+        }
+        console.log(dateColumn)
+        if (dateColumn === '') {
+            this.setState({
+                dateColumn: Object.keys(this.state.traindata[0])[0]
+            })
+            dateColumn = Object.keys(this.state.traindata[0])[0]
+        }
+        let data = { userID, projectID, target, dateColumn, frequency }
+        console.log(JSON.stringify(data))
+
+        axios.post('http://localhost:8000/timeseries', JSON.stringify(data))
+            .then(res => {
+                console.log("SuccessfulTime", res)
+                this.setState({
+                    modeldetail: res.data
+                })
+                console.log(this.state.modeldetail)
+            },
+                (error) => { console.log(error) });
+
 
 
     }
@@ -254,7 +315,9 @@ class Home extends Component {
         var theFormItself6 = document.getElementById('section6');
         $(theFormItself6).hide();
         var theFormItself7 = document.getElementById('section5');
-        $(theFormItself7).hide();
+        $(theFormItself7).hide()
+        var theFormItself9 = document.getElementById('form6');
+        $(theFormItself9).hide();
         var theFormItself8 = document.getElementById('form1');
         $(theFormItself8).show();
 

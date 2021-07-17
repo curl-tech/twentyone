@@ -83,7 +83,7 @@ code {
 }
 .navbar-brand
 {
-  color: #1470f1;
+  color: #507DBC;
   font-size:xx-large;
   /* font-family:'Times New Roman', Times, serif; */
   font-family: 'Roboto', sans-serif;
@@ -93,13 +93,13 @@ code {
 }
 .navbar-brand:hover
 {
-  color: rgba(37, 125, 248, 0.836);
+  color: #2a62af;
 }
 .nav-link
 {
   margin: 1.1em;
   font-size: larger;
-  color: #1470f1;
+  color: #507DBC;
 }
 .nav-link:hover
 {
@@ -167,7 +167,7 @@ code {
 
 /* background-image: url(./assets/img/bg1.jpg); */
 /* background:linear-gradient(rgba(22, 1, 32, 0.384),rgba(142, 129, 153,0.8 )), url(./assets/img/bg1.jpg); */
-background-image: url(./assets/img/bg27.png);
+background-image: url(./assets/img/bg29.png);
  background-size: cover;
  width: 100%;
  /* opacity: 0.9; */
@@ -597,7 +597,7 @@ input[type=text],input[type=number] ,select, textarea {
 }
 .autocheckbox{
   position: absolute;
-  padding-left: 60%;
+  /* padding-left: 60%; */
   font-size: x-large;
 }
 .autocheckbox input[type=checkbox]{
@@ -622,6 +622,9 @@ input[type=text],input[type=number] ,select, textarea {
 
 .dropdown:hover .dropdown-content {
   display: block;
+}
+.dropdown{
+  position:initial;
 }
 .dropdown-content2 {
   display: none;
