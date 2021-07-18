@@ -34,3 +34,5 @@ tangled-up-in-unicode==0.1.0
 requests>=2.24.0
 # Progress bar
 tqdm>=4.48.2
+pmdarima>=1.8.2
+pystan>=2.19.1.1
