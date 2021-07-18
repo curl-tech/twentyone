@@ -294,7 +294,7 @@ class Home extends Component {
             currentmodel: val
         })
     }
-    handleAutoPreprocess() {
+    handleAutoPreprocess =(val) => {
         var theFormItself = document.getElementById('preprocesstable');
         $(theFormItself).toggle();
         this.setState({
