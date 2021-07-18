@@ -37,7 +37,7 @@ class Preprocess:
             df = df.dropna(how='all', inplace=True)
             
         if config_data['drop_column_name'][0] != None:
-            df=df.drop(config_data["drop_col_name"], axis = 1)
+            df=df.drop(config_data["drop_column_name"], axis = 1)
             drop_NA(df)
         else:
             drop_NA(df)

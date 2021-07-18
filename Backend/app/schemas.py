@@ -259,20 +259,21 @@ class PreprocessJSONFormData(BaseModel):
     drop_column_name: Optional[List[str]]
     imputation_column_name: Optional[List[str]]
     impution_type: Optional[List[str]]
-    mean_median_mode_values: Optional[List[int]]
+    mean_median_mode_values: Optional[List[int]] 
     na_notation: Optional[List[str]]
     scaling_column_name: Optional[List[str]]
     scaling_type: Optional[List[str]]
-    scaling_vales: Optional[List[int]]
+    scaling_vales: Optional[List[int]] 
     encode_column_name: Optional[List]
     encoding_type:Optional[List]
-    labels: Optional[List[str]]
+    labels: Optional[List[str]] 
     Remove_outlier: Optional[bool]
     feature_selection: Optional[bool]
     data_imbalance: Optional[bool]
-    split_ratio_test: Optional[int]
-    is_auto: Optional[bool]
+    train_test_split_ratio: Optional[int]
+    is_auto_preprocess: Optional[bool]
     clean_data_address: Optional[str]
+    inference_clean_data_address: Optional[str]
     userID: Optional[int]
     projectID: Optional[int]
 
@@ -334,10 +335,11 @@ class PreprocessJSONFormData(BaseModel):
                 "Remove_outlier": True,
                 "feature_selection": True,
                 "data_imbalance": False,
-                "split_ratio_test": 0.3,
-                "is_auto": True,
+                "train_test_split_ratio": 0.3,
+                "is_auto_preprocess": True,
                 "clean_data_address":"/path/to/clean/data.csv",
                 "userID": 101,
-                "projectID":45
+                "projectID":45,
+                "inference_clean_data_address": "path/to/inference/data.csv"
                 }
         }

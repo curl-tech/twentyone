@@ -347,14 +347,14 @@ def get_preprocessing_parameters():
     return JSONResponse(yaml_json)
 
 @app.post('/getHyperparams',tags=["Manual Mode"])
-def get_hyper_parameters(preprocessJSONFormData:PreprocessJSONFormData):
+def get_hyper_parameters(preprocessJSONFormData:dict):
     preprocessJSONFormData=dict(preprocessJSONFormData)
-    projectManualConfigFileLocation, dataID, problem_type, folderLocation = generate_project_manual_config_file(preprocessJSONFormData["projectID"],preprocessJSONFormData,Project21Database)
+    # projectManualConfigFileLocation, dataID, problem_type, folderLocation = generate_project_manual_config_file(preprocessJSONFormData["projectID"],preprocessJSONFormData,Project21Database)
     # TODO: Call function manual preprocess generate the clean data and save it in DB
-    inferenceObj=Preprocess()
-    cleanDataPath=inferenceObj.manual_preprocess(projectManualConfigFileLocation, folderLocation)
-    print(cleanDataPath)
-    # if(problem_type=='regression'):
+    # inferenceObj=Preprocess()
+    # cleanDataPath=inferenceObj.manual_preprocess(projectManualConfigFileLocation, folderLocation)
+    # print(cleanDataPath)
+    # # if(problem_type=='regression'):
     #     automatic_model_training=AutoReg()
     #     Operation=automatic_model_training.auto(projectAutoConfigFileLocation)
     # elif (problem_type=='classification'):
