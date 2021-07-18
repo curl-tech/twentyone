@@ -7,17 +7,17 @@ class ManualModel extends Component {
             classimodellist: ['LogisticRegression', 'RandomForestClassifier', 'DecisionTree', 'XGBOOST', 'GaussianNB', 'K-NN'],
             regmodellist: ['LinearRegression', 'PolynomialRegression', 'RandomForest', 'DecisionTree', 'XGBOOST', 'K-NN'],
             modalShow: false,
-            currentModel:""
+            currentModel: ""
         }
     }
-    handlehyperselection= event=>{
+    handlehyperselection = event => {
         var checkbox = event.target;
-        if(checkbox.checked){
-            this.setState({modalShow: true })
-            this.setState({currentModel: event.target.value }) 
+        if (checkbox.checked) {
+            this.setState({ modalShow: true })
+            this.setState({ currentModel: event.target.value })
         }
-        else{
-            this.setState({modalShow: false })
+        else {
+            this.setState({ modalShow: false })
         }
     }
     render() {
@@ -33,10 +33,13 @@ class ManualModel extends Component {
                         <div className="card sec6card manualcard">
 
                             <div className="card-body">
-                                <h4 className="card-title">{this.state.classimodellist[j]}</h4>
+                                <input type="checkbox" id={i+"automodel"} value={this.state.classimodellist[j]} onClick={this.handlehyperselection} name="automodel" />
+                                <h4 className="card-title"> <label htmlFor="automodel" > {this.state.classimodellist[j]}</label>
+                                </h4>
+                                {/* <h4 className="card-title">{this.state.classimodellist[j]}</h4> */}
                                 <div className="manualmodelcard">
-                                    <input type="checkbox" id="automodel" value={this.state.classimodellist[j]} onClick={this.handlehyperselection} name="automodel" />
-                                    <label htmlFor="automodel" > Select</label>
+                                    {/* <input type="checkbox" id="automodel" value={this.state.classimodellist[j]} onClick={this.handlehyperselection} name="automodel" /> */}
+                                    {/* <label htmlFor="automodel" > Select</label> */}
                                     <HyperModal
                                         show={this.state.modalShow}
                                         onHide={() => this.setState({ modalShow: false })}
@@ -76,11 +79,15 @@ class ManualModel extends Component {
                     item.push(
                         <div className="card sec6card manualcard">
 
-                            <div className="card-body">
-                                <h4 className="card-title heading">{this.state.regmodellist[j]}</h4>
+                            <div className="card-body manualmodellist">
+                                <span> <input type="checkbox" id={i+"automodel"} value={this.state.regmodellist[j]} onClick={this.handlehyperselection} name="automodel" />
+                                   <label htmlFor="automodel"  className="card-model-list"> {this.state.regmodellist[j]}</label>
+                                </span>
+
+                                {/* <h4 className="card-title">{this.state.classimodellist[j]}</h4> */}
                                 <div className="manualmodelcard">
-                                    <input type="checkbox" id="automodel" value={this.state.regmodellist[j]} onClick={this.handlehyperselection} name="automodel" />
-                                    <label htmlFor="automodel"> Select</label>
+                                    {/* <input type="checkbox" id="automodel" value={this.state.classimodellist[j]} onClick={this.handlehyperselection} name="automodel" /> */}
+                                    {/* <label htmlFor="automodel" > Select</label> */}
                                     <HyperModal
                                         show={this.state.modalShow}
                                         onHide={() => this.setState({ modalShow: false })}
@@ -112,10 +119,10 @@ class ManualModel extends Component {
             );
         }
         else {
-            return(
-            <div>
-                <h1>Clustering manual models</h1>
-            </div>
+            return (
+                <div>
+                    <h1>Clustering manual models</h1>
+                </div>
             );
         }
 

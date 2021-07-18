@@ -1,6 +1,6 @@
 import React from 'react';
 import $ from 'jquery';
-// import axios from 'axios';
+import axios from 'axios';
 
 
 
@@ -37,7 +37,18 @@ class Preprocess extends React.Component {
             }
             ))
         }
+        console.log(JSON.stringify(this.state.preprocessForm))
+
+        axios.post('http://localhost:8000/getHyperparams', JSON.stringify(this.state.preprocessForm))
+            .then(res => {
+                console.log("Successful2", res)
+                this.props.handleModelForm(res.data)
+            },
+                (error) => { console.log(error) });
         
+
+
+
     }
     handleTargetChange = event => {
         this.setState(prevState => ({
@@ -49,7 +60,7 @@ class Preprocess extends React.Component {
         }
         ))
     }
-    handleTargetChange = event => {
+    handleSplitChange = event => {
         this.setState(prevState => ({
 
             preprocessForm: {
@@ -115,8 +126,6 @@ class Preprocess extends React.Component {
         }
         else {
             const id = this.state.preprocessForm.drop_column_name.indexOf(event.target.value);
-            console.log(id)
-            console.log(this.state.preprocessForm.drop_column_name)
             let x = this.state.preprocessForm.drop_column_name.splice(id + 1)
             let y = this.state.preprocessForm.drop_column_name.splice(0, id)
             this.setState(prevState => ({
@@ -133,21 +142,19 @@ class Preprocess extends React.Component {
         var checkBox = document.getElementById(key + "encode");
         const rbs = document.querySelectorAll('input[name=' + "\"" + key + 'encodetype"]');
         let selectedValue;
-        if (key != 0) {
-            console.log(key)
+        if (key !== 0) {
             for (const rb of rbs) {
                 if (rb.checked) {
                     selectedValue = rb.value;
                     break;
                 }
             }
-            console.log(selectedValue)
             if (checkBox.checked === false)
                 checkBox.checked = true;
             if (checkBox.checked === true) {
                 const id = this.state.preprocessForm.encode_column_name.indexOf(key);
 
-                if (id != -1) {
+                if (id !== -1) {
                     let x = this.state.preprocessForm.encoding_type.splice(id + 1)
                     let y = this.state.preprocessForm.encoding_type.splice(0, id)
                     this.setState(prevState => ({
@@ -177,8 +184,6 @@ class Preprocess extends React.Component {
 
     handleEncodingRemove = event => {
         const id = this.state.preprocessForm.encode_column_name.indexOf(event.target.value);
-        console.log(id)
-        console.log(this.state.preprocessForm.encode_column_name)
         const rbs = document.querySelectorAll('input[name=' + "\"" + event.target.value + 'encodetype"]');
         for (const rb of rbs) {
             rb.checked = false;
@@ -202,21 +207,19 @@ class Preprocess extends React.Component {
         var checkBox = document.getElementById(key + "scale");
         const rbs = document.querySelectorAll('input[name=' + "\"" + key + 'scaletype"]');
         let selectedValue;
-        if (key != 0) {
-            console.log(key)
+        if (key !== 0) {
             for (const rb of rbs) {
                 if (rb.checked) {
                     selectedValue = rb.value;
                     break;
                 }
             }
-            console.log(selectedValue)
             if (checkBox.checked === false)
                 checkBox.checked = true;
             if (checkBox.checked === true) {
                 const id = this.state.preprocessForm.scaling_column_name.indexOf(key);
 
-                if (id != -1) {
+                if (id !== -1) {
                     let x = this.state.preprocessForm.scaling_type.splice(id + 1)
                     let y = this.state.preprocessForm.scaling_type.splice(0, id)
                     this.setState(prevState => ({
@@ -243,8 +246,6 @@ class Preprocess extends React.Component {
     }
     handleScalingRemove = event => {
         const id = this.state.preprocessForm.scaling_column_name.indexOf(event.target.value);
-        console.log(id)
-        console.log(this.state.preprocessForm.scaling_column_name)
         const rbs = document.querySelectorAll('input[name=' + "\"" + event.target.value + 'scaletype"]');
         for (const rb of rbs) {
             rb.checked = false;
@@ -268,21 +269,19 @@ class Preprocess extends React.Component {
         var checkBox = document.getElementById(key + "impute");
         const rbs = document.querySelectorAll('input[name=' + "\"" + key + 'imputetype"]');
         let selectedValue;
-        if (key != 0) {
-            console.log(key)
+        if (key !== 0) {
             for (const rb of rbs) {
                 if (rb.checked) {
                     selectedValue = rb.value;
                     break;
                 }
             }
-            console.log(selectedValue)
             if (checkBox.checked === false)
                 checkBox.checked = true;
             if (checkBox.checked === true) {
                 const id = this.state.preprocessForm.imputation_column_name.indexOf(key);
 
-                if (id != -1) {
+                if (id !== -1) {
                     let x = this.state.preprocessForm.impution_type.splice(id + 1)
                     let y = this.state.preprocessForm.impution_type.splice(0, id)
                     this.setState(prevState => ({
@@ -309,8 +308,6 @@ class Preprocess extends React.Component {
     }
     handleImputationRemove = event => {
         const id = this.state.preprocessForm.imputation_column_name.indexOf(event.target.value);
-        console.log(id)
-        console.log(this.state.preprocessForm.imputation_column_name)
         const rbs = document.querySelectorAll('input[name=' + "\"" + event.target.value + 'imputetype"]');
         for (const rb of rbs) {
             rb.checked = false;
@@ -332,8 +329,6 @@ class Preprocess extends React.Component {
     }
     render() {
         const rawdata = Object.values(this.props.rawdata);
-        // console.log(this.props)
-        // console.log(this.props.proprocessForm)
         console.log(this.state.preprocessForm)
         return (
             <div>

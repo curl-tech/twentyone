@@ -717,14 +717,17 @@ input[type=text],input[type=number] ,select, textarea {
   /* font-family: 'Roberto' 'New Tegomin', 'cursive'; */
   font-family: 'Roboto', sans-serif;
 }
-.manualmodelcard input[type=checkbox]{
-  margin: 4px;
+.manualmodellist input[type=checkbox]{
+  /* margin: 4px; */
   width: 18px;
   height: 18px;
-  margin-top: 3em;
+  margin-top: 2.5em;
+  margin-right: 0.2em;
+
 }
-.manualmodelcard label{
-  font-size: larger;
+.manualmodellist label{
+  font-size: x-large;
+  margin-top: 2.5em;
 }
 .manualcard{
   height:10em;
@@ -732,7 +735,7 @@ input[type=text],input[type=number] ,select, textarea {
 /* For hyperparmeter modal css */
 .modal-backdrop
 {
-  background-color: rgba(255, 255, 255,0.2);
+  background-color: rgba(0, 0, 0,0.5);
     /* opacity:0.5 !important; */
 }
 .manualmodelheading{

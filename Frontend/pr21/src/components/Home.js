@@ -42,7 +42,8 @@ class Home extends Component {
             preprocessForm: "",
             frequency: "D",
             dateColumn: '',
-            automanualpreprocess:false,
+            automanualpreprocess: false,
+            modelForm: "",
         }
         this.updateData = this.updateData.bind(this);
     }
@@ -72,9 +73,13 @@ class Home extends Component {
         event.preventDefault();
         var theFormItself = document.getElementById('form1');
         $(theFormItself).hide();
-        if (this.state.mtype !== "timeseries") {
+        if (this.state.mtype !== "timeseries" && this.state.mtype !== "clustering") {
             var theFormItself2 = document.getElementById('form2');
             $(theFormItself2).show();
+        }
+        else if (this.state.mtype === "clustering") {
+            var theFormItself3 = document.getElementById('form3');
+            $(theFormItself3).show();
         }
         else {
             var theFormItself6 = document.getElementById('form6');
@@ -144,6 +149,13 @@ class Home extends Component {
         $(theFormItself).hide();
         var theFormItself2 = document.getElementById('form4');
         $(theFormItself2).show();
+    }
+    handleModelForm= (value) => event => {
+        this.setState({
+            modelForm: value
+        })
+        console.log(value)
+
     }
     handleTargetChange = event => {
         this.setState({
@@ -276,6 +288,7 @@ class Home extends Component {
 
 
     }
+
     handleCurrentModel = (val) => {
         this.setState({
             currentmodel: val
@@ -285,7 +298,7 @@ class Home extends Component {
         var theFormItself = document.getElementById('preprocesstable');
         $(theFormItself).toggle();
         this.setState({
-            automanualpreprocess:true
+            automanualpreprocess: true
         })
 
     }
@@ -509,7 +522,7 @@ class Home extends Component {
                             </div>
                             <h1>Preprocess</h1>
                             <p>Go to each column and decide how would you like to preprocess it</p>
-                            <Preprocess rawdata={this.state.traindata} proprocessForm={this.state.preprocessForm} automanualpreprocess={this.state.automanualpreprocess}/>
+                            <Preprocess rawdata={this.state.traindata} proprocessForm={this.state.preprocessForm} automanualpreprocess={this.state.automanualpreprocess} handleModelForm={this.handleModelForm} />
                         </div>
                     </div>
                     {/* form 5 for model and hypeparameters selection*/}
@@ -524,7 +537,7 @@ class Home extends Component {
                             </div>
                             <h1>Models</h1>
                             <p>Preprocessing is being done. Now, select models and their hyperparameters</p>
-                            <ManualModel mtype={this.state.mtype} />
+                            <ManualModel modelForm={this.state.modelForm} mtype={this.state.mtype} />
                         </div>
                     </div>
                     {/* form6 for time series */}
