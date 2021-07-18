@@ -11,7 +11,7 @@ import plotly.express as ex
 
 from Files.metrics import Metrics as met
 class timeseries:
-    def createprophet(dataconfig):
+    def createprophet(self,dataconfig):
         with open(dataconfig) as f:
             dataconfigfile= yaml.load(f,Loader=FullLoader)
         data=dataconfig["data"]
@@ -43,19 +43,20 @@ class timeseries:
             json.dump(model_to_json(modelfinal), fout)
         return location
 
-    def fbinference(location,number):
+    def fbinference(self,location,number):
         with open(location, 'r') as fin:
             model = model_from_json(json.load(fin))
         future=model.make_future_dataframe(periods=number)
         pred=model.predict(future)
         return pred
 
-    def createarima(dataconfig):
+    def createarima(self,dataconfig):
         with open(dataconfig) as f:
             dataconfigfile= yaml.load(f,Loader=FullLoader)
-
-        data=dataconfig["data"]
-        location=dataconfig["location"]
+        metrics=pd.DataFrame(columns=['modelname','mean_absolute_error','mean_squared_error','r2_score','mean_squared_log_error'])
+        
+        data=pd.read_csv(dataconfigfile["clean_data_address"])
+        location=dataconfigfile["location"]
         testsize=int(len(data)*0.2)
         train=data.iloc[:-testsize]
         test=data.iloc[-testsize:]
@@ -63,13 +64,14 @@ class timeseries:
         testpred=model.predict(testsize)
         testactual=test.y
 
-        metrics=met.calculate_metrics("fbprophet","Regression",testpred,testactual)
+        metrics_new_row=met.calculate_metrics("arima","Regression",testpred,testactual)
         metricsLocation=os.path.join(dataconfigfile["location"],"metrics.csv")
+        metrics.loc[len(metrics.index)]=metrics_new_row
         metrics.to_csv(metricsLocation, index=True)
         compare=pd.DataFrame(testpred,columns=['predictions'])
         compare['actual']=testactual.values
 
-        fig=compare.plot(legend=True)
-        plotly.offline.plot(fig,filename=os.path.join(location,"arimatestvspred.html"))
+        # fig=compare.plot(legend=True)
+        # plotly.offline.plot(fig,filename=os.path.join(location,"arimatestvspred.html"))
         modelfinal=auto_arima(data['y'], trace=True,suppress_warnings=True)
         return metricsLocation

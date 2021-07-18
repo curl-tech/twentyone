@@ -11,21 +11,17 @@ from scipy import stats
 class TimeseriesPreprocess:     
     def preprocess(self,config,folderLocation):
 
-        config = open("preprocess_config.yaml", 'r')
+        
         config_data=yaml.load(open(config),Loader=SafeLoader)
-        config_data = yaml.safe_load(open(config, 'r'))
-
-        print("Config Data is: ",config_data)
+        
         df = pd.read_csv(config_data["raw_data_address"])
-        print("Type of DF: ", type(df))
-
-        print("DataFrame Head is: ",df.head())
+        
         df.dropna(how='all', axis=1, inplace=True)
         
         print("DataFrame again: ", df)
         df.set_index(config_data['date_index'], inplace = True)
         df.index=pd.to_datetime(df.index,format = config_data['date_format']) 
-        df = df['Cases'].resample(config_data['frequency']).sum()
+        # df = df['Cases'].resample(config_data['frequency']).sum()
 
 
         # df.index=pd.to_datetime(df.index,format ='%Y-%m-%d') 

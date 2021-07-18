@@ -29,6 +29,7 @@ from Files.plot import plot
 from Files.inference import Inference
 from Files.preprocess import Preprocess
 from Files.timeseries_preprocess import TimeseriesPreprocess
+from Files.timeseries import timeseries
 
 origins=settings.CORS_ORIGIN
 
@@ -451,17 +452,28 @@ def timeseries_training(timeseriesFormData: TimeseriesFormData):
         })
     except Exception as e:
         print("An Error Occured: ",e)
-    ########################################
+
+    timeseriesObj=timeseries()
+    metricsLocation=timeseriesObj.createarima(projectConfigFileLocation)
+    print(metricsLocation)
+
+    # try:
+    #     Project21Database.insert_one(settings.DB_COLLECTION_MODEL,{
+    #         "modelID": dataID,
+    #         "modelName": "Default Name",
+    #         "modelType": "timeseries",
+    #         "pickleFolderPath": Operation["pickleFolderPath"],
+    #         "pickleFilePath": Operation["pickleFilePath"],
+    #         "belongsToUserID": autoFormData["userID"],
+    #         "belongsToProjectID": autoFormData["projectID"],
+    #         "belongsToDataID": dataID
+    #     })
+    # except Exception as e:
+    #     print("An Error Occurred: ",e)
+########################################
     # if Operation["Successful"]:
     #     try:
-    #         Project21Database.insert_one(settings.DB_COLLECTION_DATA,{
-    #             "dataID": dataID,
-    #             "cleanDataPath": Operation["cleanDataPath"],
-    #             "target": autoFormData["target"],
-    #             "belongsToUserID": currentIDs.get_current_user_id(),
-    #             "belongsToProjectID": autoFormData["projectID"]
-    #         })
-    #         currentIDs.set_current_data_id(dataID)
+    #         
     #         Project21Database.insert_one(settings.DB_COLLECTION_MODEL,{
     #             "modelID": dataID,
     #             "modelName": "Default Name",
