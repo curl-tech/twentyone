@@ -1,7 +1,7 @@
 from pmdarima import auto_arima
-from fbprophet import Prophet
+#from fbprophet import Prophet
 import json
-from fbprophet.serialize import model_to_json, model_from_json
+#from fbprophet.serialize import model_to_json, model_from_json
 import os
 import yaml
 from yaml.loader import FullLoader
@@ -64,9 +64,12 @@ class timeseries:
         testactual=test.y
 
         metrics=met.calculate_metrics("fbprophet","Regression",testpred,testactual)
+        metricsLocation=os.path.join(dataconfigfile["location"],"metrics.csv")
+        metrics.to_csv(metricsLocation, index=True)
         compare=pd.DataFrame(testpred,columns=['predictions'])
         compare['actual']=testactual.values
 
         fig=compare.plot(legend=True)
         plotly.offline.plot(fig,filename=os.path.join(location,"arimatestvspred.html"))
         modelfinal=auto_arima(data['y'], trace=True,suppress_warnings=True)
+        return metricsLocation
