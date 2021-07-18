@@ -10,8 +10,8 @@ from scipy import stats
 class TimeseriesPreprocess:     
     def preprocess(self,config,folderLocation):
 
-        config = open("preprocess_config.yaml", 'r')
-        config_data = yaml.safe_load(config)
+        # config = open("preprocess_config.yaml", 'r')
+        config_data = yaml.safe_load(open(config, 'r'))
         
         df = pd.read_csv(config_data["raw_data_address"])
         
@@ -26,7 +26,7 @@ class TimeseriesPreprocess:
         for col_name in df.columns:
             if df[col_name].dtype == 'object':
                 objest_type_column_list.append(col_name)
-                config_data['encodeing_type'].extend(['One-Hot Encoding'])
+                config_data['encoding_type'].extend(['One-Hot Encoding'])
                 
         if objest_type_column_list != [] :
             config_data['encode_column_name'] = objest_type_column_list
@@ -56,7 +56,7 @@ class TimeseriesPreprocess:
     
     
     
-        with open("preprocess_config.yaml", 'w') as yaml_file:
+        with open(config, 'w') as yaml_file:
             yaml_file.write( yaml.dump(config_data, default_flow_style=False))
 
         return clean_data_address

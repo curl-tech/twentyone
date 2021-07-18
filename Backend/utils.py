@@ -1,3 +1,4 @@
+from datetime import time
 import os
 import random
 import shutil
@@ -114,3 +115,33 @@ def generate_project_manual_config_file(projectID,preprocessJSONFormData,Project
         f.close()
     
     return os.path.join(location,'preprocess_config.yaml'), random_id , result_project["projectType"], location
+
+def generate_project_timeseries_config_file(projectID,currentIDs,timeseriesFormData,Project21Database):
+    user_yaml=yaml.load(open(settings.CONFIG_PREPROCESS_YAML_FILE),Loader=SafeLoader)
+
+    random_id=generate_random_id()
+    user_yaml["id"]=random_id
+    user_yaml["raw_data_address"]=get_raw_data_path(projectID,Project21Database)
+    user_yaml["target_column_name"]=timeseriesFormData["target"]
+    user_yaml["date_index"]=timeseriesFormData["dateColumn"]
+    user_yaml["frequency"]=timeseriesFormData["frequency"]
+
+    try:
+        result_project=Project21Database.find_one(settings.DB_COLLECTION_PROJECT,{"projectID":projectID})
+        result_project=serialiseDict(result_project)
+        if result_project is not None:
+            user_yaml["location"]=os.path.join(result_project["projectFolderPath"],'run'+str(random_id))
+            user_yaml["experimentname"]=result_project["projectName"]
+        else:
+            user_yaml["location"]='/'
+            user_yaml["experimentname"]='default'
+    except Exception as e:
+        print("Unable to Update User's Project's Config File. An Error Occured: ",e)
+    
+    if(not os.path.exists(user_yaml["location"])):
+        os.makedirs(user_yaml["location"])
+    with open(os.path.join(user_yaml["location"],"preprocess_config.yaml"), "w") as f:
+        yaml.dump(user_yaml,f)
+        f.close()
+    
+    return os.path.join(user_yaml["location"],'preprocess_config.yaml'), user_yaml["location"],random_id
