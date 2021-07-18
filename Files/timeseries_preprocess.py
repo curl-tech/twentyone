@@ -11,9 +11,9 @@ from scipy import stats
 class TimeseriesPreprocess:     
     def preprocess(self,config,folderLocation):
 
-        # config = open("preprocess_config.yaml", 'r')
+        config = open("preprocess_config.yaml", 'r')
         config_data=yaml.load(open(config),Loader=SafeLoader)
-        # config_data = yaml.safe_load(open(config, 'r'))
+        config_data = yaml.safe_load(open(config, 'r'))
 
         print("Config Data is: ",config_data)
         df = pd.read_csv(config_data["raw_data_address"])
@@ -21,20 +21,23 @@ class TimeseriesPreprocess:
 
         print("DataFrame Head is: ",df.head())
         df.dropna(how='all', axis=1, inplace=True)
-        print("DataFrame again: ", df)
         
+        print("DataFrame again: ", df)
+        df.set_index(config_data['date_index'], inplace = True)
+        df.index=pd.to_datetime(df.index,format = config_data['date_format']) 
+        df = df['Cases'].resample(config_data['frequency']).sum()
+
+
         # df.index=pd.to_datetime(df.index,format ='%Y-%m-%d') 
         
-        if config_data['frequency'] is not None:
-            df = df.asfreq(freq = config_data["frequency"], method='bfill',normalize=True)
+        # if config_data['frequency'] is not None:
+        #     df = df.asfreq(freq = config_data["frequency"], method='bfill',normalize=True)
         
         df = df.fillna(method='bfill')
     
         df.rename(columns = {config_data['date_index']:'ds', config_data['target_column_name']:'y'}, inplace = True)
 
-        index_column = df.pop("ds")
-        df.insert(0, "ds", index_column)
-        df[config_data['date_index']] = pd.to_datetime(df[config_data['date_index']]).dt.strftime(config_data['date_format'])
+        df['Date'] = df.index
 
         object_type_column_name = []
         for col_name in df.columns:
@@ -52,13 +55,6 @@ class TimeseriesPreprocess:
             df.drop([object_type_column_name] ,axis=1, inplace=True)
             df= pd.concat([df, df_encoded ], axis=1)                 
             
-            
-       
-        target_column_name = df.pop("y")
-        df.insert(1, "y", target_column_name)
-        
-        df.set_index('y', inplace=True)
-        
         df.to_csv('clean_data.csv')
         shutil.move("clean_data.csv",folderLocation)
         clean_data_address = os.path.abspath(os.path.join(folderLocation,"clean_data.csv"))
