@@ -99,6 +99,12 @@ def generate_project_manual_config_file(projectID,preprocessJSONFormData,Project
     """
     
     """
+    # user_yaml=yaml.load(open(settings.CONFIG_PREPROCESS_YAML_FILE),Loader=SafeLoader)
+    
+    random_id=generate_random_id()
+    preprocessJSONFormData["id"]=random_id
+    preprocessJSONFormData["raw_data_address"]=get_raw_data_path(projectID,Project21Database)
+    
     location="/"
     random_id=generate_random_id()
     try:
@@ -110,6 +116,8 @@ def generate_project_manual_config_file(projectID,preprocessJSONFormData,Project
         print("Unable to Update User's Project's Config File")
     if(not os.path.exists(location)):
         os.makedirs(location)
+
+    preprocessJSONFormData["location"]=location
     with open(os.path.join(location,"preprocess_config.yaml"), "w") as f:
         yaml.dump(preprocessJSONFormData,f)
         f.close()

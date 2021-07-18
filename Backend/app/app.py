@@ -355,7 +355,7 @@ def get_hyper_parameters(preprocessJSONFormData:PreprocessJSONFormData):
     # TODO: Call function manual preprocess generate the clean data and save it in DB
     inferenceObj=Preprocess()
     cleanDataPath=inferenceObj.manual_preprocess(projectManualConfigFileLocation, folderLocation)
-    # TODO: Change the above function call to a different function,
+    print(cleanDataPath)
     # if(problem_type=='regression'):
     #     automatic_model_training=AutoReg()
     #     Operation=automatic_model_training.auto(projectAutoConfigFileLocation)
