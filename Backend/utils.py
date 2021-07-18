@@ -133,7 +133,7 @@ def generate_project_timeseries_config_file(projectID,currentIDs,timeseriesFormD
     user_yaml["target_column_name"]=timeseriesFormData["target"]
     user_yaml["date_index"]=timeseriesFormData["dateColumn"]
     user_yaml["frequency"]=timeseriesFormData["frequency"]
-
+    
     try:
         result_project=Project21Database.find_one(settings.DB_COLLECTION_PROJECT,{"projectID":projectID})
         result_project=serialiseDict(result_project)
@@ -152,4 +152,4 @@ def generate_project_timeseries_config_file(projectID,currentIDs,timeseriesFormD
         yaml.dump(user_yaml,f)
         f.close()
     
-    return os.path.join(user_yaml["location"],'preprocess_config.yaml'), user_yaml["location"],random_id
+    return os.path.join(user_yaml["location"],'preprocess_config.yaml'), user_yaml["location"],random_id, result_project["projectType"]

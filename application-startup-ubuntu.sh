@@ -17,7 +17,7 @@ trap "terminationFunction" INT
 sudo systemctl start mongod
 
 #To Activate the Virtual Environment
-. venv/bin/activate
+. env/bin/activate
 
 #To Start React - Frontend Server
 /bin/sh -ec 'cd Frontend/pr21 && npm start &'

@@ -12,6 +12,7 @@ import shutil
 #import kaleido
 import plotly.express as px
 import plotly.graph_objects as go
+import pickle
 
 from Files.metrics import Metrics as met
 class timeseries:
@@ -64,7 +65,7 @@ class timeseries:
         testsize=int(len(data)*0.2)
         train=data.iloc[:-testsize]
         test=data.iloc[-testsize:]
-        model = auto_arima(train['y'],trace=True) 
+        model = auto_arima(train['y'],trace=True, seasonal=True) 
         testpred=model.predict(testsize)
         testactual=test.y
 
@@ -83,15 +84,19 @@ class timeseries:
  
         plotlocation=dataconfigfile['location']
         fig.write_html(os.path.join(plotlocation,"plot.html"))
+        plotlocation=os.path.join(plotlocation,"plot.html")
 
-        modelfinal=auto_arima(data['y'], trace=True,suppress_warnings=True)
+        modelfinal=auto_arima(data['y'], trace=True,suppress_warnings=True, seasonal=True)
         location=os.path.join(dataconfigfile["location"],str(dataconfigfile["id"])+"_model")
         os.makedirs(location)
         name=str(dataconfigfile["experimentname"])+str(dataconfigfile["id"])+"_model"
-        modelfinal.save(name)
-        shutil.move(name+'.pkl',location)
+        # modelfinal.save(name)
+        with open(name, 'wb') as pkl:
+            pickle.dump(modelfinal, pkl)
+
+        shutil.move(name,location)
 
         pickleFilePath =os.path.join(location,name)
         
-        return {"Successful": True, "cleanDataPath": dataconfigfile["clean_data_address"], "metricsLocation":metricsLocation, "pickleFolderPath":location, "pickleFilePath":pickleFilePath}
+        return {"Successful": True, "cleanDataPath": dataconfigfile["clean_data_address"], "metricsLocation":metricsLocation, "pickleFolderPath":location, "pickleFilePath":pickleFilePath, "plotLocation":plotlocation}
         

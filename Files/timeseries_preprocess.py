@@ -20,7 +20,7 @@ class TimeseriesPreprocess:
         
         print("DataFrame again: ", df)
         df.set_index(config_data['date_index'], inplace = True)
-        df.index=pd.to_datetime(df.index,format = config_data['date_format']) 
+        df.index=pd.to_datetime(df.index) 
         # df = df['Cases'].resample(config_data['frequency']).sum()
 
 
