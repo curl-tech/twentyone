@@ -8,6 +8,10 @@ from yaml.loader import FullLoader
 import plotly
 import pandas as pd
 import plotly.express as ex
+import shutil
+#import kaleido
+import plotly.express as px
+import plotly.graph_objects as go
 
 from Files.metrics import Metrics as met
 class timeseries:
@@ -71,7 +75,23 @@ class timeseries:
         compare=pd.DataFrame(testpred,columns=['predictions'])
         compare['actual']=testactual.values
 
-        # fig=compare.plot(legend=True)
-        # plotly.offline.plot(fig,filename=os.path.join(location,"arimatestvspred.html"))
+        fig = go.Figure()
+        fig.add_trace(go.Scatter(x=compare.index,y=compare.actual,name="actual"))
+
+        fig.add_trace(go.Scatter(x=compare.index,y=compare.predictions,name="predictions"))
+  
+ 
+        plotlocation=dataconfigfile['location']
+        fig.write_html(os.path.join(plotlocation,"plot.html"))
+
         modelfinal=auto_arima(data['y'], trace=True,suppress_warnings=True)
-        return metricsLocation
+        location=os.path.join(dataconfigfile["location"],str(dataconfigfile["id"])+"_model")
+        os.makedirs(location)
+        name=str(dataconfigfile["experimentname"])+str(dataconfigfile["id"])+"_model"
+        modelfinal.save(name)
+        shutil.move(name+'.pkl',location)
+
+        pickleFilePath =os.path.join(location,name)
+        
+        return {"Successful": True, "cleanDataPath": dataconfigfile["clean_data_address"], "metricsLocation":metricsLocation, "pickleFolderPath":location, "pickleFilePath":pickleFilePath}
+        
