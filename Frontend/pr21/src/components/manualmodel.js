@@ -7,8 +7,16 @@ class ManualModel extends Component {
             classimodellist: ['LogisticRegression', 'RandomForestClassifier', 'DecisionTree', 'XGBOOST', 'GaussianNB', 'K-NN'],
             regmodellist: ['LinearRegression', 'PolynomialRegression', 'RandomForest', 'DecisionTree', 'XGBOOST', 'K-NN'],
             modalShow: false,
-            currentModel: ""
+            currentModel: "",
+            hyperForm: ""
         }
+    }
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (prevState.hyperForm === "") {
+            return { hyperForm: Object.values(nextProps)[0] };
+        }
+
+        return null;
     }
     handlehyperselection = event => {
         var checkbox = event.target;

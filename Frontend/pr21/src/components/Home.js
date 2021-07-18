@@ -356,7 +356,7 @@ class Home extends Component {
                     </div>
                     <div className="createpagebox " id="sec1heading">
                         <h1 className="">Start your project
-                            <button className="btn btn-primary" onClick={this.handleNewProject}  >Start New Project </button>
+                            <button className="btn btn-primary sec1startbtn" onClick={this.handleNewProject}  >Start New Project </button>
                         </h1>
                     </div>
                     <div className="createpagebox " id="sec1heading2">
@@ -522,7 +522,7 @@ class Home extends Component {
                             </div>
                             <h1>Preprocess</h1>
                             <p>Go to each column and decide how would you like to preprocess it</p>
-                            <Preprocess rawdata={this.state.traindata} proprocessForm={this.state.preprocessForm} automanualpreprocess={this.state.automanualpreprocess} handleModelForm={this.handleModelForm} />
+                            <Preprocess rawdata={this.state.traindata} proprocessForm={this.state.preprocessForm} automanualpreprocess={this.state.automanualpreprocess} handleModelForm={this.handleModelForm} projectdetail={this.state.projectdetail}/>
                         </div>
                     </div>
                     {/* form 5 for model and hypeparameters selection*/}

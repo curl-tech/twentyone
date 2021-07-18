@@ -26,8 +26,7 @@ class Preprocess extends React.Component {
         $(theFormItself).hide();
         var theFormItself2 = document.getElementById('form5');
         $(theFormItself2).show();
-        if(this.props.automanualpreprocess===true)
-        {
+        if (this.props.automanualpreprocess === true) {
             this.setState(prevState => ({
 
                 preprocessForm: {
@@ -37,6 +36,18 @@ class Preprocess extends React.Component {
             }
             ))
         }
+        this.setState(prevState => ({
+
+            preprocessForm: {
+                ...prevState.preprocessForm,
+                "projectID": this.props.projectdetail.projectID,
+                "userID": this.props.projectdetail.userID,
+                   
+            }
+
+        }
+        ))
+
         console.log(JSON.stringify(this.state.preprocessForm))
 
         axios.post('http://localhost:8000/getHyperparams', JSON.stringify(this.state.preprocessForm))
@@ -45,7 +56,7 @@ class Preprocess extends React.Component {
                 this.props.handleModelForm(res.data)
             },
                 (error) => { console.log(error) });
-        
+
 
 
 
@@ -455,7 +466,7 @@ class Preprocess extends React.Component {
                             <option value="0.2">80-20</option>
                             <option value="0.15">85-15</option>
                             <option value="0.1">90-10</option>
-                            
+
                         </select>
                     </div>
                 </div>
