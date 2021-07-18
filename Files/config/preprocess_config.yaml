@@ -48,7 +48,7 @@ feature_selection: True
 
 data_imbalance: False
 
-split_ratio_test: 0.3
+train_test_split_ratio: 0.3
 
 is_auto_preprocess: False
 
