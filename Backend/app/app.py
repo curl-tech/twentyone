@@ -253,18 +253,15 @@ def get_plots(projectID:int):       #check if it already exists - change locatio
             if (result["projectType"]=='clustering'):
                 return FileResponse(result["clusterPlotLocation"],media_type="text/html",filename="plot.html")
             if result["configFileLocation"] is not None:
-                if result["projectType"]=='clustering':
-                    print("projecttype")
-                else:
-                    plotFilePath=plot(result["configFileLocation"]) #plot function requires the auto config file
-                    try:
-                        Project21Database.update_one(settings.DB_COLLECTION_PROJECT,{"projectID":projectID},{
-                            "$set": {
-                                "plotsPath": plotFilePath
-                            }
-                        })
-                    except Exception as e:
-                        print("An Error occured while storing the plot path into the project collection")
+                plotFilePath=plot(result["configFileLocation"]) #plot function requires the auto config file
+                try:
+                    Project21Database.update_one(settings.DB_COLLECTION_PROJECT,{"projectID":projectID},{
+                        "$set": {
+                            "plotsPath": plotFilePath
+                        }
+                    })
+                except Exception as e:
+                    print("An Error occured while storing the plot path into the project collection")
                 return FileResponse(plotFilePath,media_type='text/html',filename='plot.html')
     except Exception as e:
         print("An Error Occured: ",e)
@@ -451,90 +448,70 @@ def timeseries_training(timeseriesFormData: TimeseriesFormData):
             "belongsToProjectID": timeseriesFormData["projectID"]
         })
     except Exception as e:
-        print("An Error Occured: ",e)
+        print("Could not insert into Data Collection. An Error Occured: ",e)
 
     timeseriesObj=timeseries()
     metricsLocation=timeseriesObj.createarima(projectConfigFileLocation)
     print(metricsLocation)
 
-    # try:
-    #     Project21Database.insert_one(settings.DB_COLLECTION_MODEL,{
-    #         "modelID": dataID,
-    #         "modelName": "Default Name",
-    #         "modelType": "timeseries",
-    #         "pickleFolderPath": Operation["pickleFolderPath"],
-    #         "pickleFilePath": Operation["pickleFilePath"],
-    #         "belongsToUserID": autoFormData["userID"],
-    #         "belongsToProjectID": autoFormData["projectID"],
-    #         "belongsToDataID": dataID
-    #     })
-    # except Exception as e:
-    #     print("An Error Occurred: ",e)
-########################################
-    # if Operation["Successful"]:
-    #     try:
-    #         
-    #         Project21Database.insert_one(settings.DB_COLLECTION_MODEL,{
-    #             "modelID": dataID,
-    #             "modelName": "Default Name",
-    #             "modelType": problem_type,
-    #             "pickleFolderPath": Operation["pickleFolderPath"],
-    #             "pickleFilePath": Operation["pickleFilePath"],
-    #             "belongsToUserID": autoFormData["userID"],
-    #             "belongsToProjectID": autoFormData["projectID"],
-    #             "belongsToDataID": dataID
-    #         })
-    #         Project21Database.insert_one(settings.DB_COLLECTION_METRICS,{
-    #             "belongsToUserID": autoFormData["userID"],
-    #             "belongsToProjectID": autoFormData["projectID"],
-    #             "belongsToModelID": dataID,
-    #             "addressOfMetricsFile": Operation["metricsLocation"]
-    #         })
-    #         result=Project21Database.find_one(settings.DB_COLLECTION_PROJECT,{"projectID":autoFormData["projectID"]})
-    #         result=serialiseDict(result)
-    #         if result is not None:
-    #             if result["listOfDataIDs"] is not None:
-    #                 newListOfDataIDs=result["listOfDataIDs"]
-    #                 newListOfDataIDs.append(dataID)
-    #                 Project21Database.update_one(settings.DB_COLLECTION_PROJECT,{"projectID":result["projectID"]},{
-    #                     "$set":{
-    #                         "listOfDataIDs":newListOfDataIDs,
-    #                         "configFileLocation": projectAutoConfigFileLocation,
-    #                         "isAuto": autoFormData["isauto"],
-    #                         "target": autoFormData["target"]
-    #                         }
-    #                     })
-    #             else:
-    #                 Project21Database.update_one(settings.DB_COLLECTION_PROJECT,{"projectID":result["projectID"]},{
-    #                     "$set":{
-    #                         "listOfDataIDs":[dataID],
-    #                         "configFileLocation": projectAutoConfigFileLocation,
-    #                         "isAuto": autoFormData["isauto"],
-    #                         "target": autoFormData["target"]
-    #                         }
-    #                     })
-    #             if (problem_type=='clustering'):
-    #                 Project21Database.update_one(settings.DB_COLLECTION_PROJECT,{"projectID":result["projectID"]},{
-    #                     "$set":{
-    #                         "clusterPlotLocation":Operation["clusterPlotLocation"]
-    #                     }
-    #                 })
-    #     except Exception as e:
-    #         print("An Error occured: ",e)
-    #         return JSONResponse({"Auto": "Success", "Database Insertion":"Failure", "Project Collection Updation": "Unsuccessful"})
-        
-    #     resultsCache.set_clean_data_path(Operation["cleanDataPath"])
-    #     resultsCache.set_metrics_path(Operation["metricsLocation"])
-    #     resultsCache.set_pickle_file_path(Operation["pickleFilePath"])
-    #     resultsCache.set_pickle_folder_path(Operation["pickleFolderPath"])
-    #     resultsCache.set_auto_mode_status(True)
-    #     return JSONResponse({"Successful":"True", "userID": currentIDs.get_current_user_id(), "projectID": autoFormData["projectID"], "dataID":dataID, "modelID": dataID})
-    # else:
-    #     return JSONResponse({"Successful":"False"})
+    try:
+        Project21Database.insert_one(settings.DB_COLLECTION_MODEL,{
+            "modelID": dataID,
+            "modelName": "Default Name",
+            "modelType": "timeseries-arima",
+            "pickleFolderPath": "pickleFolderPath",     #To be changed to the actual path
+            "pickleFilePath": "pickleFilePath",         #To be changed to the actual path
+            "belongsToUserID": timeseriesFormData["userID"],
+            "belongsToProjectID": timeseriesFormData["projectID"],
+            "belongsToDataID": dataID
+        })
+    except Exception as e:
+        print("Could not insert into Model Collection. An Error Occurred: ",e)
 
+    
+    try:
+        Project21Database.insert_one(settings.DB_COLLECTION_METRICS,{
+            "belongsToUserID": timeseriesFormData["userID"],
+            "belongsToProjectID": timeseriesFormData["projectID"],
+            "belongsToModelID": dataID,
+            "addressOfMetricsFile": metricsLocation
+        })
+    except Exception as e:
+        print("Could not insert into Metrics Collection. An Error Occured: ",e)
 
-    ########################################
-    return JSONResponse({"working":"true"})
+    try:
+        result=Project21Database.find_one(settings.DB_COLLECTION_PROJECT,{"projectID":timeseriesFormData["projectID"]})
+        result=serialiseDict(result)
+        if result is not None:
+            if result["listOfDataIDs"] is not None:
+                newListOfDataIDs=result["listOfDataIDs"]
+                newListOfDataIDs.append(dataID)
+                Project21Database.update_one(settings.DB_COLLECTION_PROJECT,{"projectID":result["projectID"]},{
+                    "$set":{
+                        "listOfDataIDs":newListOfDataIDs,
+                        "configFileLocation": projectConfigFileLocation,
+                        "isAuto": False,
+                        "target": timeseriesFormData["target"]
+                        }
+                    })
+            else:
+                Project21Database.update_one(settings.DB_COLLECTION_PROJECT,{"projectID":result["projectID"]},{
+                    "$set":{
+                        "listOfDataIDs":[dataID],
+                        "configFileLocation": projectConfigFileLocation,
+                        "isAuto": False,
+                        "target": timeseriesFormData["target"]
+                        }
+                    })
+            # if (problem_type=='clustering'):
+            #     Project21Database.update_one(settings.DB_COLLECTION_PROJECT,{"projectID":result["projectID"]},{
+            #         "$set":{
+            #             "clusterPlotLocation":Operation["clusterPlotLocation"]
+            #         }
+            #     })
+    except Exception as e:
+        print("An Error Occured: ",e)
+    return JSONResponse({"Successful":"True", "userID": currentIDs.get_current_user_id(), "projectID": timeseriesFormData["projectID"], "dataID":dataID, "modelID": dataID})
 
 # @app.websocket("/ws")
 # async def training_status(websocket: WebSocket):
