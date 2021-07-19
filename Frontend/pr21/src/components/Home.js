@@ -551,10 +551,10 @@ class Home extends Component {
                                 <div className="row">
                                     <div className="col-40">
 
-                                        <label htmlFor="target">Target Variable  <span className="ibtn">i <span id="idesc">Select column which you want model to predict</span></span></label>
+                                        <label htmlFor="targettime">Target Variable  <span className="ibtn">i <span id="idesc">Select column which you want model to predict</span></span></label>
                                     </div>
                                     <div className="col-60">
-                                        <select name="target" id="target" onChange={this.handleTargetChange}>
+                                        <select name="targettime" id="targettime" onChange={this.handleTargetChange}>
                                             {Object.keys(this.state.traindata[0]).map((key, i) =>
                                                 <option key={i} value={key} >{key}</option>
                                             )}
@@ -601,7 +601,7 @@ class Home extends Component {
 
 
                                 <div>
-                                    <button type="submit" className="btn btn-secondary" id="trainnow" >Train Now</button>
+                                    <button type="submit" className="btn btn-secondary" id="traintimenow" >Train Now</button>
                                 </div>
                             </div>
                         </form>

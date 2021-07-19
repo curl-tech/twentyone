@@ -20,7 +20,8 @@ class ProjectsSection5 extends Component {
             data: "",
             inferencefile: undefined,
             plot: "",
-            countplot: 0
+            countplot: 0,
+            inferenceTime:1,
         };
         this.updateData = this.updateData.bind(this);
     }
@@ -128,7 +129,12 @@ class ProjectsSection5 extends Component {
         this.setState({
             inferencefile: event.target.files[0]
         })
-        // console.log(event.target.files[0]);
+    }
+    handleTimeInferenceChange = event => {
+        this.setState({
+            inferenceTime: event.target.files
+        })
+       
     }
     handleGetPrediction = event => {
         event.preventDefault();
@@ -154,6 +160,34 @@ class ProjectsSection5 extends Component {
                 console.log("Successful", res)
                 FileDownload(res.data, 'prediction.csv');
                 alert("Prediction is Ready and Downloaded");
+            },
+                (error) => { console.log(error) });
+    }
+    handleGetTimePrediction = event => {
+        event.preventDefault();
+        const formdata = new FormData();
+        formdata.append(
+            "projectID",
+            this.props.projectdetails["projectID"]
+
+        );
+        formdata.append(
+            "modelID",
+            this.props.projectdetails["modelID"]
+
+        );
+        formdata.append(
+            "inferenceTime",
+            this.state.inferenceTime
+
+        );
+        const FileDownload = require('js-file-download');
+        axios.post('http://localhost:8000/doInference', formdata, { headers: { 'Accept': 'multipart/form-data', 'Content-Type': 'multipart/form-data' } })
+            .then((res) => {
+                console.log("Successful", res)
+                FileDownload(res.data[0], 'prediction.csv');
+                FileDownload(res.data[1], 'predictionplot.html');
+                alert("Prediction and prediction plot is Ready and Downloaded");
             },
                 (error) => { console.log(error) });
     }
@@ -255,8 +289,8 @@ class ProjectsSection5 extends Component {
                             <div className="container " id="form1">
                                 <form >
                                     <div className="createform">
-
-
+                                         {this.props.projectdetails.modelType!=="timeseries"?<div>
+                                        
                                         <div className="row">
                                             <div className="col-40">
                                                 <label htmlFor="Inference">Enter data to get Prediction</label>
@@ -271,6 +305,24 @@ class ProjectsSection5 extends Component {
                                         <div>
                                             <button type="submit" className="btn btn-secondary" onClick={this.handleGetPrediction} id="getresults" >Get Results</button>
                                         </div>
+                                        </div>:
+                                        <div>
+                                            <div className="row">
+                                            <div className="col-40">
+                                                <label htmlFor="Inferencetime">Enter Number of days you want to forecast</label>
+                                            </div>
+                                            <div className="col-60">
+                                                <input type="number" className="form-control" id="inferencetime" onChange={this.handleTimeInferenceChange} name="inferencetime"
+                                                    placeholder="Enter number of future days for prediction" required />
+                                            </div>
+                                        </div>
+
+
+                                        <div>
+                                            <button type="submit" className="btn btn-secondary" onClick={this.handleGetTimePrediction} id="getresultstime" >Get Results</button>
+                                        </div>
+                                            </div>
+                                        }
                                     </div>
                                 </form>
                             </div>
