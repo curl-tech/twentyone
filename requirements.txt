@@ -1,3 +1,38 @@
-flask
-gunicorn
-fastai
+gunicorn==20.0.4
+Jinja2==2.11.2
+numpy==1.20.3
+pandas==1.2.4
+pickleshare==0.7.5
+requests-oauthlib==1.3.0
+scikit-learn==0.24.1
+ray==1.3.0
+pymongo==3.11.4
+email-validator==1.1.3
+aiofiles==0.7.0
+pycaret==2.3.1
+joblib==1.0.1
+fastapi==0.65.1
+matplotlib==3.4.1
+seaborn==0.11.1
+pydantic==1.8.1
+python-multipart==0.0.5
+uvicorn==0.14.0
+#Below are the aditional dependencies which is required for pandas profiling.
+scipy>=1.4.1
+PyYAML>=5.0.0
+visions[type_image_path]==0.7.1
+# Could be optional
+# Related to HTML report
+htmlmin>=0.1.12
+# Missing values
+missingno>=0.4.2
+# Correlations
+phik>=0.11.1
+# Text analysis
+tangled-up-in-unicode==0.1.0
+# Examples
+requests>=2.24.0
+# Progress bar
+tqdm>=4.48.2
+pmdarima>=1.8.2
+pystan>=2.19.1.1
