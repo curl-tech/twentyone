@@ -1,0 +1,57 @@
+# The address at which the user's uploaded raw data is saved.
+raw_data_address: ""
+
+# For the time series data.
+date_format: "%Y-%m-%d"
+date_index: ""
+frequency: ""
+
+
+# User specified target column.
+target_column_name: ""
+
+
+# For droping empty rows and columns
+drop_column_name: 
+- ""
+
+# For filling null values present in the dataset.(Imputation)
+imputation_column_name: 
+- ""
+impution_type: 
+- ""
+
+mean_median_mode_values:
+-
+
+na_notation : 
+- ""
+
+
+# For feature scaling.
+scaling_column_name: 
+- ""
+scaling_type: 
+- ""
+scaling_values:
+
+# For feature scaling.
+encode_column_name: 
+- ""
+encoding_type: 
+- ""
+labels:
+
+Remove_outlier: True
+
+feature_selection: True
+
+data_imbalance: False
+
+train_test_split_ratio: 0.3
+
+is_auto_preprocess: False
+
+clean_data_address:
+  
+inference_clean_data_address:
