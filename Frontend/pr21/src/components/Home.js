@@ -298,7 +298,7 @@ class Home extends Component {
         var theFormItself = document.getElementById('preprocesstable');
         $(theFormItself).toggle();
         this.setState({
-            automanualpreprocess: true
+            automanualpreprocess: !this.state.automanualpreprocess
         })
 
     }
@@ -355,9 +355,10 @@ class Home extends Component {
 
                     </div>
                     <div className="createpagebox " id="sec1heading">
-                        <h1 className="">Start your project
-                            <button className="btn btn-primary sec1startbtn" onClick={this.handleNewProject}  >Start New Project </button>
-                        </h1>
+                        <h1 className="">Start your project  <button className="btn btn-primary  sec1startbtn " onClick={this.handleNewProject}  >Start New Project </button>
+                       
+                           </h1>
+                          
                     </div>
                     <div className="createpagebox " id="sec1heading2">
                         <h1>TwentyOne Results</h1>
@@ -518,10 +519,10 @@ class Home extends Component {
                         <div className="PreprocessForm">
                             <div className="autocheckbox">
                                 <input type="checkbox" id="autopreprocess" onClick={this.handleAutoPreprocess} name="autopreprocess" />
-                                <label htmlFor="autopreprocess"> Auto Preprocess</label>
+                                <label htmlFor="autopreprocess"> Auto Pre-process</label>
                             </div>
-                            <h1>Preprocess</h1>
-                            <p>Go to each column and decide how would you like to preprocess it</p>
+                            <h1>Pre-process</h1>
+                            <p>Each Column can be processed differently as required</p>
                             <Preprocess rawdata={this.state.traindata} proprocessForm={this.state.preprocessForm} automanualpreprocess={this.state.automanualpreprocess} handleModelForm={this.handleModelForm} projectdetail={this.state.projectdetail}/>
                         </div>
                     </div>

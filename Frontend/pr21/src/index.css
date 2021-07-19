@@ -100,7 +100,9 @@ code {
   margin: 1.1em;
   font-size: larger;
   color: #507DBC;
+  
 }
+
 .nav-link:hover
 {
   color: #fff;
@@ -307,7 +309,7 @@ background-image: url(./assets/img/bg29.png);
   text-align: left;
   vertical-align: middle;
   color:#04080f;
-  margin: 0;
+
 }
 .sec1startbtn{
   float: right;
@@ -571,20 +573,25 @@ input[type=text],input[type=number] ,select, textarea {
 }
 .preprocesstable th
 {
-  text-align: left;
-  padding: 1em;
+  padding: 1.5em;
   color: #04080F;
   border: 1px solid #ddd;
   background-color: #A1C6EA;
 }
 .preprocesstable td
 {
-  text-align: left;
+  text-align: center;
   padding: 1em;
   color: #04080F;
   font-weight: 500; 
-  border: 1px solid #ddd;
+  border: 1px solid rgb(202, 215, 223);
+  
+}
+.preprocesstable tbody:nth-child(odd) {
   background-color: #DAE3E5;
+}
+.preprocesstable tbody:nth-child(even) {
+  background-color: #f5f8fa;
 }
 .preprocesstable td:hover{
   background-color: #A1C6EA;
@@ -624,8 +631,7 @@ input[type=text],input[type=number] ,select, textarea {
   margin: 8px;
 }
 .prepro{
-  padding-top: 12px;
-  padding-bottom: 12px;
+  padding: 12px 5px 12px 5px;
 }
 .prepro input[type=checkbox] ,input[type=radio]{
   margin: 4px;
@@ -894,6 +900,7 @@ background-image: url(./assets/img/bg26.png);
 /* background-image:linear-gradient(to left bottom ,rgba(0, 0, 0, 0.685),rgb(39, 225, 231));
 background-image: url(./assets/img/bg19.png); */
   background-size: cover;
+  background-color: #eef1f5;
  min-height: 80vh;
  display: none;
  padding: 1em;
@@ -944,9 +951,16 @@ background-image: url(./assets/img/bg19.png); */
   /* text-shadow:1px 1px #000; */
   /* font-size: 3em; */
 }
+.nav-tabs .nav-link{
+  border:1px solid rgba(170, 170, 170, 0.432);
+}
 .tabbtn{
  color: #04080F;
+ margin: 0.5em;
+ border-style: solid;
+ border-radius: 2px;
 }
+
 .tabbtn:hover{
 background-color: #507DBC;
 color: #fff;
@@ -1015,6 +1029,7 @@ color: #fff;
 /* background-image:linear-gradient(to left bottom ,rgba(0, 0, 0, 0.685),rgb(39, 225, 231)); */
 /* background:linear-gradient(rgba(49, 71, 77, 0.356),rgba(235, 230, 235, 0.363)), url(./assets/img/bg12.png);  */
 /* background-image: url(./assets/img/bg19.png); */
+background-color: #eef1f5;
   background-size: cover;
  min-height: 80vh;
  padding: 1em;
@@ -1117,16 +1132,25 @@ color: #fff;
 
 /* ************************************************************************************************************************ */
 /* Metrics Table */
+.metrics{
+  display: flex;
+  justify-content: center;
+}
 .metricstable{
-  left: 50%;
   display: flex;
   justify-content: center;
   padding: 2em;
   overflow:scroll;
 }
+.clustertable{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
 .metricstable 
 table {
-	width: 400px;
+	/* width: 100%; */
+  margin: 0 auto;
 	border-collapse: collapse;
 	overflow: hidden;
 	box-shadow: 0 0 20px rgba(0,0,0,0.1);
@@ -1135,24 +1159,37 @@ table {
 }
 
 
-.metricstable td {
-	padding: 15px;
-	/* background-color: #BBD1EA; */
+.metricstable tr:nth-child(odd) {
 	color: #000;
+  background-color: #fff;
+}
+.metricstable tr:nth-child(even){
+  background-color: #a7c8e9;
+  color: #000;
+ 
+}
+.metricstable td{
+  padding: 12px;
+  border: 2px solid rgba(0, 0, 0, 0.301);
 }
 
 .metricstable th {
-	text-align: left;
+	text-align: center;
   padding: 1em;
-  color: #04080F;
+  color: #fff;
   background-color: #507DBC;
 }
 
 .metricstable td :hover{
 			background-color: #BBD1EA;		
 }
-.metricValue{
-  background-color: #A1C6EA;
+.metricstable tr:nth-child(even) .metricValue {
+  background-color: #fff;
+  text-align: center;
+  font-size: large;
+}	
+.metricstable tr:nth-child(odd) .metricValue {
+  background-color: #a7c8e9;
   text-align: center;
   font-size: large;
 }	
@@ -1184,6 +1221,18 @@ table {
   font-weight: 700;
  
 }
+.emptyproject {
+  text-align: center;
+  margin: 2em;
+  padding: 0.5em;
+ border:5px dashed rgba(0, 0, 0, 0.603);
+ font-weight: 600;
+ font-family: 'Roberto',sans-serif;
+}
+em{
+  font-style: normal;
+	color: #0c6ef8da;
+}
 .sec7card{
   /* background-image:linear-gradient(to top left,rgba(245, 245, 248, 0.918),rgba(48, 48, 49, 0.76)); */
   background-color: #fff;
@@ -1202,6 +1251,9 @@ table {
   /* border-style: dashed; */
   border-color: #507DBC;
   margin:8px;
+  /* display: flex;
+  align-items: center;
+  justify-content: center; */
 }
 .sec7text{
   color: #04080F;
@@ -1220,8 +1272,7 @@ table {
   padding: 0.5em;
   font-weight: 800;
   font-size: 20px;
-  /* font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; */
-  font-family: 'Roboto', sans-serif;
+ font-family: 'Roboto', sans-serif;
  text-align: left;
 }
 .sec7btn{
@@ -1234,6 +1285,32 @@ table {
 .metricsNote{
   text-align: center;
   color: rgb(3, 53, 99);
+}
+.sec7h5 table{
+  margin: 0 auto;
+}
+.projecttable tbody{
+  /* background-color: #dae3e5; */
+  box-shadow: 0 0 20px rgba(0,0,0,0.1);
+  border-radius: 4px;
+  text-align: left;
+}
+
+.projecttable tr{
+  padding: 0.5em;
+  background-color: #DAE3E5;
+  font-family: 'Roberto',sans-serif;
+  font-weight: 600;
+  
+}
+.projecttable td{
+  padding: 1em;
+  border: 2px solid rgba(0, 0, 0, 0.123);
+  
+}
+.firstcol{
+  background-color: #cbdfe4;
+  
 }
 /* ************************************************************************************************************************ */
 
@@ -1251,3 +1328,5 @@ table {
   color: #000;
   font-weight:400;
 }
+
+/* Brain vector created by iuriimotov - www.freepik.com used in background images */

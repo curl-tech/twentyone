@@ -30,14 +30,14 @@ class ProjectsSection6 extends Component {
                     <div key={j} className="card projectsec6autocard">
 
                         <div className="card-body">
-                            <h2 className="card-title">{this.props.isauto === true ? <span>Top Model for run: {j + 1}</span> : <span>Model: {j + 1}</span>}</h2>
-                            <h4 className="card-text cardp">See Details For:
+                            <h2 className="card-title">{this.props.isauto === true ? <span>Top Model for run: <em>{j + 1} </em></span> : <span><em>Model: {j + 1}</em></span> }</h2>
+                            {/* <h4 className="card-text cardp">See Details For:
                                 <li>Metrics</li>
                                 <li>Plots</li>
                                 <li>Clean Data</li>
                                 <li>Pickle File</li>
                                 <li>Inferencing New Data</li>
-                            </h4>
+                            </h4> */}
                             <button value={j + 1} onClick={this.handleModelResult} className="btn sec6btn btn-primary">See Details</button>
                         </div>
                     </div>
@@ -56,7 +56,7 @@ class ProjectsSection6 extends Component {
 
 
                     <div className=" sec6heading">
-                        <h1>Project Name: {this.props.projectname}</h1>
+                        <h1>Project Name:<em> {this.props.projectname}</em></h1>
                     </div>
                     <div className=" sec6heading">
                         <h1>Your Models</h1>
@@ -75,7 +75,7 @@ class ProjectsSection6 extends Component {
                         <h1>Results</h1>
                     </div> */}
                     <div className=" sec6heading">
-                        <h1>Project Name: {this.props.projectname}</h1>
+                        <h1>Project Name: <em>{this.props.projectname}</em></h1>
                     </div>
                     {/* <div className=" sec6heading">
                         <h2>The Best Model</h2>

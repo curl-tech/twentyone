@@ -57,10 +57,11 @@ class Metrics extends React.Component {
             else {
                 return (
                     <div>
+                    <div >
                         {data.map((data2, i) => (
                             i === 0 ?
 
-                                (<div className="metricstable">
+                                (<div className="metricstable clustertable">
 
                                     <table>
                                         <thead>
@@ -92,6 +93,8 @@ class Metrics extends React.Component {
                                 </div>) : null
                         ))
                         }
+                        </div>
+                        <br/><br/>
                         <h4 className="metricsNote">Note: Every row in dataset is alloted clusters and full list can be downloaded </h4>
                     </div>
                 );

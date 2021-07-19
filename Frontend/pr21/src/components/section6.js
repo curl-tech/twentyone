@@ -47,7 +47,7 @@ class Section6 extends Component {
 
                     
                     <div className=" sec6heading">
-                        <h2>Project Name: {this.props.projectname}</h2>
+                        <h2>Project Name: <em> {this.props.projectname} </em></h2>
                     </div>
                     <div className=" sec6heading">
                         <h2>Your Models</h2>
@@ -61,15 +61,11 @@ class Section6 extends Component {
             return (
                 <div className="section6 " id="section6">
 
-                    {/* <div className=" sec6heading">
-                        <h1>Results</h1>
-                    </div> */}
+                    
                     <div className=" sec6heading">
                         <h1>Project Name: {this.props.projectname}</h1>
                     </div>
-                    {/* <div className=" sec6heading">
-                        <h2>The Best Model</h2>
-                    </div> */}
+                   
 
                     <div className="card sec6autocard">
 

@@ -46,7 +46,7 @@ class PageWrapper extends Component {
 
                 <footer className=" text-light py-3 footer">
                     <p className="text-center">
-                        Copyright &copy; Curl Tech 2021
+                        Copyright &copy; <a href="https://curl.tech/" >Curl Tech</a> 2021
             </p>
                 </footer>
 

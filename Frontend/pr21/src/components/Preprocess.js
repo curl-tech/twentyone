@@ -31,7 +31,7 @@ class Preprocess extends React.Component {
 
                 preprocessForm: {
                     ...prevState.preprocessForm,
-                    "is_auto_preprocess": true
+                    "is_auto_preprocess": this.props.automanualpreprocess
                 }
             }
             ))
@@ -351,66 +351,66 @@ class Preprocess extends React.Component {
                                     <tr>
                                         {Object.keys(data).map((key, i) =>
                                             <th className="dropdown ">
-                                                {key}<span className="fa fa-caret-down"></span>
+                                                {key} <span className="fa fa-caret-down"></span>
                                                 <div className="dropdown-content">
                                                     <div className="prepro">
-                                                        <input type="checkbox" id={key + "drop"} name={i + "drop"} value={key} onChange={this.handleDropChange} />
+                                                        <input type="checkbox" id={i + "drop"} name={i + "drop"} value={key} onChange={this.handleDropChange} />
                                                         <label htmlFor={i + "drop"}>Drop Column</label>
                                                     </div>
 
                                                     <div className="prepro ">
-                                                        <input type="checkbox" id={key + "encode"} name={key + "encode"} value={key} onChange={this.handleEncodingRemove} />
+                                                        <input type="checkbox" id={i + "encode"} name={key + "encode"} value={key} onChange={this.handleEncodingRemove} />
                                                         <label htmlFor={i + "encode"}>Encode Column <span className="fa fa-caret-right"> </span></label>
                                                         {/* <label>Encode Column  </label>   */}
                                                         <div className="dropdown-content2 " >
                                                             <div className="prepro">
-                                                                <input type="radio" id={key + "onehotencode"} name={key + "encodetype"} value="One-Hot Encoding" onChange={this.handleEncodingChange(key)} />
+                                                                <input type="radio" id={i + "onehotencode"} name={key + "encodetype"} value="One-Hot Encoding" onChange={this.handleEncodingChange(key)} />
                                                                 <label htmlFor={i + "encode"}>One Hot Encoding</label>
                                                             </div>
                                                             <div className="prepro">
-                                                                <input type="radio" id={key + "label"} name={key + "encodetype"} value="Label Encodeing" onChange={this.handleEncodingChange(key)} />
+                                                                <input type="radio" id={i + "label"} name={key + "encodetype"} value="Label Encodeing" onChange={this.handleEncodingChange(key)} />
                                                                 <label htmlFor={i + "encode"}>Label Encoding</label>
                                                             </div>
 
                                                         </div>
                                                     </div>
                                                     <div className="prepro">
-                                                        <input type="checkbox" id={key + "scale"} name={key + "scale"} value={key} onChange={this.handleScalingRemove} />
+                                                        <input type="checkbox" id={i + "scale"} name={key + "scale"} value={key} onChange={this.handleScalingRemove} />
                                                         <label htmlFor={i + "scale"}>Scale Column <span className="fa fa-caret-right"> </span></label>
 
                                                         {/* <label>Scale Column  <span className="fa fa-caret-right"> </span></label> */}
                                                         <div className="dropdown-content2">
                                                             <div className="prepro">
-                                                                <input type="radio" id={key + "scaletype"} name={key + "scaletype"} value="standarization" onChange={this.handleScalingChange(key)} />
+                                                                <input type="radio" id={i + "scaletype"} name={key + "scaletype"} value="standarization" onChange={this.handleScalingChange(key)} />
                                                                 <label htmlFor={i + "scaletype"}>Standarization</label>
                                                             </div>
                                                             <div className="prepro">
-                                                                <input type="radio" id={key + "scaletype"} name={key + "scaletype"} value="normalization" onChange={this.handleScalingChange(key)} />
+                                                                <input type="radio" id={i + "scaletype"} name={key + "scaletype"} value="normalization" onChange={this.handleScalingChange(key)} />
                                                                 <label htmlFor={i + "scaletype"}>Normalization</label>
                                                             </div>
 
                                                         </div>
                                                     </div>
                                                     <div className="prepro">
-                                                        <input type="checkbox" id={key + "impute"} name={key + "impute"} value={key} onChange={this.handleImputationRemove} />
+                                                        <input type="checkbox" id={i + "impute"} name={key + "impute"} value={key} onChange={this.handleImputationRemove} />
                                                         <label htmlFor={i + "impute"}>Imputation <span className="fa fa-caret-right"> </span></label>
 
                                                         {/* <label>Imputation  <span className="fa fa-caret-right"> </span></label> */}
                                                         <div className="dropdown-content2">
                                                             <div className="prepro">
-                                                                <input type="radio" id={key + "imputetype"} name={key + "imputetype"} value="mean" onChange={this.handleImputationChange(key)} />
+                                                                <input type="radio" id={i + "imputetype"} name={key + "imputetype"} value="mean" onChange={this.handleImputationChange(key)} />
                                                                 <label htmlFor={i + "imputetype"}>Mean</label>
                                                             </div>
                                                             <div className="prepro">
-                                                                <input type="radio" id={key + "imputetype"} name={key + "imputetype"} value="median" onChange={this.handleImputationChange(key)} />
+                                                                <input type="radio" id={i + "imputetype"} name={key + "imputetype"} value="median" onChange={this.handleImputationChange(key)} />
                                                                 <label htmlFor={i + "imputetype"}>Median</label>
                                                             </div>
                                                             <div className="prepro">
-                                                                <input type="radio" id={key + "imputetype"} name={key + "imputetype"} value="most_frequent" onChange={this.handleImputationChange(key)} />
+                                                                <input type="radio" id={i + "imputetype"} name={key + "imputetype"} value="most_frequent" onChange={this.handleImputationChange(key)} />
                                                                 <label htmlFor={i + "imputetype"}>Most Frequent</label>
                                                             </div>
                                                             <div className="prepro">
-                                                                <input type="radio" id={key + "imputetype"} name={key + "imputetype"} value="knn" onChange={this.handleImputationChange(key)} />
+                                                                <input type="radio" id={i + "imputetype"} name={key + "imputetype"} value="knn" onChange={this.handleImputationChange(key)} />
                                                                 <label htmlFor={i + "imputetype"}>KNN</label>
                                                             </div>
 

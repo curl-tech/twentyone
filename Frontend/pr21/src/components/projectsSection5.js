@@ -163,7 +163,7 @@ class ProjectsSection5 extends Component {
 
             <div className="section5 " id="projectsection5">
                 <div className="goback">
-                    <button className="backbtn btn btn-secondary" onClick={this.handleGoBack}  > Go Back to Models </button>
+                    <button className="backbtn btn btn-secondary" onClick={this.handleGoBack}  > &lArr; Models </button>
 
                 </div>
                 {/* {this.props.showRetrain === false ? null :
